@@ -1,0 +1,3002 @@
+# _________________________________________
+#| Some character by Phantom.of.the.Server |
+# ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+#==============================================================================================================================================================
+#==================================================================< INPUT PARSING STATE >=====================================================================
+#==============================================================================================================================================================
+
+[Statedef -4]
+
+# Human players only
+# Main reason I'm optimizing this in ZSS
+ignorehitpause if !AIlevel && !ishelper {
+
+
+#=====================================================================< SYSTEM CHECKS >========================================================================
+
+	# Flip directions
+	mapset{map: "cmd_reverse"; value: p2dist x < -const(size.ground.back)}
+
+	# Default Buffer Time
+	# Capcom games seem to change states during hitpause rather than buffering the inputs for its duration
+	# However the benefit of doing it like that is minimal compared to the issues it can introduce
+	mapset{map: "cmd_buffertime"; value: ifelse(hitpausetime <= 4, 5, (hitpausetime + 1))}
+
+	# Custom Combo Buffer Time
+	if map(customcombo) > 0 {
+		mapset{map: "cmd_buffertime"; value: (hitpausetime + 1)}
+	}
+
+	# Configure Negative Edge
+	# It is somewhat obsolete with modern, lenient inputs
+	mapset{map: "cmd_negativeedge"; value: 0}
+
+	# Exceptions for Pocket Shin Gouki
+	if name = "Pocket Shin Gouki" {
+		mapset{map: "cmd_buffertime"; value: (hitpausetime + 1)}
+		mapset{map: "cmd_negativeedge"; value: 1}
+	}
+
+	# Disable landing option select
+	# When performing a special motion just before landing and a normal already came out
+	if time < map(cmd_buffertime)
+	&& stateno = [600, 699]
+	&& vel y > 0
+	&& pos y > -vel y
+	&& !movecontact
+	&& !movereversed
+	&& hitdefattr != SCA, AA, AP, AT {
+		mapset{map: "erase_super"; value: 1}
+	}
+
+	# Erase normal attack inputs
+	# Would be better if placed in each individual state, but this is faster
+	# Could also be moved to State +1 at time = 0
+	if time = 1	&& stateno = [200, 999] {
+		mapset{map: "erase_normal"; value: 1}
+	}
+
+
+#====================================================================< JOYSTICK CHECKS >=======================================================================
+
+	# Illegal Joystick Motion
+	# Check if more than one direction is pressed at the same time. Halts motion checking during endcmdbuftime
+	if (command = "/D" + command = "/DF" + command = "/F" + command = "/UF" + command = "/U" + command = "/UB" + command = "/B" + command = "/DB") >= 2 {
+		mapset{map: "check_illegal"; value: 1}
+	} else {
+		mapset{map: "check_illegal"; value: 0}
+	}
+
+	# Neutral
+	if command = "/$D" || command = "/$F" || command = "/$U" || command = "/$B" {
+		mapset{map: "check_5"; value: 0}
+	} else {
+		mapset{map: "check_5"; value: 1}
+	}
+
+
+#=====================================================================< BUTTON CHECKS >========================================================================
+# Adds one frame of input delay to make button combinations easier
+# Map = 2 first press, Map = 1 register input, Map = 0 reset
+
+	# Erase inputs
+	if map(erase_normal) || map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_a"; value: 0}
+		mapset{map: "check_b"; value: 0}
+		mapset{map: "check_c"; value: 0}
+		mapset{map: "check_x"; value: 0}
+		mapset{map: "check_y"; value: 0}
+		mapset{map: "check_z"; value: 0}
+		mapset{map: "check_s"; value: 0}
+		mapset{map: "check_rlsa"; value: 0}
+		mapset{map: "check_rlsb"; value: 0}
+		mapset{map: "check_rlsc"; value: 0}
+		mapset{map: "check_rlsx"; value: 0}
+		mapset{map: "check_rlsy"; value: 0}
+		mapset{map: "check_rlsz"; value: 0}
+		mapset{map: "check_rlss"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_a) > 0 {mapadd{map: "check_a"; value: -1}}
+	if map(check_b) > 0 {mapadd{map: "check_b"; value: -1}}
+	if map(check_c) > 0 {mapadd{map: "check_c"; value: -1}}
+	if map(check_x) > 0 {mapadd{map: "check_x"; value: -1}}
+	if map(check_y) > 0 {mapadd{map: "check_y"; value: -1}}
+	if map(check_z) > 0 {mapadd{map: "check_z"; value: -1}}
+	if map(check_s) > 0 {mapadd{map: "check_s"; value: -1}}
+	if map(check_rlsa) > 0 {mapadd{map: "check_rlsa"; value: -1}}
+	if map(check_rlsb) > 0 {mapadd{map: "check_rlsb"; value: -1}}
+	if map(check_rlsc) > 0 {mapadd{map: "check_rlsc"; value: -1}}
+	if map(check_rlsx) > 0 {mapadd{map: "check_rlsx"; value: -1}}
+	if map(check_rlsy) > 0 {mapadd{map: "check_rlsy"; value: -1}}
+	if map(check_rlsz) > 0 {mapadd{map: "check_rlsz"; value: -1}}
+	if map(check_rlss) > 0 {mapadd{map: "check_rlss"; value: -1}}
+
+	# Check button presses
+	if command = "a" {mapset{map: "check_a"; value: 2}}
+	if command = "b" {mapset{map: "check_b"; value: 2}}
+	if command = "c" {mapset{map: "check_c"; value: 2}}
+	if command = "x" {mapset{map: "check_x"; value: 2}}
+	if command = "y" {mapset{map: "check_y"; value: 2}}
+	if command = "z" {mapset{map: "check_z"; value: 2}}
+	if command = "s" {mapset{map: "check_s"; value: 2}}
+
+	# Check button releases
+	if command = "~a" {mapset{map: "check_rlsa"; value: 2}}
+	if command = "~b" {mapset{map: "check_rlsb"; value: 2}}
+	if command = "~c" {mapset{map: "check_rlsc"; value: 2}}
+	if command = "~x" {mapset{map: "check_rlsx"; value: 2}}
+	if command = "~y" {mapset{map: "check_rlsy"; value: 2}}
+	if command = "~z" {mapset{map: "check_rlsz"; value: 2}}
+	if command = "~s" {mapset{map: "check_rlss"; value: 2}}
+
+
+#=====================================================================< SINGLE BUTTON >========================================================================
+
+	# Erase inputs
+	if map(erase_normal) || map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "cmd_a"; value: 0}
+		mapset{map: "cmd_b"; value: 0}
+		mapset{map: "cmd_c"; value: 0}
+		mapset{map: "cmd_x"; value: 0}
+		mapset{map: "cmd_y"; value: 0}
+		mapset{map: "cmd_z"; value: 0}
+		mapset{map: "cmd_s"; value: 0}
+		mapset{map: "cmd_rlsa"; value: 0}
+		mapset{map: "cmd_rlsb"; value: 0}
+		mapset{map: "cmd_rlsc"; value: 0}
+		mapset{map: "cmd_rlsx"; value: 0}
+		mapset{map: "cmd_rlsy"; value: 0}
+		mapset{map: "cmd_rlsz"; value: 0}
+		mapset{map: "cmd_rlss"; value: 0}
+	}
+
+	# Decrease timers
+	if map(cmd_a) > 0 {mapadd{map: "cmd_a"; value: -1}}
+	if map(cmd_b) > 0 {mapadd{map: "cmd_b"; value: -1}}
+	if map(cmd_c) > 0 {mapadd{map: "cmd_c"; value: -1}}
+	if map(cmd_x) > 0 {mapadd{map: "cmd_x"; value: -1}}
+	if map(cmd_y) > 0 {mapadd{map: "cmd_y"; value: -1}}
+	if map(cmd_z) > 0 {mapadd{map: "cmd_z"; value: -1}}
+	if map(cmd_s) > 0 {mapadd{map: "cmd_s"; value: -1}}
+	if map(cmd_rlsa) > 0 {mapadd{map: "cmd_rlsa"; value: -1}}
+	if map(cmd_rlsb) > 0 {mapadd{map: "cmd_rlsb"; value: -1}}
+	if map(cmd_rlsc) > 0 {mapadd{map: "cmd_rlsc"; value: -1}}
+	if map(cmd_rlsx) > 0 {mapadd{map: "cmd_rlsx"; value: -1}}
+	if map(cmd_rlsy) > 0 {mapadd{map: "cmd_rlsy"; value: -1}}
+	if map(cmd_rlsz) > 0 {mapadd{map: "cmd_rlsz"; value: -1}}
+	if map(cmd_rlss) > 0 {mapadd{map: "cmd_rlss"; value: -1}}
+
+	# Single button confirmation
+	if map(check_a) = 1 {mapset{map: "cmd_a"; value: map(cmd_buffertime)}}
+	if map(check_b) = 1 {mapset{map: "cmd_b"; value: map(cmd_buffertime)}}
+	if map(check_c) = 1 {mapset{map: "cmd_c"; value: map(cmd_buffertime)}}
+	if map(check_x) = 1 {mapset{map: "cmd_x"; value: map(cmd_buffertime)}}
+	if map(check_y) = 1 {mapset{map: "cmd_y"; value: map(cmd_buffertime)}}
+	if map(check_z) = 1 {mapset{map: "cmd_z"; value: map(cmd_buffertime)}}
+	if map(check_s) = 1 {mapset{map: "cmd_s"; value: map(cmd_buffertime)}}
+	if map(check_rlsa) = 1 {mapset{map: "cmd_rlsa"; value: map(cmd_buffertime)}}
+	if map(check_rlsb) = 1 {mapset{map: "cmd_rlsb"; value: map(cmd_buffertime)}}
+	if map(check_rlsc) = 1 {mapset{map: "cmd_rlsc"; value: map(cmd_buffertime)}}
+	if map(check_rlsx) = 1 {mapset{map: "cmd_rlsx"; value: map(cmd_buffertime)}}
+	if map(check_rlsy) = 1 {mapset{map: "cmd_rlsy"; value: map(cmd_buffertime)}}
+	if map(check_rlsz) = 1 {mapset{map: "cmd_rlsz"; value: map(cmd_buffertime)}}
+	if map(check_rlss) = 1 {mapset{map: "cmd_rlss"; value: map(cmd_buffertime)}}
+
+
+#==================================================================< BUTTON COMBINATIONS >=====================================================================
+# No negative edge
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "cmd_kk"; value: 0}
+		mapset{map: "cmd_pp"; value: 0}
+		mapset{map: "cmd_ax"; value: 0}
+		mapset{map: "cmd_cz"; value: 0}
+	}
+
+	# Decrease timers
+	if map(cmd_kk) > 0 {mapadd{map: "cmd_kk"; value: -1}}
+	if map(cmd_pp) > 0 {mapadd{map: "cmd_pp"; value: -1}}
+	if map(cmd_ax) > 0 {mapadd{map: "cmd_ax"; value: -1}}
+	if map(cmd_cz) > 0 {mapadd{map: "cmd_cz"; value: -1}}
+
+	# Kick throw
+	# Second condition prevents button combinations from triggering faster than single buttons
+	if ((map(check_a) > 0) + (map(check_b) > 0) + (map(check_c) > 0)) >= 2 {
+		if map(check_a) = 1 || map(check_b) = 1 || map(check_c) = 1 {
+			mapset{map: "cmd_kk"; value: map(cmd_buffertime)}
+		}
+	}
+
+	# Punch throw
+	if ((map(check_x) > 0) + (map(check_y) > 0) + (map(check_z) > 0)) >= 2 {
+		if map(check_x) = 1 || map(check_y) = 1 || map(check_z) = 1 {
+			mapset{map: "cmd_pp"; value: map(cmd_buffertime)}
+		}
+	}
+
+	# A + X
+	if (map(check_a) > 0) && (map(check_x) > 0) {
+		if map(check_a) = 1 || map(check_x) = 1 {
+			mapset{map: "cmd_ax"; value: map(cmd_buffertime)}
+		}
+	}
+
+	# C + Z
+	if (map(check_c) > 0) && (map(check_z) > 0) {
+		if map(check_c) = 1 || map(check_z) = 1 {
+			mapset{map: "cmd_cz"; value: map(cmd_buffertime)}
+		}
+	}
+
+
+#==================================================================< DIRECTION + BUTTON >======================================================================
+# Placeholder
+# Check if SF5 buffers the direction in these. Older games don't. In my tests doing it makes the directions feel sticky
+
+
+#===============================================================< SPECIAL MOVE BUTTON CHECK >==================================================================
+# Only used to check special and super motion variations
+# Button presses do not combine with button releases
+# Not buffered
+
+	# Decrease timers
+	if map(check_kkk) > 0 {mapadd{map: "check_kkk"; value: -1}}
+	if map(check_ppp) > 0 {mapadd{map: "check_ppp"; value: -1}}
+	if map(check_kk) > 0 {mapadd{map: "check_kk"; value: -1}}
+	if map(check_pp) > 0 {mapadd{map: "check_pp"; value: -1}}
+	if map(check_k) > 0 {mapadd{map: "check_k"; value: -1}}
+	if map(check_p) > 0 {mapadd{map: "check_p"; value: -1}}
+	if map(check_ss) > 0 {mapadd{map: "check_ss"; value: -1}}
+
+	# 3 Kicks
+	# If any kick button has been pressed
+	if map(check_a) > 0 && map(check_b) > 0 && map(check_c) > 0 {
+		# And at least one of them already went through the input lag
+		if map(check_a) = 1 || map(check_b) = 1 || map(check_c) = 1 {
+			mapset{map: "check_kkk"; value: 1}
+		}
+	}
+	if map(cmd_negativeedge) {
+		if map(check_rlsa) > 0 && map(check_rlsb) > 0 && map(check_rlsc) > 0 {
+			if map(check_rlsa) = 1 || map(check_rlsb) = 1 || map(check_rlsc) = 1 {
+				mapset{map: "check_kkk"; value: 1}
+			}
+		}
+	}
+
+	# 3 Punches
+	if map(check_x) > 0 && map(check_y) > 0 && map(check_z) > 0 {
+		if map(check_x) = 1 || map(check_y) = 1 || map(check_z) = 1 {
+			mapset{map: "check_ppp"; value: 1}
+		}
+	}
+	if map(cmd_negativeedge) {
+		if map(check_rlsx) > 0 && map(check_rlsy) > 0 && map(check_rlsz) > 0 {
+			if map(check_rlsx) = 1 || map(check_rlsy) = 1 || map(check_rlsz) = 1 {
+				mapset{map: "check_ppp"; value: 1}
+			}
+		}
+	}
+
+	# 2 Kicks
+	if ((map(check_a) > 0) + (map(check_b) > 0) + (map(check_c) > 0)) >= 2 {
+		if (map(check_a) = 1 || map(check_b) = 1 || map(check_c) = 1) {
+			mapset{map: "check_kk"; value: 1}
+		}
+	}
+	if map(cmd_negativeedge) {
+		if ((map(check_rlsa) > 0) + (map(check_rlsb) > 0) + (map(check_rlsc) > 0)) >= 2 {
+			if (map(check_rlsa) = 1 || map(check_rlsb) = 1 || map(check_rlsc) = 1) {
+				mapset{map: "check_kk"; value: 1}
+			}
+		}
+	}
+
+	# 2 Punches
+	if ((map(check_x) > 0) + (map(check_y) > 0) + (map(check_z) > 0)) >= 2 {
+		if map(check_x) = 1 || map(check_y) = 1 || map(check_z) = 1 {
+			mapset{map: "check_pp"; value: 1}
+		}
+	}
+	if map(cmd_negativeedge) {
+		if ((map(check_rlsx) > 0) + (map(check_rlsy) > 0) + (map(check_rlsz) > 0)) >= 2 {
+			if map(check_rlsx) = 1 || map(check_rlsy) = 1 || map(check_rlsz) = 1 {
+				mapset{map: "check_pp"; value: 1}
+			}
+		}
+	}
+
+	# 1 Kick
+	if map(check_a) = 1 || map(check_b) = 1 || map(check_c) = 1 {
+		mapset{map: "check_k"; value: 1}
+	}
+	if map(cmd_negativeedge) {
+		if map(check_rlsa) = 1 || map(check_rlsb) = 1 || map(check_rlsc) = 1 {
+			mapset{map: "check_k"; value: 1}
+		}
+	}
+
+	# 1 Punch
+	if map(check_x) = 1 || map(check_y) = 1 || map(check_z) = 1 {
+		mapset{map: "check_p"; value: 1}
+	}
+	if map(cmd_negativeedge) {
+		if map(check_rlsx) = 1 || map(check_rlsy) = 1 || map(check_rlsz) = 1 {
+			mapset{map: "check_p"; value: 1}
+		}
+	}
+
+	# Start
+	# Not supposed to have negative edge but added anyway
+	# "Check S" map for button press and "Check SS" for special motions - change later maybe
+	# Only reason start has delay is so that it doesn't trigger first during 236 start+button etc
+	if map(check_s) = 1 || (map(cmd_negativeedge) && map(check_rlss) = 1) {
+		mapset{map: "check_ss"; value: 1}
+	}
+
+
+#===================================================================< SPECIAL STRENGTH CHECK >=====================================================================
+# Replaces having a version of each command for every button
+# Just to keep the code a bit shorter
+# Buffered and not erased
+
+	# Decrease timers
+	if map(str_abc) > 0 {mapadd{map: "str_abc"; value: -1}}
+	if map(str_xyz) > 0 {mapadd{map: "str_xyz"; value: -1}}
+	if map(str_ab) > 0 {mapadd{map: "str_ab"; value: -1}}
+	if map(str_ac) > 0 {mapadd{map: "str_ac"; value: -1}}
+	if map(str_bc) > 0 {mapadd{map: "str_bc"; value: -1}}
+	if map(str_xy) > 0 {mapadd{map: "str_xy"; value: -1}}
+	if map(str_xz) > 0 {mapadd{map: "str_xz"; value: -1}}
+	if map(str_yz) > 0 {mapadd{map: "str_yz"; value: -1}}
+	if map(str_a) > 0 {mapadd{map: "str_a"; value: -1}}
+	if map(str_b) > 0 {mapadd{map: "str_b"; value: -1}}
+	if map(str_c) > 0 {mapadd{map: "str_c"; value: -1}}
+	if map(str_x) > 0 {mapadd{map: "str_x"; value: -1}}
+	if map(str_y) > 0 {mapadd{map: "str_y"; value: -1}}
+	if map(str_z) > 0 {mapadd{map: "str_z"; value: -1}}
+
+	# 3 Kicks
+	if map(check_kkk) {
+		mapset{map: "str_abc"; value: map(cmd_buffertime)}
+	}
+
+	# 3 Punches
+	if map(check_ppp) {
+		mapset{map: "str_xyz"; value: map(cmd_buffertime)}
+	}
+
+	# 2 Kicks
+	if map(check_kk) {
+		if map(check_b) && map(check_c) {
+			mapset{map: "str_ab"; value: 0}
+			mapset{map: "str_ac"; value: 0}
+			mapset{map: "str_bc"; value: map(cmd_buffertime)}
+		} else if map(check_a) && map(check_c) {
+			mapset{map: "str_ab"; value: 0}
+			mapset{map: "str_ac"; value: map(cmd_buffertime)}
+			mapset{map: "str_bc"; value: 0}
+		} else if map(check_a) && map(check_b) {
+			mapset{map: "str_ab"; value: map(cmd_buffertime)}
+			mapset{map: "str_ac"; value: 0}
+			mapset{map: "str_bc"; value: 0}
+		}
+		if map(cmd_negativeedge) {
+			if map(check_rlsb) && map(check_rlsc) {
+				mapset{map: "str_ab"; value: 0}
+				mapset{map: "str_ac"; value: 0}
+				mapset{map: "str_bc"; value: map(cmd_buffertime)}
+			} else if map(check_rlsa) && map(check_rlsc) {
+				mapset{map: "str_ab"; value: 0}
+				mapset{map: "str_ac"; value: map(cmd_buffertime)}
+				mapset{map: "str_bc"; value: 0}
+			} else if map(check_rlsa) && map(check_rlsb) {
+				mapset{map: "str_ab"; value: map(cmd_buffertime)}
+				mapset{map: "str_ac"; value: 0}
+				mapset{map: "str_bc"; value: 0}
+			}
+		}
+	}
+
+	# 2 Punches
+	if map(check_pp) {
+		if map(check_y) && map(check_z) {
+			mapset{map: "str_xy"; value: 0}
+			mapset{map: "str_xz"; value: 0}
+			mapset{map: "str_yz"; value: map(cmd_buffertime)}
+		} else if map(check_x) && map(check_z) {
+			mapset{map: "str_xy"; value: 0}
+			mapset{map: "str_xz"; value: map(cmd_buffertime)}
+			mapset{map: "str_yz"; value: 0}
+		} else if map(check_x) && map(check_y) {
+			mapset{map: "str_xy"; value: map(cmd_buffertime)}
+			mapset{map: "str_xz"; value: 0}
+			mapset{map: "str_yz"; value: 0}
+		}
+		if map(cmd_negativeedge) {
+			if map(check_rlsy) && map(check_rlsz) {
+				mapset{map: "str_xy"; value: 0}
+				mapset{map: "str_xz"; value: 0}
+				mapset{map: "str_yz"; value: map(cmd_buffertime)}
+			} else if map(check_rlsx) && map(check_rlsz) {
+				mapset{map: "str_xy"; value: 0}
+				mapset{map: "str_xz"; value: map(cmd_buffertime)}
+				mapset{map: "str_yz"; value: 0}
+			} else if map(check_rlsx) && map(check_rlsy) {
+				mapset{map: "str_xy"; value: map(cmd_buffertime)}
+				mapset{map: "str_xz"; value: 0}
+				mapset{map: "str_yz"; value: 0}
+			}
+		}
+	}
+
+	# 1 Kick
+	if map(check_k) {
+		if map(check_c) = 1 {
+			mapset{map: "str_a"; value: 0}
+			mapset{map: "str_b"; value: 0}
+			mapset{map: "str_c"; value: map(cmd_buffertime)}
+		} else if map(check_b) = 1 {
+			mapset{map: "str_a"; value: 0}
+			mapset{map: "str_b"; value: map(cmd_buffertime)}
+			mapset{map: "str_c"; value: 0}
+		} else if map(check_a) = 1 {
+			mapset{map: "str_a"; value: map(cmd_buffertime)}
+			mapset{map: "str_b"; value: 0}
+			mapset{map: "str_c"; value: 0}
+		}
+		if map(cmd_negativeedge) {
+			if map(check_rlsc) = 1 {
+				mapset{map: "str_a"; value: 0}
+				mapset{map: "str_b"; value: 0}
+				mapset{map: "str_c"; value: map(cmd_buffertime)}
+			} else if map(check_rlsb) = 1 {
+				mapset{map: "str_a"; value: 0}
+				mapset{map: "str_b"; value: map(cmd_buffertime)}
+				mapset{map: "str_c"; value: 0}
+			} else if map(check_rlsa) = 1 {
+				mapset{map: "str_a"; value: map(cmd_buffertime)}
+				mapset{map: "str_b"; value: 0}
+				mapset{map: "str_c"; value: 0}
+			}
+		}
+	}
+
+	# 1 Punch
+	if map(check_p) {
+		if map(check_z) = 1 {
+			mapset{map: "str_x"; value: 0}
+			mapset{map: "str_y"; value: 0}
+			mapset{map: "str_z"; value: map(cmd_buffertime)}
+		} else if map(check_y) = 1 {
+			mapset{map: "str_x"; value: 0}
+			mapset{map: "str_y"; value: map(cmd_buffertime)}
+			mapset{map: "str_z"; value: 0}
+		} else if map(check_x) = 1 {
+			mapset{map: "str_x"; value: map(cmd_buffertime)}
+			mapset{map: "str_y"; value: 0}
+			mapset{map: "str_z"; value: 0}
+		}
+		if map(cmd_negativeedge) {
+			if map(check_rlsz) = 1 {
+				mapset{map: "str_x"; value: 0}
+				mapset{map: "str_y"; value: 0}
+				mapset{map: "str_z"; value: map(cmd_buffertime)}
+			} else if map(check_rlsy) = 1 {
+				mapset{map: "str_x"; value: 0}
+				mapset{map: "str_y"; value: map(cmd_buffertime)}
+				mapset{map: "str_z"; value: 0}
+			} else if map(check_rlsx) = 1 {
+				mapset{map: "str_x"; value: map(cmd_buffertime)}
+				mapset{map: "str_y"; value: 0}
+				mapset{map: "str_z"; value: 0}
+			}
+		}
+	}
+
+
+#==================================================================< SPECIAL MOVE INPUTS >=====================================================================
+
+#--------------------------------------------------------------------------- 236 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_236_OK"; value: 0}
+		mapset{map: "check_236_23"; value: 0}
+		mapset{map: "check_236_2"; value: 0}
+		mapset{map: "cmd_236kkk"; value: 0}
+		mapset{map: "cmd_236ppp"; value: 0}
+		mapset{map: "cmd_236kk"; value: 0}
+		mapset{map: "cmd_236pp"; value: 0}
+		mapset{map: "cmd_236k"; value: 0}
+		mapset{map: "cmd_236p"; value: 0}
+		mapset{map: "cmd_236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_236_23) > 0 {mapadd{map: "check_236_23"; value: -1}}
+	if map(check_236_2) > 0 {mapadd{map: "check_236_2"; value: -1}}
+	if map(cmd_236kkk) > 0 {mapadd{map: "cmd_236kkk"; value: -1}}
+	if map(cmd_236ppp) > 0 {mapadd{map: "cmd_236ppp"; value: -1}}
+	if map(cmd_236kk) > 0 {mapadd{map: "cmd_236kk"; value: -1}}
+	if map(cmd_236pp) > 0 {mapadd{map: "cmd_236pp"; value: -1}}
+	if map(cmd_236k) > 0 {mapadd{map: "cmd_236k"; value: -1}}
+	if map(cmd_236p) > 0 {mapadd{map: "cmd_236p"; value: -1}}
+	if map(cmd_236s) > 0 {mapadd{map: "cmd_236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_236_23) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_236_OK"; value: 10}
+			}
+		}
+		if map(check_236_2) > 0 {
+			if ifelse(map(cmd_reverse), command = "DB", command = "DF") {
+				mapset{map: "check_236_23"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_236_2"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------- ROOT 236 ---------------------------------------------------------------------------
+# Directions don't flip
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root236_OK"; value: 0}
+		mapset{map: "check_root236_23"; value: 0}
+		mapset{map: "check_root236_2"; value: 0}
+		mapset{map: "cmd_root236kkk"; value: 0}
+		mapset{map: "cmd_root236ppp"; value: 0}
+		mapset{map: "cmd_root236kk"; value: 0}
+		mapset{map: "cmd_root236pp"; value: 0}
+		mapset{map: "cmd_root236k"; value: 0}
+		mapset{map: "cmd_root236p"; value: 0}
+		mapset{map: "cmd_root236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_root236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_root236_23) > 0 {mapadd{map: "check_root236_23"; value: -1}}
+	if map(check_root236_2) > 0 {mapadd{map: "check_root236_2"; value: -1}}
+	if map(cmd_root236kkk) > 0 {mapadd{map: "cmd_root236kkk"; value: -1}}
+	if map(cmd_root236ppp) > 0 {mapadd{map: "cmd_root236ppp"; value: -1}}
+	if map(cmd_root236kk) > 0 {mapadd{map: "cmd_root236kk"; value: -1}}
+	if map(cmd_root236pp) > 0 {mapadd{map: "cmd_root236pp"; value: -1}}
+	if map(cmd_root236k) > 0 {mapadd{map: "cmd_root236k"; value: -1}}
+	if map(cmd_root236p) > 0 {mapadd{map: "cmd_root236p"; value: -1}}
+	if map(cmd_root236s) > 0 {mapadd{map: "cmd_root236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root236_23) > 0 {
+			if command = "F" {
+				mapset{map: "check_root236_OK"; value: 10}
+			}
+		}
+		if map(check_root236_2) > 0 {
+			if command = "DF" {
+				mapset{map: "check_root236_23"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_root236_2"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 214 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_214_OK"; value: 0}
+		mapset{map: "check_214_21"; value: 0}
+		mapset{map: "check_214_2"; value: 0}
+		mapset{map: "cmd_214kkk"; value: 0}
+		mapset{map: "cmd_214ppp"; value: 0}
+		mapset{map: "cmd_214kk"; value: 0}
+		mapset{map: "cmd_214pp"; value: 0}
+		mapset{map: "cmd_214k"; value: 0}
+		mapset{map: "cmd_214p"; value: 0}
+		mapset{map: "cmd_214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_214_21) > 0 {mapadd{map: "check_214_21"; value: -1}}
+	if map(check_214_2) > 0 {mapadd{map: "check_214_2"; value: -1}}
+	if map(cmd_214kkk) > 0 {mapadd{map: "cmd_214kkk"; value: -1}}
+	if map(cmd_214ppp) > 0 {mapadd{map: "cmd_214ppp"; value: -1}}
+	if map(cmd_214kk) > 0 {mapadd{map: "cmd_214kk"; value: -1}}
+	if map(cmd_214pp) > 0 {mapadd{map: "cmd_214pp"; value: -1}}
+	if map(cmd_214k) > 0 {mapadd{map: "cmd_214k"; value: -1}}
+	if map(cmd_214p) > 0 {mapadd{map: "cmd_214p"; value: -1}}
+	if map(cmd_214s) > 0 {mapadd{map: "cmd_214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_214_21) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_214_OK"; value: 10}
+			}
+		}
+		if map(check_214_2) > 0 {
+			if ifelse(map(cmd_reverse), command = "DF", command = "DB") {
+				mapset{map: "check_214_21"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_214_2"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------- ROOT 214 ---------------------------------------------------------------------------
+# Directions don't flip
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root214_OK"; value: 0}
+		mapset{map: "check_root214_21"; value: 0}
+		mapset{map: "check_root214_2"; value: 0}
+		mapset{map: "cmd_root214kkk"; value: 0}
+		mapset{map: "cmd_root214ppp"; value: 0}
+		mapset{map: "cmd_root214kk"; value: 0}
+		mapset{map: "cmd_root214pp"; value: 0}
+		mapset{map: "cmd_root214k"; value: 0}
+		mapset{map: "cmd_root214p"; value: 0}
+		mapset{map: "cmd_root214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_root214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_root214_21) > 0 {mapadd{map: "check_root214_21"; value: -1}}
+	if map(check_root214_2) > 0 {mapadd{map: "check_root214_2"; value: -1}}
+	if map(cmd_root214kkk) > 0 {mapadd{map: "cmd_root214kkk"; value: -1}}
+	if map(cmd_root214ppp) > 0 {mapadd{map: "cmd_root214ppp"; value: -1}}
+	if map(cmd_root214kk) > 0 {mapadd{map: "cmd_root214kk"; value: -1}}
+	if map(cmd_root214pp) > 0 {mapadd{map: "cmd_root214pp"; value: -1}}
+	if map(cmd_root214k) > 0 {mapadd{map: "cmd_root214k"; value: -1}}
+	if map(cmd_root214p) > 0 {mapadd{map: "cmd_root214p"; value: -1}}
+	if map(cmd_root214s) > 0 {mapadd{map: "cmd_root214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root214_21) > 0 {
+			if command = "B" {
+				mapset{map: "check_root214_OK"; value: 10}
+			}
+		}
+		if map(check_root214_2) > 0 {
+			if command = "DB" {
+				mapset{map: "check_root214_21"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_root214_2"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 623 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_623_OK"; value: 0}
+		mapset{map: "check_623_62"; value: 0}
+		mapset{map: "check_623_6"; value: 0}
+		mapset{map: "cmd_623kkk"; value: 0}
+		mapset{map: "cmd_623ppp"; value: 0}
+		mapset{map: "cmd_623kk"; value: 0}
+		mapset{map: "cmd_623pp"; value: 0}
+		mapset{map: "cmd_623k"; value: 0}
+		mapset{map: "cmd_623p"; value: 0}
+		mapset{map: "cmd_623s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_623_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_623_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_623_62) > 0 {mapadd{map: "check_623_62"; value: -1}}
+	if map(check_623_6) > 0 {mapadd{map: "check_623_6"; value: -1}}
+	if map(cmd_623kkk) > 0 {mapadd{map: "cmd_623kkk"; value: -1}}
+	if map(cmd_623ppp) > 0 {mapadd{map: "cmd_623ppp"; value: -1}}
+	if map(cmd_623kk) > 0 {mapadd{map: "cmd_623kk"; value: -1}}
+	if map(cmd_623pp) > 0 {mapadd{map: "cmd_623pp"; value: -1}}
+	if map(cmd_623k) > 0 {mapadd{map: "cmd_623k"; value: -1}}
+	if map(cmd_623p) > 0 {mapadd{map: "cmd_623p"; value: -1}}
+	if map(cmd_623s) > 0 {mapadd{map: "cmd_623s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_623_62) > 0 {
+			if ifelse(map(cmd_reverse), command = "$B", command = "$F") {
+				mapset{map: "check_623_OK"; value: 10}
+			}
+		}
+		if map(check_623_6) > 0 {
+			if command = "D" {
+				mapset{map: "check_623_62"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/B", command = "/F") {
+			mapset{map: "check_623_6"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_623_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_623kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_623ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_623kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_623pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_623k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_623p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_623s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 421 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_421_OK"; value: 0}
+		mapset{map: "check_421_42"; value: 0}
+		mapset{map: "check_421_4"; value: 0}
+		mapset{map: "cmd_421kkk"; value: 0}
+		mapset{map: "cmd_421ppp"; value: 0}
+		mapset{map: "cmd_421kk"; value: 0}
+		mapset{map: "cmd_421pp"; value: 0}
+		mapset{map: "cmd_421k"; value: 0}
+		mapset{map: "cmd_421p"; value: 0}
+		mapset{map: "cmd_421s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_421_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_421_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_421_42) > 0 {mapadd{map: "check_421_42"; value: -1}}
+	if map(check_421_4) > 0 {mapadd{map: "check_421_4"; value: -1}}
+	if map(cmd_421kkk) > 0 {mapadd{map: "cmd_421kkk"; value: -1}}
+	if map(cmd_421ppp) > 0 {mapadd{map: "cmd_421ppp"; value: -1}}
+	if map(cmd_421kk) > 0 {mapadd{map: "cmd_421kk"; value: -1}}
+	if map(cmd_421pp) > 0 {mapadd{map: "cmd_421pp"; value: -1}}
+	if map(cmd_421k) > 0 {mapadd{map: "cmd_421k"; value: -1}}
+	if map(cmd_421p) > 0 {mapadd{map: "cmd_421p"; value: -1}}
+	if map(cmd_421s) > 0 {mapadd{map: "cmd_421s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_421_42) > 0 {
+			if ifelse(map(cmd_reverse), command = "$F", command = "$B") {
+				mapset{map: "check_421_OK"; value: 10}
+			}
+		}
+		if map(check_421_4) > 0 {
+			if command = "D" {
+				mapset{map: "check_421_42"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/F", command = "/B") {
+			mapset{map: "check_421_4"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_421_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_421kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_421ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_421kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_421pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_421k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_421p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_421s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 41236 -----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_41236_OK"; value: 0}
+		mapset{map: "check_41236_412"; value: 0}
+		mapset{map: "check_41236_4"; value: 0}
+		mapset{map: "cmd_41236kkk"; value: 0}
+		mapset{map: "cmd_41236ppp"; value: 0}
+		mapset{map: "cmd_41236kk"; value: 0}
+		mapset{map: "cmd_41236pp"; value: 0}
+		mapset{map: "cmd_41236k"; value: 0}
+		mapset{map: "cmd_41236p"; value: 0}
+		mapset{map: "cmd_41236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_41236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_41236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_41236_412) > 0 {mapadd{map: "check_41236_412"; value: -1}}
+	if map(check_41236_4) > 0 {mapadd{map: "check_41236_4"; value: -1}}
+	if map(cmd_41236kkk) > 0 {mapadd{map: "cmd_41236kkk"; value: -1}}
+	if map(cmd_41236ppp) > 0 {mapadd{map: "cmd_41236ppp"; value: -1}}
+	if map(cmd_41236kk) > 0 {mapadd{map: "cmd_41236kk"; value: -1}}
+	if map(cmd_41236pp) > 0 {mapadd{map: "cmd_41236pp"; value: -1}}
+	if map(cmd_41236k) > 0 {mapadd{map: "cmd_41236k"; value: -1}}
+	if map(cmd_41236p) > 0 {mapadd{map: "cmd_41236p"; value: -1}}
+	if map(cmd_41236s) > 0 {mapadd{map: "cmd_41236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_41236_412) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_41236_OK"; value: 10}
+			}
+		}
+		if map(check_41236_4) > 0 {
+			if command = "$D" {
+				mapset{map: "check_41236_412"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/F", command = "/B") {
+			mapset{map: "check_41236_4"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_41236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_41236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_41236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_41236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_41236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_41236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_41236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_41236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------ ROOT 41236 --------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root41236_OK"; value: 0}
+		mapset{map: "check_root41236412"; value: 0}
+		mapset{map: "check_root412364"; value: 0}
+		mapset{map: "cmd_root41236kkk"; value: 0}
+		mapset{map: "cmd_root41236ppp"; value: 0}
+		mapset{map: "cmd_root41236kk"; value: 0}
+		mapset{map: "cmd_root41236pp"; value: 0}
+		mapset{map: "cmd_root41236k"; value: 0}
+		mapset{map: "cmd_root41236p"; value: 0}
+		mapset{map: "cmd_root41236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root41236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_root41236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_root41236_412) > 0 {mapadd{map: "check_root41236_412"; value: -1}}
+	if map(check_root41236_4) > 0 {mapadd{map: "check_root41236_4"; value: -1}}
+	if map(cmd_root41236kkk) > 0 {mapadd{map: "cmd_root41236kkk"; value: -1}}
+	if map(cmd_root41236ppp) > 0 {mapadd{map: "cmd_root41236ppp"; value: -1}}
+	if map(cmd_root41236kk) > 0 {mapadd{map: "cmd_root41236kk"; value: -1}}
+	if map(cmd_root41236pp) > 0 {mapadd{map: "cmd_root41236pp"; value: -1}}
+	if map(cmd_root41236k) > 0 {mapadd{map: "cmd_root41236k"; value: -1}}
+	if map(cmd_root41236p) > 0 {mapadd{map: "cmd_root41236p"; value: -1}}
+	if map(cmd_root41236s) > 0 {mapadd{map: "cmd_root41236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root41236412) > 0 {
+			if command = "F" {
+				mapset{map: "check_root41236_OK"; value: 10}
+			}
+		}
+		if map(check_root412364) > 0 {
+			if command = "$D" {
+				mapset{map: "check_root41236412"; value: 10}
+			}
+		}
+		if command = "/B" {
+			mapset{map: "check_root412364"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root41236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root41236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root41236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root41236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root41236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root41236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root41236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root41236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 63214 -----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_63214_OK"; value: 0}
+		mapset{map: "check_63214_632"; value: 0}
+		mapset{map: "check_63214_6"; value: 0}
+		mapset{map: "cmd_63214kkk"; value: 0}
+		mapset{map: "cmd_63214ppp"; value: 0}
+		mapset{map: "cmd_63214kk"; value: 0}
+		mapset{map: "cmd_63214pp"; value: 0}
+		mapset{map: "cmd_63214k"; value: 0}
+		mapset{map: "cmd_63214p"; value: 0}
+		mapset{map: "cmd_63214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_63214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_63214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_63214_632) > 0 {mapadd{map: "check_63214_632"; value: -1}}
+	if map(check_63214_6) > 0 {mapadd{map: "check_63214_6"; value: -1}}
+	if map(cmd_63214kkk) > 0 {mapadd{map: "cmd_63214kkk"; value: -1}}
+	if map(cmd_63214ppp) > 0 {mapadd{map: "cmd_63214ppp"; value: -1}}
+	if map(cmd_63214kk) > 0 {mapadd{map: "cmd_63214kk"; value: -1}}
+	if map(cmd_63214pp) > 0 {mapadd{map: "cmd_63214pp"; value: -1}}
+	if map(cmd_63214k) > 0 {mapadd{map: "cmd_63214k"; value: -1}}
+	if map(cmd_63214p) > 0 {mapadd{map: "cmd_63214p"; value: -1}}
+	if map(cmd_63214s) > 0 {mapadd{map: "cmd_63214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_63214_632) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_63214_OK"; value: 10}
+			}
+		}
+		if map(check_63214_6) > 0 {
+			if command = "$D" {
+				mapset{map: "check_63214_632"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/B", command = "/F") {
+			mapset{map: "check_63214_6"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_63214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_63214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_63214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_63214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_63214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_63214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_63214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_63214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------ ROOT 63214 --------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root63214_OK"; value: 0}
+		mapset{map: "check_root63214632"; value: 0}
+		mapset{map: "check_root632144"; value: 0}
+		mapset{map: "cmd_root63214kkk"; value: 0}
+		mapset{map: "cmd_root63214ppp"; value: 0}
+		mapset{map: "cmd_root63214kk"; value: 0}
+		mapset{map: "cmd_root63214pp"; value: 0}
+		mapset{map: "cmd_root63214k"; value: 0}
+		mapset{map: "cmd_root63214p"; value: 0}
+		mapset{map: "cmd_root63214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root63214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_root63214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_root63214_632) > 0 {mapadd{map: "check_root63214_632"; value: -1}}
+	if map(check_root63214_6) > 0 {mapadd{map: "check_root63214_6"; value: -1}}
+	if map(cmd_root63214kkk) > 0 {mapadd{map: "cmd_root63214kkk"; value: -1}}
+	if map(cmd_root63214ppp) > 0 {mapadd{map: "cmd_root63214ppp"; value: -1}}
+	if map(cmd_root63214kk) > 0 {mapadd{map: "cmd_root63214kk"; value: -1}}
+	if map(cmd_root63214pp) > 0 {mapadd{map: "cmd_root63214pp"; value: -1}}
+	if map(cmd_root63214k) > 0 {mapadd{map: "cmd_root63214k"; value: -1}}
+	if map(cmd_root63214p) > 0 {mapadd{map: "cmd_root63214p"; value: -1}}
+	if map(cmd_root63214s) > 0 {mapadd{map: "cmd_root63214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root63214632) > 0 {
+			if command = "B" {
+				mapset{map: "check_root63214_OK"; value: 10}
+			}
+		}
+		if map(check_root632144) > 0 {
+			if command = "$D" {
+				mapset{map: "check_root63214632"; value: 10}
+			}
+		}
+		if command = "/F" {
+			mapset{map: "check_root632144"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root63214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root63214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root63214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root63214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root63214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root63214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root63214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root63214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#---------------------------------------------------------------------------- 22 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_22_OK"; value: 0}
+		mapset{map: "check_22_525"; value: 0}
+		mapset{map: "check_22_52"; value: 0}
+		mapset{map: "check_22_5"; value: 0}
+		mapset{map: "cmd_22kkk"; value: 0}
+		mapset{map: "cmd_22ppp"; value: 0}
+		mapset{map: "cmd_22kk"; value: 0}
+		mapset{map: "cmd_22pp"; value: 0}
+		mapset{map: "cmd_22k"; value: 0}
+		mapset{map: "cmd_22p"; value: 0}
+		mapset{map: "cmd_22s"; value: 0}
+	}
+
+	# Cancel first input if the intention is a different motion
+	if map(check_22_5) > 0 {
+		if command = "$U" {mapset{map: "check_22_5"; value: 0}}
+		if map(check_22_5) = [1, 13] {
+			if command = "/F" || command = "/B" {mapset{map: "check_22_5"; value: 0}}
+		}
+	}
+
+	# Decrease timers
+	if map(check_22_OK) > 0 {mapadd{map: "check_22_OK"; value: -1}}
+	if map(check_22_525) > 0 {mapadd{map: "check_22_525"; value: -1}}
+	if map(check_22_52) > 0 {mapadd{map: "check_22_52"; value: -1}}
+	if map(check_22_5) > 0 {mapadd{map: "check_22_5"; value: -1}}
+	if map(cmd_22kkk) > 0 {mapadd{map: "cmd_22kkk"; value: -1}}
+	if map(cmd_22ppp) > 0 {mapadd{map: "cmd_22ppp"; value: -1}}
+	if map(cmd_22kk) > 0 {mapadd{map: "cmd_22kk"; value: -1}}
+	if map(cmd_22pp) > 0 {mapadd{map: "cmd_22pp"; value: -1}}
+	if map(cmd_22k) > 0 {mapadd{map: "cmd_22k"; value: -1}}
+	if map(cmd_22p) > 0 {mapadd{map: "cmd_22p"; value: -1}}
+	if map(cmd_22s) > 0 {mapadd{map: "cmd_22s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_22_525) > 0 {
+			if command = "$D" {
+				mapset{map: "check_22_OK"; value: 10}
+			}
+		}
+		if map(check_22_52) > 0 {
+			if command != "/$D" {
+				mapset{map: "check_22_525"; value: map(check_22_52)} # Neutral does not reset timer
+			}
+		}
+		if map(check_22_5) > 0 {
+			if command = "$D" {
+				mapset{map: "check_22_52"; value: 15}
+			}
+		}
+		if command != "/$D" {
+			mapset{map: "check_22_5"; value: 15}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_22_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_22kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_22ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_22kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_22pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_22k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_22p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_22s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------- ROOT 896 ---------------------------------------------------------------------------
+# Directions don't flip
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root896_OK"; value: 0}
+		mapset{map: "check_root896_89"; value: 0}
+		mapset{map: "check_root896_8"; value: 0}
+		mapset{map: "cmd_root896kkk"; value: 0}
+		mapset{map: "cmd_root896ppp"; value: 0}
+		mapset{map: "cmd_root896kk"; value: 0}
+		mapset{map: "cmd_root896pp"; value: 0}
+		mapset{map: "cmd_root896k"; value: 0}
+		mapset{map: "cmd_root896p"; value: 0}
+		mapset{map: "cmd_root896s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root896_OK) > 0 {mapadd{map: "check_root896_OK"; value: -1}}
+	if map(check_root896_89) > 0 {mapadd{map: "check_root896_89"; value: -1}}
+	if map(check_root896_8) > 0 {mapadd{map: "check_root896_8"; value: -1}}
+	if map(cmd_root896kkk) > 0 {mapadd{map: "cmd_root896kkk"; value: -1}}
+	if map(cmd_root896ppp) > 0 {mapadd{map: "cmd_root896ppp"; value: -1}}
+	if map(cmd_root896kk) > 0 {mapadd{map: "cmd_root896kk"; value: -1}}
+	if map(cmd_root896pp) > 0 {mapadd{map: "cmd_root896pp"; value: -1}}
+	if map(cmd_root896k) > 0 {mapadd{map: "cmd_root896k"; value: -1}}
+	if map(cmd_root896p) > 0 {mapadd{map: "cmd_root896p"; value: -1}}
+	if map(cmd_root896s) > 0 {mapadd{map: "cmd_root896s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root896_89) > 0 {
+			if command = "F" {
+				mapset{map: "check_root896_OK"; value: 10}
+			}
+		}
+		if map(check_root896_8) > 0 {
+			if command = "UF" {
+				mapset{map: "check_root896_89"; value: 10}
+			}
+		}
+		if command = "/U" {
+			mapset{map: "check_root896_8"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root896_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root896kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root896ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root896kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root896pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root896k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root896p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root896s"; value: map(cmd_buffertime)}}
+	}
+
+
+#---------------------------------------------------------------------------- 46 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_46_OK"; value: 0}
+		mapset{map: "check_46_4"; value: 0}
+		mapset{map: "cmd_46kkk"; value: 0}
+		mapset{map: "cmd_46ppp"; value: 0}
+		mapset{map: "cmd_46kk"; value: 0}
+		mapset{map: "cmd_46pp"; value: 0}
+		mapset{map: "cmd_46k"; value: 0}
+		mapset{map: "cmd_46p"; value: 0}
+		mapset{map: "cmd_46s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_46_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_46_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_46_4) > 0 {mapadd{map: "check_46_4"; value: -1}}
+	if map(cmd_46kkk) > 0 {mapadd{map: "cmd_46kkk"; value: -1}}
+	if map(cmd_46ppp) > 0 {mapadd{map: "cmd_46ppp"; value: -1}}
+	if map(cmd_46kk) > 0 {mapadd{map: "cmd_46kk"; value: -1}}
+	if map(cmd_46pp) > 0 {mapadd{map: "cmd_46pp"; value: -1}}
+	if map(cmd_46k) > 0 {mapadd{map: "cmd_46k"; value: -1}}
+	if map(cmd_46p) > 0 {mapadd{map: "cmd_46p"; value: -1}}
+	if map(cmd_46s) > 0 {mapadd{map: "cmd_46s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_46_4) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_46_OK"; value: 10}
+			}
+		}
+		if map(charge4) >= 45 {
+			if ifelse(map(cmd_reverse), command = "/$F", command = "/$B") {
+				mapset{map: "check_46_4"; value: 10}
+			}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_46_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_46kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_46ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_46kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_46pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_46k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_46p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_46s"; value: map(cmd_buffertime)}}
+	}
+
+
+#---------------------------------------------------------------------------- 28 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_28_OK"; value: 0}
+		mapset{map: "check_28_2"; value: 0}
+		mapset{map: "cmd_28kkk"; value: 0}
+		mapset{map: "cmd_28ppp"; value: 0}
+		mapset{map: "cmd_28kk"; value: 0}
+		mapset{map: "cmd_28pp"; value: 0}
+		mapset{map: "cmd_28k"; value: 0}
+		mapset{map: "cmd_28p"; value: 0}
+		mapset{map: "cmd_28s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_28_OK) > 0 {mapadd{map: "check_28_OK"; value: -1}}
+	if map(check_28_2) > 0 {mapadd{map: "check_28_2"; value: -1}}
+	if map(cmd_28kkk) > 0 {mapadd{map: "cmd_28kkk"; value: -1}}
+	if map(cmd_28ppp) > 0 {mapadd{map: "cmd_28ppp"; value: -1}}
+	if map(cmd_28kk) > 0 {mapadd{map: "cmd_28kk"; value: -1}}
+	if map(cmd_28pp) > 0 {mapadd{map: "cmd_28pp"; value: -1}}
+	if map(cmd_28k) > 0 {mapadd{map: "cmd_28k"; value: -1}}
+	if map(cmd_28p) > 0 {mapadd{map: "cmd_28p"; value: -1}}
+	if map(cmd_28s) > 0 {mapadd{map: "cmd_28s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_28_2) > 0 {
+			if command = "$U" {
+				mapset{map: "check_28_OK"; value: 10}
+			}
+		}
+		if map(charge2) >= 45 {
+			if command = "/$D" {
+				mapset{map: "check_28_2"; value: 10}
+			}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_28_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_28kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_28ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_28kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_28pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_28k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_28p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_28s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 360 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_360_OK"; value: 0}
+		mapset{map: "check_360_248"; value: 0}
+		mapset{map: "check_360_24"; value: 0}
+		mapset{map: "check_360_2"; value: 0}
+		mapset{map: "check_360_486"; value: 0}
+		mapset{map: "check_360_48"; value: 0}
+		mapset{map: "check_360_4"; value: 0}
+		mapset{map: "check_360_862"; value: 0}
+		mapset{map: "check_360_86"; value: 0}
+		mapset{map: "check_360_8"; value: 0}
+		mapset{map: "check_360_624"; value: 0}
+		mapset{map: "check_360_62"; value: 0}
+		mapset{map: "check_360_6"; value: 0}
+		mapset{map: "check_360_268"; value: 0}
+		mapset{map: "check_360_26"; value: 0}
+		mapset{map: "check_360_2"; value: 0}
+		mapset{map: "check_360_684"; value: 0}
+		mapset{map: "check_360_68"; value: 0}
+		mapset{map: "check_360_6"; value: 0}
+		mapset{map: "check_360_842"; value: 0}
+		mapset{map: "check_360_84"; value: 0}
+		mapset{map: "check_360_8"; value: 0}
+		mapset{map: "check_360_426"; value: 0}
+		mapset{map: "check_360_42"; value: 0}
+		mapset{map: "check_360_4"; value: 0}
+
+		mapset{map: "cmd_360kkk"; value: 0}
+		mapset{map: "cmd_360ppp"; value: 0}
+		mapset{map: "cmd_360kk"; value: 0}
+		mapset{map: "cmd_360pp"; value: 0}
+		mapset{map: "cmd_360k"; value: 0}
+		mapset{map: "cmd_360p"; value: 0}
+		mapset{map: "cmd_360s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_360_OK) > 0 {mapadd{map: "check_360_OK"; value: -1}}
+	if map(check_360_248) > 0 {mapadd{map: "check_360_248"; value: -1}}
+	if map(check_360_24) > 0 {mapadd{map: "check_360_24"; value: -1}}
+	if map(check_360_2) > 0 {mapadd{map: "check_360_2"; value: -1}}
+	if map(check_360_486) > 0 {mapadd{map: "check_360_486"; value: -1}}
+	if map(check_360_48) > 0 {mapadd{map: "check_360_48"; value: -1}}
+	if map(check_360_4) > 0 {mapadd{map: "check_360_4"; value: -1}}
+	if map(check_360_862) > 0 {mapadd{map: "check_360_862"; value: -1}}
+	if map(check_360_86) > 0 {mapadd{map: "check_360_86"; value: -1}}
+	if map(check_360_8) > 0 {mapadd{map: "check_360_8"; value: -1}}
+	if map(check_360_624) > 0 {mapadd{map: "check_360_624"; value: -1}}
+	if map(check_360_62) > 0 {mapadd{map: "check_360_62"; value: -1}}
+	if map(check_360_6) > 0 {mapadd{map: "check_360_6"; value: -1}}
+	if map(check_360_268) > 0 {mapadd{map: "check_360_268"; value: -1}}
+	if map(check_360_26) > 0 {mapadd{map: "check_360_26"; value: -1}}
+	if map(check_360_2) > 0 {mapadd{map: "check_360_2"; value: -1}}
+	if map(check_360_684) > 0 {mapadd{map: "check_360_684"; value: -1}}
+	if map(check_360_68) > 0 {mapadd{map: "check_360_68"; value: -1}}
+	if map(check_360_6) > 0 {mapadd{map: "check_360_6"; value: -1}}
+	if map(check_360_842) > 0 {mapadd{map: "check_360_842"; value: -1}}
+	if map(check_360_84) > 0 {mapadd{map: "check_360_84"; value: -1}}
+	if map(check_360_8) > 0 {mapadd{map: "check_360_8"; value: -1}}
+	if map(check_360_426) > 0 {mapadd{map: "check_360_426"; value: -1}}
+	if map(check_360_42) > 0 {mapadd{map: "check_360_42"; value: -1}}
+	if map(check_360_4) > 0 {mapadd{map: "check_360_4"; value: -1}}
+
+	if map(cmd_360kkk) > 0 {mapadd{map: "cmd_360kkk"; value: -1}}
+	if map(cmd_360ppp) > 0 {mapadd{map: "cmd_360ppp"; value: -1}}
+	if map(cmd_360kk) > 0 {mapadd{map: "cmd_360kk"; value: -1}}
+	if map(cmd_360pp) > 0 {mapadd{map: "cmd_360pp"; value: -1}}
+	if map(cmd_360k) > 0 {mapadd{map: "cmd_360k"; value: -1}}
+	if map(cmd_360p) > 0 {mapadd{map: "cmd_360p"; value: -1}}
+	if map(cmd_360s) > 0 {mapadd{map: "cmd_360s"; value: -1}}
+
+	#2486
+	#4862
+	#8624
+	#6248
+
+	#2684
+	#6842
+	#8426
+	#4268
+
+	# Check motion
+	if !map(check_illegal) {
+		if command = "$D" {
+			mapset{map: "check:360_2"; value: 10}
+			if map(check_360_486) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_86) > 0 {mapset{map: "check_360_862"; value: 10}}
+			if map(check_360_6) > 0 {mapset{map: "check_360_62"; value: 10}}
+			if map(check_360_684) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_84) > 0 {mapset{map: "check_360_842"; value: 10}}
+			if map(check_360_4) > 0 {mapset{map: "check_360_42"; value: 10}}
+		}
+		if command = "$B" {
+			mapset{map: "check_360_4"; value: 10}
+			if map(check_360_2) > 0 {mapset{map: "check_360_24"; value: 10}}
+			if map(check_360_862) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_62) > 0 {mapset{map: "check_360_624"; value: 10}}
+			if map(check_360_268) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_68) > 0 {mapset{map: "check_360_684"; value: 10}}
+			if map(check_360_8) > 0 {mapset{map: "check_360_84"; value: 10}}
+		}
+		if command = "$U" {
+			mapset{map: "check_360_8"; value: 10}
+			if map(check_360_24) > 0 {mapset{map: "check_360_248"; value: 10}}
+			if map(check_360_4) > 0 {mapset{map: "check_360_48"; value: 10}}
+			if map(check_360_624) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_26) > 0 {mapset{map: "check_360_268"; value: 10}}
+			if map(check_360_6) > 0 {mapset{map: "check_360_68"; value: 10}}
+			if map(check_360_426) > 0 {mapset{map: "check_360_OK"; value: 10}}
+		}
+		if command = "$F" {
+			mapset{map: "check_360_6"; value: 10}
+			if map(check_360_248) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_48) > 0 {mapset{map: "check_360_486"; value: 10}}
+			if map(check_360_8) > 0 {mapset{map: "check_360_86"; value: 10}}
+			if map(check_360_2) > 0 {mapset{map: "check_360_26"; value: 10}}
+			if map(check_360_842) > 0 {mapset{map: "check_360_OK"; value: 10}}
+			if map(check_360_42) > 0 {mapset{map: "check_360_426"; value: 10}}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_360_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_360kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_360ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_360kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_360pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_360k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_360p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_360s"; value: map(cmd_buffertime)}}
+	}
+
+
+#----------------------------------------------------------------------- MASH PUNCHES -------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_mashp_timer"; value: 0}
+		mapset{map: "check_mashp_counter"; value: 0}
+		mapset{map: "cmd_mashp"; value: 0}
+		mapset{map: "cmd_mashpp"; value: 0}
+	}
+
+	# Input stopped
+	if map(check_mashp_counter) > 0 {
+		if map(check_mashp_timer) <= 0 {mapset{map: "check_mashp_counter"; value: 0}}
+	}
+
+	# Decrease timers
+	if map(cmd_mashp) > 0 {mapadd{map: "cmd_mashp"; value: -1}}
+	if map(cmd_mashpp) > 0 {mapadd{map: "cmd_mashpp"; value: -1}}
+	if map(check_mashp_timer) > 0 {mapadd{map: "check_mashp_timer"; value: -1}}
+
+	# Set timers
+	if map(check_x) = 1 {
+		mapset{map: "check_mashp_timer"; value: 18}
+	}
+	if map(check_y) = 1 {
+		mapset{map: "check_mashp_timer"; value: 15}
+	}
+	if map(check_z) = 1 {
+		mapset{map: "check_mashp_timer"; value: 12}
+	}
+	if map(check_pp) = 1 {
+		mapset{map: "check_mashp_timer"; value: 15}
+	}
+
+	# Only increases by 1 even if more than one button is pressed
+	if map(check_x) = 1 || map(check_y) = 1 || map(check_z) = 1 {mapadd{map: "check_mashp_counter"; value: 1}}
+
+	# 4 inputs detected
+	if map(check_mashp_counter) >= 4 {
+		if map(check_p) {mapset{map: "cmd_mashp"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_mashpp"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 412 ------------------------------------------------------------------------------
+# Nakoruru
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_412_OK"; value: 0}
+		mapset{map: "check_412_41"; value: 0}
+		mapset{map: "check_412_4"; value: 0}
+		mapset{map: "cmd_412kkk"; value: 0}
+		mapset{map: "cmd_412ppp"; value: 0}
+		mapset{map: "cmd_412kk"; value: 0}
+		mapset{map: "cmd_412pp"; value: 0}
+		mapset{map: "cmd_412k"; value: 0}
+		mapset{map: "cmd_412p"; value: 0}
+		mapset{map: "cmd_412s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_412_OK) > 0 {mapadd{map: "check_412_OK"; value: -1}}
+	if map(check_412_41) > 0 {mapadd{map: "check_412_41"; value: -1}}
+	if map(check_412_4) > 0 {mapadd{map: "check_412_4"; value: -1}}
+	if map(cmd_412kkk) > 0 {mapadd{map: "cmd_412kkk"; value: -1}}
+	if map(cmd_412ppp) > 0 {mapadd{map: "cmd_412ppp"; value: -1}}
+	if map(cmd_412kk) > 0 {mapadd{map: "cmd_412kk"; value: -1}}
+	if map(cmd_412pp) > 0 {mapadd{map: "cmd_412pp"; value: -1}}
+	if map(cmd_412k) > 0 {mapadd{map: "cmd_412k"; value: -1}}
+	if map(cmd_412p) > 0 {mapadd{map: "cmd_412p"; value: -1}}
+	if map(cmd_412s) > 0 {mapadd{map: "cmd_412s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_412_41) > 0 {
+			if command = "D" {
+				mapset{map: "check_412_OK"; value: 10}
+			}
+		}
+		if map(check_412_4) > 0 {
+			if ifelse(map(cmd_reverse), command = "DF", command = "DB") {
+				mapset{map: "check_412_41"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/F", command = "/B") {
+			mapset{map: "check_412_4"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_412_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_412kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_412ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_412kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_412pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_412k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_412p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_412s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 4632 -----------------------------------------------------------------------------
+# Nakoruru suicide
+
+	# Erase inputs
+	if map(erase_special) || map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_4632_OK"; value: 0}
+		mapset{map: "check_4632_46"; value: 0}
+		mapset{map: "check_4632_4"; value: 0}
+		mapset{map: "cmd_4632kkk"; value: 0}
+		mapset{map: "cmd_4632ppp"; value: 0}
+		mapset{map: "cmd_4632kk"; value: 0}
+		mapset{map: "cmd_4632pp"; value: 0}
+		mapset{map: "cmd_4632k"; value: 0}
+		mapset{map: "cmd_4632p"; value: 0}
+		mapset{map: "cmd_4632s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_4632_OK) > 0 {mapadd{map: "check_4632_OK"; value: -1}}
+	if map(check_4632_46) > 0 {mapadd{map: "check_4632_46"; value: -1}}
+	if map(check_4632_4) > 0 {mapadd{map: "check_4632_4"; value: -1}}
+	if map(cmd_4632kkk) > 0 {mapadd{map: "cmd_4632kkk"; value: -1}}
+	if map(cmd_4632ppp) > 0 {mapadd{map: "cmd_4632ppp"; value: -1}}
+	if map(cmd_4632kk) > 0 {mapadd{map: "cmd_4632kk"; value: -1}}
+	if map(cmd_4632pp) > 0 {mapadd{map: "cmd_4632pp"; value: -1}}
+	if map(cmd_4632k) > 0 {mapadd{map: "cmd_4632k"; value: -1}}
+	if map(cmd_4632p) > 0 {mapadd{map: "cmd_4632p"; value: -1}}
+	if map(cmd_4632s) > 0 {mapadd{map: "cmd_4632s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_4632_46) > 0 {
+			if command = "D" {
+				mapset{map: "check_4632_OK"; value: 10}
+			}
+		}
+		if map(check_4632_4) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_4632_46"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/F", command = "/B") {
+			mapset{map: "check_4632_4"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_4632_OK) > 0 {
+		if map(check_ss) {mapset{map: "cmd_4632s"; value: map(cmd_buffertime)}}
+	}
+
+
+#===================================================================< SUPER MOVE INPUTS >======================================================================
+
+#-------------------------------------------------------------------------- 236236 -----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_236236_OK"; value: 0}
+		mapset{map: "check_236236_2362"; value: 0}
+		mapset{map: "check_236236_236"; value: 0}
+		mapset{map: "check_236236_2"; value: 0}
+		mapset{map: "cmd_236236kkk"; value: 0}
+		mapset{map: "cmd_236236ppp"; value: 0}
+		mapset{map: "cmd_236236kk"; value: 0}
+		mapset{map: "cmd_236236pp"; value: 0}
+		mapset{map: "cmd_236236k"; value: 0}
+		mapset{map: "cmd_236236p"; value: 0}
+		mapset{map: "cmd_236236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_236236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_236236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_236236_2362) > 0 {mapadd{map: "check_236236_2362"; value: -1}}
+	if map(check_236236_236) > 0 {mapadd{map: "check_236236_236"; value: -1}}
+	if map(check_236236_2) > 0 {mapadd{map: "check_236236_2"; value: -1}}
+	if map(cmd_236236kkk) > 0 {mapadd{map: "cmd_236236kkk"; value: -1}}
+	if map(cmd_236236ppp) > 0 {mapadd{map: "cmd_236236ppp"; value: -1}}
+	if map(cmd_236236kk) > 0 {mapadd{map: "cmd_236236kk"; value: -1}}
+	if map(cmd_236236pp) > 0 {mapadd{map: "cmd_236236pp"; value: -1}}
+	if map(cmd_236236k) > 0 {mapadd{map: "cmd_236236k"; value: -1}}
+	if map(cmd_236236p) > 0 {mapadd{map: "cmd_236236p"; value: -1}}
+	if map(cmd_236236s) > 0 {mapadd{map: "cmd_236236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_236236_2362) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_236236_OK"; value: 10}
+			}
+		}
+		if map(check_236236_236) > 0 {
+			if command = "D" {
+				mapset{map: "check_236236_2362"; value: 10}
+			}
+		}
+		if map(check_236236_2) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_236236_236"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_236236_2"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_236236_236) > 0 {
+		if map(cmd_236kk) || map(cmd_236pp) || map(cmd_236k) || map(cmd_236p) {
+			mapset{map: "check_236236_236"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_236236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_236236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_236236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_236236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_236236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_236236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_236236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_236236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------ ROOT 236236 -------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root236236_OK"; value: 0}
+		mapset{map: "check_root236236_2362"; value: 0}
+		mapset{map: "check_root236236_236"; value: 0}
+		mapset{map: "check_root236236_2"; value: 0}
+		mapset{map: "cmd_root236236kkk"; value: 0}
+		mapset{map: "cmd_root236236ppp"; value: 0}
+		mapset{map: "cmd_root236236kk"; value: 0}
+		mapset{map: "cmd_root236236pp"; value: 0}
+		mapset{map: "cmd_root236236k"; value: 0}
+		mapset{map: "cmd_root236236p"; value: 0}
+		mapset{map: "cmd_root236236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root236236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_root236236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_root236236_2362) > 0 {mapadd{map: "check_root236236_2362"; value: -1}}
+	if map(check_root236236_236) > 0 {mapadd{map: "check_root236236_236"; value: -1}}
+	if map(check_root236236_2) > 0 {mapadd{map: "check_root236236_2"; value: -1}}
+	if map(cmd_root236236kkk) > 0 {mapadd{map: "cmd_root236236kkk"; value: -1}}
+	if map(cmd_root236236ppp) > 0 {mapadd{map: "cmd_root236236ppp"; value: -1}}
+	if map(cmd_root236236kk) > 0 {mapadd{map: "cmd_root236236kk"; value: -1}}
+	if map(cmd_root236236pp) > 0 {mapadd{map: "cmd_root236236pp"; value: -1}}
+	if map(cmd_root236236k) > 0 {mapadd{map: "cmd_root236236k"; value: -1}}
+	if map(cmd_root236236p) > 0 {mapadd{map: "cmd_root236236p"; value: -1}}
+	if map(cmd_root236236s) > 0 {mapadd{map: "cmd_root236236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root236236_2362) > 0 {
+			if command = "F" {
+				mapset{map: "check_root236236_OK"; value: 10}
+			}
+		}
+		if map(check_root236236_236) > 0 {
+			if command = "D" {
+				mapset{map: "check_root236236_2362"; value: 10}
+			}
+		}
+		if map(check_root236236_2) > 0 {
+			if command = "F" {
+				mapset{map: "check_root236236_236"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_root236236_2"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_root236236_236) > 0 {
+		if map(cmd_root236kk) || map(cmd_root236pp) || map(cmd_root236k) || map(cmd_root236p) {
+			mapset{map: "check_root236236_236"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root236236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root236236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root236236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root236236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root236236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root236236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root236236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root236236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 214214 ----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_214214_OK"; value: 0}
+		mapset{map: "check_214214_2142"; value: 0}
+		mapset{map: "check_214214_214"; value: 0}
+		mapset{map: "check_214214_2"; value: 0}
+		mapset{map: "cmd_214214kkk"; value: 0}
+		mapset{map: "cmd_214214ppp"; value: 0}
+		mapset{map: "cmd_214214kk"; value: 0}
+		mapset{map: "cmd_214214pp"; value: 0}
+		mapset{map: "cmd_214214k"; value: 0}
+		mapset{map: "cmd_214214p"; value: 0}
+		mapset{map: "cmd_214214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_214214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_214214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_214214_2142) > 0 {mapadd{map: "check_214214_2142"; value: -1}}
+	if map(check_214214_214) > 0 {mapadd{map: "check_214214_214"; value: -1}}
+	if map(check_214214_2) > 0 {mapadd{map: "check_214214_2"; value: -1}}
+	if map(cmd_214214kkk) > 0 {mapadd{map: "cmd_214214kkk"; value: -1}}
+	if map(cmd_214214ppp) > 0 {mapadd{map: "cmd_214214ppp"; value: -1}}
+	if map(cmd_214214kk) > 0 {mapadd{map: "cmd_214214kk"; value: -1}}
+	if map(cmd_214214pp) > 0 {mapadd{map: "cmd_214214pp"; value: -1}}
+	if map(cmd_214214k) > 0 {mapadd{map: "cmd_214214k"; value: -1}}
+	if map(cmd_214214p) > 0 {mapadd{map: "cmd_214214p"; value: -1}}
+	if map(cmd_214214s) > 0 {mapadd{map: "cmd_214214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_214214_2142) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_214214_OK"; value: 10}
+			}
+		}
+		if map(check_214214_214) > 0 {
+			if command = "D" {
+				mapset{map: "check_214214_2142"; value: 10}
+			}
+		}
+		if map(check_214214_2) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_214214_214"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_214214_2"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_214214_214) > 0 {
+		if map(cmd_214kk) || map(cmd_214pp) || map(cmd_214k) || map(cmd_214p) {
+			mapset{map: "check_214214_214"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_214214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_214214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_214214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_214214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_214214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_214214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_214214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_214214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#------------------------------------------------------------------------ ROOT 214214 -------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_root214214_OK"; value: 0}
+		mapset{map: "check_root214214_2142"; value: 0}
+		mapset{map: "check_root214214_214"; value: 0}
+		mapset{map: "check_root214214_2"; value: 0}
+		mapset{map: "cmd_root214214kkk"; value: 0}
+		mapset{map: "cmd_root214214ppp"; value: 0}
+		mapset{map: "cmd_root214214kk"; value: 0}
+		mapset{map: "cmd_root214214pp"; value: 0}
+		mapset{map: "cmd_root214214k"; value: 0}
+		mapset{map: "cmd_root214214p"; value: 0}
+		mapset{map: "cmd_root214214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_root214214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_root214214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_root214214_2142) > 0 {mapadd{map: "check_root214214_2142"; value: -1}}
+	if map(check_root214214_214) > 0 {mapadd{map: "check_root214214_214"; value: -1}}
+	if map(check_root214214_2) > 0 {mapadd{map: "check_root214214_2"; value: -1}}
+	if map(cmd_root214214kkk) > 0 {mapadd{map: "cmd_root214214kkk"; value: -1}}
+	if map(cmd_root214214ppp) > 0 {mapadd{map: "cmd_root214214ppp"; value: -1}}
+	if map(cmd_root214214kk) > 0 {mapadd{map: "cmd_root214214kk"; value: -1}}
+	if map(cmd_root214214pp) > 0 {mapadd{map: "cmd_root214214pp"; value: -1}}
+	if map(cmd_root214214k) > 0 {mapadd{map: "cmd_root214214k"; value: -1}}
+	if map(cmd_root214214p) > 0 {mapadd{map: "cmd_root214214p"; value: -1}}
+	if map(cmd_root214214s) > 0 {mapadd{map: "cmd_root214214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_root214214_2142) > 0 {
+			if command = "B" {
+				mapset{map: "check_root214214_OK"; value: 10}
+			}
+		}
+		if map(check_root214214_214) > 0 {
+			if command = "D" {
+				mapset{map: "check_root214214_2142"; value: 10}
+			}
+		}
+		if map(check_root214214_2) > 0 {
+			if command = "B" {
+				mapset{map: "check_root214214_214"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_root214214_2"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_root214214_214) > 0 {
+		if map(cmd_root214kk) || map(cmd_root214pp) || map(cmd_root214k) || map(cmd_root214p) {
+			mapset{map: "check_root214214_214"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_root214214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_root214214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_root214214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_root214214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_root214214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_root214214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_root214214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_root214214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 624624 ----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_624624_OK"; value: 0}
+		mapset{map: "check_624624_62462"; value: 0}
+		mapset{map: "check_624624_6246"; value: 0}
+		mapset{map: "check_624624_624"; value: 0}
+		mapset{map: "check_624624_62"; value: 0}
+		mapset{map: "check_624624_6"; value: 0}
+		mapset{map: "cmd_624624kkk"; value: 0}
+		mapset{map: "cmd_624624ppp"; value: 0}
+		mapset{map: "cmd_624624kk"; value: 0}
+		mapset{map: "cmd_624624pp"; value: 0}
+		mapset{map: "cmd_624624k"; value: 0}
+		mapset{map: "cmd_624624p"; value: 0}
+		mapset{map: "cmd_624624s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_624624_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_624624_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_624624_62462) > 0 {mapadd{map: "check_624624_62462"; value: -1}}
+	if map(check_624624_6246) > 0 {mapadd{map: "check_624624_6246"; value: -1}}
+	if map(check_624624_624) > 0 {mapadd{map: "check_624624_624"; value: -1}}
+	if map(check_624624_62) > 0 {mapadd{map: "check_624624_62"; value: -1}}
+	if map(check_624624_6) > 0 {mapadd{map: "check_624624_6"; value: -1}}
+	if map(cmd_624624kkk) > 0 {mapadd{map: "cmd_624624kkk"; value: -1}}
+	if map(cmd_624624ppp) > 0 {mapadd{map: "cmd_624624ppp"; value: -1}}
+	if map(cmd_624624kk) > 0 {mapadd{map: "cmd_624624kk"; value: -1}}
+	if map(cmd_624624pp) > 0 {mapadd{map: "cmd_624624pp"; value: -1}}
+	if map(cmd_624624k) > 0 {mapadd{map: "cmd_624624k"; value: -1}}
+	if map(cmd_624624p) > 0 {mapadd{map: "cmd_624624p"; value: -1}}
+	if map(cmd_624624s) > 0 {mapadd{map: "cmd_624624s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_624624_62462) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_624624_OK"; value: 10}
+			}
+		}
+		if map(check_624624_6246) > 0 {
+			if command = "$D" {
+				mapset{map: "check_624624_62462"; value: 10}
+			}
+		}
+		if map(check_624624_624) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_624624_6246"; value: 10}
+			}
+		}
+		if map(check_624624_62) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_624624_624"; value: 10}
+			}
+		}
+		if map(check_624624_6) > 0 {
+			if command = "$D" {
+				mapset{map: "check_624624_62"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/B", command = "/F") {
+			mapset{map: "check_624624_6"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_624624_624) > 0 {
+		if map(cmd_214kk) || map(cmd_214pp) || map(cmd_214k) || map(cmd_214p) {
+			mapset{map: "check_624624_624"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_624624_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_624624kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_624624ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_624624kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_624624pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_624624k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_624624p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_624624s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 2141236 ---------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_2141236_OK"; value: 0}
+		mapset{map: "check_2141236_21412"; value: 0}
+		mapset{map: "check_2141236_214"; value: 0}
+		mapset{map: "check_2141236_2"; value: 0}
+		mapset{map: "cmd_2141236kkk"; value: 0}
+		mapset{map: "cmd_2141236ppp"; value: 0}
+		mapset{map: "cmd_2141236kk"; value: 0}
+		mapset{map: "cmd_2141236pp"; value: 0}
+		mapset{map: "cmd_2141236k"; value: 0}
+		mapset{map: "cmd_2141236p"; value: 0}
+		mapset{map: "cmd_2141236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_2141236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_2141236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_2141236_21412) > 0 {mapadd{map: "check_2141236_21412"; value: -1}}
+	if map(check_2141236_214) > 0 {mapadd{map: "check_2141236_214"; value: -1}}
+	if map(check_2141236_2) > 0 {mapadd{map: "check_2141236_2"; value: -1}}
+	if map(cmd_2141236kkk) > 0 {mapadd{map: "cmd_2141236kkk"; value: -1}}
+	if map(cmd_2141236ppp) > 0 {mapadd{map: "cmd_2141236ppp"; value: -1}}
+	if map(cmd_2141236kk) > 0 {mapadd{map: "cmd_2141236kk"; value: -1}}
+	if map(cmd_2141236pp) > 0 {mapadd{map: "cmd_2141236pp"; value: -1}}
+	if map(cmd_2141236k) > 0 {mapadd{map: "cmd_2141236k"; value: -1}}
+	if map(cmd_2141236p) > 0 {mapadd{map: "cmd_2141236p"; value: -1}}
+	if map(cmd_2141236s) > 0 {mapadd{map: "cmd_2141236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_2141236_21412) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_2141236_OK"; value: 10}
+			}
+		}
+		if map(check_2141236_214) > 0 {
+			if command = "D" {
+				mapset{map: "check_2141236_21412"; value: 10}
+			}
+		}
+		if map(check_2141236_2) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_2141236_214"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_2141236_2"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_2141236_214) > 0 {
+		if map(cmd_236kk) || map(cmd_236pp) || map(cmd_236k) || map(cmd_236p) {
+			mapset{map: "check_2141236_214"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_2141236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_2141236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_2141236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_2141236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_2141236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_2141236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_2141236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_2141236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 2363214 ---------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_2363214_OK"; value: 0}
+		mapset{map: "check_2363214_23632"; value: 0}
+		mapset{map: "check_2363214_236"; value: 0}
+		mapset{map: "check_2363214_2"; value: 0}
+		mapset{map: "cmd_2363214kkk"; value: 0}
+		mapset{map: "cmd_2363214ppp"; value: 0}
+		mapset{map: "cmd_2363214kk"; value: 0}
+		mapset{map: "cmd_2363214pp"; value: 0}
+		mapset{map: "cmd_2363214k"; value: 0}
+		mapset{map: "cmd_2363214p"; value: 0}
+		mapset{map: "cmd_2363214s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_2363214_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_2363214_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_2363214_23632) > 0 {mapadd{map: "check_2363214_23632"; value: -1}}
+	if map(check_2363214_236) > 0 {mapadd{map: "check_2363214_236"; value: -1}}
+	if map(check_2363214_2) > 0 {mapadd{map: "check_2363214_2"; value: -1}}
+	if map(cmd_2363214kkk) > 0 {mapadd{map: "cmd_2363214kkk"; value: -1}}
+	if map(cmd_2363214ppp) > 0 {mapadd{map: "cmd_2363214ppp"; value: -1}}
+	if map(cmd_2363214kk) > 0 {mapadd{map: "cmd_2363214kk"; value: -1}}
+	if map(cmd_2363214pp) > 0 {mapadd{map: "cmd_2363214pp"; value: -1}}
+	if map(cmd_2363214k) > 0 {mapadd{map: "cmd_2363214k"; value: -1}}
+	if map(cmd_2363214p) > 0 {mapadd{map: "cmd_2363214p"; value: -1}}
+	if map(cmd_2363214s) > 0 {mapadd{map: "cmd_2363214s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_2363214_23632) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_2363214_OK"; value: 10}
+			}
+		}
+		if map(check_2363214_236) > 0 {
+			if command = "D" {
+				mapset{map: "check_2363214_23632"; value: 10}
+			}
+		}
+		if map(check_2363214_2) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_2363214_236"; value: 10}
+			}
+		}
+		if command = "/D" {
+			mapset{map: "check_2363214_2"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_2363214_236) > 0 {
+		if map(cmd_236kk) || map(cmd_236pp) || map(cmd_236k) || map(cmd_236p) {
+			mapset{map: "check_2363214_236"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_2363214_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_2363214kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_2363214ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_2363214kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_2363214pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_2363214k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_2363214p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_2363214s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 641236 ----------------------------------------------------------------------------
+# Haou Shoukouken
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_641236_OK"; value: 0}
+		mapset{map: "check_641236_6412"; value: 0}
+		mapset{map: "check_641236_64"; value: 0}
+		mapset{map: "check_641236_6"; value: 0}
+		mapset{map: "cmd_641236kkk"; value: 0}
+		mapset{map: "cmd_641236ppp"; value: 0}
+		mapset{map: "cmd_641236kk"; value: 0}
+		mapset{map: "cmd_641236pp"; value: 0}
+		mapset{map: "cmd_641236k"; value: 0}
+		mapset{map: "cmd_641236p"; value: 0}
+		mapset{map: "cmd_641236s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_641236_OK) > 0 && (stateno != 40 || time <= 2) {mapadd{map: "check_641236_OK"; value: -1}} # extra jump frames do not affect tiger knee motions
+	if map(check_641236_6412) > 0 {mapadd{map: "check_641236_6412"; value: -1}}
+	if map(check_641236_64) > 0 {mapadd{map: "check_641236_64"; value: -1}}
+	if map(check_641236_6) > 0 {mapadd{map: "check_641236_6"; value: -1}}
+	if map(cmd_641236kkk) > 0 {mapadd{map: "cmd_641236kkk"; value: -1}}
+	if map(cmd_641236ppp) > 0 {mapadd{map: "cmd_641236ppp"; value: -1}}
+	if map(cmd_641236kk) > 0 {mapadd{map: "cmd_641236kk"; value: -1}}
+	if map(cmd_641236pp) > 0 {mapadd{map: "cmd_641236pp"; value: -1}}
+	if map(cmd_641236k) > 0 {mapadd{map: "cmd_641236k"; value: -1}}
+	if map(cmd_641236p) > 0 {mapadd{map: "cmd_641236p"; value: -1}}
+	if map(cmd_641236s) > 0 {mapadd{map: "cmd_641236s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_641236_6412) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_641236_OK"; value: 10}
+			}
+		}
+		if map(check_641236_64) > 0 {
+			if command = "D" {
+				mapset{map: "check_641236_6412"; value: 10}
+			}
+		}
+		if map(check_641236_6) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_641236_64"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/B", command = "/F") {
+			mapset{map: "check_641236_6"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_641236_6) > 0 {
+		if map(cmd_236kk) || map(cmd_236pp) || map(cmd_236k) || map(cmd_236p) {
+			mapset{map: "check_641236_6"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_641236_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_641236kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_641236ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_641236kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_641236pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_641236k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_641236p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_641236s"; value: map(cmd_buffertime)}}
+	}
+
+
+#-------------------------------------------------------------------------- 632146 ----------------------------------------------------------------------------
+# Deadly Rave
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_632146_OK"; value: 0}
+		mapset{map: "check_632146_63214"; value: 0}
+		mapset{map: "check_632146_632"; value: 0}
+		mapset{map: "check_632146_6"; value: 0}
+		mapset{map: "cmd_632146kkk"; value: 0}
+		mapset{map: "cmd_632146ppp"; value: 0}
+		mapset{map: "cmd_632146kk"; value: 0}
+		mapset{map: "cmd_632146pp"; value: 0}
+		mapset{map: "cmd_632146k"; value: 0}
+		mapset{map: "cmd_632146p"; value: 0}
+		mapset{map: "cmd_632146s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_632146_OK) > 0 {mapadd{map: "check_632146_OK"; value: -1}}
+	if map(check_632146_63214) > 0 {mapadd{map: "check_632146_63214"; value: -1}}
+	if map(check_632146_632) > 0 {mapadd{map: "check_632146_632"; value: -1}}
+	if map(check_632146_6) > 0 {mapadd{map: "check_632146_6"; value: -1}}
+	if map(cmd_632146kkk) > 0 {mapadd{map: "cmd_632146kkk"; value: -1}}
+	if map(cmd_632146ppp) > 0 {mapadd{map: "cmd_632146ppp"; value: -1}}
+	if map(cmd_632146kk) > 0 {mapadd{map: "cmd_632146kk"; value: -1}}
+	if map(cmd_632146pp) > 0 {mapadd{map: "cmd_632146pp"; value: -1}}
+	if map(cmd_632146k) > 0 {mapadd{map: "cmd_632146k"; value: -1}}
+	if map(cmd_632146p) > 0 {mapadd{map: "cmd_632146p"; value: -1}}
+	if map(cmd_632146s) > 0 {mapadd{map: "cmd_632146s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_632146_63214) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_632146_OK"; value: 10}
+			}
+		}
+		if map(check_632146_632) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_632146_63214"; value: 10}
+			}
+		}
+		if map(check_632146_6) > 0 {
+			if command = "D" {
+				mapset{map: "check_632146_632"; value: 10}
+			}
+		}
+		if ifelse(map(cmd_reverse), command = "/B", command = "/F") {
+			mapset{map: "check_632146_6"; value: 10}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_632146_63214) > 0 {
+		if map(cmd_214kk) || map(cmd_214pp) || map(cmd_214k) || map(cmd_214p) {
+			mapset{map: "check_632146_63214"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_632146_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_632146kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_632146ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_632146kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_632146pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_632146k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_632146p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_632146s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 4646 -----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_4646_OK"; value: 0}
+		mapset{map: "check_4646_464"; value: 0}
+		mapset{map: "check_4646_46"; value: 0}
+		mapset{map: "check_4646_4"; value: 0}
+		mapset{map: "cmd_4646kkk"; value: 0}
+		mapset{map: "cmd_4646ppp"; value: 0}
+		mapset{map: "cmd_4646kk"; value: 0}
+		mapset{map: "cmd_4646pp"; value: 0}
+		mapset{map: "cmd_4646k"; value: 0}
+		mapset{map: "cmd_4646p"; value: 0}
+		mapset{map: "cmd_4646s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_4646_OK) > 0 {mapadd{map: "check_4646_OK"; value: -1}}
+	if map(check_4646_464) > 0 {mapadd{map: "check_4646_464"; value: -1}}
+	if map(check_4646_46) > 0 {mapadd{map: "check_4646_46"; value: -1}}
+	if map(check_4646_4) > 0 {mapadd{map: "check_4646_4"; value: -1}}
+	if map(cmd_4646kkk) > 0 {mapadd{map: "cmd_4646kkk"; value: -1}}
+	if map(cmd_4646ppp) > 0 {mapadd{map: "cmd_4646ppp"; value: -1}}
+	if map(cmd_4646kk) > 0 {mapadd{map: "cmd_4646kk"; value: -1}}
+	if map(cmd_4646pp) > 0 {mapadd{map: "cmd_4646pp"; value: -1}}
+	if map(cmd_4646k) > 0 {mapadd{map: "cmd_4646k"; value: -1}}
+	if map(cmd_4646p) > 0 {mapadd{map: "cmd_4646p"; value: -1}}
+	if map(cmd_4646s) > 0 {mapadd{map: "cmd_4646s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_4646_464) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_4646_OK"; value: 10}
+			}
+		}
+		if map(check_4646_46) > 0 {
+			if ifelse(map(cmd_reverse), command = "$F", command = "$B") {
+				mapset{map: "check_4646_464"; value: 10}
+			}
+		}
+		if map(check_4646_4) > 0 {
+			if ifelse(map(cmd_reverse), command = "$B", command = "$F") {
+				mapset{map: "check_4646_46"; value: 10}
+			}
+		}
+		if map(charge4) >= 45 {
+			if ifelse(map(cmd_reverse), command = "/$F", command = "/$B") {
+				mapset{map: "check_4646_4"; value: 10}
+			}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_4646_46) > 0 {
+		if map(cmd_46kk) || map(cmd_46pp) || map(cmd_46k) || map(cmd_46p) {
+			mapset{map: "check_4646_46"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_4646_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_4646kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_4646ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_4646kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_4646pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_4646k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_4646p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_4646s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 1319 -----------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_1319_OK"; value: 0}
+		mapset{map: "check_1319_131"; value: 0}
+		mapset{map: "check_1319_13"; value: 0}
+		mapset{map: "check_1319_1"; value: 0}
+		mapset{map: "cmd_1319kkk"; value: 0}
+		mapset{map: "cmd_1319ppp"; value: 0}
+		mapset{map: "cmd_1319kk"; value: 0}
+		mapset{map: "cmd_1319pp"; value: 0}
+		mapset{map: "cmd_1319k"; value: 0}
+		mapset{map: "cmd_1319p"; value: 0}
+		mapset{map: "cmd_1319s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_1319_OK) > 0 {mapadd{map: "check_1319_OK"; value: -1}}
+	if map(check_1319_131) > 0 {mapadd{map: "check_1319_131"; value: -1}}
+	if map(check_1319_13) > 0 {mapadd{map: "check_1319_13"; value: -1}}
+	if map(check_1319_1) > 0 {mapadd{map: "check_1319_1"; value: -1}}
+	if map(cmd_1319kkk) > 0 {mapadd{map: "cmd_1319kkk"; value: -1}}
+	if map(cmd_1319ppp) > 0 {mapadd{map: "cmd_1319ppp"; value: -1}}
+	if map(cmd_1319kk) > 0 {mapadd{map: "cmd_1319kk"; value: -1}}
+	if map(cmd_1319pp) > 0 {mapadd{map: "cmd_1319pp"; value: -1}}
+	if map(cmd_1319k) > 0 {mapadd{map: "cmd_1319k"; value: -1}}
+	if map(cmd_1319p) > 0 {mapadd{map: "cmd_1319p"; value: -1}}
+	if map(cmd_1319s) > 0 {mapadd{map: "cmd_1319s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_1319_131) > 0 {
+			if command = "$U" {
+				mapset{map: "check_1319_OK"; value: 10}
+			}
+		}
+		if map(check_1319_13) > 0 {
+			if ifelse(map(cmd_reverse), command = "$F", command = "$B") {
+				mapset{map: "check_1319_131"; value: 10}
+			}
+		}
+		if map(check_1319_1) > 0 {
+			if ifelse(map(cmd_reverse), command = "$B", command = "$F") {
+				mapset{map: "check_1319_13"; value: 10}
+			}
+		}
+		if map(charge2) >= 45 && map(charge4) >= 45 {
+			if ifelse(map(cmd_reverse), command = "/DF", command = "/DB") {
+				mapset{map: "check_1319_1"; value: 10}
+			}
+		}
+	}
+
+	# Super cancel leniency
+	if map(check_1319_13) > 0 {
+		if map(cmd_28kk) || map(cmd_28pp) || map(cmd_28k) || map(cmd_28p) || map(cmd_46kk) || map(cmd_46pp) || map(cmd_46k) || map(cmd_46p) {
+			mapset{map: "check_1319_13"; value: 10}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_1319_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_1319kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_1319ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_1319kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_1319pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_1319k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_1319p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_1319s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 222 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_222_OK"; value: 0}
+		mapset{map: "check_222_52525"; value: 0}
+		mapset{map: "check_222_5252"; value: 0}
+		mapset{map: "check_222_525"; value: 0}
+		mapset{map: "check_222_52"; value: 0}
+		mapset{map: "check_222_5"; value: 0}
+		mapset{map: "cmd_222kkk"; value: 0}
+		mapset{map: "cmd_222ppp"; value: 0}
+		mapset{map: "cmd_222kk"; value: 0}
+		mapset{map: "cmd_222pp"; value: 0}
+		mapset{map: "cmd_222k"; value: 0}
+		mapset{map: "cmd_222p"; value: 0}
+		mapset{map: "cmd_222s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_222_OK) > 0 {mapadd{map: "check_222_OK"; value: -1}}
+	if map(check_222_52525) > 0 {mapadd{map: "check_222_52525"; value: -1}}
+	if map(check_222_5252) > 0 {mapadd{map: "check_222_5252"; value: -1}}
+	if map(check_222_525) > 0 {mapadd{map: "check_222_525"; value: -1}}
+	if map(check_222_52) > 0 {mapadd{map: "check_222_52"; value: -1}}
+	if map(check_222_5) > 0 {mapadd{map: "check_222_5"; value: -1}}
+	if map(cmd_222kkk) > 0 {mapadd{map: "cmd_222kkk"; value: -1}}
+	if map(cmd_222ppp) > 0 {mapadd{map: "cmd_222ppp"; value: -1}}
+	if map(cmd_222kk) > 0 {mapadd{map: "cmd_222kk"; value: -1}}
+	if map(cmd_222pp) > 0 {mapadd{map: "cmd_222pp"; value: -1}}
+	if map(cmd_222k) > 0 {mapadd{map: "cmd_222k"; value: -1}}
+	if map(cmd_222p) > 0 {mapadd{map: "cmd_222p"; value: -1}}
+	if map(cmd_222s) > 0 {mapadd{map: "cmd_222s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_222_52525) > 0 {
+			if command = "$D" {
+				mapset{map: "check_222_OK"; value: 10}
+			}
+		}
+		if map(check_222_5252) > 0 {
+			if command != "/$D" {
+				mapset{map: "check_222_52525"; value: map(check_222_52)} # Neutral does not reset timer
+			}
+		}
+		if map(check_222_525) > 0 {
+			if command = "$D" {
+				mapset{map: "check_222_5252"; value: 15}
+			}
+		}
+		if map(check_222_52) > 0 {
+			if command != "/$D" {
+				mapset{map: "check_222_525"; value: map(check_222_52)} # Neutral does not reset timer
+			}
+		}
+		if map(check_222_5) > 0 {
+			if command = "$D" {
+				mapset{map: "check_222_52"; value: 15}
+			}
+		}
+		if command != "/$D" {
+			mapset{map: "check_222_5"; value: 15}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_222_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_222kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_222ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_222kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_222pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_222k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_222p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_222s"; value: map(cmd_buffertime)}}
+	}
+
+
+#--------------------------------------------------------------------------- 888 ------------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "check_888_OK"; value: 0}
+		mapset{map: "check_888_58585"; value: 0}
+		mapset{map: "check_888_5858"; value: 0}
+		mapset{map: "check_888_585"; value: 0}
+		mapset{map: "check_888_58"; value: 0}
+		mapset{map: "check_888_5"; value: 0}
+		mapset{map: "cmd_888kkk"; value: 0}
+		mapset{map: "cmd_888ppp"; value: 0}
+		mapset{map: "cmd_888kk"; value: 0}
+		mapset{map: "cmd_888pp"; value: 0}
+		mapset{map: "cmd_888k"; value: 0}
+		mapset{map: "cmd_888p"; value: 0}
+		mapset{map: "cmd_888s"; value: 0}
+	}
+
+	# Decrease timers
+	if map(check_888_OK) > 0 {mapadd{map: "check_888_OK"; value: -1}}
+	if map(check_888_58585) > 0 {mapadd{map: "check_888_58585"; value: -1}}
+	if map(check_888_5858) > 0 {mapadd{map: "check_888_5858"; value: -1}}
+	if map(check_888_585) > 0 {mapadd{map: "check_888_585"; value: -1}}
+	if map(check_888_58) > 0 {mapadd{map: "check_888_58"; value: -1}}
+	if map(check_888_5) > 0 {mapadd{map: "check_888_5"; value: -1}}
+	if map(cmd_888kkk) > 0 {mapadd{map: "cmd_888kkk"; value: -1}}
+	if map(cmd_888ppp) > 0 {mapadd{map: "cmd_888ppp"; value: -1}}
+	if map(cmd_888kk) > 0 {mapadd{map: "cmd_888kk"; value: -1}}
+	if map(cmd_888pp) > 0 {mapadd{map: "cmd_888pp"; value: -1}}
+	if map(cmd_888k) > 0 {mapadd{map: "cmd_888k"; value: -1}}
+	if map(cmd_888p) > 0 {mapadd{map: "cmd_888p"; value: -1}}
+	if map(cmd_888s) > 0 {mapadd{map: "cmd_888s"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_888_58585) > 0 {
+			if command = "$U" {
+				mapset{map: "check_888_OK"; value: 10}
+			}
+		}
+		if map(check_888_5858) > 0 {
+			if command != "/$U" {
+				mapset{map: "check_888_58585"; value: map(check_888_58)} # Neutral does not reset timer
+			}
+		}
+		if map(check_888_585) > 0 {
+			if command = "$U" {
+				mapset{map: "check_888_5858"; value: 15}
+			}
+		}
+		if map(check_888_58) > 0 {
+			if command != "/$U" {
+				mapset{map: "check_888_585"; value: map(check_888_58)} # Neutral does not reset timer
+			}
+		}
+		if map(check_888_5) > 0 {
+			if command = "$U" {
+				mapset{map: "check_888_58"; value: 15}
+			}
+		}
+		if command != "/$U" {
+			mapset{map: "check_888_5"; value: 15}
+		}
+	}
+
+	# Put motion and buttons together
+	if map(check_888_OK) > 0 {
+		if map(check_kkk) {mapset{map: "cmd_888kkk"; value: map(cmd_buffertime)}}
+		if map(check_ppp) {mapset{map: "cmd_888ppp"; value: map(cmd_buffertime)}}
+		if map(check_kk) {mapset{map: "cmd_888kk"; value: map(cmd_buffertime)}}
+		if map(check_pp) {mapset{map: "cmd_888pp"; value: map(cmd_buffertime)}}
+		if map(check_k) {mapset{map: "cmd_888k"; value: map(cmd_buffertime)}}
+		if map(check_p) {mapset{map: "cmd_888p"; value: map(cmd_buffertime)}}
+		if map(check_ss) {mapset{map: "cmd_888s"; value: map(cmd_buffertime)}}
+	}
+
+
+#----------------------------------------------------------------------- RAGING DEMON -----------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "cmd_demon"; value: 0}
+		mapset{map: "check_demon_xx6a"; value: 0}
+		mapset{map: "check_demon_xx6"; value: 0}
+		mapset{map: "check_demon_xx"; value: 0}
+		mapset{map: "check_demon_x"; value: 0}
+	}
+
+	# Decrease timers
+	if map(cmd_demon) > 0 {mapadd{map: "cmd_demon"; value: -1}}
+	if map(check_demon_xx6a) > 0 {mapadd{map: "check_demon_xx6a"; value: -1}}
+	if map(check_demon_xx6) > 0 {mapadd{map: "check_demon_xx6"; value: -1}}
+	if map(check_demon_xx) > 0 {mapadd{map: "check_demon_xx"; value: -1}}
+	if map(check_demon_x) > 0 {mapadd{map: "check_demon_x"; value: -1}}
+
+	# Check inputs
+	# Reversing order of last 3 inputs allows pressing them simultaneously
+	if !map(check_illegal) {
+		if map(check_demon_xx) > 0 {
+			if ifelse(map(cmd_reverse), command = "$B", command = "$F") {
+				mapset{map: "check_demon_xx6"; value: 15}
+			}
+		}
+		if map(check_demon_xx6) > 0 {
+			if command = "a" {
+				mapset{map: "check_demon_xx6a"; value: 15}
+			}
+		}
+		if map(check_demon_xx6a) > 0 {
+			if command = "z" {
+				mapset{map: "cmd_demon"; value: map(cmd_buffertime)}
+			}
+		}
+		if map(check_demon_x) > 0 {
+			if command = "x" {
+				mapset{map: "check_demon_xx"; value: 15}
+			}
+		}
+		if command = "x" {
+			mapset{map: "check_demon_x"; value: 15}
+		}
+	}
+
+
+#------------------------------------------------------------------------ OTOKO MICHI -------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "cmd_otoko"; value: 0}
+		mapset{map: "check_otoko_za4x"; value: 0}
+		mapset{map: "check_otoko_za4"; value: 0}
+		mapset{map: "check_otoko_za"; value: 0}
+		mapset{map: "check_otoko_z"; value: 0}
+	}
+
+	# Decrease timers
+	if map(cmd_otoko) > 0 {mapadd{map: "cmd_otoko"; value: -1}}
+	if map(check_otoko_za4x) > 0 {mapadd{map: "check_otoko_za4x"; value: -1}}
+	if map(check_otoko_za4) > 0 {mapadd{map: "check_otoko_za4"; value: -1}}
+	if map(check_otoko_za) > 0 {mapadd{map: "check_otoko_za"; value: -1}}
+	if map(check_otoko_z) > 0 {mapadd{map: "check_otoko_z"; value: -1}}
+
+	# Check inputs
+	if !map(check_illegal) {
+		if map(check_otoko_za4x) > 0 {
+			if command = "x" {
+				mapset{map: "cmd_otoko"; value: map(cmd_buffertime)}
+			}
+		}
+		if map(check_otoko_za4) > 0 {
+			if command = "x" {
+				mapset{map: "check_otoko_za4x"; value: 15}
+			}
+		}
+		if map(check_otoko_za) > 0 {
+			if ifelse(map(cmd_reverse), command = "$F", command = "$B") {
+				mapset{map: "check_otoko_za4"; value: 15}
+			}
+		}
+		if map(check_otoko_z) > 0 {
+			if command = "a" {
+				mapset{map: "check_otoko_za"; value: 15}
+			}
+		}
+		if command = "z" {
+			mapset{map: "check_otoko_z"; value: 15}
+		}
+	}
+
+
+#------------------------------------------------------------------------- TENRAIHA ---------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "cmd_tenraiha"; value: 0}
+		mapset{map: "check_tenraiha_acyy"; value: 0}
+		mapset{map: "check_tenraiha_acy"; value: 0}
+		mapset{map: "check_tenraiha_ac"; value: 0}
+		mapset{map: "check_tenraiha_a"; value: 0}
+	}
+
+	# Decrease timers
+	if map(cmd_tenraiha) > 0 {mapadd{map: "cmd_tenraiha"; value: -1}}
+	if map(check_tenraiha_acyy) > 0 {mapadd{map: "check_tenraiha_acyy"; value: -1}}
+	if map(check_tenraiha_acy) > 0 {mapadd{map: "check_tenraiha_acy"; value: -1}}
+	if map(check_tenraiha_ac) > 0 {mapadd{map: "check_tenraiha_ac"; value: -1}}
+	if map(check_tenraiha_a) > 0 {mapadd{map: "check_tenraiha_a"; value: -1}}
+
+	# Check inputs
+	# Reversing order of last 2 inputs allows pressing them simultaneously
+	if !map(check_illegal) {
+		if map(check_tenraiha_acy) > 0 {
+			if command = "y" {
+				mapset{map: "check_tenraiha_acyy"; value: 15}
+			}
+		}
+		if map(check_tenraiha_acyy) > 0 {
+			if command = "U" {
+				mapset{map: "cmd_tenraiha"; value: map(cmd_buffertime)}
+			}
+		}
+		if map(check_tenraiha_ac) > 0 {
+			if command = "y" {
+				mapset{map: "check_tenraiha_acy"; value: 15}
+			}
+		}
+		if map(check_tenraiha_a) > 0 {
+			if command = "c" {
+				mapset{map: "check_tenraiha_ac"; value: 15}
+			}
+		}
+		if command = "a" {
+			mapset{map: "check_tenraiha_a"; value: 15}
+		}
+	}
+
+
+#--------------------------------------------------------------------- ETERNAL SLUMBER ------------------------------------------------------------------------
+
+	# Erase inputs
+	if map(erase_super) || isasserted(noinput) {
+		mapset{map: "cmd_slumber"; value: 0}
+		mapset{map: "check_slumber_xb4y"; value: 0}
+		mapset{map: "check_slumber_xb4"; value: 0}
+		mapset{map: "check_slumber_xb"; value: 0}
+		mapset{map: "check_slumber_x"; value: 0}
+	}
+
+	# Decrease timers
+	if map(cmd_slumber) > 0 {mapadd{map: "cmd_slumber"; value: -1}}
+	if map(check_slumber_xb4y) > 0 {mapadd{map: "check_slumber_xb4y"; value: -1}}
+	if map(check_slumber_xb4) > 0 {mapadd{map: "check_slumber_xb4"; value: -1}}
+	if map(check_slumber_xb) > 0 {mapadd{map: "check_slumber_xb"; value: -1}}
+	if map(check_slumber_x) > 0 {mapadd{map: "check_slumber_x"; value: -1}}
+
+	# Check inputs
+	# Reversing order of last 3 inputs allows pressing them simultaneously
+	if !map(check_illegal) {
+		if map(check_slumber_xb) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_slumber_xb4"; value: 15}
+			}
+		}
+		if map(check_slumber_xb4) > 0 {
+			if command = "y" {
+				mapset{map: "check_slumber_xb4y"; value: 15}
+			}
+		}
+		if map(check_slumber_xb4y) > 0 {
+			if command = "c" {
+				mapset{map: "cmd_slumber"; value: map(cmd_buffertime)}
+			}
+		}
+		if map(check_slumber_x) > 0 {
+			if command = "b" {
+				mapset{map: "check_slumber_xb"; value: 15}
+			}
+		}
+		if command = "x" {
+			mapset{map: "check_slumber_x"; value: 15}
+		}
+	}
+
+
+#======================================================================< OTHER INPUTS >========================================================================
+
+#----------------------------------------------------------------------- FORWARD DASH -------------------------------------------------------------------------
+
+	# Cancel input if the intention is a different motion
+	if ifelse(map(cmd_reverse), command = "/$F", command = "/$B") {
+		mapset{map: "cmd_66"; value: 0}
+		mapset{map: "check_66_565"; value: 0}
+		mapset{map: "check_66_56"; value: 0}
+		mapset{map: "check_66_5"; value: 0}
+	}
+	if command = "/U" || command = "/D" {
+		if map(cmd_66) > 0 {mapset{map: "cmd_66"; value: 0}}
+		if map(check_66_565) = [1, 13] {mapset{map: "check_66_565"; value: 0}}
+		if map(check_66_56) = [1, 13] {mapset{map: "check_66_56"; value: 0}}
+		if map(check_66_5) = [1, 13] {mapset{map: "check_66_5"; value: 0}}
+	}
+
+	# Decrease timers
+	if map(cmd_66) > 0 {mapadd{map: "cmd_66"; value: -1}}
+	if map(check_66_565) > 0 {mapadd{map: "check_66_565"; value: -1}}
+	if map(check_66_56) > 0 {mapadd{map: "check_66_56"; value: -1}}
+	if map(check_66_5) > 0 {mapadd{map: "check_66_5"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_66_565) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "cmd_66"; value: 1}
+			}
+		}
+		if map(check_66_56) > 0 {
+			if map(check_5) {
+				mapset{map: "check_66_565"; value: map(check_66_56)} # Neutral does not reset timer
+			}
+		}
+		if map(check_66_5) > 0 {
+			if ifelse(map(cmd_reverse), command = "B", command = "F") {
+				mapset{map: "check_66_56"; value: 15}
+			}
+		}
+		if map(check_5) {
+			mapset{map: "check_66_5"; value: 15}
+		}
+	}
+
+
+#------------------------------------------------------------------------ BACK DASH ---------------------------------------------------------------------------
+
+	# Cancel input if the intention is a different motion
+	if ifelse(map(cmd_reverse), command = "/$B", command = "/$F") {
+		mapset{map: "cmd_44"; value: 0}
+		mapset{map: "check_44_545"; value: 0}
+		mapset{map: "check_44_54"; value: 0}
+		mapset{map: "check_44_5"; value: 0}
+	}
+	if command = "/U" || command = "/D" {
+		if map(cmd_44) > 0 {mapset{map: "cmd_44"; value: 0}}
+		if map(check_44_545) = [1, 13] {mapset{map: "check_44_545"; value: 0}}
+		if map(check_44_54) = [1, 13] {mapset{map: "check_44_54"; value: 0}}
+		if map(check_44_5) = [1, 13] {mapset{map: "check_44_5"; value: 0}}
+	}
+
+	# Decrease timers
+	if map(cmd_44) > 0 {mapadd{map: "cmd_44"; value: -1}}
+	if map(check_44_545) > 0 {mapadd{map: "check_44_545"; value: -1}}
+	if map(check_44_54) > 0 {mapadd{map: "check_44_54"; value: -1}}
+	if map(check_44_5) > 0 {mapadd{map: "check_44_5"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_44_545) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "cmd_44"; value: 1}
+			}
+		}
+		if map(check_44_54) > 0 {
+			if map(check_5) {
+				mapset{map: "check_44_545"; value: map(check_44_54)} # Neutral does not reset timer
+			}
+		}
+		if map(check_44_5) > 0 {
+			if ifelse(map(cmd_reverse), command = "F", command = "B") {
+				mapset{map: "check_44_54"; value: 15}
+			}
+		}
+		if map(check_5) {
+			mapset{map: "check_44_5"; value: 15}
+		}
+	}
+
+
+#------------------------------------------------------------------------ HIGH JUMP ---------------------------------------------------------------------------
+
+	# Decrease timers
+	if map(cmd_highjump) > 0 {mapadd{map: "cmd_highjump"; value: -1}}
+	if map(check_highjump_52) > 0 {mapadd{map: "check_highjump_52"; value: -1}}
+	if map(check_highjump_5) > 0 {mapadd{map: "check_highjump_5"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_highjump_52) > 0 {
+			if command = "$U" {
+				mapset{map: "cmd_highjump"; value: 1}
+			}
+		}
+		if map(check_highjump_5) > 0 {
+			if command = "$D" {
+				mapset{map: "check_highjump_52"; value: 15} # 16 for KOF2002, 12 for MvC1 normal speed
+			}
+		}
+		if command != "/$D" {
+			mapset{map: "check_highjump_5"; value: 10}
+		}
+	}
+
+
+#--------------------------------------------------------------------- FORWARD AIR DASH -----------------------------------------------------------------------
+
+	# Cancel input if the intention is a different motion
+	if ifelse(map(cmd_reverse), command = "/$F", command = "/$B") {
+		mapset{map: "cmd_air66"; value: 0}
+		mapset{map: "check_air66_565"; value: 0}
+		mapset{map: "check_air66_56"; value: 0}
+		mapset{map: "check_air66_5"; value: 0}
+	}
+	if command = "/U" || command = "/D" {
+		if map(cmd_air66) > 0 {mapset{map: "cmd_air66"; value: 0}}
+		if map(check_air66_565) = [1, 13] {mapset{map: "check_air66_565"; value: 0}}
+		if map(check_air66_56) = [1, 13] {mapset{map: "check_air66_56"; value: 0}}
+		if map(check_air66_5) = [1, 13] {mapset{map: "check_air66_5"; value: 0}}
+	}
+
+	# Decrease timers
+	if map(cmd_air66) > 0 {mapadd{map: "cmd_air66"; value: -1}}
+	if map(check_air66_565) > 0 {mapadd{map: "check_air66_565"; value: -1}}
+	if map(check_air66_56) > 0 {mapadd{map: "check_air66_56"; value: -1}}
+	if map(check_air66_5) > 0 {mapadd{map: "check_air66_5"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_air66_565) > 0 {
+			if ifelse(map(cmd_reverse), command = "$B", command = "$F") {
+				mapset{map: "cmd_air66"; value: 1}
+			}
+		}
+		if map(check_air66_56) > 0 {
+			if map(check_5) {
+				mapset{map: "check_air66_565"; value: map(check_air66_56)} # Neutral does not reset timer
+			}
+		}
+		if map(check_air66_5) > 0 {
+			if ifelse(map(cmd_reverse), command = "$B", command = "$F") {
+				mapset{map: "check_air66_56"; value: 15}
+			}
+		}
+		if map(check_5) {
+			mapset{map: "check_air66_5"; value: 15}
+		}
+	}
+
+
+#---------------------------------------------------------------------- BACK AIR DASH -------------------------------------------------------------------------
+
+	# Cancel input if the intention is a different motion
+	if ifelse(map(cmd_reverse), command = "/$B", command = "/$F") {
+		mapset{map: "cmd_air44"; value: 0}
+		mapset{map: "check_air44_545"; value: 0}
+		mapset{map: "check_air44_54"; value: 0}
+		mapset{map: "check_air44_5"; value: 0}
+	}
+	if command = "/U" || command = "/D" {
+		if map(cmd_air44) > 0 {mapset{map: "cmd_air44"; value: 0}}
+		if map(check_air44_545) = [1, 13] {mapset{map: "check_air44_545"; value: 0}}
+		if map(check_air44_54) = [1, 13] {mapset{map: "check_air44_54"; value: 0}}
+		if map(check_air44_5) = [1, 13] {mapset{map: "check_air44_5"; value: 0}}
+	}
+
+	# Decrease timers
+	if map(cmd_air44) > 0 {mapadd{map: "cmd_air44"; value: -1}}
+	if map(check_air44_545) > 0 {mapadd{map: "check_air44_545"; value: -1}}
+	if map(check_air44_54) > 0 {mapadd{map: "check_air44_54"; value: -1}}
+	if map(check_air44_5) > 0 {mapadd{map: "check_air44_5"; value: -1}}
+
+	# Check motion
+	if !map(check_illegal) {
+		if map(check_air44_545) > 0 {
+			if ifelse(map(cmd_reverse), command = "$F", command = "$B") {
+				mapset{map: "cmd_air44"; value: 1}
+			}
+		}
+		if map(check_air44_54) > 0 {
+			if map(check_5) {
+				mapset{map: "check_air44_545"; value: map(check_air44_54)} # Neutral does not reset timer
+			}
+		}
+		if map(check_air44_5) > 0 {
+			if ifelse(map(cmd_reverse), command = "$F", command = "$B") {
+				mapset{map: "check_air44_54"; value: 15}
+			}
+		}
+		if map(check_5) {
+			mapset{map: "check_air44_5"; value: 15}
+		}
+	}
+
+
+#====================================================================< CHARGE MECHANICS >======================================================================
+
+	# Back Charge Decrease
+	if map(charge4) > 0 {
+		if (!map(cmd_reverse) && (command != "holdback" || command = "holdfwd")) || (map(cmd_reverse) && (command = "holdback" || command != "holdfwd")) {
+			mapadd{map: "charge4"; value: -1} # Charge partitioning allowed
+		}
+	}
+
+	# Back Charge Increase
+	if map(charge4) < 45 {
+		if (!map(cmd_reverse) && command = "holdback" && command != "holdfwd") || (map(cmd_reverse) && command != "holdback" && command = "holdfwd") {
+			if map(customcombo) {
+				mapset{map: "charge4"; value: 45}
+			} else {
+				mapadd{map: "charge4"; value: 1}
+			}
+		}
+	}
+
+	# Down Charge Decrease
+	if map(charge2) > 0 && command != "holddown" {
+		mapadd{map: "charge2"; value: -1} # Charge partitioning allowed
+	}
+
+	# Down Charge Increase
+	if map(charge2) < 45 && command = "holddown" {
+		if map(customcombo) {
+			mapset{map: "charge2"; value: 45}
+		} else {
+			mapadd{map: "charge2"; value: 1}
+		}
+	}
+
+	# Safety
+	if map(charge2) < 0 {
+		mapset{map: "charge2"; value: 0}
+	}
+	if map(charge4) < 0 {
+		mapset{map: "charge4"; value: 0}
+	}
+
+
+#=========================================================================< OTHER >============================================================================
+
+	# Disable input erasers
+	if map(erase_super) {mapset{map: "erase_super"; value: 0}}
+	if map(erase_special) {mapset{map: "erase_special"; value: 0}}
+	if map(erase_normal) {mapset{map: "erase_normal"; value: 0}}
+
+}

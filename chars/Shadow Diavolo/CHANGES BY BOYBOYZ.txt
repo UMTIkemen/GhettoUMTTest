@@ -1,0 +1,5 @@
+Changed all playsnd 1,12 in Special.cns to null
+Changed 1000, 1010, 1030, 1500, 1510, 1530, 1100, 1120 moves playsnd to King Crimson
+Changed hyper 3300 playsnd at statedef 3306 !time to in King Crimson's World, everything is meaningless; statedef 3307 time = 28, to Take this your finished!
+Changed Taunt voice to "This is King Crimson's ability!"
+Added "ring ring, bossu?" voice to Doppio Intro

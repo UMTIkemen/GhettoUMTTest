@@ -1,0 +1,52 @@
+[Info]
+name = "MegaMari"
+displayname = "MegaMari"
+versiondate = 11,22,2000
+mugenversion = 11,22,2000
+author = "RockMARISA"
+pal.defaults = 1,4
+
+; Files for the player
+[Files]
+cmd      = MegaMari.cmd             ;キャラのコマンド
+cns      = Data.cns                 ;キャラの基本データ
+st       = statedef.cns             ;-2関連、その他。チャージショットのエネルギー関連も。
+st1      = MegaMari.cns             ;キャラのプログラム
+st2      = Config.txt               ;基本設定
+st3      = commonoverride.st        ;ガード関連、ダッシュ・ジャンプ関連、やられ関連など
+
+;345はなにか必要になった時に追加する方向で。
+
+st6      = CanGetEnemyList.txt      ;特殊武器をゲットできる相手リスト
+st7      = tehletteh.st             ;北斗七星＋一撃必殺奥義関連
+st8      = SasugaFightingROBERT.st  ;流石ファイティングロバート
+stcommon = common1.cns
+sprite   = MegaMari.sff             ;キャラの絵
+anim     = MegaMari.air             ;キャラの動き
+sound    = MegaMari.snd             ;キャラの音
+
+;キャラの色（最大１２個）
+pal1     = normal.act               ;A 通常
+pal2     = rockman.act              ;B ロックマンカラー
+pal4     = humarock.act             ;X おっけ～、ここは魔梨沙にまかせて！
+pal5     = ufufufu.act              ;Y うふ、うふ、うふふふふふふふ
+
+pal6     = gold.act                ;光になれえええええええ
+
+;S+各種で強制AI
+pal7     = normal.act               ;A 通常
+pal8     = rockman.act              ;B ロックマンカラー
+pal10    = humarock.act             ;X おっけ～、ここは魔梨沙にまかせて！
+pal11    = ufufufu.act              ;Y うふ、うふ、うふふふふふふふ
+
+;自重しない12Pカラー
+pal12     = gold.act                ;光になれえええええええ
+
+;pal3	= reimu.act
+;pal6	= 9.act
+;pal7	= saku.act
+;pal10	= remi.act
+;pal8	= myon.act
+;pal11	= @.act
+;pal9	= 
+;pal12	= DarkSatoshi.act

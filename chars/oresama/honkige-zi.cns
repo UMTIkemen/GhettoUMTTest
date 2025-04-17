@@ -1,0 +1,348 @@
+;---------------------------------------------------------------------------
+; 本気ゲージへるぱー
+; CNS difficulty: easy
+[Statedef 2500]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= I                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 6800                    ;Change animation (Def: no change)
+poweradd = 0                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+
+
+
+
+
+;=========================================
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = parent,var(6) = 1
+trigger1 = time = 0
+var(10) = -2
+
+[State 1000, 2]
+type = ParentVarSet
+trigger1 = parent,var(6) = 1
+trigger1 = parent,var(10) <= 0
+trigger1 = time = 0
+var(6) = 0
+
+[State 1000, 2]
+type = ParentVarSet
+trigger1 = parent,var(6) = 0
+trigger1 = parent,var(10) = 0
+trigger1 = time = 0
+var(5) = 0
+
+;=========================================
+
+
+[State -2]
+type = ParentVarAdd
+trigger1 = parent,var(5) = 0
+trigger1 = parent,var(10) < 1000
+trigger1 = parent,Life < P2Life
+trigger1 = time = 0
+var(10) = 1
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = parent,var(10) > 0
+trigger1 = parent,Life > P2Life
+trigger1 = parent,var(5) = 0
+trigger1 = time = 0
+var(10) = -2
+
+専用ゲージMAX
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+trigger1 = parent,var(10) = 1000
+anim = 2504
+id = 2504
+pos = -20,220
+bindtime = -1
+postype = left
+ownpal = 1
+ontop = 1
+scale = 0.7,0.7
+pausemovetime = -1
+supermovetime = -1
+
+[State 200, 1];
+type = PlaySnd
+trigger1 = parent,var(10) = 1000
+trigger1 = parent,var(5) = 0
+trigger1 = time = 0
+value = S105, 22
+
+[State 1055, VelSet]
+type = ParentVarSet
+trigger1 = parent,var(10) = 1000
+trigger1 = time = 0
+trigger1 = parent,var(5) = 0
+v = 5
+value = 1
+
+本気文字
+[State 1000, 2]
+type = Explod
+trigger1 = parent,var(10) < 1000
+anim = 6801
+id = 25000
+pos = 97,205
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.5,0.5
+
+本気文字
+[State 1000, 2]
+type = Explod
+trigger1 = parent,var(10) = 1000
+trigger1 = NumExplod(25010) < 1
+anim = 6805
+id = 25010
+pos = 97,205
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.5,0.5
+
+専用ゲージ
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6802
+id = 2500
+pos = 7,217
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 999999999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.5,0.5
+
+専用ゲージ赤
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6803
+id = 2501
+pos = 10,220
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.0005*parent,var(10),0.5
+
+専用ゲージ黒
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6804
+id = 2502
+pos = 10,220
+bindtime = -1
+supermove = 1
+postype = left
+ownpal = 1
+sprpriority = 99999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.5,0.5
+
+[State 200, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 2500
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; 本気ゲージへるぱー2p
+; CNS difficulty: easy
+[Statedef 2501]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= I                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+juggle  = 0                      ;Number of air juggle points move takes
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 6800                      ;Change animation (Def: no change)
+poweradd = 0                    ;Power to add (Def: 0)
+sprpriority = 2                  ;Set p1's sprite layering priority to 2 (in front)
+
+
+
+
+;=========================================
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = parent,var(6) = 1
+trigger1 = time = 0
+var(10) = -2
+
+[State 1000, 2]
+type = ParentVarSet
+trigger1 = parent,var(6) = 1
+trigger1 = parent,var(10) <= 0
+trigger1 = time = 0
+var(6) = 0
+
+[State 1000, 2]
+type = ParentVarSet
+trigger1 = parent,var(6) = 0
+trigger1 = parent,var(10) = 0
+trigger1 = time = 0
+var(5) = 0
+
+;=========================================
+
+
+
+
+
+[State -2]
+type = ParentVarAdd
+trigger1 = parent,var(10) < 1000
+trigger1 = parent,Life < P2Life
+trigger1 = time = 0
+var(10) = 1
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = parent,var(10) > 0
+trigger1 = parent,Life > P2Life
+trigger1 = parent,var(5) = 0
+trigger1 = time = 0
+var(10) = -2
+
+専用ゲージMAX
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+trigger1 = parent,var(10) = 1000
+anim = 2504
+id = 2504
+pos = -20,220
+bindtime = -1
+postype = left
+ownpal = 1
+ontop = 1
+scale = 0.7,0.7
+pausemovetime = -1
+supermovetime = -1
+
+[State 200, 1];
+type = PlaySnd
+trigger1 = parent,var(10) = 1000
+trigger1 = parent,var(5) = 0
+trigger1 = time = 0
+value = S105, 22
+
+[State 1055, VelSet]
+type = ParentVarSet
+trigger1 = parent,var(10) = 1000
+trigger1 = time = 0
+trigger1 = parent,var(5) = 0
+v = 5
+value = 1
+
+本気文字
+[State 1000, 2]
+type = Explod
+trigger1 = parent,var(10) < 1000
+anim = 6801
+id = 2500
+pos = 210,205
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+scale = 0.5,0.5
+pausemovetime = -1
+supermovetime = -1
+
+本気文字
+[State 1000, 2]
+type = Explod
+trigger1 = parent,var(10) = 1000
+trigger1 = NumExplod(25010) < 1
+anim = 6805
+id = 25010
+pos = 210,205
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 9999999999
+scale = 0.5,0.5
+pausemovetime = -1
+supermovetime = -1
+
+専用ゲージ
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6802
+id = 2500
+pos = 228,217
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 999999999999999999999
+scale = 0.5,0.5
+pausemovetime = -1
+supermovetime = -1
+
+専用ゲージ赤
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6803
+id = 2501
+pos = 310,220
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+scale = -0.0005*parent,var(10),0.5
+pausemovetime = -1
+supermovetime = -1
+
+専用ゲージ黒
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6804
+id = 2502
+pos = 231,220
+bindtime = -1
+supermove = 1
+postype = left
+ownpal = 1
+sprpriority = 99999999
+scale = 0.5,0.5
+pausemovetime = -1
+supermovetime = -1
+
+[State 200, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 2501
+ctrl = 1

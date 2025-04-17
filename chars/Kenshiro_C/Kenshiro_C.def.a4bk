@@ -1,0 +1,40 @@
+; Player information
+[Info]
+name         = "KENSHIRO"
+displayname  = "KENSHIRO"
+VersionDate  = 04,14,2001
+mugenversion = 04,14,2001
+author       = "Cameron"
+pal.defaults = 1
+
+; Files for the player
+[Files]
+cmd      = Kenshiro.cmd
+stcommon = KenCommon.cns
+cns      = Kenshiro.cns
+st       = Kenshiro.cns
+st1      = Kenshiro_SA.cns
+st2      = Kenshiro_HA.cns
+st3      = Kenshiro_-2_-3.cns
+st4      = Helper.cns
+st5      = config.txt
+sprite   = Kenshiro.sff
+anim     = Kenshiro.air
+sound    = Kenshiro.snd
+
+Pal1     = Pal/ken01.act         ;AC北斗の拳　アニメ
+Pal2     = Pal/ken03.act         ;北斗の拳2風
+Pal3     = Pal/ken04.act         ;小パン王風カラー
+Pal4     = Pal/ken02.act         ;原作風
+Pal5     = Pal/ken05.act         ;病人風カラー
+Pal6     = Pal/ken06.act         ;汚物風カラー
+Pal7     = Pal/ken07.act         ;アニメの昔風カラー
+Pal8     = Pal/ken08.act         ;北斗無双？風カラー
+Pal9     = Pal/ken01.act
+Pal10    = Pal/ken02.act
+Pal11    = Pal/ken11.act         ;黒カラー
+Pal12    = Pal/ken12.act         ;金カラー
+
+[Arcade];
+intro.storyboard=
+ending.storyboard=

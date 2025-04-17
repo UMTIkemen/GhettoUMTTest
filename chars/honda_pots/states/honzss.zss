@@ -1,0 +1,399 @@
+#  _______________________________________
+# | Edmond Honda by Phantom.of.the.Server |
+#  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+###################################################################################################
+#                                            FUNCTIONS                                            #
+###################################################################################################
+
+# Detect closest enemy fireball helper
+[Function P2Fireball()]
+for i = 1; p2, numhelper; 1 {
+	if playerIDexist(p2, helperindex($i), ID) {	# This creates debug messages because of a bug in the helperindex redirection
+		if p2, helperindex($i), hitdefattr = SCA, AP {
+			if !playerIDexist(map(ai_p2fireball_ID))
+			|| abs(p2, helperindex($i), pos x - pos x) < abs(map(ai_p2fireball_distx)) {
+				map(ai_p2fireball_ID) := p2, helperindex($i), ID;
+			}
+		}
+	}
+}
+if playerIDexist(map(ai_p2fireball_ID)) {
+	map(ai_p2fireball_super) := (playerID(map(ai_p2fireball_ID)), hitdefattr = SCA, HP);
+	map(ai_p2fireball_distx) := ((playerID(map(ai_p2fireball_ID)), pos x) - pos x) * facing;
+	map(ai_p2fireball_disty) := ((playerID(map(ai_p2fireball_ID)), pos y) - pos y);
+	if playerID(map(ai_p2fireball_ID)), vel x != 0 {
+		map(ai_p2fireball_eta) := ((map(ai_p2fireball_distx) - 20) / playerID(map(ai_p2fireball_ID)), vel x); # Good enough estimate
+	}
+}
+
+
+###################################################################################################
+#                                            STATE +1                                             #
+###################################################################################################
+
+[Statedef +1]
+
+# EX Yellow Flash
+ignorehitpause if map(exflash) > 0 {
+	if movetype = H || stateno != [1000, 2999] {
+		mapset{map: "exflash"; value: 0}
+	} else {
+		mapadd{map: "exflash"; value: -1}
+		if (map(exflash) % 2) {
+			palfx{time: 1; color: 0; mul: 256, 224, 0; add: 96, 96, 96}
+		}
+	}
+}
+
+# Debug text
+ignorehitpause if !ishelper {
+	displaytoclipboard{
+		text: "Damage = %.1f%% Juggle = %d Unthrowable = %d";
+		params: attack, ceil(map(juggle)), (map(unthrowable) != 0);
+	}
+	appendtoclipboard {
+		text: "\nBy PotS - https://network.mugenguild.com/pots/";
+	}
+}
+
+
+###################################################################################################
+#                                            STATE -1                                             #
+###################################################################################################
+
+
+###################################################################################################
+#                                            STATE -2	                                          #
+###################################################################################################
+
+[Statedef -2]
+
+# P2 Air Reset
+ignorehitpause if p2movetype = H {
+	if p2, gethitvar(playerno) = playerno {
+		if p2statetype = A && p2, gethitvar(guarded) = 0 && p2, hitfall = 0 && p2, ctrl = 0 && p2, time < 60 {
+			nothitby{value: SCA; time: 2; redirectID: p2, ID}
+		}
+	}
+}
+
+# P2 Air Reset Trip Guard
+ignorehitpause if p2stateno = 52 {
+	if alive && !standby {
+		if p2, ctrl = 0 && (p2, prevstateno = [5000, 5999] || p2, prevmovetype = H) {
+			ctrlset{value: 1; redirectID: p2, ID}
+		}
+	}
+}
+
+# P2 Hard Knockdown
+ignorehitpause if p2movetype = H {
+	if p2, gethitvar(playerno) = playerno
+	&& p2, alive
+	&& p2, dizzy = 0
+	&& p2, incustomstate = 0
+	&& p2, gethitvar(fallcount) <= 1
+	&& p2, gethitvar(fall.recover) = 0 {
+		if p2, time < 60 {
+			assertspecial{flag: nogetupfromliedown; flag2: nofastrecoverfromliedown; redirectID: p2, ID}
+		}
+		if p2, time >= 30
+		&& p2stateno = p2, const(statedownedgethit_lyingdown) {
+			selfstate{value: p2, const(statedownedgethit_gettingup); redirectID: p2, ID}
+		}
+	}
+}
+
+# No round stealing
+ignorehitpause if roundstate = 2 && movetype = A && numtarget {
+	if target, alive && target, life <= 1 && target, gethitvar(kill) = 0 && target, gethitvar(playerno) = playerno {
+		nothitby{value: SCA; time: 1}
+	}
+}
+
+# AI
+ignorehitpause if AIlevel && !isasserted(noinput) {
+
+	# Back Charge
+	if map(ai_charge4) > 0
+	&& ctrl
+	&& (stateno = 0 || (stateno = 20 && vel x > 0) || (stateno = 40 && sysvar(1) != -1) || stateno = [760, 762]) {
+		mapadd{map: "ai_charge4"; value: -1}
+	} else if map(ai_charge4) < 45 {
+		mapset{map: "ai_charge4"; value: ifelse(map(customcombo), 45, map(ai_charge4) + 1)}
+	}
+
+	# Down Charge
+	if map(ai_charge2) > 0
+	&& ctrl
+	&& (stateno = 0 || stateno = 20 || stateno = 40 || stateno = 760) {
+		mapadd{map: "ai_charge2"; value: -1}
+	} else if map(ai_charge2) < 45 {
+		mapset{map: "ai_charge2"; value: ifelse(map(customcombo), 45, map(ai_charge2) + 1)}
+	}
+
+	# Fall Recovery and Throw Escape
+	if inCustomState || hitFall {
+		if random < (250 * (AIlevelF ** 2 / 64.0)) {
+			if random < 500 {
+				assertInput{flag: x; flag2: y; flag3: z}
+			} else {
+				assertInput{flag: a; flag2: b; flag3: c}
+			}
+			if random < 333 {
+				assertInput{flag: L}
+			} else if random < 500 {
+				assertInput{flag: R}
+			}
+			if random < 333 {
+				assertInput{flag: U}
+			} else if random < 500 {
+				assertInput{flag: D}
+			}
+		}
+	}
+
+}
+
+
+###################################################################################################
+#                                            STATE -3                                             #
+###################################################################################################
+
+[Statedef -3]
+
+# Shin P2BodyDist X
+# Is considered 0 when characters overlap
+ignorehitpause {
+	# P1 Reference Point
+	if statetype != A {
+		mapset{map: "p2bodydistx_p1ref"; value: ifelse(p2dist x < 0, -const(size.ground.back), const(size.ground.front))}
+	} else {
+		mapset{map: "p2bodydistx_p1ref"; value: ifelse(p2dist x < 0, -const(size.air.back), const(size.air.front))}
+	}
+
+	# P2 Reference Point
+	if p2dist x >= 0 {
+		if p2statetype != A {
+			mapset{map: "p2bodydistx_p2ref"; value: ifelse(p2, facing = facing, p2, const(size.ground.back), p2, const(size.ground.front))}
+		} else {
+			mapset{map: "p2bodydistx_p2ref"; value: ifelse(p2, facing = facing, p2, const(size.air.back), p2, const(size.air.front))}
+		}
+	} else {
+		if p2statetype != A {
+			mapset{map: "p2bodydistx_p2ref"; value: -ifelse(p2, facing = facing, p2, const(size.ground.front), p2, const(size.ground.back))}
+		} else {
+			mapset{map: "p2bodydistx_p2ref"; value: -ifelse(p2, facing = facing, p2, const(size.air.front), p2, const(size.air.back))}
+		}
+	}
+
+	# Calculate
+	if abs(p2dist x) <= abs(map(p2bodydistx_p1ref) + map(p2bodydistx_p2ref)) {
+		mapset{map: "p2bodydistx"; value: 0}
+	} else {
+		mapset{map: "p2bodydistx"; value: p2dist x - map(p2bodydistx_p1ref) - map(p2bodydistx_p2ref)}
+	}
+}
+
+# Variable Height
+ignorehitpause if statetype = A && movetype != H {
+	if p2statetype != A && !(vel y > 0 && (pos y > -vel y)) {
+		if (vel x > 0 && (map(p2bodydistx) = [0, vel x])) || (vel x < 0 && (map(p2bodydistx) = [vel x, 0])) {
+			if (p2dist y - vel y) > (ifelse(p2statetype = L, 12, p2, const(size.height) + ifelse(p2statetype = C, -13, 13)) - ifelse((stateno = [100, 106]), 18, 36)) {
+				playerpush{value: 0}
+			}
+		}
+	}
+}
+
+# Corner Crossup
+ignorehitpause if vel x > 0 {
+	if movetype != H && p2statetype != L && frontedgedist <= vel x {
+		if statetype = A && map(jumptype) = 3 {
+			width{edge: -2, 0}
+			if statetype = A && p2, backedgedist = 0 {
+				assertspecial{flag: noturntarget}
+			}
+		}
+	}
+}
+
+# Corner Push Set
+ignorehitpause if movecontact = 1 {
+	if numtarget && reversaldefattr != SCA, AA, AP, AT {
+		mapset{map: "cornerpush"; value: -1 * target, gethitvar(xvel)}
+	}
+}
+
+# Corner Push Reset
+if map(cornerpush) {
+	if abs(map(cornerpush)) < 1.0 || !numtarget {
+		mapset{map: "cornerpush"; value: 0}
+	} else if numtarget {
+		if target, movetype != H ||
+		target, gethitvar(ID) != ID ||
+		target, gethitvar(slidetime) = 0 ||
+		target, hitfall = 1 ||
+		target, vel y != 0 {
+			mapset{map: "cornerpush"; value: 0}
+		}
+	}
+}
+
+# Corner Push Apply
+if map(cornerpush) && numtarget {
+	if target, pausetime = 0 &&	target, gethitvar(hitshaketime) <= 0 {
+		if (target, statetype = S || target, statetype = C) &&
+		((target, backedgedist <= 0 && (target, gethitvar(xvel) * target, facing) < 0) ||
+		(target, frontedgedist <= 0 && (target, gethitvar(xvel) * target, facing) > 0)) {
+			posadd{x: map(cornerpush) * facing}
+		}
+		# Friction
+		mapset{map: "cornerpush"; value: map(cornerpush) * 0.85}
+	}
+}
+
+# Auto P2 Facing
+ignorehitpause if p2movetype = H && p2, time <= 0 {
+	if p2, gethitvar(playerno) = playerno
+	&& p2, hitshakeover = 0 &&	p2statetype != L
+	&& p2, hitoverridden = 0 && p2, incustomstate = 0 {
+		if (p2, facing = facing && p2, p2dist x < p2, const(size.ground.front)) ||
+		(p2, facing != facing && p2, p2dist x < -(p2, const(size.ground.back))) {
+			turn{redirectID: p2, ID}
+		}
+	}
+}
+
+# Juggling Acceleration Fix
+# For Mugen characters that override air get hit states
+ignorehitpause if p2movetype = H {
+	if p2, time = 1 {
+		if p2, gethitvar(playerno) = playerno && p2, incustomstate = 0 && (p2stateno = 5035 || p2stateno = 5050) {
+			if p2, vel y = [(map(yaccelfix) + 1.9 * p2, gethitvar(yaccel)), (map(yaccelfix) + 3.1 * p2, gethitvar(yaccel))] {
+				velset{y: map(yaccelfix) + p2, gethitvar(yaccel); redirectID: p2, ID}
+			}
+		}
+	}
+	mapset{map: "yaccelfix"; value: p2, vel y}
+}
+
+# Underground Juggling
+ignorehitpause if numenemy && p2movetype = H {
+	if p2, gethitvar(playerno) = playerno
+	&& p2, gethitvar(isbound) = 0
+	&& p2, pos y > 0 {
+		# Fix position
+		if p2, time <= 0 && p2, hitshakeover = 0 {
+			posset{y: 0; redirectID: p2, ID}
+		}
+		# Change state type
+		if p2statetype = A && p2, vel y > 0 
+		&& (p2stateno = [5020, 5109] || p2, incustomstate) {
+			statetypeset{statetype: L; redirectID: p2, ID}
+		}
+	}
+}
+
+# P2 OTG - Stay Down
+ignorehitpause if numenemy && p2movetype = H {
+	if p2, gethitvar(playerno) = playerno
+	&& p2, gethitvar(yvel) = 0
+	&& p2, pos y >= -24
+	&& (p2stateno = [5020, 5030] || p2stateno = 5070)
+	&& (p2, prevstateno = [5100, 5109] || map(p2downflag)) # frame of delay. Prevstatetype would be useful here
+	&& p2statetype = A
+	&& p2, alive
+	&& p2, hitfall {
+		selfstate{value: 1115080; readplayerID: ID; redirectID: p2, ID}
+	}
+}
+ignorehitpause if p2statetype = L {
+	mapset{map: "p2downflag"; value: 1}
+} else {
+	mapset{map: "p2downflag"; value: 0}
+}
+
+# Tag In Sounds
+if stateno = const(StateTagEnteringScreen) {
+	if time = 1 {
+		playsnd{value: 6, 0; channel: 0}
+	}
+	if (anim = const(AnimTagEnteringScreen) || anim = 100) && (animelem = 3 || animelem = 6) {
+		playsnd{value: 0, ifelse((animelem = 3), 103, 106)}
+	}
+}
+
+# P2 Hitshake during Pause
+if p2, pausetime > 0 {
+	if pausetime = 0 && p2, gethitvar(hitshaketime) > 0 {
+		offset{x: (gametime % 2); redirectID: p2, ID}
+	}
+}
+
+# AI
+ignorehitpause if AIlevel && alive && !standby && roundstate = 2 {
+
+	# AI acting frequency by difficulty
+	# This map minimizes the calls for RNG
+	mapset{map: "ai_randompass"; value: random < (1000 * (AIlevelF / 8.0))}
+
+	# P2 wakeup throw invulnerability (from common1)
+	# A HitBy trigger can replace this in the future
+	mapset{map: "ai_p2wakeupnhb"; value: ifelse(p2stateno = 5120, 12, ifelse(map(ai_p2wakeupnhb) > 0, map(ai_p2wakeupnhb) - 1, 0))}
+
+	# P2 can be thrown
+	mapset{map: "ai_canthrow"; value: !(map(unthrowable) || map(ai_p2wakeupnhb) > 0)}
+
+	# P2 cannot act
+	mapset{map: "ai_p2cannotmove"; value: !(p2, ctrl || p2stateno = [40, 52] || p2stateno = 100 || p2stateno = [5201, 5210])}
+
+	# P2 Fireball Detection
+	if ctrl && p2, numhelper {
+		call P2Fireball();
+	} else {
+		map(ai_p2fireball_ID) := -1;
+		map(ai_p2fireball_super) := 0;
+		map(ai_p2fireball_distx) := 9999;
+		map(ai_p2fireball_eta) := 9999;
+	}
+
+	# AI Spacing
+	if AIlevelF >= 6 && !inGuardDist && stateType = S && ctrl {
+		# Set spacing
+		if p2MoveType = H {
+			map(ai_spacing) := 10;
+		} else {
+			map(ai_spacing) := 30;
+		}
+		# Walk forward
+		if command != "holdback" && map(p2bodydistx) > map(ai_spacing) + 20 {
+			if vel x > 0 || p2, vel x < 0 || map(p2bodydistx) > map(ai_spacing) {
+				if facing = 1 {
+					assertInput{flag: R}
+				} else {
+					assertInput{flag: L}
+				}
+			}
+		}
+		# Walk back
+		if backedgedist > 0 {
+			if command != "holdfwd" && map(p2bodydistx) < map(ai_spacing) - 20 {
+				if vel x < 0 || p2, vel x > 0 || map(p2bodydistx) < map(ai_spacing) {
+					if facing = 1 {
+						assertInput{flag: L}
+					} else {
+						assertInput{flag: R}
+					}
+				}
+			}
+		}
+	}
+
+}
+
+
+###################################################################################################
+#                                            STATE -4	                                          #
+###################################################################################################

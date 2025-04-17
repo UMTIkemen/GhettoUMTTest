@@ -1,0 +1,95 @@
+<#f0f000>- Throws -</>
+
+Overhead Toss 								[_B/_F]_+^HP
+Suplex									[_B/_F]_+^HK
+
+<#f0f000>- Special Moves -</>
+
+Sonic Boom								~B_F^P
+
+Flash Kick								~D_U^K
+
+<#f0f000>- Super Moves -</>
+
+Total Wipeout								~B_F_B_F^K
+<#8a8a8a>Meter Cost</>:
+1 Bar (Lvl.1), 2 Bars (Lvl.2), all Bars (Lvl.3)
+^LP for Lvl.1, ^MP for Lvl.2, ^HP for Lvl.3
+for <#22ff12>C-Groove</>
+
+Somersault Strike							~DB_DF_DB_DF_UF^K
+<#8a8a8a>Meter Cost</>:
+1 Bar (Lvl.1), 2 Bars (Lvl.2), all Bars (Lvl.3)
+^LP for Lvl.1, ^MP for Lvl.2, ^HP for Lvl.3
+for <#22ff12>C-Groove</>
+
+Sonic Hurricane								~B_F_B_F^P
+<#8a8a8a>Meter Cost</>: All of it (_MAX Super)
+
+note: if you pick <#8a8a8a>EX-Groove</>, you will have access
+to all the CvS2 subsystems and systems, not counting Rage.
+
+<#f4ff1c>- CvS2 System -</>
+
+Level 2 Super Combo Cancel
+you can cancel a Lvl.2 super into any attack.
+<#22ff12>C-Groove</> only
+
+Custom Combo								^HP+^HK
+<#12ffeb>Meter Cost</>: 2 Bars
+no juggle limits, you can cancel any attack you want.
+<#12ffeb>A-Groove</> only
+
+Parry									_TAP_F
+right before your opponent's attack lands,
+you can tap forward to negate their attack.
+you can parry multiple hits in succession.
+<#12ffeb>P-Groove</> only
+
+Power Charge								Hold [^HP+^HK]
+<#645ced>S-Groove</> only
+
+Max Mode								^HP+^HK
+<#ffce0a>Meter Cost</>: 1 Bar
+when you activate max mode, you get a 20% attack 
+increase, and if you have another bar of meter, 
+you can perfom a level 3 super.
+<#ffce0a>N-Groove</> only
+
+Just Defend								_TAP_B
+right before your opponent's attack lands, 
+you can tap backward to negate their attack. 
+you get a small amount of life back for doing this.
+<#ff0a0a>K-Groove</> only
+					
+<#f4ff1c>- CvS2 Subsystem -</>
+
+Dash									_XFF
+<#22ff12>C</>, <#12ffeb>A</>, <#12ffeb>P</>-Groove only
+
+Run									_F~F
+<#645ced>S</>, <#ffce0a>N</>, <#ff0a0a>K</>-Groove only
+
+Short Hop								_TAP_U
+<#12ffeb>P</>, <#645ced>S</>, <#ffce0a>N</>, <#ff0a0a>K</>-Groove only
+
+Dodge									^LP+^LK
+<#645ced>S-Groove</> only
+
+Roll									[_B/_F]_+^LP+^LK
+<#22ff12>C</>, <#12ffeb>A</>, <#ffce0a>N</>-Groove only
+
+Air Guard								_AIR~B
+<#22ff12>C-Groove</> only
+
+Alpha Counter								(while in blockstun) ^MP+^MK
+<#22ff12>C</>, <#12ffeb>A</>, <#645ced>S</>, <#ffce0a>N</>-Groove only
+
+Counter Movement							(while in blockstun) ^LP+^LK
+<#ffce0a>N-Groove</> only
+
+Tactical Recovery							(before you hit the ground) ^2P
+<#22ff12>C</>, <#12ffeb>P</>, <#645ced>S</>-Groove only
+	
+Safe Fall								(before you hit the ground) ^2P
+<#12ffeb>A</>, <#ffce0a>N</>, <#ff0a0a>K</>-Groove only

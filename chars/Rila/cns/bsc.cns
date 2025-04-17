@@ -1,0 +1,1563 @@
+;---------------------------------------------------------------------------
+; Stand X
+[Statedef 200]
+type = S
+movetype = A
+physics = S
+anim = 200
+velset = 0,0
+ctrl = 0
+poweradd = Floor(4*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = medium
+priority = 4,Hit
+damage = Ceil(483*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = 0,-68-(4*(random%5))
+hitsound = S1,1
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 18
+ground.hittime = 18
+guard.slidetime = 18
+guard.hittime = 18
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -3.5,-5.25 
+getpower = Floor(56*FVar(6)),Floor(28*FVar(6))
+givepower = Floor(14*FVar(6)),Floor(7*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,0
+channel = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Close X
+[Statedef 205]
+type = S
+movetype = A
+physics = S
+anim = 205
+velset = 0,0
+ctrl = 0
+poweradd = Floor(8*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = medium
+priority = 4,Hit
+damage = Ceil(552*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -24,-28-(4*(random%5))
+hitsound = S1,10
+guardsound = S2,0
+ground.type = Low
+;air.type = High
+ground.slidetime = 18
+ground.hittime = 18
+guard.slidetime = 18
+guard.hittime = 18
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -3.5,-5.25 
+getpower = Floor(64*FVar(6)),Floor(32*FVar(6))
+givepower = Floor(16*FVar(6)),Floor(8*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 0
+value = S5,205
+channel = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 206
+ID = 206
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 16
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElem = 5
+id = 206
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 5
+anim = 207
+ID = 207
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 4
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Stand Y
+[Statedef 210]
+type = S
+movetype = A
+physics = S
+anim = 210
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = 4
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 7
+x = 12
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(828*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = 0,-64-(4*(random%5))
+hitsound = S1,2
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 25
+ground.hittime = 25
+guard.slidetime = 25
+guard.hittime = 25
+air.hittime = 11
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -2.5,-4
+yaccel = 0.5
+getpower = Floor(96*FVar(6)),Floor(48*FVar(6))
+givepower = Floor(24*FVar(6)),Floor(12*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,3
+channel = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Close Y
+[Statedef 215]
+type = S
+movetype = A
+physics = S
+anim = 215
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(897*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -24,-72-(4*(random%5))
+hitsound = S1,11
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -9
+guard.velocity = -9
+air.velocity = -4,-4
+getpower = Floor(104*FVar(6)),Floor(52*FVar(6))
+givepower = Floor(26*FVar(6)),Floor(13*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 0
+value = S5,215
+channel = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 216
+ID = 216
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 15
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElem = 3
+id = 216
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 217
+ID = 217
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 15
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElem = 5
+id = 217
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 5
+anim = 218
+ID = 218
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 4
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Stand A
+[Statedef 300]
+type = S
+movetype = A
+physics = S
+anim = 300
+velset = 0,0
+ctrl = 0
+poweradd = Floor(4*FVar(6))
+facep2 = 1
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 16
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 5
+x = -16
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = medium
+priority = 4,Hit
+damage = Ceil(483*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = 0,-76-(4*(random%5))
+hitsound = S1,0
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 18
+ground.hittime = 18
+guard.slidetime = 18
+guard.hittime = 18
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -3.5,-5.25 
+getpower = Floor(56*FVar(6)),Floor(28*FVar(6))
+givepower = Floor(14*FVar(6)),Floor(7*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 4
+value = S0,2
+channel = 1
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 4
+value = S5,300
+channel = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Close A
+[Statedef 305]
+type = S
+movetype = A
+physics = S
+anim = 305
+velset = 0,0
+ctrl = 0
+poweradd = Floor(8*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = medium
+priority = 4,Hit
+damage = Ceil(552*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -24,-68-(4*(random%5))
+hitsound = S1,0
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 18
+ground.hittime = 18
+guard.slidetime = 18
+guard.hittime = 18
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -3.5,-5.25 
+getpower = Floor(64*FVar(6)),Floor(32*FVar(6))
+givepower = Floor(16*FVar(6)),Floor(8*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,1
+channel = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Stand B
+[Statedef 310]
+type = S
+movetype = A
+physics = S
+anim = 310
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, PosAdd X 8]
+type = PosAdd
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+x = 8
+[State 0, PosAdd X 1]
+type = PosAdd
+trigger1 = AnimElemNo(0) = [4,5]
+x = 1
+
+[State 0, PosAdd Y -2]
+type = PosAdd
+trigger1 = Time = [10,11]
+y = -2
+[State 0, PosAdd Y 2]
+type = PosAdd
+trigger1 = Time = [13,14]
+y = 2
+[State 0, PosAdd Y -4]
+type = PosAdd
+trigger1 = Time = 19
+y = -4
+[State 0, PosAdd Y -3]
+type = PosAdd
+trigger1 = Time = [20,21]
+y = -3
+[State 0, PosAdd Y -1]
+type = PosAdd
+trigger1 = Time = [22,23]
+y = -1
+[State 0, PosAdd Y 1]
+type = PosAdd
+trigger1 = Time = [24,25]
+y = 1
+[State 0, PosAdd Y 3]
+type = PosAdd
+trigger1 = Time = [26,27]
+y = 3
+[State 0, PosAdd Y Reset]
+type = PosSet
+trigger1 = Time = 28
+y = 0
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(828*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = 0,-60-(4*(random%5))
+hitsound = S1,3
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -2.5,-4
+getpower = Floor(96*FVar(6)),Floor(48*FVar(6))
+givepower = Floor(24*FVar(6)),Floor(12*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,4
+channel = 1
+
+[State 0, Explod Smoke Puff]
+type = Explod
+trigger1 = AnimElem = 4
+anim = 8210
+ID = 8210
+pos = 18,0
+vel = 1,-0.75
+accel = -0.033,0.033
+postype = p1
+removetime = -2
+pausemovetime = 666
+sprpriority = -1
+ownpal = 1
+[State 0, Explod Smoke Puff]
+type = Explod
+trigger1 = AnimElem = 6
+anim = 8210
+ID = 8210
+pos = 0,0
+vel = 0,-0.75
+accel = 0,0.033
+postype = p1
+removetime = -2
+pausemovetime = 666
+sprpriority = -1
+ownpal = 1
+[State 0, Explod Smoke Puff]
+type = Explod
+trigger1 = AnimElem = 9
+anim = 8210
+ID = 8210
+pos = -28,0
+vel = -0.75,-0.75
+accel = 0.025,0.033
+postype = p1
+removetime = -2
+pausemovetime = 666
+sprpriority = -1
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 4
+statetype = A
+physics = N
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 9
+statetype = S
+physics = S
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Close B
+[Statedef 315]
+type = S
+movetype = A
+physics = S
+anim = 315
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 3
+y = -6
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 4
+y = -5
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 5
+y = -4
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 6
+y = -3
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 7
+y = -2
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = [8,9]
+y = -1
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = [10,11]
+y = 1
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 12
+y = 2
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 13
+y = 3
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 14
+y = 4
+[State 0, PosAdd Y -6]
+type = PosAdd
+trigger1 = Time = 15
+y = 5
+[State 0, PosAdd Y Reset]
+type = PosSet
+trigger1 = Time = 16
+y = 0
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(1104*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -24,-36-(4*(random%5))
+hitsound = S1,3
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 25
+ground.hittime = 25
+guard.slidetime = 25
+guard.hittime = 25
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -9
+guard.velocity = -9
+air.velocity = -2.5,-4
+getpower = Floor(128*FVar(6)),Floor(64*FVar(6))
+givepower = Floor(32*FVar(6)),Floor(16*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 2
+value = S5,315
+channel = 0
+
+[State 0, Explod Smoke Puff]
+type = Explod
+trigger1 = Time = 1
+anim = 8210
+ID = 8210
+pos = -28,0
+vel = -1,-1
+accel = 0.033,0.033
+postype = p1
+removetime = -2
+pausemovetime = 666
+sprpriority = -1
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 2
+statetype = A
+physics = N
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 9
+statetype = S
+physics = S
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; f+B
+[Statedef 320]
+type = A
+movetype = A
+physics = N
+anim = 320
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, PosAdd X 6]
+type = PosAdd
+trigger1 = Time = 3
+x = 6
+[State 0, PosAdd X 5]
+type = PosAdd
+trigger1 = Time = [4,8]
+trigger2 = Time = 10
+x = 5
+[State 0, PosAdd X 4]
+type = PosAdd
+trigger1 = Time = 9
+trigger2 = Time = 11
+trigger3 = Time = 13
+x = 4
+[State 0, PosAdd X 3]
+type = PosAdd
+trigger1 = Time = 12
+trigger2 = Time = [14,16]
+x = 3
+[State 0, PosAdd X 16]
+type = PosAdd
+trigger1 = AnimElem = 7
+x = 16
+
+[State 0, PosAdd Y -2]
+type = PosAdd
+trigger1 = Time = 3
+y = -2
+[State 0, PosAdd Y -1]
+type = PosAdd
+trigger1 = Time = [4,7]
+y = -1
+[State 0, PosAdd Y 1]
+type = PosAdd
+trigger1 = Time = [12,15]
+y = 1
+[State 0, PosAdd Y Reset]
+type = PosSet
+trigger1 = Time = 16
+y = 0
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = S,NA
+hitflag = MAF
+guardflag = M
+animtype = heavy
+priority = 5,Hit
+damage = Ceil(966*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = 0,-52-(4*(random%5))
+hitsound = S1,3
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 24
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -5.75,-6.33
+guard.velocity = -9.66
+air.velocity = -5.75,-6.33
+;fall = 1
+;fall.recover = 1
+getpower = Floor(112*FVar(6)),Floor(56*FVar(6))
+givepower = Floor(28*FVar(6)),Floor(14*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,3
+channel = 1
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 6
+value = S5,320
+channel = 0
+
+[State 0, Explod Smoke Spark]
+type = Explod
+trigger1 = Time = 3
+anim = 8200
+ID = 8200
+pos = 0,8
+vel = -4,0
+accel = 0.25,0
+postype = p1
+removetime = -2
+pausemovetime = 666
+sprpriority = -1
+ownpal = 1
+[State 0, Explod Smoke Puff]
+type = Explod
+trigger1 = Time = 16
+anim = 8210
+ID = 8210
+pos = -8,0
+vel = -0.75,-0.75
+accel = 0.025,0.033
+postype = p1
+removetime = -2
+pausemovetime = 666
+sprpriority = -1
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = Time = 16
+statetype = S
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch X
+[Statedef 400]
+type = C
+movetype = A
+physics = C
+anim = 400
+velset = 0,0
+ctrl = 0
+poweradd = Floor(4*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = C,NA
+hitflag = M;MAF
+guardflag = M
+animtype = medium
+priority = 5,Hit
+damage = Ceil(414*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -16,-8-(4*(random%5))
+hitsound = S1,10
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 18
+ground.hittime = 18
+guard.slidetime = 18
+guard.hittime = 18
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -2.33,-5
+getpower = Floor(48*FVar(6)),Floor(24*FVar(6))
+givepower = Floor(12*FVar(6)),Floor(6*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 2
+value = S0,2
+channel = 1
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 2
+anim = 401
+ID = 401
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 15
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElem = 3
+id = 401
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 402
+ID = 402
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 4
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch Y
+[Statedef 410]
+type = C
+movetype = A
+physics = C
+anim = 410
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = 8
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = C,NA
+hitflag = MAF
+guardflag = M
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(828*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -8,-68-(4*(random%5))
+hitsound = S1,2
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -2.33,-5
+getpower = Floor(96*FVar(6)),Floor(48*FVar(6))
+givepower = Floor(24*FVar(6)),Floor(12*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 2
+value = S5,410
+channel = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch A
+[Statedef 500]
+type = C
+movetype = A
+physics = C
+anim = 500
+velset = 0,0
+ctrl = 0
+poweradd = Floor(4*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = C,NA
+hitflag = M;MAF
+guardflag = L
+animtype = medium
+priority = 3,Hit
+damage = Ceil(414*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8110
+sparkxy = -16,-8-(4*(random%5))
+hitsound = S1,0
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 18
+ground.hittime = 18
+guard.slidetime = 18
+guard.hittime = 18
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -6
+guard.velocity = -6
+air.velocity = -2.33,-5
+getpower = Floor(48*FVar(6)),Floor(24*FVar(6))
+givepower = Floor(12*FVar(6)),Floor(6*FVar(6))
+nochainid = 1000
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Crouch B
+[Statedef 510]
+type = C
+movetype = A
+physics = C
+anim = 510
+velset = 0,0
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+facep2 = 1
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = C,NA
+hitflag = M;MAF
+guardflag = L
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(690*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -16,-8-(4*(random%5))
+hitsound = S1,3
+guardsound = S2,0
+ground.type = Trip
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2,-4.25 
+guard.velocity = -6
+air.velocity = -2,-3.75 
+fall = 1
+fall.recover = 0
+getpower = Floor(80*FVar(6)),Floor(40*FVar(6))
+givepower = Floor(20*FVar(6)),Floor(10*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 2
+value = S0,3
+channel = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Air X
+[Statedef 600]
+type = A
+movetype = A
+physics = A
+anim = 600
+ctrl = 0
+poweradd = Floor(8*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = light
+priority = 4,Hit
+damage = Ceil(483*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -16,-40-(4*(random%5))
+hitsound = S1,10
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 15
+ground.hittime = 15
+guard.slidetime = 15
+guard.hittime = 15
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2
+guard.velocity = -2
+air.velocity = -2.33,-5 
+getpower = Floor(56*FVar(6)),Floor(28*FVar(6))
+givepower = Floor(14*FVar(6)),Floor(7*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,0
+channel = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601
+
+;---------------------------------------------------------------------------
+; Vert X
+[Statedef 605]
+type = A
+movetype = A
+physics = A
+anim = 605
+ctrl = 0
+poweradd = Floor(8*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = light
+priority = 4,Hit
+damage = Ceil(552*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -16,-44-(4*(random%5))
+hitsound = S1,10
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 15
+ground.hittime = 15
+guard.slidetime = 15
+guard.hittime = 15
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2
+guard.velocity = -2
+air.velocity = -2.33,-5
+getpower = Floor(64*FVar(6)),Floor(32*FVar(6))
+givepower = Floor(16*FVar(6)),Floor(8*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 0
+value = S5,605
+channel = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601
+
+;---------------------------------------------------------------------------
+; Air Y
+[Statedef 610]
+type = A
+movetype = A
+physics = A
+anim = 610
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = medium
+priority = 4,Hit
+damage = Ceil(690*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -24,-32-(4*(random%5))
+hitsound = S1,2
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2.75
+guard.velocity = -2.75
+air.velocity = -2.33,-5 
+getpower = Floor(80*FVar(6)),Floor(40*FVar(6))
+givepower = Floor(20*FVar(6)),Floor(10*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,5
+channel = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601
+
+;---------------------------------------------------------------------------
+; Vert Y
+[Statedef 615]
+type = A
+movetype = A
+physics = A
+anim = 615
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(759*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -16,-24-(4*(random%5))
+hitsound = S1,11
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2.75
+guard.velocity = -2.75
+air.velocity = -2.33,-5 
+getpower = Floor(88*FVar(6)),Floor(44*FVar(6))
+givepower = Floor(22*FVar(6)),Floor(11*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,4
+channel = 1
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 0
+value = S5,615
+channel = 0
+
+[State 0, Explod]
+type = Explod
+triggerall = Anim = 615
+trigger1 = AnimElem = 2
+anim = 616
+ID = 616
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 15
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElem = 3
+id = 616
+
+[State 0, Explod]
+type = Explod
+triggerall = Anim = 615
+trigger1 = AnimElem = 3
+anim = 617
+ID = 617
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = 15
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElem = 5
+id = 617
+
+[State 0, Explod]
+type = Explod
+triggerall = Anim = 615
+trigger1 = AnimElem = 5
+anim = 618
+ID = 618
+pos = 0,0
+postype = p1
+bindtime = 666
+removetime = -2
+pausemovetime = 666
+sprpriority = 3
+ownpal = 1
+removeongethit = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601
+
+;---------------------------------------------------------------------------
+; Air A
+[Statedef 700]
+type = A
+movetype = A
+physics = A
+anim = 700
+ctrl = 0
+poweradd = Floor(8*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = light
+priority = 4,Hit
+damage = Ceil(483*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -24,-28-(4*(random%5))
+hitsound = S1,0
+guardsound = S2,0
+ground.type = Low
+ground.slidetime = 15
+ground.hittime = 15
+guard.slidetime = 15
+guard.hittime = 15
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2
+guard.velocity = -2
+air.velocity = -2.33,-5
+getpower = Floor(56*FVar(6)),Floor(28*FVar(6))
+givepower = Floor(14*FVar(6)),Floor(7*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,0
+channel = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601
+
+;---------------------------------------------------------------------------
+; Vert A
+[Statedef 705]
+type = A
+movetype = A
+physics = A
+anim = 705
+ctrl = 0
+poweradd = Floor(8*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = light
+priority = 4,Hit
+damage = Ceil(552*FVar(5)),Ceil(0*FVar(5))
+pausetime = 10,10
+sparkno = s8000
+guard.sparkno = s8100
+sparkxy = -16,-24-(4*(random%5))
+hitsound = S1,0
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 15
+ground.hittime = 15
+guard.slidetime = 15
+guard.hittime = 15
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2
+guard.velocity = -2
+air.velocity = -2.33,-5
+getpower = Floor(64*FVar(6)),Floor(32*FVar(6))
+givepower = Floor(16*FVar(6)),Floor(8*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,0
+channel = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601
+
+;---------------------------------------------------------------------------
+; Air B
+[Statedef 710]
+type = A
+movetype = A
+physics = A
+anim = 710
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = medium
+priority = 4,Hit
+damage = Ceil(690*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -24,-16-(4*(random%5))
+hitsound = S1,3
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -2.75
+guard.velocity = -2.75
+air.velocity = -2.33,-5
+getpower = Floor(80*FVar(6)),Floor(40*FVar(6))
+givepower = Floor(20*FVar(6)),Floor(10*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Swing]
+type = PlaySnd
+trigger1 = Time = 0
+value = S0,3
+channel = 1
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 0
+value = S5,300
+channel = 0
+
+;---------------------------------------------------------------------------
+; Vert B
+[Statedef 715]
+type = A
+movetype = A
+physics = A
+anim = 715
+ctrl = 0
+poweradd = Floor(16*FVar(6))
+
+[State 0, HitDef]
+type = HitDef
+trigger1 = !Time
+attr = A,NA
+hitflag = MAF
+guardflag = H
+animtype = heavy
+priority = 4,Hit
+damage = Ceil(759*FVar(5)),Ceil(0*FVar(5))
+pausetime = 12,12
+sparkno = s8005
+guard.sparkno = s8110
+sparkxy = -16,-48-(4*(random%5))
+hitsound = S1,3
+guardsound = S2,0
+ground.type = High
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 20
+;guard.dist = 320
+yaccel = 0.5
+ground.velocity = -8
+guard.velocity = -8
+air.velocity = -3,-5
+getpower = Floor(88*FVar(6)),Floor(44*FVar(6))
+givepower = Floor(22*FVar(6)),Floor(11*FVar(6))
+nochainid = 1000
+
+[State 0, Snd Voice]
+type = PlaySnd
+trigger1 = Time = 0
+value = S5,320
+channel = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 601
+value = 601

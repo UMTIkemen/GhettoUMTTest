@@ -1,0 +1,292 @@
+;---------------------------------------------------------------------------
+; ラウンド開始時の処理
+[Statedef 5900]
+type = S
+
+;このエリアは変更しないでください。------------------------------
+[State 5900, 1] ;Clear all int variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+value = 0
+
+[State 5900, 2] ;Clear all float variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+fvalue = 0
+;このエリアは変更しないでください。------------------------------
+
+[State AI Level]
+Type = VarSet
+Trigger1 = 1
+V = 58
+
+;============================================================================
+;AIレベル設定
+;
+;　・レベルを1～11に設定できます。
+;　・数値が高いほど動きが良くなるはずです。
+;　・レベル11で超反応します。
+;
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Value = 11   ;ここを1～11に設定できます
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+;
+;AIレベル設定終了
+;============================================================================
+
+;ここから下のステートを編集することで、設定を変更できます。----------
+;上級者向け？
+
+;CV設定---------------------------
+[State 5900, VOICESET];イメージCV松本梨香のON,OFF制御
+type = varset
+trigger1 = 1
+var(40) = 1;1でボイスあり　0でボイス無し
+;何らかの理由でボイスがいらない方は、ここを0にしてみて下さい。
+;---------------------------
+
+;援護キャラ設定---------------------------
+;援護攻撃を使えなくできます。ストーリー動画などで自重させたい時に。
+; 0 で使用可能　-1で使用不可
+[State Alice]
+type = varset
+trigger1 = 1
+var(30) =  0 ;ON
+;var(30) = -1 ;OFF
+[State Spilitia]
+type = varset
+trigger1 = 1
+var(31) =  0 ;ON
+;var(31) = -1 ;OFF
+[State Patche]
+type = varset
+trigger1 = 1
+var(32) =  0 ;ON
+;var(32) = -1 ;OFF
+;---------------------------
+
+;一撃設定---------------------------
+;これを１にすると一切一撃必殺奥義が使えなくなります
+[State Tehletteh]
+type = varset
+trigger1 = 1
+var(42) =  0 ;ON
+;var(42) = 1 ;OFF
+;---------------------------
+
+;----------------------------
+;デバッグサポートステート　特殊武器編
+[State WPNSET DEBUGMODE];デバッグ用　特定の武器の動作を見たい時なんかに
+Type = null;varset;Nullを外せば使える
+trigger1 = 1
+var(5) = 32;ここに装備させたい武器の番号を入れる
+[State BULLET];弾数は１
+type = varset
+trigger1 = var(5) > 0;装備されている
+var(7) = 2;弾数
+persistent = 0
+;----------------------------
+
+;設定変更はここまで。--------------------------------------------
+;ここから下は変更しないでください。------------------------------
+
+
+[State Alice]
+type = varset
+triggerall = numpartner > 0;パートナーが居る
+trigger1 = partner,name = "Alice-R"
+trigger2 = partner,name = "Shanghai_Alice"
+trigger3 = (partner,name = "Alice Margatroid")||(partner,name = "Alice_Margatroid")
+var(30) = -1 ;OFF
+;[State Spilitia]
+;type = varset
+;trigger1 = 1
+;var(31) =  0 ;ON
+;var(31) = -1 ;OFF
+[State Patche]
+type = varset
+triggerall = numpartner > 0;パートナーが居る
+trigger1 = partner,name = "Patchouli"
+trigger2 = partner,name = "metal_patchouli"
+trigger3 = partner,name = "Patchouli_Knowledge"
+var(32) = -1 ;OFF
+
+[State POW];最初のラウンドだった場合、パワーゲージをセットする
+type = PowerSet
+trigger1 = roundno = 1;ちゃんと指定しとかんと次のラウンドでまた初期化されたりすることに
+Value = 1000;マブカプでの初期Ｌｖは１。
+;ここでの処理に不都合があった場合修正が必要になる。
+
+[State NorthStar];七星ゲージ
+type = varset
+trigger1 = teammode = turns;チーム戦の場合
+var(41) = 0;相手との戦闘は一回のみなので毎回リセットを敢行
+;persistent = 0;一回でいい
+;ニコMUGENWIKIの記事を見て即実行。
+[State NorthStar];前ラウンドで一撃奥義が決まってた場合、七星全回復
+type = varset
+trigger1 = Time = 0
+trigger1 = var(41) >= 8
+var(41) = 0
+[State NorthStar];次のラウンド開始時、星が一個回復
+type = varadd
+trigger1 = Time = 0
+trigger1 = var(41) > 0
+var(41) = -1
+
+
+[State Guage];装備できたならゲージを発生させる
+type = Varset;げーじ残量にプラス
+Trigger1 = var(5) > 0;1以上だった場合
+var(6) = 3000
+[State GuageON]
+type = Helper
+Trigger1 = var(5) != 0;武器をそうびしている状態なら
+trigger1 = !Numhelper(10010)
+ID = 10010
+Name = "SubPower Guage"
+Pos = 0,0
+PosType = left;p1
+StateNo = 10010
+helpertype = Normal
+Keyctrl = 0
+ownpal = 1
+pausemovetime = 99999999999999
+supermovetime = 99999999999999
+facing = 1
+;特定技を装備している場合
+[State HANTEI IWBTG BGMSTOP];BGMを停止させる
+type = varset
+Trigger1 = var(5) = 27;特定の技の場合
+var(20) = 1;BGM停止
+persistent = 0
+[State -3,STOPBGM HELPER]
+type = Helper
+Trigger1 = var(5) = 27;特定の技の場合
+trigger1 = var(20) = 1;var20がオンになったら
+trigger1 = !Numhelper(37000);かぶってないか確認
+ID = 37000
+Name = "STOPBGM HELPER"
+Pos = 0,0
+PosType = left;p1
+StateNo = 37000
+helpertype = Normal
+Keyctrl = 0
+ownpal = 1
+pausemovetime = 99999999999999
+supermovetime = 99999999999999
+facing = 1
+persistent = 0
+[State HANTEI IWBTG];
+type = PlaySnd
+Trigger1 = var(5) = 27;特定の技の場合
+value = 3527,10
+channel = 2;BGMチャンネル
+loop = 1
+persistent = 0
+;北斗七星------------------------
+;あふろん氏のを参考に、4000番で管理する。詳しくはtehletteh.stにて
+[State NorthStarGuage]
+type = Helper
+triggerall = !numhelper(4000)
+;trigger1 = TeamMode = single
+;trigger2 = TeamMode = turns
+trigger1 = 1;無条件で。ゲージ表示はヘルパーまかせに
+id = 4000
+name = "NorthStarGuage"
+sprpriority = 10
+Pos = 0,0
+PosType = left;p1
+stateno = 4000
+helpertype = normal
+pausemovetime = 0
+bindtime = -1
+keyctrl = 0 
+ownpal = 1
+;----------------------------------------------------------
+;倒せないんだったら逃げればいいじゃない
+;前回逃走後--------------------------
+[State KOVC]
+type = Assertspecial
+triggerall = RoundsExisted > 0
+trigger1 = var(45) >= 5
+flag = nokosnd
+flag2 = invisible
+[State Pause];
+type = superPause;
+darken = 0
+anim = -1
+triggerall = RoundsExisted > 0
+trigger1 = time = 0
+trigger1 = var(45) = 9
+time = 120
+movetime = 120
+[State 5150, 8]
+type = NotHitBy
+triggerall = RoundsExisted > 0
+trigger1 = var(45) >= 5
+value2 = SCA
+time = 60
+[State life]
+type = lifeset
+triggerall = RoundsExisted > 0
+trigger1 = var(45) >= 5
+value = 0
+[State ,逃げるんだよォォォ]
+type = changeState
+triggerall = RoundsExisted > 0
+trigger1 = var(45) >= 5
+value = 5150
+persistent = 0
+;初回処理--------------------------
+[State ,KAKUNIN];相手が勝てそうにないやつの場合（現実とか）
+type = varset
+triggerall = RoundsExisted = 0
+triggerall = var(45) = 0
+trigger1 = (enemynear,name = "genjitsu")&&(enemynear,authorname = "otto");おまえのような現実がいるか
+trigger2 = (enemynear,name = "mechhisuiex")&&(enemynear,authorname = "kari");私は普通のメカ翡翠と戦いたいんだよッ
+trigger3 = (enemynear,name = "ONI-MIKO-REIMU")&&(enemynear,palno=[10,11])
+var(45) = 5
+[State ,ONI-MIKO];相手が勝てそうにないやつの場合（鬼巫女）
+type = varset
+triggerall = RoundsExisted = 0
+triggerall = var(45) = 0
+trigger1 = (enemynear,name = "ONI-MIKO-REIMU");霊夢・・・賽銭欠乏症にかかって・・・
+var(45) = 8+ifelse((enemynear,palno=12),1,0)
+;鬼巫女にキンクリを出される前にトンズラしたいとこだけど
+[State 5150, 8]
+type = NotHitBy
+trigger1 = var(45) >= 5
+value2 = SCA
+time = 60
+[State ,逃げるんだよォォォ]
+type = changeState
+triggerall = RoundsExisted = 0
+trigger1 = var(45) = [8,9];鬼巫女
+value = 75008
+persistent = 0
+
+[State 5900, 3] ;対神男
+type = ChangeState
+trigger1 = roundno = 1
+trigger1 = (enemy,name="Godman")||(enemy,authorname="man")
+value = 190000;専用ステートで待ってから190にする予定。
+
+[State 191, 2];turns用
+type = ChangeState
+trigger1 = RoundsExisted = 0
+trigger1 = roundno != 1
+trigger1 = TeamMode = turns
+value = 193;さあ、ゲームの・・・
+
+[State 5900, 3] ;Intro for round 1
+type = ChangeState
+trigger1 = roundno = 1
+value = 190
+
+;[State 5900, 1]
+;type = VarRangeSet
+;trigger1 = RoundNo = 1
+;farst = 0
+;last  = 52
+;value = 0

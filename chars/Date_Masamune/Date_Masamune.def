@@ -1,0 +1,29 @@
+[Info]
+Name         = "Date Masamune"
+DisplayName  = "Date Masamune"
+VersionDate  = 09,14,2008
+MugenVersion = 04,14,2001
+Author       = "Neat Unsou"
+Pal.Defaults = 1,2
+
+[Files]
+Cmd      = Masamune.cmd
+Cns      = Masamune.cns
+St       = Masamune.cns
+St1      = helper.cns
+St2      = -2.cns
+St3      = Masamune_Engun.cns
+StCommon = Masamune_common1.cns
+Sprite   = Masamune.sff
+Anim     = Masamune.air
+Sound    = Masamune.snd
+
+Pal1 = Masamune1.act
+Pal2 = Masamune2.act
+
+;Pal7 = Masamune1.act
+;Pal8 = Masamune1.act
+
+;[Arcade]
+;Intro.Storyboard  = Masamune_intro.def
+;Ending.Storyboard = Masamune_ending.def

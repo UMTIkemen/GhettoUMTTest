@@ -1,0 +1,40 @@
+; Definition file for Kung Fu Man
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = "gilgamesh"         ;Name of character
+displayname  = "gilgamesh" ;Name of character to display
+versiondate  = 11,06,2011  ;Version date of character (MM-DD-YYYY)
+mugenversion = 04,14,2002  ;Version of M.U.G.E.N character works on
+author = "tabibito"        ;Character author name
+pal.defaults = 1,2,3,4,5,6 ;Default palettes in order of preference
+; Files for the player
+[Files]
+cmd     = oresama.cmd      ;Command set
+cns     = oresama.cns      ;Constants
+st      = oresama.cns      ;States
+st2     = oresama2.cns     ;States
+st3     = oresama3.cns     ;States
+st4     = oresama4.cns     ;States
+st5     = honkige-zi.cns   ;States
+st6     = common.cns       ;Common states
+sprite  = oresama.sff      ;Sprite
+anim    = oresama.air      ;Animation
+sound   = oresama.snd      ;Sound
+pal1    = oresama1P.act    ;Palettes (can have up to 12)
+pal2    = oresama2P.act    ;Palettes (can have up to 12)
+pal3    = oresama3P.act    ;Palettes (can have up to 12)
+pal4    = oresama4P.act    ;Palettes (can have up to 12)
+pal5    = oresama5P.act    ;Palettes (can have up to 12)
+pal6    = oresama6P.act    ;Palettes (can have up to 12)
+pal7    = oresama1P.act    ;Palettes (can have up to 12)
+pal8    = oresama2P.act    ;Palettes (can have up to 12)
+pal9    = oresama3P.act    ;Palettes (can have up to 12)
+pal10   = oresama4P.act    ;Palettes (can have up to 12)
+pal11   = oresama5P.act    ;Palettes (can have up to 12)
+pal12   = oresama12P.act   ;Palettes (can have up to 12)
+; Arcade mode
+[Arcade]
+intro.storyboard = 
+ending.storyboard = 

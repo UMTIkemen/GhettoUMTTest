@@ -1,0 +1,41 @@
+; ADD004 BASIC PIEs ReBuilded DEF (10/5/2020)
+;==============================================
+; This file is Made by PIE.
+; there is a backup of this file in the same folder, named "<samename>.a4bk".
+; to Restore, use assist tool, or delete this file, then remove ".a4bk" from the neme of backup.
+;==============================================
+
+; Player information
+[Info]
+name         = "KENSHIRO"
+displayname  = "Kenshiro"
+VersionDate  = 04,14,2001
+mugenversion = 04,14,2001
+author       = "Cameron, edited by Rorta"
+pal.defaults = 1
+localcoord = 342,240
+portraitscale = 1
+; Files for the player
+[Files]
+cmd      = Kenshiro.cmd
+cns=add004basic.reb1
+st=add004basic.reb1
+stcommon=common1.cns
+sprite   = Kenshiro.sff
+anim     = Kenshiro.air
+sound    = Kenshiro.snd
+Pal1     = Pal/ken01.act         ;AC北斗の拳　アニメ
+Pal2     = Pal/ken03.act         ;北斗の拳2風
+Pal3     = Pal/ken04.act         ;小パン王風カラー
+Pal4     = Pal/ken02.act         ;原作風
+Pal5     = Pal/ken05.act         ;病人風カラー
+Pal6     = Pal/ken06.act         ;汚物風カラー
+Pal7     = Pal/ken07.act         ;アニメの昔風カラー
+Pal8     = Pal/ken08.act         ;北斗無双？風カラー
+Pal9     = Pal/ken01.act
+Pal10    = Pal/ken02.act
+Pal11    = Pal/ken11.act         ;黒カラー
+Pal12    = Pal/ken12.act         ;金カラー
+[Arcade];
+intro.storyboard=
+ending.storyboard=

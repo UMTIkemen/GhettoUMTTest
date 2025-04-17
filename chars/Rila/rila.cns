@@ -1,0 +1,115 @@
+[Data]
+life = 1000
+attack = 100
+defence = 100
+power = 3000
+fall.defence_up = 50
+liedown.time = 16
+airjuggle = 50
+sparkno = 2
+guard.sparkno = 40
+KO.echo = 0
+IntPersistIndex = 0
+FloatPersistIndex = 0
+
+[Size]
+xscale = 1
+yscale = 1
+ground.back = 18
+ground.front = 18
+air.back = 14
+air.front = 14
+height = 60
+attack.dist = 160
+proj.attack.dist = 90
+proj.doscale = 0
+head.pos = 6, -80
+mid.pos = -2, -52
+shadowoffset = 0
+draw.offset = 0,-1
+
+[Velocity]
+walk.fwd  = 3
+walk.back = -2
+run.fwd  = 6, 0
+run.back = -6,-3.5
+jump.neu = 0,-12
+jump.fwd = 3
+jump.back = -3
+runjump.fwd = 3,-15
+runjump.back = -3,-15
+airjump.neu = 0,0
+airjump.back = 0
+airjump.fwd = 0
+
+[Movement]
+airjump.num = 0
+airjump.height = 0
+yaccel = .85
+stand.friction = .85
+crouch.friction = .825
+
+[Quotes]
+victory1 = "You strong. You have same smell like me."
+victory2 = "Rila keep the rules of the forest!"
+victory3 = "You, weak. You can't live in the forest."
+victory4 = "I hungry. I feel bad here."
+victory5 = "You look delicious."
+victory6 = "You strong. But Rila is much stronger!"
+
+; RILA JUNGLING GUIDE
+;  Var(2) = Jump Shit
+;  Var(3) = AI Shit
+;  Var(4) = KO Shit
+;  Var(5) = Temp Shit
+;  Var(6) = BLOODY! Temp
+;  Var(7) = BREAKER Timer
+;  Var(8) = Hit Shit
+;  Var(9) = Combo Shit
+
+;  Var(10) = SETTING - Victory Music
+;  Var(11) = SETTING - Announcer
+;  Var(12) = SETTING - Alternate Commands
+;  Var(13) = SETTING - KO Effects
+;  Var(14) = SETTING - AI Level
+
+;  Var(20) = Perfect Condition
+
+;  Var(30) = GameWidth for WinMugen
+;  Var(31) = GameHeight for WinMugen
+
+; FVar(4)  = Shit Conversion Multiplier - Damage (After Dampening)
+; FVar(5)  = Shit Conversion Multiplier - Damage (Default)
+; FVar(6)  = Shit Conversion Multiplier - Power Gain
+; FVar(7)  = Shit Conversion Multiplier - X Hit Velocity (DEPRECIATED) (0.13636)
+; FVar(8)  = Shit Conversion Multiplier - Y Hit Velocity (DEPRECIATED) (0.21000)
+; FVar(9)  = Shit Conversion Multiplier - X Hit Velocity (Air) (DEPRECIATED) (0.06666)
+
+; HELPER 2950
+;  Var(20) = AfterImage1 - X Pos - 0
+;  Var(21) = AfterImage1 - X Pos - 2
+;  Var(22) = AfterImage1 - Y Pos - 0
+;  Var(23) = AfterImage1 - Y Pos - 2
+;  Var(24) = AfterImage1 - Anim - 0
+;  Var(25) = AfterImage1 - Anim - 2
+;  Var(26) = AfterImage1 - Elem - 0
+;  Var(27) = AfterImage1 - Elem - 2
+;  Var(28) = AfterImage1 - Facing - 0
+;  Var(29) = AfterImage1 - Facing - 2
+
+; HELPER 2951
+;  Var(30) = AfterImage2 - X Pos - 0
+;  Var(31) = AfterImage2 - X Pos - 2
+;  Var(32) = AfterImage2 - X Pos - 4
+;  Var(33) = AfterImage2 - Y Pos - 0
+;  Var(34) = AfterImage2 - Y Pos - 2
+;  Var(35) = AfterImage2 - Y Pos - 4
+;  Var(36) = AfterImage2 - Anim - 0
+;  Var(37) = AfterImage2 - Anim - 2
+;  Var(38) = AfterImage2 - Anim - 4
+;  Var(39) = AfterImage2 - Elem - 0
+;  Var(40) = AfterImage2 - Elem - 2
+;  Var(41) = AfterImage2 - Elem - 4
+;  Var(42) = AfterImage2 - Facing - 0
+;  Var(43) = AfterImage2 - Facing - 2
+;  Var(44) = AfterImage2 - Facing - 4

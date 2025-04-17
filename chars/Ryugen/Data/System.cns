@@ -1,0 +1,912 @@
+;-| System States |------------------------------------------------------
+;------------------------------------------------------------------------
+;前方回避
+;------------------------------------------------------------------------
+[Statedef 700]
+Type    = S
+Physics = N
+Ctrl = 0
+Anim = 700
+SprPriority = -1
+FaceP2 = 1
+
+[State 700, 投げ以外無敵]
+Type = HitBy
+TriggerAll = Var(31) <= 0
+Trigger1 = AnimTime <= -4
+Value = SCA,NT,ST,HT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 700, 投げ以外無敵]
+Type = HitBy
+Trigger1 = Var(31) > 0
+Value = SCA,NT,ST,HT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 700, ぶつかり判定の消失]
+Type = PlayerPush
+Trigger1 = 1
+Value = 0
+IgNoreHitPause = 1
+
+[State 700, 前進]
+Type = VelSet
+Trigger1 = AnimElem = 3
+X = 8
+
+[State 700, 減速]
+Type = VelMul
+Trigger1 = AnimElem = 3, > 0
+X = 0.92
+
+[State 700, 点滅]
+Type = PalFX
+Trigger1 = AnimTime <= -4
+Trigger1 = Time % 5 = 0
+Time = 1
+Add = 64,64,64
+Mul = 192,192,192
+
+[State 700, 残像]
+Type = AfterImage
+Trigger1 = Time = 0
+Time = -AnimTime
+Length = 10
+;PalColor = 256
+;PalInvertall = 0
+;PalBright = 0,0,0
+PalContrast = 64,64,64
+;PalPostBright = 0,0,0
+;PalAdd = 0,0,0
+;PalMul = 1,1,1
+TimeGap = 1
+FrameGap = 4
+Trans = Add1
+
+[State 700, 連続使用制限フラグ]
+Type = Explod
+Trigger1 = AnimTime = 0
+Anim = 10000
+ID = 700
+Pos = 0, 9999
+PosType = P1
+ReMoveTime = 8
+Scale = 0.5, 0.5
+OwnPal = 1
+ReMoveOnGetHit = 1
+
+[State 700, 立ち状態へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 特殊喰らい : ヒットポーズ
+[Statedef 5600]
+Type    = U
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 5600, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5600, ヒットポーズ演出]
+Type = OffSet
+Trigger1 = Time % 4 = 0
+X = 1
+
+[State 5600, ヒットポーズ演出]
+Type = OffSet
+Trigger1 = Time % 4 = 2
+X = -1
+
+[State 5600, Anim for HIT_LIGHT to HIT_HARD]
+Type = ChangeAnim
+TriggerAll = StateType = S
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) != [3,5]
+Value = IfElse((GetHitVar(GroundType) = 1),5000,5010) + GetHitVar(AnimType)
+
+[State 5600, Anim for HIT_LIGHT to HIT_HARD]
+Type = ChangeAnim
+TriggerAll = StateType = C
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) != [3,5]
+Value = 5020 + GetHitVar(AnimType)
+
+[State 5600, Anim for HIT_LIGHT to HIT_HARD]
+Type = ChangeAnim
+TriggerAll = StateType = A
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) != [3,5]
+Value = IfElse((GetHitVar(AirType) = 1),5000,5010) + GetHitVar(AnimType)
+
+[State 5600, Anim for HIT_BACK]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) = [3,5]
+Value = 5030
+
+[State 5600, Anim for HIT_UP/HIT_DIAGUP (only if it exists)]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = (GetHitVar(AnimType) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(AnimType)))
+Value = 5047 + GetHitVar(AnimType) ;5051 - 4 + Type
+
+[State 5070, 足払い喰らい動作]
+Type = ChangeAnim 
+Trigger1 = GetHitVar(GroundType) = 3
+Value = 5070
+
+[State 5600, Freeze Anim]
+Type = ChangeAnim
+Trigger1 = Time > 0
+Value = Anim
+
+[State 5600, State Type gets set to aerial if getting hit up]
+Type = StateTypeSet
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(YVel) != 0 || GetHitVar(Fall)
+Trigger2 = Time = 0 || StateType != C
+Trigger2 = Pos Y != 0
+Trigger3 = GetHitVar(GroundType) = 3
+StateType = A
+
+[State 5600, 地上ヒットバックへ]
+Type = SelfState
+TriggerAll = StateType != A
+Trigger1 = HitShakeOver
+Trigger1 = GetHitVar(YVel) = 0 && !GetHitVar(Fall)
+Value = 5001 + (StateType = C) * 10
+
+[State 5070, 足払い吹っ飛びへ]
+Type = SelfState
+TriggerAll = GetHitVar(GroundType) = 3
+Trigger1 = HitShakeOver
+Value = 5071
+
+[State 5600, 空中吹っ飛びへ]
+Type = SelfState
+Trigger1 = HitShakeOver
+Value = 5030
+
+[State 5600, FFB Light]
+Type = ForceFeedBack
+Trigger1 = Anim = 5000
+Trigger2 = Anim = 5010
+Trigger3 = Anim = 5020
+Persistent = 0
+Time = 6
+WaveForm = Square
+
+[State 5600, FFB Medium]
+Type = ForceFeedBack
+Trigger1 = Anim = 5001
+Trigger2 = Anim = 5011
+Trigger3 = Anim = 5021
+Persistent = 0
+Time = 8
+WaveForm = SineSquare
+Ampl = 110,-1,-.3
+
+[State 5600, FFB Trip]
+Type = ForceFeedBack
+TriggerAll = GetHitVar(GroundType) = 3
+Trigger1 = Time = 0
+Time = 12
+WaveForm = SineSquare
+Ampl = 140
+
+[State 5600, FFB Hard]
+Type = ForceFeedBack
+Trigger1 = Anim = 5012
+Trigger2 = Anim = 5002
+Trigger3 = Anim = 5022
+Trigger4 = Anim = 5030
+Trigger5 = Anim = [5051,5059]
+Persistent = 0
+Time = 15
+WaveForm = SineSquare
+Ampl = 140
+
+;------------------------------------------------------------------------
+;ガード用バリアエフェクト(HELPER)
+;------------------------------------------------------------------------
+[Statedef 6120]
+Physics = N
+Ctrl = 0
+Anim = 6120
+SprPriority = 2
+
+[State 6120, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 6120, 影を消す]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 6120, 本体と同じ向き]
+Type = Turn
+TriggerAll = IsHelper
+Trigger1 = Facing != Root,Facing
+IgNoreHitPause = 1
+
+[State 6120, 本体に固定]
+Type = BindToRoot
+Trigger1 = IsHelper
+Pos = 55,-70
+IgNoreHitPause = 1
+
+[State 6120]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = Root,StateNo != [120,159]
+IgNoreHitPause = 1
+
+[State 6120, ヒットポーズ中のアニメ切り替え]
+Type = ChangeAnim
+TriggerAll = IsHelper
+TriggerAll = Root,Time = 1
+Trigger1 = Root,StateNo = 150
+Trigger2 = Root,StateNo = 152
+Trigger3 = Root,StateNo = 154
+Value = 6121
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 6120, ヒットポーズ中のアニメ切り替え]
+Type = ChangeAnim
+TriggerAll = IsHelper
+TriggerAll = Anim != 6120
+Trigger1 = AnimTime = 0
+Value = 6120
+Persistent = 1
+IgNoreHitPause = 1
+
+;------------------------------------------------------------------------
+;黒竜石ヘルパー(HELPER)
+;------------------------------------------------------------------------
+[Statedef 6000]
+Physics = N
+Ctrl = 0
+Anim = 6000
+SprPriority = 2
+
+[State 6000, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 6000, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+;------------------------------------------------------------------------
+[Statedef 6190]
+Physics = N
+Ctrl = 0
+Anim = 6190
+VelSet = 0,-6
+SprPriority = 2
+
+[State 6190, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 6190, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 6190, フェードイン]
+Type = Trans
+Trigger1 = 1
+Trans = AddAlpha
+Alpha = (256 / (Time - AnimTime) * Time),256 - (256 / (Time - AnimTime) * Time)
+
+[State 6190, 減速]
+Type = VelMul
+Trigger1 = 1
+Y = 0.92
+
+[State 6190, 速度がゼロ以上にならないように]
+Type = VelSet
+Trigger1 = AnimTime = 0
+Y = 0
+
+[State 6190, ステート変更]
+Type = ChangeState
+TriggerAll = IsHelper
+Trigger1 = AnimTime = 0
+Value = 6000
+
+;------------------------------------------------------------------------
+;相手身体の炎ヘルパー(HELPER)
+;------------------------------------------------------------------------
+[Statedef 7001]
+Physics = N
+Ctrl = 0
+Anim = 7001
+SprPriority = 7
+
+[State 7001, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 7001, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 7001, 相手に付着]
+Type = PosSet
+Trigger1 = IsHelper
+X = EnemyNear(Root,Var(57)),Pos X
+Y = EnemyNear(Root,Var(57)),Pos Y + EnemyNear(Root,Var(57)),Const(Size.Mid.Pos.Y)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 7001, 相手に付着]
+Type = PosSet
+Trigger1 = IsHelper
+Trigger1 = EnemyNear(Root,Var(57)),StateType = L
+X = EnemyNear(Root,Var(57)),Pos X
+Y = EnemyNear(Root,Var(57)),Pos Y
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 7001, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = Time % 6 = 0
+Anim = 6092
+ID = 6092
+Pos = 0, -30
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = 4
+Random = 10, 20
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 6120]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = EnemyNear(Root,Var(57)),StateType = L
+Trigger2 = EnemyNear(Root,Var(57)),MoveType != H
+Trigger3 = Time >= 50
+
+;------------------------------------------------------------------------
+;相殺システムヘルパー(HELPER)
+;------------------------------------------------------------------------
+[Statedef 8400]
+MoveType= I
+Physics = N
+Ctrl = 0
+Anim = 10000
+VelSet = 0,0
+SprPriority = -1
+
+;Var(0)  = エフェクトX軸
+;Var(1)  = エフェクトY軸
+
+[State 8400, 間違いで本体が来たら立ちへ復帰]
+Type = SelfState
+Trigger1 = !IsHelper
+Value = 0
+Ctrl = 1
+
+[State 8400, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 8400, 再起動]
+Type = HitOverRide
+Trigger1 = IsHelper
+Attr = SCA,AA,AP,AT
+Slot = 0
+StateNo = StateNo
+Time = 1
+ForceAir = 0
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 8400, 不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 8400, 本体と同じ向き]
+Type = Turn
+TriggerAll = IsHelper
+Trigger1 = Facing != Root,Facing
+IgNoreHitPause = 1
+
+[State 8400, 位置を固定]
+Type = PosFreeze
+Trigger1 = IsHelper
+Value = 1
+IgNoreHitPause = 1
+
+[State 8400, 本体に接着]
+Type = BindToRoot
+Trigger1 = IsHelper
+Pos = 0,0
+IgNoreHitPause = 1
+
+[State 8400, 本体動作と同期]
+Type = ChangeAnim
+Trigger1 = IsHelper
+Value = Root,Anim
+Elem = Root,AnimElemNo(0)
+IgNoreHitPause = 1
+
+[State 8400, 相殺無効タイミング指定]
+Type = ChangeAnim
+TriggerAll = IsHelper
+TriggerAll = Root,Var(31) <= 0
+Trigger1 = Root,StateNo = 630
+Trigger1 = Root,AnimElemNo(0) >= 7
+Value = 10000
+IgNoreHitPause = 1
+
+[State 8400, 相殺定義]
+Type = ReversalDef
+TriggerAll = IsHelper
+TriggerAll = Root,Var(31) <= 0
+TriggerAll = !MoveContact && !MoveReversed
+Trigger1 = Root,StateNo = 220
+Trigger2 = Root,StateNo = 230
+Trigger3 = Root,StateNo = 232
+Trigger4 = Root,StateNo = 420
+Trigger5 = Root,StateNo = 430
+Trigger6 = Root,StateNo = 620
+Trigger7 = Root,StateNo = 630
+Reversal.Attr = SCA,NA
+PauseTime = 1,1
+SparkNo = -1
+HitSound = -1
+NumHits = 0
+
+[State 8400, 相殺定義]
+Type = ReversalDef
+TriggerAll = IsHelper
+TriggerAll = Root,Var(31) > 0
+TriggerAll = !MoveContact && !MoveReversed
+Trigger1 = Root,StateNo = 210
+Trigger2 = Root,StateNo = 220
+Trigger3 = Root,StateNo = 230
+Trigger4 = Root,StateNo = 232
+Trigger5 = Root,StateNo = 410
+Trigger6 = Root,StateNo = 420
+Trigger7 = Root,StateNo = 430
+Trigger8 = Root,StateNo = 610
+Trigger9 = Root,StateNo = 620
+Trigger10 = Root,StateNo = 630
+Reversal.Attr = SCA,NA,SA
+PauseTime = 1,1
+SparkNo = -1
+HitSound = -1
+NumHits = 0
+
+[State 8400, SE : 相殺音]
+Type = PlaySnd
+Trigger1 = MoveHit = 1
+Value = 5, 10
+Persistent = 0
+IgNoreHitPause = 1
+
+[State 8400, VarSet]
+Type = Null
+TriggerAll = IsHelper
+Trigger1 = Root,StateNo = 200
+Trigger1 = Var(0) := 0
+Trigger1 = Var(1) := 0
+Trigger2 = Root,StateNo = 210
+Trigger2 = Var(0) := 0
+Trigger2 = Var(1) := 0
+Trigger3 = Root,StateNo = 220
+Trigger3 = Var(0) := 110
+Trigger3 = Var(1) := -80
+Trigger4 = Root,StateNo = 230
+Trigger4 = Var(0) := 90
+Trigger4 = Var(1) := -110
+Trigger5 = Root,StateNo = 400
+Trigger5 = Var(0) := 0
+Trigger5 = Var(1) := 0
+Trigger6 = Root,StateNo = 410
+Trigger6 = Var(0) := 0
+Trigger6 = Var(1) := 0
+Trigger7 = Root,StateNo = 420
+Trigger7 = Var(0) := 90
+Trigger7 = Var(1) := -100
+Trigger8 = Root,StateNo = 430
+Trigger8 = Var(0) := 110
+Trigger8 = Var(1) := -20
+Trigger9 = Root,StateNo = 600
+Trigger9 = Var(0) := 0
+Trigger9 = Var(1) := 0
+Trigger10 = Root,StateNo = 610
+Trigger10 = Var(0) := 0
+Trigger10 = Var(1) := 0
+Trigger11 = Root,StateNo = 620
+Trigger11 = Var(0) := 90
+Trigger11 = Var(1) := -100
+Trigger12 = Root,StateNo = 630
+Trigger12 = Var(0) := 100
+Trigger12 = Var(1) := -60
+
+[State 8400, Effect : 相殺エフェクト]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = MoveHit = 1
+Anim = 8400
+ID = 8400
+Pos = Var(0),Var(1)
+PosType = P1
+Random = 10, 20
+ReMoveTime = -2
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+Scale = 0.5, 0.5
+SprPriority = 9
+OnTop = 1
+OwnPal = 1
+Persistent = 0
+IgNoreHitPause = 1
+
+[State 8400, 相殺ヒットポーズ]
+Type = Pause
+Trigger1 = MoveHit = 1
+Time = 14
+MoveTime = 14
+Persistent = 0
+IgNoreHitPause = 1
+
+[State 8400, 消失]
+Type = ChangeState
+TriggerAll = IsHelper
+Trigger1 = Root,MoveType = H
+Trigger2 = MoveContact || MoveReversed
+Trigger3 = Root,StateNo != 200
+Trigger3 = Root,StateNo != 210
+Trigger3 = Root,StateNo != 220
+Trigger3 = Root,StateNo != 230
+Trigger3 = Root,StateNo != 232
+Trigger3 = Root,StateNo != 400
+Trigger3 = Root,StateNo != 410
+Trigger3 = Root,StateNo != 420
+Trigger3 = Root,StateNo != 430
+Trigger3 = Root,StateNo != 600
+Trigger3 = Root,StateNo != 610
+Trigger3 = Root,StateNo != 620
+Trigger3 = Root,StateNo != 630
+Value = 10000
+
+[State 8400, 再起動]
+Type = ChangeState
+TriggerAll = IsHelper
+Trigger1 = Root,AnimTime = 0
+Value = StateNo
+
+;------------------------------------------------------------------------
+;ヘルパー分身対策(HELPER)
+;------------------------------------------------------------------------
+[Statedef 10000]
+MoveType= I
+Physics = N
+Ctrl = 0
+Anim = 10000
+VelSet = 0,0
+SprPriority = 2
+
+[State 10000, 間違いで本体が来たら立ちへ復帰]
+Type = SelfState
+Trigger1 = !IsHelper
+Value = 0
+Ctrl = 1
+
+[State 10000, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 10000, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 10000, 消失]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = AnimTime = 0
+IgNoreHitPause = 1
+
+;------------------------------------------------------------------------
+;残像ヘルパー(HELPER)
+;------------------------------------------------------------------------
+[Statedef 10001]
+MoveType= I
+Physics = N
+Ctrl = 0
+Anim = Root,Anim
+SprPriority = 2
+
+[State 10001, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 10001, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 10001, 本体に追従]
+Type = BindToRoot
+Trigger1 = IsHelper
+Time = 1
+Facing = 1
+Pos = 0, 0
+IgNoreHitPause = 1
+
+[State 10001, アニメ同期]
+Type = ChangeAnim
+Trigger1 = IsHelper
+Value = Root,Anim
+Elem = Root,AnimElemNo(0)
+IgNoreHitPause = 1
+
+[State 10001, 角度描画]
+Type = AngleDraw
+Trigger1 = 1
+Scale = 1 + (Time * 0.0067),1 + (Time * 0.0067)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 10001, 透過処理]
+Type = Trans
+Trigger1 = 1
+Trans = AddAlpha
+Alpha = 256 - (Time * 8), (Time * 8)
+IgNoreHitPause = 1
+
+[State 10001, 消失]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = Time = 30
+IgNoreHitPause = 1
+
+;------------------------------------------------------------------------
+;超必殺処理ヘルパー(HELPER)
+;------------------------------------------------------------------------
+[Statedef 39000]
+Physics = N
+Ctrl = 0
+Anim = IfElse(IsHelper(39500),8305,8300)
+SprPriority = 9
+
+;Var(0)  = カットインスライド用
+;Var(1)  = カットイン透過用
+
+;Var(5)  = 暗転処理用
+
+;FVar(0)  = カットイン伸縮用
+
+[State 39000, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 39000, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 39000, SE : 超必殺]
+Type = PlaySnd
+Trigger1 = Time = 0
+Value = 5, 0
+Persistent = 0
+
+[State 39000, カットインスライド]
+Type = Null
+TriggerAll = IsHelper
+Trigger1 = Time = 0
+Trigger1 = Var(0) := -160 || 1
+Trigger2 = Time = 1
+Trigger2 = Var(0) := Var(0) + 30 || 1
+Trigger3 = Time = [2,3]
+Trigger3 = Var(0) := Var(0) + 20 || 1
+Trigger4 = Time = [4,6]
+Trigger4 = Var(0) := Var(0) + 10 || 1
+Trigger5 = Time = [7,10]
+Trigger5 = Var(0) := Var(0) + 5 || 1
+Trigger6 = Time = [24,28]
+Trigger6 = Var(0) := Var(0) + 1 || 1
+
+[State 39000, カットイン透過]
+Type = Null
+TriggerAll = IsHelper
+Trigger1 = Time = [0,9]
+Trigger1 = Var(1) := Var(1) + 25 || 1
+Trigger2 = Time = 10
+Trigger2 = Var(1) := 256 || 1
+Trigger3 = Time = [24,28]
+Trigger3 = Var(1) := Var(1) - 50 || 1
+
+[State 39000, カットイン伸縮]
+Type = Null
+TriggerAll = IsHelper
+Trigger1 = Time = 0
+Trigger1 = FVar(0) := 0.5 || 1
+Trigger2 = Time = [24,28]
+Trigger2 = FVar(0) := FVar(0) + 0.025 || 1
+
+[State 39000, 暗転処理]
+Type = Null
+TriggerAll = IsHelper
+TriggerAll = IsHelper(39500) = 0
+Trigger1 = Time = 0
+Trigger1 = Var(5) := 256 || 1
+Trigger2 = Time = [1,9]
+Trigger2 = Var(5) := Var(5) - 12 || 1
+Trigger3 = Time = 10
+Trigger3 = Var(5) := 128 || 1
+Trigger4 = Time = [30,39]
+Trigger4 = Var(5) := Var(5) + 12 || 1
+Trigger5 = Time >= 40
+Trigger5 = Var(5) := 256 || 1
+
+[State 39000, MAX暗転処理]
+Type = Null
+TriggerAll = IsHelper(39500)
+Trigger1 = Time = 0
+Trigger1 = Var(5) := 256 || 1
+Trigger2 = Time = [1,9]
+Trigger2 = Var(5) := Var(5) - 24 || 1
+Trigger3 = Time = 10
+Trigger3 = Var(5) := 0 || 1
+Trigger4 = Time = [30,39]
+Trigger4 = Var(5) := Var(5) + 24 || 1
+Trigger5 = Time >= 40
+Trigger5 = Var(5) := 256 || 1
+
+;----------------------------[]
+
+[State 39000, カットイン表示]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = Time = [0,36]
+Anim = 9000
+ID = 9000
+Pos = Var(0), 0
+PosType = Back
+BindTime = 1
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+Scale = FVar(0), FVar(0)
+SprPriority = IfElse(Root,StateNo = 3511,3,0)
+OwnPal = 1
+Trans = AddAlpha
+Alpha = Var(1),256 - Var(1)
+
+;----------------------------[]
+
+[State 39000, 不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Trigger1 = Root,StateNo = 3511
+Flag = Invisible
+
+[State 39000, 背景暗転]
+Type = BGPalFX
+Trigger1 = IsHelper
+Trigger1 = Root,StateNo != 3511
+Time = 1
+Mul = Var(5),Var(5),Var(5)
+
+[State 39000, 背景個別処理]
+Type = Null;BGPalFX
+TriggerAll = IsHelper
+TriggerAll = Root,AnimElemTime(2) = [-1,19]
+Trigger1 = Root,StateNo = 3101
+Time = 1
+Add = 256 - Root,AnimElemTime(2) * 12,256 - Root,AnimElemTime(2) * 12,256 - Root,AnimElemTime(2) * 12
+
+;----------------------------[]
+
+[State 39000, 消失]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = Time = 40
+
+;------------------------------------------------------------------------
+;システム用常駐ヘルパー(HELPER)
+;------------------------------------------------------------------------
+[Statedef 60906]
+Ctrl = 0
+Anim = 10000
+
+;----------------------------[ヘルパー処理]
+
+[State 60906, 本体に追従]
+Type = BindToRoot
+Trigger1 = IsHelper
+Pos = 0,0
+IgNoreHitPause = 1
+
+[State 60906, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = -1
+
+[State 60906, 不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1

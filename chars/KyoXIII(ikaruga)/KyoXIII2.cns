@@ -1,0 +1,2965 @@
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;超必殺技
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+;---------------------------------------------------------------------------
+; 裏百八式・大蛇薙
+[Statedef 2000]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= -1000
+anim = 2000
+ctrl = 0
+sprpriority = 1
+
+;---------------------[ヘルパー]
+[state a];SUPER CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6620
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+var(20) = -500
+
+
+[state a];HD CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6625
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+var(21) = -100
+
+;---------------------[超必殺技演出]
+[state removeexplod]
+type = removeexplod
+trigger1 = time = 0
+id = 3000
+
+[State superpause]
+type = superpause
+trigger1 = time = 1
+time = 32
+movetime = 32
+anim = -1
+darken = 0
+p2defmul = 1
+
+[State explod]
+type = explod
+trigger1 = time = 1
+anim = 6000
+sprpriority = -9999
+postype = p1
+pos = 16/2,-156/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State explod]
+type = explod
+trigger1 = time = 4
+anim = 6001
+sprpriority = 9999
+postype = p1
+pos = 16/2,-156/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,0
+
+[state helper]
+type = Helper
+trigger1 = time = 0
+id = 6005
+name = "bg"
+pos = 0,0
+postype = p1
+stateno = 6005
+helpertype = normal
+supermovetime = 999999
+ownpal = 1
+
+;---------------------[各種値]
+[state varadd];GCゲージ
+type = varadd
+trigger1 = moveguarded = 1
+var(25) = 102
+ignorehitpause = 1
+persistent = 0
+
+
+;---------------------[変数]
+[state a]
+type = varset
+trigger1 = time = 0
+v = 5
+value = 0
+
+[state a]
+type = varset
+trigger1 = time = 0
+trigger1 = command = "x"
+v = 5
+value = 0
+
+[state a]
+type = varset
+triggerall = time = 0
+trigger1 = command = "y"
+trigger2 = var(39) = 1
+v = 5
+value = 1
+
+[state a]
+type = changeanim
+trigger1 = time = 0
+trigger1 = var(5) = 1
+value = 2001
+
+
+[state a]
+type = varset
+trigger1 = time = 0
+v = 6
+value = 0
+
+[state a]
+type = varset
+triggerall = time <= 16
+trigger1 = command != "holdx"
+trigger1 = command != "holdy"
+v = 6
+value = 1
+
+;---------------------[効果音]
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 3
+value = 2000,0
+channel = 5
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 3
+value = 2000,3
+channel = 6
+
+
+;---------------------[エフェクト]
+[State explod];溜め
+type = Explod
+trigger1 = animelem = 3
+anim = 2010
+id = 3000
+sprpriority = 5
+postype = p1
+pos = 0,0
+bindtime = -1
+removetime = -1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+supermove = 999
+pausemove = 999
+
+;---------------------[演出]
+[State a];
+type = Width
+trigger1 = 1
+edge = 36,0
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = var(6) = 1
+trigger1 = time >= 20
+value = 2005
+
+[state a]
+type = changestate
+trigger1 = var(6) = 0
+trigger1 = time >= 20
+trigger1 = command != "holdx"
+trigger1 = command != "holdy"
+trigger2 = time >= 160
+value = 2005
+
+
+;---------------------------------------------------------------------------
+; 裏百八式・大蛇薙・攻撃
+[Statedef 2005]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= 0
+anim = 2006 - var(6)
+ctrl = 0
+sprpriority = 1
+
+;---------------------[効果音]
+[State a];
+type = stopSnd
+trigger1 = animelem = 11
+channel = 5
+
+[State a];
+type = stopSnd
+trigger1 = animelem = 11
+channel = 6
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 11
+value = 2000,1
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 12
+value = 2000,4
+
+;---------------------[演出]
+[State a];
+type = Width
+trigger1 = 1
+edge = 36,0
+
+;---------------------[エフェクト]
+[State explod];
+type = removeExplod
+trigger1 = time = 0
+id = 3000
+
+[State explod];
+type = Explod
+trigger1 = time = 0
+anim = 2011
+id = 3000
+sprpriority = 5
+postype = p1
+pos = 0,0
+bindtime = -1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+supermove = 999
+pausemove = 999
+
+[State explod];
+type = Explod
+trigger1 = animelem = 9
+anim = 2015
+id = 3000
+sprpriority = 5
+postype = p1
+pos = 0,0
+bindtime = -1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+[State explod];
+type = Explod
+trigger1 = animelem = 11
+anim = 2016
+id = 3000
+sprpriority = -1
+postype = p1
+pos = 24,0
+bindtime = 1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = animelem = 11
+id = 2020
+name = "orochinagi"
+sprpriority = 5
+pos = 172/2,-122/2
+postype = p1
+stateno = 2020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+[state a];
+type = Helper
+trigger1 = animelem = 11
+id = 2025
+name = "orochinagi"
+sprpriority = 5
+pos = 172/2,-122/2
+postype = p1
+stateno = 2025
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = animelem = 11
+x = 10
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.85
+
+[state a]
+type = velset
+trigger1 = animelem = 16
+x = 0
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = animtime = 0
+value = 2007
+
+;---------------------------------------------------------------------------
+; 裏百八式・大蛇薙・挑発
+[Statedef 2007]
+type    = S
+movetype= I
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= 0
+anim = 2007
+ctrl = 1
+sprpriority = 1
+
+;---------------------[効果音]
+[State playsnd]
+type = playsnd
+trigger1 = animelem = 9
+value = 181, 2
+
+
+;---------------------[エフェクト]
+[State explod];
+type = Explod
+trigger1 = animelem = 9
+anim = 182
+id = 180
+sprpriority = 20
+postype = p1
+pos = 18/2,-214/2
+bindtime = 1
+ignorehitpause = 1
+persistent = 0
+under = 0
+ontop = 1
+ownpal = 1
+scale = 0.5,0.5
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+
+
+
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+;----------------------------------------------------------------------------
+;(HELPER)炎
+[Statedef 2020]
+type = A
+ctrl = 0
+anim = 2020
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 40
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 12
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.9
+
+;---------------------[演出]
+[State envshake]
+type = EnvShake
+trigger1 = animelem = 3
+time = 12
+ampl = -8
+freq = 75
+phase = 75
+
+
+;---------------------[拡大縮小]
+[state a]
+type = null;angledraw
+trigger1 = 1
+scale = 0.55 - var(1)*0.01,0.55 - var(1)*0.01
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+;----------------------------------------------------------------------------
+;(HELPER)攻撃判定
+[Statedef 2025]
+type = A
+ctrl = 0
+anim = 2025
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 40
+
+;---------------------[ダメージ補正]
+[state varset]
+type = varset
+trigger1 = time = 0
+fvar(5) = root,fvar(5)
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 12
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.9
+
+;---------------------[ヒットエフェクト]
+[state a];炎ヒット用ヘルパー
+type = Helper
+trigger1 = movehit = 1
+id = 7020
+name = "hit"
+pos = 0,0
+postype = p2
+stateno = 7020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0 
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+
+[State explod];ガードエフェクト
+type = Explod
+trigger1 = moveguarded = 1
+anim = 7052
+id = 7000
+sprpriority = 20
+postype = p1
+pos = 30/2,-42/2
+bindtime = 1
+supermove = 999
+pausemove = 999
+ignorehitpause = 1
+persistent = 0
+under = 0
+ontop = 1
+ownpal = 1
+scale = 0.5,0.5
+facing = -1
+
+
+;---------------------[攻撃]
+[State 600, 2]
+type = HitDef
+triggerall = root,var(7) = 0
+triggerall = enemynear,stateno != [5040,5049]
+trigger1 = time = 0
+attr = A, HP
+animtype  = up
+damage    = floor(210*fvar(5)),35
+priority = 4, Hit
+getpower = 0,0
+guardflag = M
+pausetime = 0,14
+sparkno = s-1
+sparkxy = 0,0
+hitsound   = s1000,5
+guard.sparkno = s-1
+guardsound = s1000,6
+ground.type = high
+ground.slidetime = 21
+ground.hittime  = 21
+ground.velocity = -4.2,-7.5
+air.velocity = -4.2,-6.7
+yaccel = 0.52
+ID = 200
+nochainID = 9999
+fall = 1
+fall.recover = 0
+palfx.time =50
+palfx.mul = 240,200,100
+palfx.sinadd = 63,65,68,18
+palfx.add = 230,180,124
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+
+;----------------------------------------------------------------------------
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+
+
+
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+;---------------------------------------------------------------------------
+; EX裏百八式・大蛇薙
+[Statedef 2050]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= -2000
+anim = 2050
+ctrl = 0
+sprpriority = 1
+
+;---------------------[ヘルパー]
+[state a];SUPER CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6620
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+var(20) = -500
+
+
+[state a];HD CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6625
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+var(21) = -100
+
+;---------------------[無敵]
+[state nothitby]
+type = nothitby
+trigger1 = time <= 32
+value = SCA
+time = 1
+
+;---------------------[超必殺技演出]
+[state removeexplod]
+type = removeexplod
+trigger1 = time = 0
+id = 3000
+
+[State superpause]
+type = superpause
+trigger1 = time = 1
+time = 30
+movetime = 30
+anim = -1
+darken = 0
+p2defmul = 1
+
+[State explod]
+type = explod
+trigger1 = time = 1
+anim = 6010
+sprpriority = -9999
+postype = p1
+pos = 16/2,-156/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State explod]
+type = explod
+trigger1 = time = 4
+anim = 6011
+sprpriority = 9999
+postype = p1
+pos = 16/2,-156/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,0
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,1
+
+[state helper]
+type = Helper
+trigger1 = time = 0
+id = 6005
+name = "bg"
+pos = 0,0
+postype = p1
+stateno = 6006
+helpertype = normal
+supermovetime = 999999
+ownpal = 1
+
+
+[State EX]
+type = Explod
+trigger1 = time = 1
+anim = 6110
+id = 6110
+sprpriority = 20
+postype = p1
+pos = 0,0
+bindtime = 1
+ignorehitpause = 1
+persistent = 0
+supermovetime = 60
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+[State EX]
+type = Explod
+trigger1 = time = 1
+anim = 6111
+id = 6110
+sprpriority = -20
+postype = p1
+pos = 0,0
+bindtime = 1
+ignorehitpause = 1
+persistent = 0
+supermovetime = 60
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+;---------------------[各種値]
+[state varadd];GCゲージ
+type = varadd
+trigger1 = moveguarded = 1
+var(25) = 203
+ignorehitpause = 1
+persistent = 0
+
+
+;---------------------[変数]
+[state a]
+type = varset
+trigger1 = time = 0
+v = 5
+value = 0
+
+[state a]
+type = varset
+trigger1 = time = 0
+v = 6
+value = 0
+
+[state a]
+type = varset
+triggerall = time <= 9
+trigger1 = command != "holdx"
+trigger1 = command != "holdy"
+v = 6
+value = 1
+
+;---------------------[効果音]
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 3
+value = 2000,0
+channel = 5
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 3
+value = 2000,3
+channel = 6
+
+
+;---------------------[エフェクト]
+[State explod];溜め
+type = Explod
+trigger1 = animelem = 3
+anim = 2010
+id = 3000
+sprpriority = 5
+postype = p1
+pos = 0,0
+bindtime = -1
+removetime = -1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+supermove = 999
+pausemove = 999
+
+;---------------------[演出]
+[State a];
+type = Width
+trigger1 = 1
+edge = 36,0
+
+;---------------------[]
+[state a]
+type = changestate
+triggerall = var(6) = 1
+trigger1 = time >= 20
+value = 2055
+
+[state a]
+type = changestate
+triggerall = var(6) = 0
+trigger1 = time >= 20
+trigger1 = command != "holdx"
+trigger1 = command != "holdy"
+trigger2 = time >= 160
+value = 2055
+
+
+;---------------------------------------------------------------------------
+; EX裏百八式・大蛇薙・攻撃
+[Statedef 2055]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= 0
+anim = 2056 - var(6)
+ctrl = 0
+sprpriority = 1
+
+;---------------------[効果音]
+[State a];
+type = stopSnd
+trigger1 = animelem = 11
+channel = 5
+
+[State a];
+type = stopSnd
+trigger1 = animelem = 11
+channel = 6
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 11
+value = 2000,2
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 12
+value = 2000,4
+
+
+;---------------------[無敵]
+[state nothitby]
+type = nothitby
+trigger1 = animelem = 12,<0
+value = SCA
+time = 1
+
+
+;---------------------[演出]
+[State a];
+type = Width
+trigger1 = 1
+edge = 48,0
+
+;---------------------[エフェクト]
+[State explod];
+type = removeExplod
+trigger1 = time = 0
+id = 3000
+
+[State explod];
+type = Explod
+trigger1 = time = 0
+anim = 2011
+id = 3000
+sprpriority = 5
+postype = p1
+pos = 0,0
+bindtime = -1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+supermove = 999
+pausemove = 999
+
+[State explod];
+type = Explod
+trigger1 = animelem = 9
+anim = 2015
+id = 3000
+sprpriority = 5
+postype = p1
+pos = 0,0
+bindtime = -1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+[State explod];
+type = Explod
+trigger1 = animelem = 11
+anim = 2016
+id = 3000
+sprpriority = -1
+postype = p1
+pos = 24,0
+bindtime = 1
+ignorehitpause = 0
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = animelem = 11
+id = 2070
+name = "orochinagi"
+sprpriority = 5
+pos = 172/2,-122/2
+postype = p1
+stateno = 2070
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+[state a];
+type = Helper
+trigger1 = animelem = 11
+id = 2075
+name = "orochinagi"
+sprpriority = 5
+pos = 172/2,-122/2
+postype = p1
+stateno = 2075
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = animelem = 11
+x = 10
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.85
+
+[state a]
+type = velset
+trigger1 = animelem = 16
+x = 0
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = animtime = 0
+value = 2007
+
+
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+;----------------------------------------------------------------------------
+;(HELPER)炎
+[Statedef 2070]
+type = A
+ctrl = 0
+anim = 2070
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 40
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 9
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.945
+
+;---------------------[演出]
+[State envshake]
+type = EnvShake
+trigger1 = animelem = 3
+time = 12
+ampl = -8
+freq = 75
+phase = 75
+
+
+;---------------------[拡大縮小]
+[state a]
+type = null;angledraw
+trigger1 = 1
+scale = 0.55 - var(1)*0.01,0.55 - var(1)*0.01
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+;----------------------------------------------------------------------------
+;(HELPER)攻撃判定
+[Statedef 2075]
+type = A
+ctrl = 0
+anim = 2075
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 40
+
+;---------------------[ダメージ補正]
+[state varset]
+type = varset
+trigger1 = time = 0
+fvar(5) = root,fvar(5)
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 9
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.945
+
+
+;---------------------[ヒットエフェクト]
+[state a];炎ヒット用ヘルパー
+type = Helper
+trigger1 = movehit = 1
+id = 7020
+name = "hit"
+pos = 0,0
+postype = p2
+stateno = 7020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0 
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+
+[State explod];ガードエフェクト
+type = Explod
+trigger1 = moveguarded = 1
+anim = 7052
+id = 7000
+sprpriority = 20
+postype = p1
+pos = 30/2,-42/2
+bindtime = 1
+supermove = 999
+pausemove = 999
+ignorehitpause = 1
+persistent = 0
+under = 0
+ontop = 1
+ownpal = 1
+scale = 0.5,0.5
+facing = -1
+
+;---------------------[攻撃]
+[State 600, 2]
+type = HitDef
+triggerall = root,var(7) = 0
+triggerall = enemynear,stateno != [5040,5049]
+trigger1 = time = 0
+trigger2 = animelem = 5
+trigger3 = animelem = 6
+attr = A, HP
+animtype  = up
+damage    = floor(120*fvar(5)),20
+priority = 4, Hit
+getpower = 0,0
+guardflag = M
+pausetime = 0,14
+sparkno = s-1
+sparkxy = 0,0
+hitsound   = s1000,5
+guard.sparkno = s-1
+guardsound = s1000,6
+ground.type = high
+ground.slidetime = 21
+ground.hittime  = 21
+ground.velocity = -5.2,-7.5
+air.velocity = -5.2,-6.7
+yaccel = 0.52
+ID = 200
+nochainID = 9999
+fall = 1
+fall.recover = 0
+palfx.time =50
+palfx.mul = 240,200,100
+palfx.sinadd = 63,65,68,18
+palfx.add = 230,180,124
+
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+
+;----------------------------------------------------------------------------
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+
+
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+;---------------------------------------------------------------------------
+; 空中裏百八式・大蛇薙
+[Statedef 2100]
+type    = A
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= -1000
+anim = 2100
+ctrl = 0
+sprpriority = 1
+
+;---------------------[ヘルパー]
+[state a];SUPER CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6620
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+var(20) = -500
+
+
+[state a];HD CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6625
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+var(21) = -100
+
+;---------------------[超必殺技演出]
+[state removeexplod]
+type = removeexplod
+trigger1 = time = 0
+id = 3000
+
+[State superpause]
+type = superpause
+trigger1 = time = 1
+time = 32
+movetime = 32
+anim = -1
+darken = 0
+p2defmul = 1
+
+[State explod]
+type = explod
+trigger1 = time = 1
+anim = 6000
+sprpriority = -9999
+postype = p1
+pos = 2/2,-174/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State explod]
+type = explod
+trigger1 = time = 4
+anim = 6001
+sprpriority = 9999
+postype = p1
+pos = 2/2,-174/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,0
+
+[state helper]
+type = Helper
+trigger1 = time = 0
+id = 6005
+name = "bg"
+pos = 0,0
+postype = p1
+stateno = 6005
+helpertype = normal
+supermovetime = 999999
+ownpal = 1
+
+;---------------------[各種値]
+[state varadd];GCゲージ
+type = varadd
+trigger1 = moveguarded = 1
+var(25) = 102
+ignorehitpause = 1
+persistent = 0
+
+
+;---------------------[変数]
+[state a]
+type = varset
+trigger1 = time = 0
+v = 5
+value = 0
+
+;---------------------[効果音]
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 1
+value = 2100,0
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 4
+value = 2100,1
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 5
+value = 2000,4
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = animelem = 5
+x = -12
+y = -3
+
+[state a]
+type = veladd
+trigger1 = animelem = 5,>0
+y = 0.5
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.925
+
+;---------------------[演出]
+[State a];
+type = Width
+trigger1 = 1
+edge = 36,0
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = animelem = 5
+id = 2120
+name = "orochinagi"
+sprpriority = 5
+pos = 148/2,-162/2
+postype = p1
+stateno = 2120
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+[state a];
+type = Helper
+trigger1 = animelem = 5
+id = 2125
+name = "orochinagi"
+sprpriority = 5
+pos = 148/2,-162/2
+postype = p1
+stateno = 2125
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = vel y > 0
+trigger1 = pos y >= 0
+value = 2105
+
+
+;---------------------------------------------------------------------------
+; 空中裏百八式・大蛇薙着地
+[Statedef 2105]
+type    = S
+movetype= I
+physics = N
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 1105
+poweradd = 0
+sprpriority = 1
+
+;---------------------[効果音]
+[State 00];
+type = PlaySnd
+trigger1 = time = 0
+value = 47,0
+
+;---------------------[エフェクト]
+[State explod]
+type = Explod
+trigger1 = time = 0
+anim = 6200
+id = 7000
+sprpriority = 20
+postype = p1
+pos = 0,0
+bindtime = 1
+ignorehitpause = 1
+persistent = 0
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+;---------------------[移動]
+[state a]
+type = posset
+trigger1 = time = 0
+y = 0
+
+;---------------------[ステート移行]
+[State 200, 7]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+;----------------------------------------------------------------------------
+;(HELPER)炎
+[Statedef 2120]
+type = A
+ctrl = 0
+anim = 2020
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 40
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 12
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.9
+
+;---------------------[演出]
+[State envshake]
+type = EnvShake
+trigger1 = animelem = 3
+time = 12
+ampl = -8
+freq = 75
+phase = 75
+
+
+;---------------------[拡大縮小]
+[state a]
+type = null;angledraw
+trigger1 = 1
+scale = 0.55 - var(1)*0.01,0.55 - var(1)*0.01
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+;----------------------------------------------------------------------------
+;(HELPER)攻撃判定
+[Statedef 2125]
+type = A
+ctrl = 0
+anim = 2025
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 40
+
+;---------------------[ダメージ補正]
+[state varset]
+type = varset
+trigger1 = time = 0
+fvar(5) = root,fvar(5)
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 12
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.9
+
+;---------------------[ヒットエフェクト]
+[state a];炎ヒット用ヘルパー
+type = Helper
+trigger1 = movehit = 1
+id = 7020
+name = "hit"
+pos = 0,0
+postype = p2
+stateno = 7020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0 
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+
+[State explod];ガードエフェクト
+type = Explod
+trigger1 = moveguarded = 1
+anim = 7052
+id = 7000
+sprpriority = 20
+postype = p1
+pos = 30/2,-42/2
+bindtime = 1
+supermove = 999
+pausemove = 999
+ignorehitpause = 1
+persistent = 0
+under = 0
+ontop = 1
+ownpal = 1
+scale = 0.5,0.5
+facing = -1
+
+
+;---------------------[攻撃]
+[State 600, 2]
+type = HitDef
+triggerall = root,var(7) = 0
+triggerall = enemynear,stateno != [5040,5049]
+trigger1 = time = 0
+attr = A, HP
+animtype  = up
+damage    = floor(180*fvar(5)),30
+priority = 4, Hit
+getpower = 0,0
+guardflag = M
+pausetime = 0,14
+sparkno = s-1
+sparkxy = 0,0
+hitsound   = s1000,5
+guard.sparkno = s-1
+guardsound = s1000,6
+ground.type = high
+ground.slidetime = 21
+ground.hittime  = 21
+ground.velocity = -4.2,-7.5
+air.velocity = -4.2,-7.7
+yaccel = 0.46
+ID = 200
+nochainID = 9999
+fall = 1
+fall.recover = 0
+palfx.time =50
+palfx.mul = 240,200,100
+palfx.sinadd = 63,65,68,18
+palfx.add = 230,180,124
+
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+
+;----------------------------------------------------------------------------
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+
+
+
+
+
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+;---------------------------------------------------------------------------
+; EX空中裏百八式・大蛇薙
+[Statedef 2150]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= -2000
+anim = 2150
+ctrl = 0
+sprpriority = 1
+
+;---------------------[ヘルパー]
+[state a];SUPER CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6620
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) = 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+var(20) = -500
+
+
+[state a];HD CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6625
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state varadd];ゲージ消費
+type = varadd
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1100
+trigger2 = prevstateno = 1150
+trigger3 = prevstateno = 1400
+trigger4 = prevstateno = 1450
+var(21) = -100
+
+;---------------------[無敵]
+[state nothitby]
+type = nothitby
+trigger1 = time <= 32
+value = SCA
+time = 1
+
+;---------------------[超必殺技演出]
+[state removeexplod]
+type = removeexplod
+trigger1 = time = 0
+id = 3000
+
+[State superpause]
+type = superpause
+trigger1 = time = 1
+time = 30
+movetime = 30
+anim = -1
+darken = 0
+p2defmul = 1
+
+[State explod]
+type = explod
+trigger1 = time = 1
+anim = 6010
+sprpriority = -9999
+postype = p1
+pos = 16/2,-156/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State explod]
+type = explod
+trigger1 = time = 4
+anim = 6011
+sprpriority = 9999
+postype = p1
+pos = 16/2,-156/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+scale = 0.5,0.5
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,0
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,1
+
+[state helper]
+type = Helper
+trigger1 = time = 0
+id = 6005
+name = "bg"
+pos = 0,0
+postype = p1
+stateno = 6006
+helpertype = normal
+supermovetime = 999999
+ownpal = 1
+
+
+[State EX]
+type = Explod
+trigger1 = time = 1
+anim = 6110
+id = 6110
+sprpriority = 20
+postype = p1
+pos = 0,0
+bindtime = 1
+ignorehitpause = 1
+persistent = 0
+supermovetime = 60
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+[State EX]
+type = Explod
+trigger1 = time = 1
+anim = 6111
+id = 6110
+sprpriority = -20
+postype = p1
+pos = 0,0
+bindtime = 1
+ignorehitpause = 1
+persistent = 0
+supermovetime = 60
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+
+;---------------------[各種値]
+[state varadd];GCゲージ
+type = varadd
+trigger1 = moveguarded = 1
+var(25) = 203
+ignorehitpause = 1
+persistent = 0
+
+
+;---------------------[変数]
+[state a]
+type = varset
+trigger1 = time = 0
+v = 5
+value = 0
+
+;---------------------[効果音]
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 1
+value = 2000,0
+channel = 5
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 4
+value = 2000,2
+channel = 5
+
+[State 00];
+type = PlaySnd
+trigger1 = animelem = 5
+value = 2000,4
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = animelem = 5
+x = -12
+y = -3
+
+[state a]
+type = veladd
+trigger1 = animelem = 5,>0
+y = 0.5
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.925
+
+;---------------------[演出]
+[State a];
+type = Width
+trigger1 = 1
+edge = 36,0
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = animelem = 5
+id = 2170
+name = "orochinagi"
+sprpriority = 5
+pos = 148/2,-162/2
+postype = p1
+stateno = 2170
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+[state a];
+type = Helper
+trigger1 = animelem = 5
+id = 2175
+name = "orochinagi"
+sprpriority = 5
+pos = 148/2,-162/2
+postype = p1
+stateno = 2175
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = vel y > 0
+trigger1 = pos y >= 0
+value = 2105
+
+
+
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+;----------------------------------------------------------------------------
+;(HELPER)炎
+[Statedef 2170]
+type = A
+ctrl = 0
+anim = 2070
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 40
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 9
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.945
+
+;---------------------[演出]
+[State envshake]
+type = EnvShake
+trigger1 = animelem = 3
+time = 12
+ampl = -8
+freq = 75
+phase = 75
+
+
+;---------------------[拡大縮小]
+[state a]
+type = null;angledraw
+trigger1 = 1
+scale = 0.55 - var(1)*0.01,0.55 - var(1)*0.01
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+;----------------------------------------------------------------------------
+;(HELPER)攻撃判定
+[Statedef 2175]
+type = A
+ctrl = 0
+anim = 2075
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 40
+
+;---------------------[ダメージ補正]
+[state varset]
+type = varset
+trigger1 = time = 0
+fvar(5) = root,fvar(5)
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 9
+
+[state a]
+type = velmul
+trigger1 = 1
+x = 0.945
+
+
+;---------------------[ヒットエフェクト]
+[state a];炎ヒット用ヘルパー
+type = Helper
+trigger1 = movehit = 1
+id = 7020
+name = "hit"
+pos = 0,0
+postype = p2
+stateno = 7020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0 
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+
+[State explod];ガードエフェクト
+type = Explod
+trigger1 = moveguarded = 1
+anim = 7052
+id = 7000
+sprpriority = 20
+postype = p1
+pos = 30/2,-42/2
+bindtime = 1
+supermove = 999
+pausemove = 999
+ignorehitpause = 1
+persistent = 0
+under = 0
+ontop = 1
+ownpal = 1
+scale = 0.5,0.5
+facing = -1
+
+;---------------------[攻撃]
+[State 600, 2]
+type = HitDef
+triggerall = root,var(7) = 0
+triggerall = enemynear,stateno != [5040,5049]
+trigger1 = time = 0
+trigger2 = animelem = 5
+trigger3 = animelem = 6
+attr = A, HP
+animtype  = up
+damage    = floor(100*fvar(5)),16
+priority = 4, Hit
+getpower = 0,0
+guardflag = M
+pausetime = 0,14
+sparkno = s-1
+sparkxy = 0,0
+hitsound   = s1000,5
+guard.sparkno = s-1
+guardsound = s1000,6
+ground.type = high
+ground.slidetime = 21
+ground.hittime  = 21
+ground.velocity = -5.2,-7.5
+air.velocity = -5.2,-6.7
+yaccel = 0.52
+ID = 200
+nochainID = 9999
+fall = 1
+fall.recover = 0
+palfx.time =50
+palfx.mul = 240,200,100
+palfx.sinadd = 63,65,68,18
+palfx.add = 230,180,124
+
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+
+;----------------------------------------------------------------------------
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+
+
+
+
+
+
+
+
+
+;----------------------------------------------------------------------------
+;(HELPER)背景
+[Statedef 2070]
+type = S
+ctrl = 0
+anim = 6005
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 0
+
+;---------------------[変数]
+[state varset]
+type = varset
+trigger1 = time = 0
+var(1) = 0
+
+[state varadd]
+type = varadd
+trigger1 = time < 16
+var(1) = 8
+
+[state varadd]
+type = varadd
+trigger1 = time > 56
+var(1) = -16
+
+;---------------------[演出]
+[state bgpalfx]
+type = bgpalfx
+trigger1 = 1
+time = 1
+add = var(1),floor(-var(1)*0.5),floor(-var(1)*0.5)
+invertall = 0
+color = 256 - floor(var(1)*0.5)
+
+;---------------------[消去]
+[state destroyself]
+type = destroyself
+trigger1 = time >= 2
+trigger1 = var(1) <= 0
+
+
+
+
+
+;----------------------------------------------------------------------------
+;(HELPER)EX超必殺
+[Statedef 2180]
+type = S
+ctrl = 0
+anim = 6005
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 0
+
+;---------------------[変数]
+[state varset]
+type = varset
+trigger1 = time = 0
+var(1) = 0
+
+[state varadd]
+type = varadd
+trigger1 = time < 8
+var(1) = 32
+
+;---------------------[演出]
+[state bgpalfx]
+type = bgpalfx
+trigger1 = 1
+time = 1
+add = -var(1),-var(1),-var(1)
+invertall = 0
+color = 256 - var(1)
+
+;---------------------[消去]
+[state changestate]
+type = changestate
+trigger1 = root,stateno = 2163
+trigger2 = root,stateno = 2150
+trigger2 = root,animelem = 6
+trigger3 = root,stateno != [2100,2199]
+value = 2181
+
+;----------------------------------------------------------------------------
+;(HELPER)EX超必殺
+[Statedef 2181]
+type = S
+ctrl = 0
+anim = 6005
+velset = 0,0
+movetype = I
+physics = N
+sprpriority = 0
+
+;---------------------[変数]
+[state varset]
+type = varset
+trigger1 = time = 0
+var(1) = 256
+
+[state varadd]
+type = varadd
+trigger1 = time < 32
+var(1) = -8
+
+;---------------------[演出]
+[state bgpalfx]
+type = bgpalfx
+trigger1 = 1
+time = 1
+add = -var(1),-var(1),-var(1)
+invertall = 0
+color = 256 - var(1)
+
+;---------------------[消去]
+[state destroyself]
+type = destroyself
+trigger1 = time = 32
+
+
+
+
+
+
+
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+;---------------------------------------------------------------------------
+; 裏百弐拾壱式・天叢雲
+[Statedef 2500]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= -2000
+anim = 2500
+ctrl = 0
+sprpriority = 1
+
+[state turn]
+type = turn
+trigger1 = p2dist x < 0
+trigger1 = time = 0
+
+
+;---------------------[ヘルパー]
+[state a];MAX CANCEL
+type = Helper
+triggerall = time = 0
+trigger1 = prevstateno = 2005
+trigger2 = prevstateno = 2055
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6630
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+[state a];HD CANCEL
+type = Helper
+triggerall = time = 0
+triggerall = var(21) > 0
+trigger1 = prevstateno = 1000
+trigger2 = prevstateno = 1050
+trigger3 = prevstateno = 1100
+trigger4 = prevstateno = 1150
+trigger5 = prevstateno = 1205
+id = 6600
+name = "g"
+sprpriority = 1
+pos = 0,0
+postype = p1
+stateno = 6625
+helpertype = normal
+pausemovetime = 180
+supermovetime = 180
+keyctrl = 1 
+ownpal = 1
+
+;---------------------[HDゲージ]
+[state varset];ゲージ消費
+type = poweradd
+trigger1 = time = 0
+trigger1 = var(21) = 0
+value = -1000
+
+[state varset];ゲージ消費
+type = varset
+trigger1 = time = 0
+var(20) = 0
+
+[state varset];ゲージ消費
+type = varset
+trigger1 = time = 0
+var(21) = 0
+
+
+;---------------------[無敵]
+[state nothitby]
+type = nothitby
+trigger1 = animelem = 13,<0
+value = SCA
+time = 1
+
+;---------------------[超必殺技演出]
+[state removeexplod]
+type = removeexplod
+trigger1 = time = 0
+id = 3000
+
+[State superpause]
+type = superpause
+trigger1 = time = 1
+time = 32
+movetime = 32
+anim = -1
+darken = 0
+p2defmul = 1
+
+[State explod]
+type = explod
+trigger1 = time = 1
+anim = 6020
+sprpriority = -9999
+postype = p1
+pos = -20/2,-178/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+;scale = 0.5,0.5
+
+[State explod]
+type = explod
+trigger1 = time = 4
+anim = 6021
+sprpriority = 9999
+postype = p1
+pos = -20/2,-178/2
+bindtime = 1
+under = 0
+ownpal = 1
+pausemovetime = 999
+supermovetime = 999
+;scale = 0.5,0.5
+
+[State 2000, 6]
+type = PlaySnd
+trigger1 = Time = 1
+value = 6000,2
+
+[State MAX]
+type = PlaySnd
+trigger1 = prevstateno = 2013
+trigger1 = Time = 1
+value = 6000,3
+
+[state helper]
+type = Helper
+trigger1 = time = 0
+id = 6005
+name = "bg"
+pos = 0,0
+postype = p1
+stateno = 6007
+helpertype = normal
+supermovetime = 999999
+ownpal = 1
+
+;---------------------[効果音]
+[State a]
+type = PlaySnd
+trigger1 = animelem = 2
+value = 2500,1
+
+[State a]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 2500,4
+
+[State a]
+type = PlaySnd
+trigger1 = animelem = 11
+value = 2500,5
+
+;---------------------[演出]
+[State AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = nomusic
+
+;---------------------[変数]
+[state a]
+type = varset
+trigger1 = time = 0
+v = 5
+value = 0
+
+;---------------------[エフェクト]
+[State explod];エフェクト
+type = Explod
+trigger1 = animelem = 4
+anim = 2505
+id = 3000
+sprpriority = 20
+postype = p1
+pos = 0,0
+bindtime = 1
+ignorehitpause = 1
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+pausemovetime = 999
+supermovetime = 999
+
+[State explod];エフェクト
+type = Explod
+trigger1 = animelem = 12
+anim = 2506
+id = 3000
+sprpriority = -5
+postype = p1
+pos = 92/2,-196/2
+bindtime = 1
+ignorehitpause = 1
+under = 0
+ownpal = 1
+scale = 0.5,0.5
+pausemovetime = 999
+supermovetime = 999
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = animelem = 12
+id = 2510
+name = "amenomurakumo"
+sprpriority = 5
+pos = 112/2,-200/2
+postype = p1
+stateno = 2510
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = var(5) = 1
+value = 2502
+
+[state a]
+type = changestate
+trigger1 = time = 80
+value = 2501
+
+;---------------------------------------------------------------------------
+; 裏百弐拾壱式・天叢雲・失敗
+[Statedef 2501]
+type    = S
+movetype= I
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= 0
+anim = 2501
+ctrl = 0
+sprpriority = 1
+
+;---------------------[効果音]
+[State a]
+type = PlaySnd
+trigger1 = animelem = 15
+value = 2500,3
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; 裏百弐拾壱式・天叢雲・火柱発生
+[Statedef 2502]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= 0
+anim = 2502
+ctrl = 0
+sprpriority = 1
+
+;---------------------[演出]
+[State AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = nomusic
+
+;---------------------[当身関係]
+[state a]
+type = nothitby
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------[効果音]
+[State a]
+type = PlaySnd
+trigger1 = time = 40
+value = 2500,2
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = time = 0
+id = 2515
+name = "amenomurakumo"
+sprpriority = 5
+pos = 0,0
+postype = p1
+stateno = 2515
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = time = 82
+value = 2503
+
+;---------------------------------------------------------------------------
+; 裏百弐拾壱式・天叢雲・終了
+[Statedef 2503]
+type    = S
+movetype= I
+physics = N
+velset = 0,0
+juggle = 8
+poweradd= 0
+anim = 2501
+ctrl = 0
+sprpriority = 1
+
+;---------------------[]
+[state a]
+type = changestate
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+
+
+
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+;----------------------------------------------------------------------------
+;(HELPER)弾
+[Statedef 2510]
+type = A
+ctrl = 0
+anim = 2510
+velset = 24,0
+movetype = A
+physics = N
+sprpriority = 20
+
+
+;---------------------[ダメージ補正]
+[state varset]
+type = varset
+trigger1 = time = 0
+fvar(5) = root,fvar(5)
+
+;---------------------[変数]
+[state a]
+type = parentvarset
+trigger1 = movehit
+v = 5
+value = 1
+
+;---------------------[移動]
+[state a]
+type = velset
+trigger1 = time = 0
+x = 24
+
+;---------------------[当身関係]
+[state a]
+type = nothitby
+trigger1 = 1
+value = SCA
+time = -1
+
+;---------------------[ヒットエフェクト]
+[state a];炎ヒット用ヘルパー
+type = Helper
+trigger1 = movehit = 1
+id = 7020
+name = "hit"
+pos = 0,0
+postype = p2
+stateno = 7020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0 
+ownpal = 1
+persistent = 0
+ignorehitpause = 1
+
+[State explod];ガードエフェクト
+type = Explod
+trigger1 = moveguarded = 1
+anim = 7052
+id = 7000
+sprpriority = 20
+postype = p1
+pos = 30/2,-10/2
+bindtime = 1
+supermove = 999
+pausemove = 999
+ignorehitpause = 1
+persistent = 0
+under = 0
+ontop = 1
+ownpal = 1
+scale = 0.5,0.5
+facing = -1
+
+;---------------------[攻撃]
+[State 600, 2]
+type = HitDef
+triggerall = root,var(7) = 0
+triggerall = enemynear,stateno != [5040,5049]
+trigger1 = time = 0
+attr = A, HP
+animtype  = hard
+damage    = floor(45*fvar(5)),7
+priority = 4, Hit
+getpower = 0,0
+guardflag = M
+pausetime = 0,0
+sparkno = s-1
+sparkxy = 0,0
+hitsound   = s1000,5
+guard.sparkno = s-1
+guardsound = s1000,6
+ground.type = high
+ground.slidetime = 18
+ground.hittime  = 18
+ground.velocity = -4.1,-7.2
+air.velocity = -4.7,-6.2
+yaccel = 0.52
+ID = 200
+nochainID = 9999
+fall = 1
+fall.recover = 0
+palfx.time =30
+palfx.mul = 240,200,100
+palfx.sinadd = 63,65,68,18
+palfx.add = 230,180,124
+
+
+
+;---------------------[拡大縮小]
+[state a]
+type = null;angledraw
+trigger1 = 1
+scale = 0.55 - var(1)*0.01,0.55 - var(1)*0.01
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+;----------------------------------------------------------------------------
+;(HELPER)弾
+[Statedef 2515]
+type = A
+ctrl = 0
+anim = 2515
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 20
+
+;---------------------[移動]
+[state a]
+type = posset
+trigger1 = time = 0
+trigger1 = facing = 1
+x = -160
+
+[state a]
+type = posset
+trigger1 = time = 0
+trigger1 = facing = -1
+x = 160
+
+;---------------------[当身関係]
+[state a]
+type = nothitby
+trigger1 = 1
+value = SCA
+time = -1
+
+
+;---------------------[変数]
+[state a]
+type = varset
+trigger1 = time = 0
+v = 5
+value = 0
+
+[state a]
+type = varadd
+trigger1 = time % 10 = 0
+v = 5
+value = 1
+
+;---------------------[効果音]
+[State a]
+type = PlaySnd
+trigger1 = time % 10 = 0
+trigger1 = time <= 60
+value = 2000,4
+
+;---------------------[ヘルパー]
+[state a];
+type = Helper
+trigger1 = time % 10 = 0
+trigger1 = time <= 60
+id = 2520
+name = "amenomurakumo"
+sprpriority = 5
+pos = -80 + var(5)*60,0
+postype = p1
+stateno = 2520
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+[state a];
+type = Helper
+trigger1 = time % 10 = 0
+trigger1 = time <= 60
+id = 2521
+name = "amenomurakumo"
+sprpriority = 5
+pos = -70 + var(5)*60,0
+postype = p1
+stateno = 2520
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+[state a];
+type = Helper
+trigger1 = time = 0
+id = 2530
+name = "amenomurakumo"
+sprpriority = 5
+pos = 0,0
+postype = p1
+stateno = 2530
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0
+ownpal = 1
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = root,stateno != 2502
+
+
+;----------------------------------------------------------------------------
+;(HELPER)火柱
+[Statedef 2520]
+type = A
+ctrl = 0
+anim = 2520
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 0
+
+;---------------------[演出]
+[state a]
+type = sprpriority
+trigger1 = ishelper(2520)
+value = -5
+
+[state a]
+type = sprpriority
+trigger1 = ishelper(2521)
+value = 60
+
+;---------------------[移動]
+[state a]
+type = posset
+trigger1 = ishelper(2520)
+y = -15 + random%10
+
+[state a]
+type = posset
+trigger1 = ishelper(2521)
+y = 20 + random%10
+
+;---------------------[当身関係]
+[state a]
+type = nothitby
+trigger1 = 1
+value = SCA
+time = -1
+
+;---------------------[エフェクト]
+[State explod];エフェクト
+type = Explod
+trigger1 = time = 0
+trigger1 = ishelper(2520)
+anim = 2521
+id = 3000
+sprpriority = 10
+postype = p1
+pos = -180 + random%15,-60 + random%15
+bindtime = 1
+ignorehitpause = 1
+under = 0
+ownpal = 1
+scale = 0.75,0.75
+
+[State explod];エフェクト
+type = Explod
+trigger1 = time = 5
+trigger1 = ishelper(2520)
+anim = 2521
+id = 3000
+sprpriority = 10
+postype = p1
+pos = -150 + random%15,-80 + random%15
+bindtime = 1
+ignorehitpause = 1
+under = 0
+ownpal = 1
+scale = 0.75,0.75
+
+[State explod];エフェクト
+type = Explod
+trigger1 = time = 10
+trigger1 = ishelper(2520)
+anim = 2521
+id = 3000
+sprpriority = 10
+postype = p1
+pos = -130 + random%15,-110 + random%15
+bindtime = 1
+ignorehitpause = 1
+under = 0
+ownpal = 1
+scale = 0.75,0.75
+
+
+;---------------------[演出]
+[State envshake]
+type = EnvShake
+trigger1 = time = 0
+time = 8
+ampl = -9
+freq = 75
+phase = 75
+
+;---------------------[拡縮]
+[state a]
+type = angledraw
+trigger1 = 1
+scale = 1.5,1.5
+
+;---------------------[透過]
+[state varset]
+type = varset
+trigger1 = time = 0
+var(1) = 256
+
+[state varadd]
+type = varadd
+trigger1 = time <= 16
+var(1) = -2
+
+[state trans]
+type = trans
+trigger1 = 1
+time = 2
+trans = addalpha
+alpha = 246, 256
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+
+;----------------------------------------------------------------------------
+;(HELPER)全画面攻撃
+[Statedef 2530]
+type = A
+ctrl = 0
+anim = 2530
+velset = 0,0
+movetype = A
+physics = N
+sprpriority = 20
+
+;---------------------[ダメージ補正]
+[state varset]
+type = varset
+trigger1 = time = 0
+fvar(5) = root,fvar(5)
+
+;---------------------[移動]
+[state a]
+type = posset
+trigger1 = time = 0
+x = 0
+
+;---------------------[当身関係]
+[state a]
+type = nothitby
+trigger1 = 1
+value = SCA
+time = -1
+
+;---------------------[ヒットエフェクト]
+[state a];炎ヒット用ヘルパー
+type = Helper
+trigger1 = movehit = 1
+trigger1 = numhelper(7020) <= 1
+id = 7020
+name = "hit"
+pos = 0,0
+postype = p2
+stateno = 7020
+helpertype = normal
+pausemovetime = 0
+keyctrl = 0 
+ownpal = 1
+
+;---------------------[攻撃]
+[State 600, 2]
+type = HitDef
+triggerall = enemynear,stateno != [5040,5049]
+trigger1 = animelem = 1
+trigger2 = animelem = 2
+trigger3 = animelem = 3
+trigger4 = animelem = 4
+trigger5 = animelem = 5
+trigger6 = animelem = 6
+trigger7 = animelem = 7
+trigger8 = animelem = 8
+trigger9 = animelem = 9
+attr = A, HP
+animtype  = hard
+damage    = floor(45*fvar(5)),7
+priority = 4, Hit
+getpower = 0,0
+guardflag = N
+pausetime = 0,0
+sparkno = s-1
+sparkxy = 0,0
+hitsound   = s1000,5
+guard.sparkno = s-1
+guardsound = s1000,6
+ground.type = high
+ground.slidetime = 18
+ground.hittime  = 18
+ground.velocity = -4.1,-7.2
+air.velocity = -4.7,-5.2
+yaccel = 0.42
+ID = 200
+nochainID = 9999
+fall = 1
+fall.recover = 0
+palfx.time =60
+palfx.mul = 240,200,100
+palfx.sinadd = 63,65,68,18
+palfx.add = 230,180,124
+
+
+;---------------------[]
+[State 200, 7]
+type = destroyself
+trigger1 = animtime = 0
+
+
+
+
+
+;----------------------------------------------------------------------------
+;[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]

@@ -1,0 +1,79 @@
+; __________________________________
+;| Lei-Lei by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;===================<CONSTANTS>================
+
+[Data]
+life = 950
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 60
+airjuggle = 15
+sparkno = s7010
+guard.sparkno = s7000
+KO.echo = 0
+volume = 0
+IntPersistIndex = 0
+FloatPersistIndex = 0
+
+[Size]
+xscale = 0.8333
+yscale = 1
+ground.back = 22
+ground.front = 22
+air.back = 22
+air.front = 22
+height = 60
+attack.dist = 160
+proj.attack.dist = 90
+proj.doscale = 0
+head.pos = -10, -67
+mid.pos = -8, -46
+shadowoffset = 0
+draw.offset = 0, 0
+
+[Velocity]
+walk.fwd = 3
+walk.back = -2.75
+run.fwd = 7, 0
+run.back = -6, 0
+jump.neu = 0, -9
+jump.back = -3.75
+jump.fwd = 3.75
+runjump.back = -6, -8.5
+runjump.fwd = 6, -8.5
+
+[Movement]
+airjump.num = 0
+airjump.height = 0
+yaccel = 0.45
+stand.friction = 0.85
+crouch.friction = 0.85
+stand.friction.threshold = 1.0
+crouch.friction.threshold = 1.0
+air.gethit.groundlevel = 25
+air.gethit.groundrecover.ground.threshold = -20
+air.gethit.groundrecover.groundlevel = 10
+air.gethit.airrecover.threshold = -1
+air.gethit.airrecover.yaccel = 0.35
+air.gethit.trip.groundlevel = 15
+down.bounce.offset = 0, 20
+down.bounce.yaccel = 0.4
+down.bounce.groundlevel = 12
+down.friction.threshold = 0.5
+
+[Quotes]
+victory1 = "You knew this would happen. You shouldn't have struggled."
+victory2 = "It's time to change the image of Chinese ghosts."
+victory3 = "Ordinary people could not have done that!"
+victory4 = "Sigh... You feel hungry even after you die..."
+victory5 = "Respect the dead!"
+victory6 = "Use your weapon if you must, this isn't a street fight."
+victory7 = "Sister, we have to cooperate... Hey, are you even listening?"
+victory8 = "You seem to be in high spirits, but are you ok?"
+victory9 = "Don't misunderstand, not all of them are like myself!"
+victory10 = "Have I seen you before? Before I died, maybe?"
+victory11 = "That was too easy. In your next life try defending yourself!"
+victory12 = "I think I lost an iron ball... Can you help me find it?"

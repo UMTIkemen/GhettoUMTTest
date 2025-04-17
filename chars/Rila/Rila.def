@@ -1,0 +1,37 @@
+[Info]
+name = "RilaEstancia"
+displayname = "Rila"
+versiondate = 04,24,2014
+mugenversion = 1.0
+author = "DrKelexo"
+pal.defaults = 1,2,3,4,5,6
+
+[Files]
+cmd = rila.cmd
+cns  = rila.cns
+st = cns/cmn.cns
+st1 = cns/bsc.cns
+st2 = cns/spc.cns
+st3 = cns/hyp.cns
+st4 = cns/n310.cns
+st5 = settings.txt
+stcommon = common1.cns
+sprite  = rila.sff
+anim    = rila.air
+sound   = rila.snd 
+pal1    = act/RILA_X.act
+pal2    = act/RILA_Y.act
+pal3    = act/RILA_M.act
+pal4    = act/RILA_A.act
+pal5    = act/RILA_B.act
+pal6    = act/RILA_T.act
+pal7    = act/SK_M.act
+pal8    = act/SK_A.act
+pal9    = act/SK_F.act
+pal10   = act/SK_J.act
+pal11   = act/SK_V.act
+pal12   = act/SK_H.act
+
+[Arcade]
+intro.storyboard =
+ending.storyboard =

@@ -1,0 +1,69 @@
+
+Ultra Burst
+^Y_+^Z (While not in hit stun)
+Health Based Buff that knocks up on activation.
+
+Burst
+^Y_+^Z (While in hit stun)
+Non damaging blast around your character that knocks back. 
+
+Dodge
+^Y
+Become invulnerable and can pass through the opponent and attacks.  
+
+Rapid Cancel
+^X/_F_+^X/_B_+^X/_U_+^X/_D_+^X
+Using this will immediately put you in a neutral state.
+
+Guard Reject
+_F_+^X (While Blocking)
+Cancels your guard animation into an invulnerable knock back.
+
+<#00F9F9>:Command Normals:</>         
+^A^A^A^A 
+^A^A_AIR
+_F_F_+^A
+^B^B
+_F_F_+^B
+
+<#F90000>:Special Moves:</>
+Mika Missile							        
+_QDF_+^A/^B_AIR
+  _!Turn
+  _F/_B/_U/_D_+^A/^B/^C
+Mika Cannon							
+_QDB_+^A/^B
+Mika Tornado							
+_DSF_+^A
+  Mika Twister
+  ^A/^B/^C
+Mika Twister
+_DSF_+^B_AIR
+
+<#F90000>:Force Breaks:</>
+(Cost 500 Meter)
+EX Missile 							        
+_QDF_+^C
+  _!Turn
+  _F/_B/_U/_D_+^A/^B/^C
+EX Cannon 						                
+_QDB_+^C
+
+<#f0f000>:Exceed Accel:</>
+(Only In Ultra Burst)
+Mika Blaster							
+^Y_+^Z
+
+<#F99300>:Distortion Drive:</>
+(Cost 1000 Meter)
+Mika Revolution <#bebebe></>		                        
+_QDF_+^A_+^B_AIR
+Mika Hip Strike <#bebebe></>		        
+_QDB_+^A_+^B 
+
+<#7D00F9>:Astral Heat:</>
+(Cost 2000 Meter) 
+(Opponet's health must be at 1/4 or below)
+(Burst must be available)
+Mika Galaxy <#bebebe></>		                                
+_D_D_+^A_+^B

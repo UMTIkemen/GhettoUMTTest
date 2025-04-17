@@ -1,0 +1,40 @@
+[Info]
+Name			= "Ryugen"
+DisplayName		= "Ryugen"
+VersionDate		= 04,14,2009
+MugenVersion	= 04,14,2002
+Author			= "Moku"
+CharacterVoice	= "Miyada"
+Pal.Defaults	= 1,2,3,4,5,6,7,8,9,10
+
+[Files]
+Sprite			= Data/Ryugen_Sprite.sff
+Anim			= Data/Ryugen_Anim.air
+Sound			= Data/Ryugen_Sound.snd
+Cmd				= Data/Ryugen_Command.txt
+Cns				= Data/Constants.cns
+StCommon		= Data/Ryugen_Common1.cns
+St				= Data/-2.st
+St0				= Data/-3.st
+St1				= Data/Ryugen_N.st
+St2				= Data/Ryugen_S.st
+St3				= Data/Ryugen_H.st
+St4				= Data/System.cns
+St5				= Data/AI_Add-On.cns
+St6				= Option.txt
+Pal1			= Palettes/Original_Color.act ;デフォルトカラー
+Pal2			= Palettes/Moss.act
+Pal3			= Palettes/White&Aqua_Blue.act
+Pal4			= Palettes/Red&Orange.act
+Pal5			= Palettes/Mustard.act
+Pal6			= Palettes/Robot.act
+Pal7			= Palettes/Original_Color.act
+Pal8			= Palettes/Blue&Yellow.act
+Pal9			= Palettes/Green&Pink.act
+Pal10			= Palettes/05,18,2009,Ver.act
+Pal11			= Palettes/Black(PowerMax).act
+Pal12			= Palettes/Gold(ExtraMode).act
+
+[Arcade]
+Intro.StoryBoard = 
+Ending.StoryBoard = 

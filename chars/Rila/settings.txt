@@ -1,0 +1,57 @@
+[Statedef 5900]
+type = S
+;========================================================
+; SETTINGS
+;========================================================
+
+[State 0, Victory Music]
+type = VarSet
+trigger1 = 1
+v = 10
+; IF ON (1), THEN DEFAULT MUSIC WILL BE MUTED DURING WINPOSES, AND VICTORY MUSIC WILL BE PLAYED INSTEAD. 
+; OTHERWISE (0), DEFAULT MUSIC WILL CONTINUE AS NORMAL.
+value = 1 ; CHANGE THIS
+; DEFAULT: 1
+
+[State 0, Announcer]
+type = VarSet
+trigger1 = 1
+v = 11
+; DISABLE THIS (0) TO REMOVE THE VICTORY ANNOUNCER WHEN RILA WINS
+value = 1 ; CHANGE THIS
+; DEFAULT: 1
+
+[State 0, Alternate Super Commands]
+type = VarSet
+trigger1 = 1
+v = 12
+; ENABLE THIS TO CHANGE THE COMMAND FOR BLOODY FANG  TO Charge b, f, b, f + K
+; BECAUSE THAT ONE COMMAND IS COMPLETELY STUPID
+; 0 FOR NORMAL, 1 FOR THE ALTERNATE
+value = 0 ; CHANGE THIS
+; DEFAULT: 0
+
+[State 0, KO Effects]
+type = VarSet
+trigger1 = 1
+v = 13
+; DISABLE THIS (0) TO REMOVE ALL CUSTOM KO EFFECTS/SLOWDOWN
+value = 1 ; CHANGE THIS
+; DEFAULT: 1
+
+[State 0, AI Level]
+type = VarSet
+trigger1 = 1
+v = 14
+; WHEN SET TO 0, USES MUGEN 1.0'S DIFFICULTY LEVEL FOR RILA'S AI. SET TO 1-8 TO DEFINE A DIFFICULTY LEVEL UNIQUE FROM MUGEN'S.
+; FOR WINMUGEN, IF SET TO 0, THE DIFFICULTY WILL AUTOMATICALLY BE SET TO 5
+value = 0 ; CHANGE THIS
+; DEFAULT: 0
+
+;========================================================
+; SETTINGS NO MORE
+;========================================================
+[State 5900, 3]
+type = ChangeState
+trigger1 = 1
+value = 190

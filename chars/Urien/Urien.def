@@ -1,0 +1,50 @@
+;====================<DEFINITION>====================
+
+[Info]
+name = "Urien"
+displayName = "Urien"
+versionDate = 10,14,2011
+mugenVersion = 1.0
+author = "Froz"
+pal.defaults = 2,2,1
+localCoord = 320,240
+
+[Files]
+cmd = Command.cmd
+cns = Constants.cns
+st = States/System.st
+st1 = States/Normal.st
+st2 = States/Special.st
+st3 = States/Super.st
+st4 = States/Helpers.st
+st5 = Config.txt
+stCommon = common1.cns
+sprite = Sprite.sff
+anim = Anim.air
+sound = Sound.snd
+pal1 = Palettes/MP.act
+pal2 = Palettes/Girard_Zombie.act
+pal3 = Palettes/Gill_Red.act
+pal4 = Palettes/SFIII.act
+pal5 = Palettes/Girard_BFMA.act
+pal6 = Palettes/Girard_CP.act
+pal7 = Palettes/HK.act
+pal8 = Palettes/Girard_LN.act
+pal9 = Palettes/HP.act
+pal10 = Palettes/LK.act
+pal11 = Palettes/Gill_Red.act
+pal12 = Palettes/SLK.act
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4
+y = 5
+z = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12

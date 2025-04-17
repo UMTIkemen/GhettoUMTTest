@@ -1,0 +1,40 @@
+[Statedef -3]
+[State ]
+Type = null;Helper
+Trigger1 = Var(0)%10 = 0
+Trigger1 = Var(44) = 0
+Trigger1 = NumHelper(999) < 5 && NumHelper(25000) > 0
+Trigger1 = Var(13) = [2,5]
+StateNo = 999
+ID = 999
+Ownpal = 1
+IgnoreHitPause = 1
+SuperMoveTime = 99
+PauseMoveTime = 99
+
+;---------------------------------------------------------------------------
+;AI
+;AILevel
+[State AI]
+Type = null;VarSet
+Trigger1 = Var(59) = 0 && RoundState < 3 && AILevel > 0
+IgnoreHitPause = 1
+V = 59
+Value = 1
+
+[State AI]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = Win = 1 || Lose = 1 || DrawGame = 1 || RoundState = 4 || AILevel = 0
+V = 59
+Value = 0
+IgnoreHitPause = 1
+
+[State AI]
+Type = NotHitBy
+Trigger1 = HitOver || Ctrl
+Trigger1 = StateNo = 151 || StateNo = 153 || StateNo = 155
+Trigger2 = HitOver
+Trigger2 = StateNo = 5001 || StateNo = 5011
+Value = , NT,ST,HT
+Time = 8

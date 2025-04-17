@@ -1,0 +1,41 @@
+[Info]
+name ="Yuuka_THIZ"
+displayname ="Yuuka"
+versiondate =10,31,2020
+mugenversion =1.0
+author ="Ricepigeon"
+pal.defaults =1,2,3,4
+localcoord = 320,240
+
+[Files]
+sprite = Yuuka_THIZ.sff
+anim = Yuuka_THIZ.air
+sound = Yuuka_THIZ.snd
+cmd = Yuuka_THIZ.cma
+cns = Yuuka_THIZ.cns
+stcommon = Yuuka_THIZ-Common1.st
+st = Yuuka_THIZ.st
+st1 = Yuuka_THIZ-Normals.st
+st2 = Yuuka_THIZ-Specials.st
+st3 = Yuuka_THIZ-Supers.st
+st4 = Yuuka_THIZ-Negative.st
+st5 = helper.st
+st6 = custom.st
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4 ;Press button X to select palette 1, etc.
+y = 5
+z = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10 ;Hold Start and press button X for palette 7, etc.
+y2 = 11
+z2 = 12
+
+[Arcade]
+intro.storyboard = 
+ending.storyboard = 

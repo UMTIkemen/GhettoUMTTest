@@ -1,0 +1,58 @@
+; Definition file for Kung Fu Man
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = "KyoXIII"        ;Name of character
+displayname = "Kyo Kusanagi" ;Name of character to display
+versiondate = 04,14,2002    ;Version date of character (MM-DD-YYYY)
+mugenversion = 04,14,2002   ;Version of M.U.G.E.N character works on
+author = "Ahuron"         ;Character author name
+pal.defaults = 6,3,4,2      ;Default palettes in order of preference
+
+; Files for the player
+[Files]
+cmd     = ikaruga-AI/KyoXIII.cmd   ;Command set
+cns     = ikaruga-AI/KyoXIII.cns   ;Constants
+st      = ikaruga-AI/KyoXIII.cns   ;States
+st2     = ikaruga-AI/KyoXIII2.cns   ;States
+st3     = ikaruga-AI/Config.cns
+stcommon = ikaruga-AI/KyoXIIIcommon1.cns ;Common states
+sprite  = KyoXIII.sff   ;Sprite
+anim    = KyoXIII.air   ;Animation
+sound   = KyoXIII.snd   ;Sound(default)
+;sound   = BV/Black.snd  ;Sound(black)
+;sound   = BV/Black2.snd ;Sound(black2)
+;pal1    = KyoXIII4.act  ;
+;pal2    = KyoXIII5.act  ;
+;pal3    = KyoXIII6.act  ;
+;pal4    = KyoXIII.act   ;
+;pal5    = KyoXIII2.act  ;
+;pal6    = KyoXIII3.act  ;
+
+;------------------------------------------------------
+;----------------| Palettes By JFCT555 |---------------
+;------------------------------------------------------
+
+pal1  = palpack/KyoXIII02.act ; KOF'03: D
+pal2  = palpack/KyoXIII04.act ; KOF 11: E+A
+pal3  = palpack/KyoXIII06.act ; KOF 11: E+D
+pal4  = palpack/KyoXIII.act   ; KOF 13: Default
+pal5  = palpack/KyoXIII03.act ; KOF 11: D
+pal6  = palpack/KyoXIII05.act ; KOF 11: E+B
+pal7  = palpack/KyoXIII08.act ; KOF 11: S+C
+pal8  = palpack/KyoXIII10.act ; KOF'00: King Cosplay
+pal9  = palpack/KyoXIII12.act ; Original II
+pal10 = palpack/KyoXIII07.act ; KOF 11: S+B 
+pal11 = palpack/KyoXIII09.act ; KOF 11: Terry Cosplay
+pal12 = palpack/KyoXIII11.act ; Original I
+
+------------------------------------------------------ 
+--------| Tijuana B.C. a 1 de Enero del 2012 |--------
+------------------------------------------------------
+------------| http://jfct555.webuda.com |-------------
+------------------------------------------------------
+------------| http://www.triggerall.com |-------------
+------------------------------------------------------
+-------------------| End of File | -------------------
+------------------------------------------------------

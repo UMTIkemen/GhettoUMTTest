@@ -1,0 +1,36 @@
+[Info]
+Name = "Hisui"
+DisplayName = "Hisui" 
+VersionDate = 1.00
+MugenVersion = 1.1
+Author = "‡H"
+Pal.Defaults = 1
+LocalCoord = 320
+
+[Files]
+Cmd      = Cmd.cns
+Cns      = Hisui_AACC.cns
+St       = Hisui_AACC.cns
+St1      = Helper.cns
+St2      = SYSTEM&EX&AD&LA.cns
+St3      = -2.cns
+St4      = AI.cns
+St5      = Config.txt
+Stcommon = Common.cns
+Sprite   = Hisui_AACC.sff
+Anim     = Hisui_AACC.air
+Sound    = Hisui_AACC.snd
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4
+y = 5
+z = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12

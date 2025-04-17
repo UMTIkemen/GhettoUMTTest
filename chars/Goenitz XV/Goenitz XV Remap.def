@@ -1,0 +1,35 @@
+[Info]
+Name         ="Boss Goenitz KOFXV"
+DisplayName  ="Goenitz (Remap)"
+VersionDate  =02,23,2012
+MugenVersion =1.0
+Author       ="jin/k6666orochi/BoyBoyz"
+Pal.Defaults =10,11
+
+[Files]
+Cmd      =Goenitz Remap.cmd
+Cns      =Goenitz.cns
+St       =Goenitz.cns
+StCommon =common1.cns
+Sprite   =Goenitz.sff
+Anim     =Goenitz.air
+Sound    =Goenitz.snd
+pal1=Goenitz01.act
+pal2=Goenitz02.act
+pal3=Goenitz03.act
+pal4=Goenitz04.act
+pal5=Goenitz05.act
+pal6=Goenitz06.act
+pal7=Goenitz07.act
+st1=Goenitz-N.cns
+st2=Goenitz-S.cns
+st3=Goenitz-H.cns
+st4=Goenitz-2-3.cns
+st5=helpers.cns
+
+;---カラーパレット---
+
+
+[Arcade]
+intro.storyboard=
+ending.storyboard=

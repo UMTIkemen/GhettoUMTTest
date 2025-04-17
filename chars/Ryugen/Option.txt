@@ -1,0 +1,237 @@
+;=========================================================================
+; オプション設定
+;=========================================================================
+[Statedef 99999]
+Ctrl = 0
+Anim = 10000
+;-------------------------------------------------------------------------
+;＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/
+
+;***設定項目***
+
+;1.AIレベル
+;2.AI常時起動スイッチ
+;3.先行入力の受付時間設定
+;4.ボスモードスイッチ
+
+;※下記にある"Value = ◯"の値を変更してください
+
+;＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/＿/
+;-------------------------------------------------------------------------
+; ここから↓↓↓
+;-------------------------------------------------------------------------
+[State 1.AIレベル設定]
+Type = VarSet
+TriggerAll = IsHelper
+Trigger1 = IsHelper(94444 + Root,ID)
+V = 59
+
+Value = 8;(1~8まで設定可)
+
+;1 = Beginner(ぬるぬる)
+;2 = Easy(ぬるめ)
+;3 = Normal(ふつう)
+;4 = Advanced(つよめ)
+;5 = Hard(つよい)
+;6 = Expert(すごい)
+;7 = Watch Mode Like(対AI用接待AI)
+;8 = Watch Mode Mania(対AI用AI)
+
+;Default = 8
+
+;-------------------------------------------------------------------------
+[State 2.AI常時起動スイッチ]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(59) = 0
+V = 59
+
+Value = 0;(0~1まで設定可)
+
+;0 = OFF(プレイヤー操作可能)
+;1 = ON(常時AI起動)
+
+;Default = 0
+
+;※これ以外でもP7-P12を選択することでもAIを常時起動出来ます
+
+;-------------------------------------------------------------------------
+[State 3.先行入力の受付時間設定]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(99999 + Root,ID)
+Trigger1 = Parent,ID = Root,ID
+V = 30
+
+Value = 8;(0~30まで設定可)
+
+;1増すごとにで受付時間1Fずつ増加
+;0で先行入力無し
+
+;Default = 8
+
+;-------------------------------------------------------------------------
+[State 4.ボスモードスイッチ]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(99999 + Root,ID)
+Trigger1 = Parent,ID = Root,ID
+V = 32
+
+Value = 1;(0~1まで設定可)
+
+;0 = OFF(プレイヤーモード)
+;1 = ON(ボスモード)
+
+;Default = 0
+
+;-------------------------------------------------------------------------
+; ここまで↑↑↑
+;-------------------------------------------------------------------------
+
+;Helper(94444 + Root,ID) = AI起動兼AILv管理ヘルパー
+;Helper(99999 + Root,ID) = AI環境設定ヘルパー
+;Helper(60906 + Root,ID) = システム用常駐ヘルパー
+
+[State 99999, 間違いで本体が来たら立ちへ復帰]
+Type = SelfState
+Trigger1 = !IsHelper
+Value = 0
+Ctrl = 1
+
+[State 99999, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 99999, 不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 99999, 本体と同じ向き]
+Type = Turn
+TriggerAll = IsHelper
+Trigger1 = Facing != Root,Facing
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 99999, Var(59)の下限限界]
+Type = VarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+Trigger1 = Var(59) < 1
+V = 59
+Value = 1
+
+[State 99999, Var(59)の上限限界]
+Type = VarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+Trigger1 = Var(59) > 8
+V = 59
+Value = 8
+
+[State 99999, プレイヤー判定]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+TriggerAll = Root,Var(59) = 0
+Trigger1 = Command = "up" && Root,Command = "up"
+Trigger2 = Command = "down" && Root,Command = "down"
+Trigger3 = Command = "back" && Root,Command = "back"
+Trigger4 = Command = "fwd" && Root,Command = "fwd"
+Trigger5 = Command = "a" && Root,Command = "a"
+Trigger6 = Command = "b" && Root,Command = "b"
+Trigger7 = Command = "c" && Root,Command = "c"
+Trigger8 = Command = "x" && Root,Command = "x"
+Trigger9 = Command = "y" && Root,Command = "y"
+Trigger10 = Command = "z" && Root,Command = "z"
+Trigger11 = Command = "start" && Root,Command = "start"
+V = 59
+Value = -1
+
+[State 99999, AI判定]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+TriggerAll = Root,Var(59) = 0
+Trigger1 = Command != "up" && Root,Command = "up" && (RoundState = 2 && Root,Ctrl)
+Trigger2 = Command != "down" && Root,Command = "down" && (RoundState = 2 && Root,Ctrl)
+Trigger3 = Command != "back" && Root,Command = "back" && (RoundState = 2 && Root,Ctrl)
+Trigger4 = Command != "fwd" && Root,Command = "fwd" && (RoundState = 2 && Root,Ctrl)
+Trigger5 = Command != "a" && Root,Command = "a"
+Trigger6 = Command != "b" && Root,Command = "b"
+Trigger7 = Command != "c" && Root,Command = "c"
+Trigger8 = Command != "x" && Root,Command = "x"
+Trigger9 = Command != "y" && Root,Command = "y"
+Trigger10 = Command != "z" && Root,Command = "z"
+Trigger11 = Command != "start" && Root,Command = "start"
+V = 59
+Value = 1
+
+[State 99999, AIレベル代入]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(59) > 0
+V = 59
+Value = Var(59)
+
+[State 99999, Var(59)の上限限界]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(59) > 8
+V = 59
+Value = 8
+
+[State 99999, Var(30)の下限限界]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(99999 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(30) < 0
+V = 30
+Value = 0
+
+[State 99999, Var(30)の上限限界]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(99999 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(30) > 30
+V = 30
+Value = 30
+
+[State 99999, 立ったら消失]
+Type = DestroySelf
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID)
+Trigger1 = Root,Var(59)
+
+[State 99999, システムヘルパーは次へ]
+Type = ChangeState
+TriggerAll = IsHelper
+Trigger1 = IsHelper(60906 + Root,ID)
+Value = 60906
+Ctrl = 0
+
+[State 99999, 消滅]
+Type = DestroySelf
+TriggerAll = IsHelper
+TriggerAll = IsHelper(94444 + Root,ID) = 0
+TriggerAll = IsHelper(60906 + Root,ID) = 0
+Trigger1 = Root,StateNo != 5900

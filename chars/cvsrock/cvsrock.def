@@ -1,0 +1,38 @@
+[Info]
+name = "cvsrock"		;ロック(cvs)
+displayname = "Rock"		;ロック
+versiondate=09,08,2011	;Version date of character
+mugenversion=1.0
+author="Warusaki3"		;悪咲3号
+Pal.Defaults=4,5
+
+[Map]
+B_ChargeTime = 40
+D_ChargeTime = 40
+
+[Files]
+cmd=cvsrock.cmd
+cns=cvsrock.cns
+st=cvsrock.cns
+st1=data/Constants_CVS.cns ;cvs_common.cns
+st2=groove.cns
+st3=config.txt
+stcommon=common1.cns
+sprite=cvsrock.sff
+anim=cvsrock.air
+sound=cvsrock.snd
+pal1=act004.act
+pal2=act005.act
+pal3=act006.act
+pal4=act001_c.act
+pal5=act002_b.act
+pal6=RockSpecial.act
+pal7=act010.act
+pal8=act011.act
+pal9=act012.act
+pal10=act007.act
+pal11=act008.act
+pal12=act009.act
+
+;pal**=act013.act;オリジナルカラー5（未来から来た少年カラー）
+;pal**=act014.act;オリジナルカラー6

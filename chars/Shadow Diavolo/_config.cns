@@ -1,0 +1,468 @@
+[Statedef 1761 - Donut! P2]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+sprpriority = 3
+
+[State 2500, ScreenBound]
+type = screenbound
+trigger1 = 1
+value = 1
+movecamera = 30,10
+
+[State 1060, 2]
+type = changeanim2
+trigger1 = time = 0
+value = 1761
+
+[State 1060, 2]
+type = changeanim
+trigger1 = SelfAnimExist(5052)
+trigger1 = time = 13
+value = 5052
+
+[State 1061, 2]
+type = Velset
+trigger1 = time = [13,18]
+y = -1
+x = -10
+
+[State 1061, 2]
+type = Veladd
+trigger1 = time >= 18
+y = .2
+
+[State 1061, 2]
+type = Velset
+trigger1 = time > 36
+trigger1 = Pos Y >= 0
+y = 0
+x = 0
+
+[state 3000]
+type = nothitby
+trigger1 = animelemtime(3) < 0
+value = SCA
+
+[State 810, ??????]
+type = ChangeState
+trigger1 = time > 16
+trigger1 = Pos Y >= -1
+value = 10427
+
+[State 820, 4]
+type = SelfState;???????????????????
+trigger1 = time > 16
+trigger1 = Pos Y >= 0
+value = 5110
+
+[Statedef 6215]
+type    = A
+movetype= H
+physics = N
+ctrl = 0
+
+[State 5030, 1]
+type = ChangeAnim
+trigger1 = Anim != 5030 && anim!=6215;[5000, 5199]
+trigger1 = SelfAnimExist(5030)
+value = 5030
+
+[State 5030, 1]
+type = ChangeAnim2
+trigger1 = Anim != 5030 && anim!=6215;[5000, 5199]
+trigger1 = !SelfAnimExist(5030)
+value = 6215
+
+[State 5030, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 5030, 3]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 5030, 6]
+type = ChangeState
+trigger1 = AnimTime = 0
+trigger2 = time>=5
+value = 6216 ;Air get-hit (transition)
+
+[State 5210, 3]
+type = null;NotHitBy
+trigger1 = vel y > 0 ;Peak of Launch
+trigger1 = alive
+value2 = SCA
+time = 21
+
+[State 5035, 3]
+type = SelfState
+;triggerall = !HitFall
+trigger1 = vel y > 0 ;Peak of Launch
+value = cond(alive=0,5050,5210)
+
+; Launcher State
+[Statedef 6216]
+type    = A
+movetype= H
+physics = N
+
+[State 5035, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(5035)
+trigger1 = Anim != [5051,5059] ;Not if in hit up anim
+trigger1 = Anim != 5090 ;Not if hit off ground anim
+trigger1 = anim != 6215
+value = 5035
+
+[State 5035, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 5210, 3]
+type = NotHitBy
+trigger1 = vel y >= 0 ;Peak of Launch
+trigger1 = alive
+value2 = SCA
+time = 21
+
+[State 5035, 3]
+type = SelfState
+;triggerall = !HitFall
+trigger1 = vel y >= 0 ;Peak of Launch
+value = cond(alive=0,5050,5210);value = 5210 ;Air get-hit (recovering in air, not falling)
+
+[Statedef 5085]
+type= A
+physics= N
+movetype= H
+velset= 0, 0
+facep2= 1
+
+[State 5085, P]
+type = null;pause 
+trigger1 = time = 0
+time = 120
+
+[State 5025, HFS]; Resets the fall parameter, so that the opponent will not fall on his back
+type= hitfallset
+trigger1= 1
+value= 0
+
+[State 5085, CS]
+type = changestate
+trigger1 = pos y
+value = 5086
+
+[State 5025, End]; Sends opponent back to his own states
+type= selfstate
+trigger1= pos y = 0
+value= 5000;ifelse(pos y, 5020, 5000)
+
+;---------------------------------------------------------------------------
+; CUSTOM AIR-HIT (shaking) (Modified)
+[Statedef 5086] ;Modified 5020
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 5020, 1] ;Anim for HIT_LIGHT to HIT_HARD
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) != [3,5]
+value = ifelse((GetHitVar(airtype) = 1),5000,5010) + GetHitVar(animtype)
+
+[State 5020, 2] ;Anim for HIT_BACK
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) = [3,5]
+value = 5030
+
+[State 5020, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+
+[State 5020, 4] ;Freeze anim
+type = ChangeAnim
+trigger1 = Time > 0
+value = anim
+
+[State 5020, 5]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 5087;5030
+
+[State 5020, FFB Light]
+type = ForceFeedback
+trigger1 = anim = 5000
+trigger2 = anim = 5010
+persistent = 0
+time = 6
+waveform = square
+
+[State 5020, FFB Medium]
+type = ForceFeedback
+trigger1 = anim = 5001
+trigger2 = anim = 5011
+persistent = 0
+time = 8
+waveform = sinesquare
+ampl = 110,-1,-.3
+
+[State 5020, FFB Hard]
+type = ForceFeedback
+trigger1 = anim = 5012
+trigger2 = anim = 5002
+trigger3 = anim = 5030
+trigger4 = anim = [5051,5059]
+persistent = 0
+time = 15
+waveform = sinesquare
+ampl = 140
+
+;---------------------------------------------------------------------------
+; Air get-hit (knocked away)
+[Statedef 5087];5030
+type    = A
+movetype= H
+physics = N
+ctrl = 0
+
+[State 5030, 1]
+type = ChangeAnim
+trigger1 = Anim != [5000, 5199]
+trigger1 = SelfAnimExist(5030)
+value = 5030
+
+[State 5030, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 5030, 3]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 5030, 4]
+type = ChangeState
+triggerall = !HitFall
+trigger1 = HitOver
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= Const(movement.air.gethit.groundlevel)
+value = 5089;40 ;HITA_RECOV
+
+[State 5030, 5]
+type = selfState
+triggerall = HitFall
+trigger1 = HitOver
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= Const(movement.air.gethit.groundlevel)
+value = 5050 ;HITA_FALL
+
+[State 5030, 6]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 5088;5035 ;Air get-hit (transition)
+
+;---------------------------------------------------------------------------
+; Air get-hit (transition)
+[Statedef 5088]
+type    = A
+movetype= H
+physics = N
+
+[State 5035, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(5035)
+trigger1 = Anim != [5051,5059] ;Not if in hit up anim
+trigger1 = Anim != 5090 ;Not if hit off ground anim
+value = 5035
+
+[State 5035, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 5035, CA]
+type = changeanim
+triggerall = anim!=5040
+triggerall = !hitfall
+trigger1 = anim=5035 && animtime=0
+trigger2 = time=0 && anim!=5035
+value = 5040
+
+[State 5035, 3]
+type = ChangeState
+triggerall = !HitFall
+trigger1 = HitOver  ;Hit is over
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= Const(movement.air.gethit.groundlevel)
+value = 5089 ;Air get-hit (recovering in air, not falling)
+
+[State 5035, 4]
+type = SelfState
+triggerall = HitFall
+trigger1 = HitOver  ;Hit is over
+trigger2 = AnimTime = 0 ;Anim is over
+trigger3 = Vel Y > 0    ;Hit ground
+trigger3 = Pos Y >= Const(movement.air.gethit.groundlevel)
+trigger4 = Time = 0     ;No transition anim
+trigger4 = Anim != 5035 ;.
+value = 5050 ;Air get-hit (falling)
+
+;---------------------------------------------------------------------------
+; Air get-hit (recovering in air, not falling)
+[Statedef 5089] ;Modified 5040
+type    = A
+movetype= H
+physics = N
+
+[State 5040, 1]
+type = selfState
+trigger1 = !Alive
+value = 5050
+ctrl = 0
+
+[State 5070, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 5040, 2]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 5040
+trigger2 = Time = 0
+trigger2 = Anim != 5035 && anim!=5040
+value = 5040
+
+[State 5040, 4]
+type = StateTypeSet
+trigger1 = HitOver
+movetype = I
+
+[State 5040, 5]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 5040, 6]
+type = SelfState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52 ;Jump land
+ctrl = 1
+
+;Config
+;---------------------------------------------------------------------------
+;ここではASBには無いシステム、技のON/OFFを設定できます。
+;よりASBっぽい感じにしたい場合に変更してみてください。
+;---------------------------------------------------------------------------
+;---------------------------------------------------------------------------
+;【日本語】
+;設定可能項目と初期設定
+;
+;【システム】
+;ASBスイッチ　　　　　　　　　　　…初期設定はOFF
+;ボスモード　　　　　　　　　　　 …初期設定はOFF
+;規制スイッチ　　　　　           …初期設定はOFF
+;エピタフ表示位置　　　　　　　 　…初期設定は本体位置依存
+;時飛ばし演出　　　　　　　　　   …初期設定はASB風
+;---------------------------------------------------------------------------
+;【English】
+;Item that can be set and default setting
+;
+;【System】
+;Escape　　　　　　　　　　　  …Default is ON
+;Advancing gurad　　　　　     …Default is ON
+;Guard cancel attack　　　　　 …Default is ON
+;Kawajiri's son(Hayato)　　　　…Default is ON
+;Short jump　　　　　　　　　　…Default is OFF
+;---------------------------------------------------------------------------
+[Statedef 5900];コモンステート。ラウンド始まり直前
+type = U
+
+[State 5900, 1] ;Clear all int variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+value = 0
+
+[State 5900, 2] ;Clear all float variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+fvalue = 0
+;---------------------------------------------------------------------------
+;ASBスイッチ(使用できる技、システムがASBと同じになるように限定されます)
+;---------------------------------------------------------------------------
+[State 5900]
+Type = VarSet
+Trigger1 = 1
+var(30) = 0
+;↑1で適用。デフォは0
+;(1=enable,0=disabled,default=0)
+;---------------------------------------------------------------------------
+;ボスモード (性能が強化されます)
+;---------------------------------------------------------------------------
+[State 5900]
+Type = VarSet
+Trigger1 = 1
+var(31) = 1
+;↑1でボスモード、2でボスモード2を適用。デフォは0
+;(1=enable(bossmode),2=enable(bossmode2),0=disabled,default=0)
+;---------------------------------------------------------------------------
+;演出スイッチ (『罰』の演出が変化します※僅かに肉片が表示されます)
+;---------------------------------------------------------------------------
+[State 5900]
+Type = VarSet
+Trigger1 = 1
+var(32) = 1
+;↑1で適用。デフォは0
+;(1=enable,0=disabled,default=0)
+;---------------------------------------------------------------------------
+;小ジャンプスイッチ 
+;---------------------------------------------------------------------------
+[State 5900]
+Type = VarSet
+Trigger1 = 1
+var(33) = 1
+;↑1で適用。デフォは0
+;(1=enable,0=disabled,default=0)
+;---------------------------------------------------------------------------
+;エピタフ　適用通知設定
+;---------------------------------------------------------------------------
+[State 5900]
+Type = VarSet
+Trigger1 = 1
+var(37) = 1
+;↑1でプレイヤーに固定、0で画面下に固定。デフォは1
+;(1=enable,0=disabled,default=1)
+;---------------------------------------------------------------------------
+;時飛ばし背景演出 選択
+;---------------------------------------------------------------------------
+[State 5900]
+Type = VarSet
+Trigger1 = 1
+var(38) = 1
+;↑1でASB風、0で黄金の旋風風。デフォは1
+;(1=enable,0=disabled,default=1)
+;---------------------------------------------------------------------------
+[State 5900, 3] ;Intro for round 1 
+type = ChangeState 
+value = 190 
+trigger1 = RoundNo = 1 
+trigger2 = RoundsExisted = 0 
+trigger2 = TeamMode = Turns 
+trigger2 = RoundNo > 0 

@@ -1,0 +1,43 @@
+;***************************************************************************;
+;******************* Created in Fighter Factory Ultimate *******************;
+;*******************      http://www.virtualltek.com     *******************;
+;***************************************************************************;
+
+[Info]
+name = "Yukari Tanizaki"
+displayname = "Yukari"
+versiondate = 15/8/2017
+mugenversion = 1.0
+author = "jade_midori"
+pal.defaults = 1,2,3,4,5,6,7,8,9,10,11,12
+
+[Files]
+sprite = Yukari.sff
+anim = Yukari.air
+sound = Yukari.snd
+cmd = yukari.cmd
+cns = Y-Constants.cns
+stcommon = common1.cns
+st = Y-Common.st
+st1 = Y-Normal.st
+st2 = Y-Skills.st
+st3 = Y-Supers.st
+st4 = Y-Helpers.st
+
+[Arcade]
+intro.storyboard = 
+ending.storyboard = 
+
+[Palette Keymap]
+a = 1 ;Press button X to select palette 1, etc.
+b = 2
+c = 3
+x = 4
+y = 5
+z = 6
+a2 = 7 ;Hold Start and press button X for palette 7, etc.
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12

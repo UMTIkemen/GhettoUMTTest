@@ -1,0 +1,56 @@
+; __________________________________
+;| Lei-Lei by Phantom.of.the.Server |
+; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+;====================<DEFINITION>====================
+[Info]
+name        = "Lei-Lei"
+displayname = "Lei-Lei"
+versiondate = 01,14,2010
+mugenversion= 1.0
+author      = "Phantom.of.the.Server"
+pal.defaults= 4,5,6,1,2,3,10,11,12,7
+localcoord  = 320,240
+
+[Files]
+cmd     = Command.cmd
+cns     = Constants.cns
+st      = States/System.st
+st1     = States/Normal.st
+st2     = States/Specials.st
+st3     = States/ES.st
+st4     = States/EX.st
+st5     = States/Helpers.st
+st6     = States/Custom.st
+stcommon= common1.cns
+sprite  = Sprite.sff
+anim    = Anim.air
+sound   = Sound.snd
+;ai      = ai.ai
+pal1    = Palettes/VS04.act
+pal2    = Palettes/VS05.act
+pal3    = Palettes/VS06.act
+pal4    = Palettes/VS01.act
+pal5    = Palettes/VS02.act
+pal6    = Palettes/VS03.act
+pal7    = Palettes/TTG2.act
+pal10   = Palettes/VS07.act
+pal11   = Palettes/Fanart.act
+pal12   = Palettes/Loona.act
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4
+y = 5
+z = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12
+
+;[Arcade]
+;intro.storyboard = intro.def
+;ending.storyboard = ending.def

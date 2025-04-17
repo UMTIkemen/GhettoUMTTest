@@ -1,0 +1,5267 @@
+; Osaka's Special moves
+
+
+;---------------------------------------------------------------------------
+; Bang
+[Statedef 1000]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+ctrl = 0
+anim = 1000
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = S206,4
+channel = 0
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Mezameyo Anim]
+type = ChangeAnim
+trigger1 = Var(3) && Time = 0
+value = 1010
+[State Reset Mezameyo]
+type = VarSet
+trigger1 = Var(3)
+var(3) = 0
+
+[State Reset Bang Flag]
+type = VarSet
+trigger1 = !Time && Anim = 1000 && (var(45) & floor(exp(0*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(0*ln(2)) + 0.5)
+ignorehitpause = 1
+[State Reset Mezameyo Bang Flag]
+type = VarSet
+trigger1 = !Time && Anim = 1010 && (var(45) & floor(exp(1*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(1*ln(2)) + 0.5)
+ignorehitpause = 1
+
+[State Woosh]
+type = PlaySnd
+trigger1 = anim = 1000
+trigger1 = Animelem = 2
+value = S0,0
+channel = 2
+
+[State Broi]
+type = Helper
+trigger1 = anim = 1000
+trigger1 = Animelem = 3
+helpertype = normal
+name = "Bang Projectile"
+ID = 1050
+stateno = 1049
+pos = 24,-70
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+
+[State Die]
+type = VelSet
+trigger1 = anim = 1010
+trigger1 = Animelem = 4
+x = -3.6
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 1010 && animelem = 4
+physics = N
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = anim = 1010
+trigger1 = Vel X < -1
+x = 0.15
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 1010 && vel x >= -1
+physics = S
+
+[State Broi 2]
+type = Helper
+trigger1 = anim = 1010
+trigger1 = Animelem = 4
+helpertype = normal
+name = "Mezameyo Bang Projectile"
+ID = 1060
+stateno = 1059
+pos = 24,-70
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = anim = 1000
+trigger1 = AnimElemTime(3)>=1
+trigger2 = anim = 1010
+trigger2 = AnimElemTime(4)>=1
+movetype = I
+
+[State Das Ende]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;Bang Projectile Setup (This is the first projectile of the game!)
+[Statedef 1049]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+juggle = 0
+anim = 9741
+sprpriority = 3
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1005
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(40) = cond((parent,var(40) & floor(exp(0*ln(2)) + 0.5)), 1, 0)
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Bang Projectile 
+[Statedef 1050]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 24,-70
+ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1051,1052)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Reset Juggle var if changed in middle of move]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(0*ln(2)) + 0.5))
+var(40) = 0
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(80-60*var(40))),8
+pausetime = 4,4
+sparkno = S6200+random%2
+guard.sparkno = S6041
+sparkxy = -12,0
+hitsound = S5,0
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 35
+ground.hittime = 35
+guard.slidetime = 19
+guard.hittime = 19
+air.hittime = 35
+airguard.hittime = 19
+airguard.ctrltime = 19
+yaccel = 0.4+.2*var(40)
+ground.velocity = -4
+guard.velocity = -4
+air.velocity = -1,-4+3*(var(40))
+airguard.velocity = -3,-0.8
+down.velocity = -1,-4+3*(var(40))
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+air.fall = 1
+fall.recover = (parent,var(39) >= 1)
+fall.recovertime = 2100;cond(var(40),35,2100)
+down.bounce = 1
+id = 1050
+getpower = ceil(((80-60*var(40)))*fvar(10)*0.7),ceil(((80-60*var(40)))*fvar(10)*0.7)/2
+givepower = ceil(((80-60*var(40)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(((80-60*var(40)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(0*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,statetype = A || target,statetype = L
+var(40) = parent,var(40) | floor(exp(0*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 420, Custom Fall]
+type = TargetState
+triggerall = movehit = 1 && hitpausetime = 4
+trigger1 = numtarget(1050)
+trigger1 = target(1050), statetype != A && target(1050),statetype != L
+trigger1 = !target(1050),ishelper || playeridexist(target(1050),id)
+value = 5260
+ID = 1050
+ignorehitpause = 1
+persistent = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1051,1052)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+trigger2 = root,movetype = H
+trigger3 = root,stateno != 1000
+value = 1052
+
+;Hurt Projectile
+[Statedef 1051]
+type = A
+movetype = A
+physics = N
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 420, Custom Fall]
+type = TargetState
+triggerall = movehit = 1 && hitpausetime = 16
+trigger1 = numtarget(1050)
+trigger1 = target(1050), statetype != A && target(1050),statetype != L
+trigger1 = !target(1050),ishelper || playeridexist(target(1050),id)
+value = 5260
+ID = 1050
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 1050
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1052]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 1007
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 420, Custom Fall]
+type = TargetState
+triggerall = movehit = 1 && hitpausetime = 16
+trigger1 = numtarget(1050)
+trigger1 = target(1050), statetype != A && target(1050),statetype != L
+trigger1 = !target(1050),ishelper || playeridexist(target(1050),id)
+value = 5260
+ID = 1050
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = animtime = 0
+value = 9999
+ctrl = 0
+
+;Mezameyo Bang Projectile
+[Statedef 1059]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+juggle = 0;cond((parent,var(41) & floor(exp(1*ln(2)) + 0.5)), 1, 0)
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+[State Woosh]
+type = PlaySnd
+trigger1 = !Time
+value = S0,5
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1015
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 3
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(40) = cond((parent,var(40) & floor(exp(0*ln(2)) + 0.5)), 1, 0)
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Mezameyo Bang Projectile 
+[Statedef 1060]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(0*ln(2)) + 0.5))
+var(40) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State Ass]
+type = VelSet
+trigger1 = !time
+x = 15
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1061,1062)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*40),4
+pausetime = 0,5-(var(0)<=1)
+sparkno = S6070
+guard.sparkno = S6041
+sparkxy = -12,0
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 19
+guard.hittime = 19
+air.hittime = 20
+airguard.hittime = 19
+airguard.ctrltime = 19
+yaccel = 0.4+.2*var(40)
+ground.velocity = -1.25,-4.6+3.6*(var(40))
+guard.velocity = -4
+air.velocity = -1.25,-4.6+3.6*(var(40))
+airguard.velocity = -3,-0.8
+down.velocity = -1.25,-4.6+3.6*(var(40))
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = (parent,var(39) >= 1)
+fall.recovertime = 2100
+down.bounce = 1
+id = 1060
+getpower = ceil(40*fvar(10)*0.7),ceil(20*fvar(10)*0.7)
+givepower = ceil(40*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(20*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(1*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(0*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1061,1062)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = frontedgedist < -60
+value = 1062
+
+;Hurt Projectile
+[Statedef 1061]
+type = A
+movetype = A
+physics = N
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+hitdefpersist = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time >= 4
+value = 1060
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1062]
+type = A
+movetype = I
+physics = N
+anim = 9741
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = time >= 12
+value = 9999
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Upwards Bang
+[Statedef 1100]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+ctrl = 0
+anim = 1100
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = S206,4
+channel = 0
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Woosh]
+type = PlaySnd
+trigger1 = Animelem = 2
+value = S0,0
+channel = 2
+
+[State Reset Bang Flag]
+type = VarSet
+trigger1 = !Time && (var(45) & floor(exp(2*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(2*ln(2)) + 0.5)
+ignorehitpause = 1
+
+[State Broi]
+type = Helper
+trigger1 = Animelem = 3
+helpertype = normal
+name = "Bang Projectile"
+ID = 1150
+stateno = 1149
+pos = 27,-99
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = AnimElemTime(3)>=1
+movetype = I
+
+[State Das Ende]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;Upwards Bang Projectile Setup
+[Statedef 1149]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+juggle = 0
+anim = 9741
+sprpriority = 3
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1105
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(40) = cond((parent,var(40) & floor(exp(0*ln(2)) + 0.5)), 1, 0)
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Upwards Bang Projectile 
+[Statedef 1150]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(0*ln(2)) + 0.5))
+var(40) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 27,-99
+ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1151,1152)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(80-60*var(40))),8
+pausetime = 4,4
+sparkno = S6200+random%2
+guard.sparkno = S6041
+sparkxy = -12,0
+hitsound = S5,0
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 35
+ground.hittime = 35
+guard.slidetime = 16
+guard.hittime = 16
+air.hittime = 35
+airguard.hittime = 16
+airguard.ctrltime = 16
+yaccel = 0.8;+.2*var(40)
+ground.velocity = -2*(var(40)),-14.6+9*(var(40))
+guard.velocity = -4
+air.velocity = -2*(var(40)),-14.6+9*(var(40))
+airguard.velocity = -3,-0.8
+down.velocity = -2*(var(40)),-14.6+9*(var(40))
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = 1
+fall.recovertime = 43-22*(var(40));2100
+down.bounce = 1
+id = 1150
+getpower = ceil(((80-60*var(40)))*fvar(10)*0.7),ceil(((80-60*var(40)))*fvar(10)*0.7)/2
+givepower = ceil(((80-60*var(40)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(((80-60*var(40)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(2*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(0*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1151,1152)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+trigger2 = root,movetype = H
+trigger3 = root,stateno != 1100
+value = 1152
+
+;Hurt Projectile
+[Statedef 1151]
+type = A
+movetype = H
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 1150
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1152]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+anim = 1007
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = animtime = 0
+value = 9999
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Harisen Chop
+[Statedef 1200]
+type    = A
+movetype= A
+physics = N
+juggle  = 0;cond((var(40) & floor(exp(2*ln(2)) + 0.5)), 2, 0)
+ctrl = 0
+anim = 1200
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0 && palno != [7,12]
+value = S206,4
+channel = 0
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Anim Change]
+type = ChangeAnim
+trigger1 = Time = 0
+value = ifelse(command = "HarisenC",1202,ifelse(command = "HarisenB",1201,1200))
+
+[State Mezameyo Anim]
+type = ChangeAnim
+trigger1 = Var(3) && Time = 0 && palno != [7,12]
+value = anim + 10
+[State EX Burst Anim]
+type = ChangeAnim
+trigger1 = Var(25) > 0 && Time = 0 && palno = [7,12]
+value = anim + 20
+
+[State Reset Mezameyo]
+type = VarSet
+trigger1 = Var(3)
+var(3) = 0
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = time
+y = 0.5
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = !Time
+x = 3
+y = -7.5
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = anim%10 = 1
+trigger1 = !Time
+x = 5.25
+y = -8
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = anim%10 = 2
+trigger1 = !Time
+x = 7.5
+y = -9.3
+
+[State Woosh]
+type = PlaySnd
+trigger1 = anim%10 = 0
+trigger1 = Animelem = 4
+trigger2 = anim%10 = 1
+trigger2 = Animelem = 7
+trigger3 = anim%10 = 2
+trigger3 = Animelem = 10
+value = S0,2
+channel = 2
+
+[State Harisen Chop]
+type = HitDef
+triggerall = !(var(40) & floor(exp(2*ln(2)) + 0.5))
+triggerall = !movecontact && !movereversed
+trigger1 = anim = 1200
+trigger1 = Animelemtime(5) >= 0
+trigger2 = anim = 1201
+trigger2 = Animelemtime(8) >= 0
+trigger3 = anim = 1202
+trigger3 = Animelemtime(11) >= 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = 100+10*(anim%10),10+1*(anim%10)
+pausetime = var(2):=10,10
+sparkno = -1;S6205
+guard.sparkno = S6041
+sparkxy = -12-0*ceil(fvar(0):=35.0),ceil(fvar(1):=-25.0)
+hitsound = S5,3
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 16
+guard.hittime = 16
+air.hittime = 24
+airguard.hittime = 16
+airguard.ctrltime = 16
+down.hittime = 24
+yaccel = 0.4
+ground.velocity = -1,-4.4
+guard.velocity = -6
+air.velocity = -1,-4.4
+airguard.velocity = -3,-0.8
+down.velocity = -1,-4.4
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = 1
+fall.recovertime = 30
+down.bounce = 1
+id = 1200
+getpower = ceil((100+10*(anim%10))*fvar(11)*0.7),ceil((100+10*(anim%10))*fvar(11)*0.7)/2
+givepower = ceil((100+10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil((100+10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+
+[State Harisen Chop]
+type = HitDef
+triggerall = !(var(40) & floor(exp(2*ln(2)) + 0.5))
+triggerall = !movecontact && !movereversed
+trigger1 = anim = 1210 || anim = 1220
+trigger1 = Animelemtime(5) >= 0
+trigger2 = anim = 1211 || anim = 1221
+trigger2 = Animelemtime(8) >= 0
+trigger3 = anim = 1212 || anim = 1222
+trigger3 = Animelemtime(11) >= 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = 110+10*(anim%10),11+1*(anim%10)
+pausetime = var(2):=10,10
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12-0*ceil(fvar(0):=35.0),ceil(fvar(1):=-25.0)
+hitsound = S5,3
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 50
+ground.hittime = 50
+guard.slidetime = 16
+guard.hittime = 16
+air.hittime = 50
+airguard.hittime = 16
+airguard.ctrltime = 16
+down.hittime = 50
+yaccel = 0.5
+ground.velocity = -1,12
+guard.velocity = -6
+air.velocity = -1,12
+airguard.velocity = -3,-0.8
+down.velocity = -1,12
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = (var(39) >= 1)
+fall.recovertime = 2100
+fall.xvelocity = -0.5
+fall.yvelocity = -7.5
+down.bounce = 1
+id = 1210
+getpower = ceil((110+10*(anim%10))*fvar(11)*0.7),ceil((110+10*(anim%10))*fvar(11)*0.7)/2
+givepower = ceil((110+10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil((110+10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)/2
+;p2stateno = 5240
+;getpower = 100,50
+;givepower = 50,25
+
+[State Neo-Juggle-System-Flag]
+type = VarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = var(40) | floor(exp(2*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+;[State Wallbounce on hit]
+;type = TargetState
+;triggerall = movehit = 1 && hitpausetime = 10
+;trigger1 = numtarget(1210)
+;trigger1 = !target(1210),ishelper || playeridexist(target(1210),id)
+;value = 5240
+;ID = 1210
+;ignorehitpause = 1
+;persistent = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = anim = 1200 || anim = 1210 || anim = 1220
+trigger1 = AnimElemTime(8)=0
+trigger2 = anim = 1201 || anim = 1211 || anim = 1221
+trigger2 = AnimElemTime(11)=0
+trigger3 = anim = 1202 || anim = 1212 || anim = 1222
+trigger3 = AnimElemTime(14)=0
+movetype = I
+
+[State Das Ende]
+type = ChangeState
+trigger1 = Vel y > 0 && pos y + vel y >= 0
+value = 1250
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Special Land
+[Statedef 1250]
+type    = S
+movetype = I
+physics = S
+velset = 0,0
+ctrl = 0
+anim = 47
+movehitpersist = 1
+
+[State Neo-Juggle-System-Flag]
+type = VarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = var(40) | floor(exp(2*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = S40,0
+channel = 1
+
+[State 52, 1]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 52, 2]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 52, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Uwa, Scary!
+[Statedef 1300]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+ctrl = 0
+anim = 1300
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Anim Change]
+type = ChangeAnim
+trigger1 = Time = 0
+value = ifelse(command = "ScaryC",1302,ifelse(command = "ScaryB",1301,1300))
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Animelem = 3
+value = S204,15
+channel = 0
+
+[State Mezameyo Anim]
+type = ChangeAnim
+trigger1 = Var(3) && Time = 0
+value = anim + 10
+[State Reset Mezameyo]
+type = VarSet
+trigger1 = Var(3)
+var(3) = 0
+
+[State Reset Bang Flag]
+type = VarSet
+trigger1 = !Time && Anim = 1300 && (var(45) & floor(exp(3*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(3*ln(2)) + 0.5)
+ignorehitpause = 1
+[State Reset Mezameyo Bang Flag]
+type = VarSet
+trigger1 = !Time && Anim = 1310 && (var(45) & floor(exp(4*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(4*ln(2)) + 0.5)
+ignorehitpause = 1
+
+[State Broi]
+type = Helper
+trigger1 = Animelem = 3
+helpertype = normal
+name = "Lightning"
+ID = 1350+10*(anim = [1310,1319])
+stateno = 1349+10*(anim = [1310,1319])
+pos = 45+(anim%10)*80,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = AnimElemTime(3)>=1
+movetype = I
+
+[State Das Ende]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;Lightning Projectile Setup
+[Statedef 1349]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = S4,0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1305
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(40) = cond((parent,var(40) & floor(exp(3*ln(2)) + 0.5)), 1, 0)
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Lightning Projectile
+[Statedef 1350]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(3*ln(2)) + 0.5))
+var(40) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1351,1352)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(60-40*(var(40)))),8
+pausetime = 4,4
+sparkno = S6210
+guard.sparkno = S6041
+sparkxy = -12,-60+floor(p2dist y)
+hitsound = S5,2
+guardsound = S6,1
+ground.type = High
+ground.slidetime = 37
+ground.hittime = 37
+guard.slidetime = 28
+guard.hittime = 28
+air.hittime = 37
+airguard.hittime = 28
+airguard.ctrltime = 28
+down.hittime = 37
+yaccel = 0.6
+ground.velocity = -3+2.25*(var(40)),-3.6*(var(40))
+guard.velocity = -3
+air.velocity = -0.75,-7.6+4*(var(40))
+airguard.velocity = -3,-0.8
+down.velocity = -0.75,-7.6+4*(var(40))
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+air.fall = 1
+fall.recover = (parent,var(39) >= 1)
+fall.recovertime = 2100
+id = 1350
+getpower = ceil(((60-40*var(40)))*fvar(10)*0.7),ceil(((60-40*var(40)))*fvar(10)*0.7)/2
+givepower = ceil(((60-40*var(40)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(((60-40*var(40)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+palfx.add = 0,0,0
+palfx.mul = 256,81,0
+palfx.color = 256
+palfx.time = 28
+
+[State 0, Helper]
+type = Helper
+trigger1 = !numhelper(905)
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1350)
+trigger1 = !target(1350),ishelper || playeridexist(target(1350),id)
+helpertype = normal
+name = "Fire Effect"
+ID = 905
+stateno = 905
+pos = 0,-45
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(3*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(3*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1351,1352)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 9999
+
+;Lightning Projectile Hurt
+[Statedef 1351]
+type = A
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 1350
+ctrl = 0
+
+;Ded
+[Statedef 1352]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = animtime = 0
+value = 9999
+ctrl = 0
+
+;Mezameyo Lightning Projectile
+[Statedef 1359]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+[State Woosh]
+type = PlaySnd
+trigger1 = !Time
+value = F4,1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(41) = cond((parent,var(40) & floor(exp(3*ln(2)) + 0.5)), 1, 0)
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1306
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 10
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Mezameyo Lightning Projectile 
+[Statedef 1360]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(3*ln(2)) + 0.5))
+var(41) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1361,1362)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Up
+priority = 4,Hit
+damage = ceil(fvar(10)*12),1
+pausetime = 0,2;-(var(0)<=1)
+sparkno = S6210
+guard.sparkno = S6041
+sparkxy = -12,-45 + floor(p2dist Y)
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 30
+ground.hittime = 30
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 30
+airguard.hittime = 20
+airguard.ctrltime = 20
+yaccel = 0.4
+ground.velocity = -0.5*(var(41)),-7+6.5*(var(41))
+guard.velocity = -0.5
+air.velocity = -0.5*(var(41)),-7+6.5*(var(41))
+airguard.velocity = -3,-0.8
+down.velocity = -0.5*(var(41)), -7+6.5*(var(41))
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = (parent,var(39) >= 1)
+fall.recovertime = 2100
+down.bounce = 1
+id = 1360
+getpower = ceil(12*fvar(10)*0.7),ceil(12*fvar(10)*0.7)/2
+givepower = ceil(12*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(12*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+palfx.add = 0,0,0
+palfx.mul = 256,81,0
+palfx.color = 256
+palfx.time = 28
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1360)
+trigger1 = !target(1360),ishelper || playeridexist(target(1360),id)
+helpertype = normal
+name = "Fire Effect"
+ID = 905
+stateno = 905
+pos = 0,-45
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(4*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(3*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1361,1362)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 1362
+
+;Hurt Projectile
+[Statedef 1361]
+type = A
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+hitdefpersist = 0
+
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+var(59) = animelemno(0)
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State Freeze Anim]
+type = ChangeAnim
+trigger1 = 1
+value = anim
+elem = var(59)
+ignorehitpause = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time >= 2
+value = 1360
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1362]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 9999
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; E-cho
+[Statedef 1400]
+type    = S
+movetype= A
+physics = S
+juggle  = 0;cond((var(40) & floor(exp(2*ln(2)) + 0.5)), 2, 0)
+ctrl = 0
+anim = 1400
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Woosh]
+type = PlaySnd
+trigger1 = Time = 0
+value = S205,0
+channel = 0
+
+[State Mezameyo Anim]
+type = ChangeAnim
+trigger1 = Var(3) && Time = 0
+value = 1410
+[State Reset Mezameyo]
+type = VarSet
+trigger1 = Var(3)
+var(3) = 0
+
+[State Woosh]
+type = PlaySnd
+trigger1 = Animelem = 4
+value = S0,6
+channel = 2
+
+[State Check for Armor]
+type = VarSet
+trigger1 = !time
+var(0) = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = animelemtime(4) < 0
+value = ,AA,AP
+ignorehitpause = 1
+
+[State bring in the autoguard]
+type = Helper
+trigger1 = Time = 0
+helpertype = normal ;player
+name = "Autoguard Buddy"
+ID = 1430
+stateno = 1430
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+size.xscale = const(size.xscale)
+size.yscale = const(size.yscale)
+
+;[State Autoguard]
+;type = ReversalDef
+;triggerall = numenemy
+;triggerall = enemynear,movetype != H
+;trigger1 = animelemtime(4)<0
+;reversal.attr = SCA,AA,AP ;Autoguard physicals
+;pausetime = 16,16
+;sparkno = S6041 ;nvm lol
+;sparkxy = 0,0
+;hitsound = S6,1
+;[State Disable autoguard if in hitstate]
+;type = HitDef
+;triggerall = numenemy
+;triggerall = enemynear,movetype = H
+;trigger1 = animelemtime(4)<0
+
+[State OK Then]
+type = VarSet
+trigger1 = movehit = 1 && animelemtime(4)<0
+var(0) = 1
+ignorehitpause = 1
+
+[State 0, HitAdd]
+type = HitAdd
+trigger1 = movehit = 1 && hitpausetime = 16 && animelemtime(4)<0
+value = -1
+ignorehitpause = 1
+
+[State Immediately skip to sneeze if hit preemptively]
+type = ChangeAnim
+trigger1 = var(0) = 1 && animelemtime(4)<0
+value = anim
+elem = 4
+
+[State DO NOT SAVE MOVE REVERSED HITS]
+type = MoveHitReset
+trigger1 = Animelem = 4
+
+;NON MEZAMEYO HITDEFS
+[State E-cho]
+type = HitDef
+triggerall = !(var(40) & floor(exp(2*ln(2)) + 0.5))
+triggerall = anim != 1410
+triggerall = var(0) = 0
+trigger1 = AnimelemTime(4) >= 0
+trigger1 = !movecontact && !movereversed
+attr = S,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = 100,10
+pausetime = var(2):=8,8
+sparkno = S6210
+guard.sparkno = S6041
+sparkxy = -12-0*ceil(fvar(0):=50.0),ceil(fvar(1):=-85.0)
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 32
+ground.hittime = 32
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 32
+airguard.hittime = 20
+airguard.ctrltime = 20
+down.hittime = 20
+yaccel = 0.6
+ground.velocity = -1,-3.6
+guard.velocity = -6
+air.velocity = -1,-3.6
+airguard.velocity = -3,-0.8
+down.velocity = -1,-3.6
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1400
+getpower = ceil(100*fvar(11)*0.7),ceil(50*fvar(11)*0.7)
+givepower = ceil(100*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil(50*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)
+;getpower = 100,50
+;givepower = 50,25
+
+[State E-cho (Unblockable)]
+type = HitDef
+triggerall = !(var(40) & floor(exp(2*ln(2)) + 0.5))
+triggerall = anim != 1410
+triggerall = var(0) != 0
+trigger1 = AnimelemTime(4) >= 0
+trigger1 = !movecontact && !movereversed
+attr = S,SA
+hitflag = MAFD
+guardflag = 
+animtype = Hard
+fall.animtype = Back
+priority = 4,Hit
+damage = 100,10
+pausetime = var(2):=8,8
+sparkno = S6210
+guard.sparkno = S6041
+sparkxy = -12-0*ceil(fvar(0):=50.0),ceil(fvar(1):=-85.0)
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 32
+ground.hittime = 32
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 32
+airguard.hittime = 20
+airguard.ctrltime = 20
+down.hittime = 20
+yaccel = 0.6
+ground.velocity = -1,-3.6
+guard.velocity = -6
+air.velocity = -1,-3.6
+airguard.velocity = -3,-0.8
+down.velocity = -1,-3.6
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1400
+;getpower = 100,50
+;givepower = 50,25
+
+;MEZAMEYO HITDEFS
+[State E-cho]
+type = HitDef
+triggerall = !(var(40) & floor(exp(2*ln(2)) + 0.5))
+triggerall = anim = 1410
+triggerall = var(0) = 0
+trigger1 = AnimelemTime(4) >= 0
+trigger1 = !movecontact && !movereversed
+attr = S,SA
+hitflag = MAFD
+guardflag = M
+animtype = Diagup
+fall.animtype = Diagup
+priority = 4,Hit
+damage = 120,12
+pausetime = var(2):=8,8
+sparkno = S6210
+guard.sparkno = -1
+sparkxy = -12-0*ceil(fvar(0):=50.0),ceil(fvar(1):=-85.0)
+hitsound = S5,2
+guardsound = S6,2
+ground.type = Low
+ground.slidetime = 80
+ground.hittime = 80
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 80
+airguard.hittime = 20
+airguard.ctrltime = 20
+down.hittime = 80
+yaccel = 0.4
+ground.velocity = -12,-5
+guard.velocity = -6
+air.velocity = -12,-5
+airguard.velocity = -3,-0.8
+down.velocity = -12,-5
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 0
+fall.yvelocity = 0
+id = 1410
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+;MEZAMEYO HITDEFS
+[State E-cho]
+type = HitDef
+triggerall = !(var(40) & floor(exp(2*ln(2)) + 0.5))
+triggerall = anim = 1410
+triggerall = var(0) != 0
+trigger1 = AnimelemTime(4) >= 0
+trigger1 = !movecontact && !movereversed
+attr = S,SA
+hitflag = MAFD
+guardflag = 
+animtype = Diagup
+fall.animtype = Diagup
+priority = 4,Hit
+damage = 120,12
+pausetime = var(2):=8,8
+sparkno = S6210
+guard.sparkno = -1
+sparkxy = -12-0*ceil(fvar(0):=50.0),ceil(fvar(1):=-85.0)
+hitsound = S5,2
+guardsound = S6,2
+ground.type = Low
+ground.slidetime = 80
+ground.hittime = 80
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 80
+airguard.hittime = 20
+airguard.ctrltime = 20
+down.hittime = 80
+yaccel = 0.4
+ground.velocity = -12,-5
+guard.velocity = -6
+air.velocity = -12,-5
+airguard.velocity = -3,-0.8
+down.velocity = -12,-5
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 0
+fall.yvelocity = 0
+id = 1410
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+
+[State Neo-Juggle-System-Flag]
+type = VarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = var(40) | floor(exp(2*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+;[State Wallbounce on hit]
+;type = TargetState
+;triggerall = movehit = 1 && hitpausetime = 8
+;trigger1 = numtarget(1410)
+;trigger1 = !target(1410),ishelper || playeridexist(target(1410),id)
+;value = 5255
+;ID = 1410
+;ignorehitpause = 1
+;persistent = 0
+;[State Wobble on Block]
+;type = TargetState
+;triggerall = moveguarded = 1 && hitpausetime = 8
+;trigger1 = numtarget(1410)
+;trigger1 = target(1410), statetype != A && target(1410),statetype != L
+;trigger1 = !target(1410),ishelper || playeridexist(target(1410),id)
+;value = 5260
+;ID = 1410
+;ignorehitpause = 1
+;persistent = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = AnimElemTime(5)=0
+movetype = I
+
+[State Das Ende]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Reversal Def Buddy
+[Statedef 1430]
+type = A
+movetype = A
+physics = N
+ctrl = 0
+juggle  = 0
+anim = 1430
+velset = 0, 0
+sprpriority = 5
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+flag2 = invisible
+ignorehitpause = 1
+
+;AutoGuard
+[State Broioioioi]
+type = ReversalDef
+trigger1 = 1
+reversal.attr = SCA,AA,AP
+pausetime = 0,0
+sparkno = S6041
+hitsound = S6,1
+[State THESE DONT COUNT]
+type = HitAdd
+trigger1 = movehit = 1
+value = -1
+ignorehitpause = 1
+
+[State Simulate shake please]
+type = Pause
+trigger1 = movehit = 1
+time = 16
+movetime = 0
+pausebg = 1
+
+[State tell the root to skip straight to the attack]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(0) = 1
+ignorehitpause = 1
+
+[State 0, TargetDrop]
+type = TargetDrop
+trigger1 = numtarget
+excludeID = -1
+keepone = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, BindToRoot]
+type = BindToRoot
+trigger1 = 1
+time = 1
+pos = 0,0
+ignorehitpause = 1
+
+[State 0, Turn]
+type = Turn
+trigger1 = facing != root,facing
+ignorehitpause = 1
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = root,stateno != ifelse(ishelper(1430),1400,250)
+trigger2 = root,movetype = H
+trigger3 = root,anim = ifelse(ishelper(1430),1400,250)
+trigger3 = root,animelemtime(4) >= 0
+
+;---------------------------------------------------------------------------
+; Mezameyo~
+[Statedef 1500]
+type    = S
+movetype= I
+physics = S
+juggle  = 0
+ctrl = 0
+anim = 1500
+facep2 = 1
+sprpriority = 2
+poweradd = ceil(100*fvar(11))
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = S204,4
+channel = 0
+
+[State Power up Special Moves]
+type = VarSet
+trigger1 = Time = 0
+var(3) = 1
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem = 7
+anim = 1505
+ID = 1500
+pos = 0,-20
+postype = p1
+facing = 1
+bindtime = -1
+removetime = -2
+scale = 1,1
+sprpriority = -1
+ownpal = 1
+removeongethit = 1
+
+[State Das Ende]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; Gun Flame
+[Statedef 1600]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+ctrl = 0
+anim = 1600
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State DRAGON INSTALL]
+type = PlaySnd
+trigger1 = Time = 0
+value = S1000,0
+channel = 0
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Anim Change]
+type = ChangeAnim
+trigger1 = Time = 0 && var(25) <= 0
+value = ifelse(command = "BangC",1602,ifelse(command = "BangB",1601,1600))
+
+[State Burst Mode Anim]
+type = ChangeAnim
+trigger1 = Var(25) > 0 && Time = 0
+value = anim+10
+
+[State Reset Gun Flame Flag]
+type = VarSet
+trigger1 = !Time && (Anim = [1600,1602]) && (var(45) & floor(exp(6*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(6*ln(2)) + 0.5)
+ignorehitpause = 1
+[State Reset Gun Flame Flag]
+type = VarSet
+trigger1 = !Time && (Anim = [1610,1612]) && (var(45) & floor(exp(7*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(7*ln(2)) + 0.5)
+ignorehitpause = 1
+
+[State Broi]
+type = Helper
+trigger1 = anim = [1600,1602]
+trigger1 = Animelem = 3
+trigger2 = anim = [1610,1612]
+trigger2 = Animelem = 3
+helpertype = normal
+name = "Gun Flame"
+ID = 1650+10*(anim=[1610,1612])
+stateno = 1649+10*(anim=[1610,1612])
+pos = 24,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = anim = [1600,1602]
+trigger1 = AnimElemTime(3)>=1
+trigger2 = anim = [1610,1612]
+trigger2 = AnimElemTime(3)>=1
+movetype = I
+
+[State Das Ende]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;Gun Flame Projectile
+[Statedef 1649]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+[State Woosh]
+type = PlaySnd
+trigger1 = !time
+value = S0,5
+channel = 2
+
+;[State After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = 20
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,256,256
+;paladd = 0,0,0
+;palmul = .7,.7,.7
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(41) = cond((parent,var(40) & floor(exp(5*ln(2)) + 0.5)), 1, 0)
+
+[State Cant throw another gun flame yet]
+type = ParentVarSet
+trigger1 = !time 
+var(46) = parent,var(46) | floor(exp(0*ln(2)) + 0.5)
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1605
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 1
+
+[State Vel]
+type = VarSet
+trigger1 = !Time
+fvar(0) = 3.0 + 1.2*cond((root,anim = [1600,1602]),(root,anim%10),0)
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+;[State After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = -1
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,256,256
+;paladd = 0,0,0
+;palmul = .8,.8,.8
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Gun Flame Projectile 
+[Statedef 1650]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+;[State 0, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = invisible
+;ignorehitpause = 1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = !time
+x = fvar(0)
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(5*ln(2)) + 0.5))
+var(41) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1651,1652)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(80-60*var(41))),8
+pausetime = 0,10;-(var(0)<=1)
+sparkno = S6200+random%2
+guard.sparkno = S6041
+sparkxy = -12,-5 + floor(p2dist Y)
+hitsound = S5,8
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 20
+airguard.hittime = 20
+airguard.ctrltime = 20
+yaccel = 0.4
+ground.velocity = -1, -5.6+2*var(41)
+guard.velocity = -5
+air.velocity = -1, -5.6+2*var(41)
+airguard.velocity = -3,-0.8
+down.velocity = -1, -5.6+2*var(41)
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = parent,var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1650
+getpower = ceil((80-60*var(41))*fvar(10)*0.7),ceil((80-60*var(41))*fvar(10)*0.7)/2
+givepower = ceil((80-60*var(41))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil((80-60*var(41))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+palfx.add = 0,0,0
+palfx.mul = 256,81,0
+palfx.color = 256
+palfx.time = 28
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(6*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1650)
+trigger1 = !target(1650),ishelper || playeridexist(target(1650),id)
+helpertype = normal
+name = "Fire Effect"
+ID = 905
+stateno = 905
+pos = 0,-45
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+;
+;[State 0, Explod]
+;type = Explod
+;trigger1 = time = 0 || gametime%6 = 0
+;anim = 1606
+;ID = 1606
+;pos = 0,0
+;postype = p1
+;facing = 1
+;bindtime = 1
+;removetime = -2
+;scale = 1,1
+;sprpriority = 0
+;ontop = 1
+;shadow = 0,0,0
+;ownpal = 1
+;removeongethit = 0
+
+;[State Projectile Flag]
+;type = ParentVarSet
+;trigger1 = movehit = 1 && !movereversed
+;var(45) = parent,var(45) | floor(exp(5*ln(2)) + 0.5)
+;ignorehitpause = 1
+;persistent = 0
+
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(5*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1651,1652)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Time >= 30
+value = 1652
+
+;Hurt Projectile
+[Statedef 1651]
+type = A
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+hitdefpersist = 0
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+var(59) = animelemno(0)
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time >= 10
+value = 1650
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1652]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+anim = 9741
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+[State Done, you can spam Gun Flame again]
+type = ParentVarSet
+trigger1 = !time 
+trigger1 = parent,var(46)&floor(exp(0*ln(2)) + 0.5)
+var(46) = parent,var(46) ^ floor(exp(0*ln(2)) + 0.5)
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = Time >= 12
+value = 9999
+ctrl = 0
+
+;Burst Gun Flame Projectile
+[Statedef 1659]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+[State Woosh]
+type = PlaySnd
+trigger1 = !time
+value = S5,5
+channel = 2
+
+;[State Burst After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = -1
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,25,45
+;paladd = 0,0,0
+;palmul = .8,.8,.8
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(41) = cond((parent,var(40) & floor(exp(5*ln(2)) + 0.5)), 1, 0)
+
+[State Cant throw another gun flame yet]
+type = ParentVarSet
+trigger1 = !time 
+var(46) = parent,var(46) | floor(exp(0*ln(2)) + 0.5)
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1615
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;Burst Gun Flame Projectile 
+[Statedef 1660]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+;[State 0, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = invisible
+;ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(5*ln(2)) + 0.5))
+var(41) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1661,1662)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State Bang Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(80-60*var(41))),8
+pausetime = 0,10;-(var(0)<=1)
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12,-10 + floor(p2dist Y)
+hitsound = S5,8
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20
+ground.hittime = 20
+guard.slidetime = 20
+guard.hittime = 20
+air.hittime = 20
+airguard.hittime = 20
+airguard.ctrltime = 20
+yaccel = 0.4
+ground.velocity = -3, -7.6+2*var(41)
+guard.velocity = -5
+air.velocity = -3, -7.6+2*var(41)
+airguard.velocity = -3,-0.8
+down.velocity = -3, -7.6+2*var(41)
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = parent,var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1660
+getpower = ceil((80-60*var(41))*fvar(10)*0.7),ceil((80-60*var(41))*fvar(10)*0.7)/2
+givepower = ceil((80-60*var(41))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil((80-60*var(41))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+palfx.add = 0,0,0
+palfx.mul = 256,81,0
+palfx.color = 256
+palfx.time = 28
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(7*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1660)
+trigger1 = !target(1660),ishelper || playeridexist(target(1660),id)
+helpertype = normal ;player
+name = "Orange Blue Halo"
+ID = 910
+stateno = 910
+pos = ceil(target(1660),pos X - pos X)*facing,-50 + floor(p2dist Y)
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+supermovetime = 9999999
+pausemovetime = 9999999
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1660)
+trigger1 = !target(1660),ishelper || playeridexist(target(1660),id)
+helpertype = normal
+name = "Fire Effect"
+ID = 905
+stateno = 905
+pos = 0,-45
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+;
+;[State 0, Explod]
+;type = Explod
+;trigger1 = time = 0 || gametime%6 = 0
+;anim = 1606
+;ID = 1606
+;pos = 0,0
+;postype = p1
+;facing = 1
+;bindtime = 1
+;removetime = -2
+;scale = 1,1
+;sprpriority = 0
+;ontop = 1
+;shadow = 0,0,0
+;ownpal = 1
+;removeongethit = 0
+
+;[State Projectile Flag]
+;type = ParentVarSet
+;trigger1 = movehit = 1 && !movereversed
+;var(45) = parent,var(45) | floor(exp(5*ln(2)) + 0.5)
+;ignorehitpause = 1
+;persistent = 0
+
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(5*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1661,1662)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 1662
+
+;Hurt Projectile
+[Statedef 1661]
+type = A
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+hitdefpersist = 0
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+var(59) = animelemno(0)
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time >= 10
+value = 1650
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1662]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+[State Done, you can spam Gun Flame again]
+type = ParentVarSet
+trigger1 = !time 
+trigger1 = parent,var(46)&floor(exp(0*ln(2)) + 0.5)
+var(46) = parent,var(46) ^ floor(exp(0*ln(2)) + 0.5)
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 9999
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Volcanic Viper?
+[Statedef 1700]
+type    = U
+movetype= A
+physics = N
+juggle  = 0;cond((var(40) & floor(exp(6*ln(2)) + 0.5)), 2, 0)
+ctrl = 0
+anim = 1700
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State MULTI HIT MOVE: Save Juggle Status]
+type = VarSet
+trigger1 = Time = 0
+var(24) = cond((var(40) & floor(exp(6*ln(2)) + 0.5)), 1, 0)
+
+[State MULTI HIT MOVE: Restore Juggle if flag becomes zero somehow]
+type = VarSet
+trigger1 = !(var(40) & floor(exp(6*ln(2)) + 0.5))
+var(24) = 0
+ignorehitpause = 1
+
+[State MULTI HIT MOVE: Reset Multihit Enabler]
+type = VarSet
+trigger1 = Time = 0
+var(6) = 0
+
+[State DRAGON INSTALL]
+type = PlaySnd
+trigger1 = Time = 0
+value = S1100,0
+channel = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = !time && (statetype = S || statetype = C)
+statetype = S
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = !time && !(statetype = S || statetype = C)
+statetype = A
+
+[State Anim Change]
+type = ChangeAnim
+trigger1 = Time = 0 && var(25) <= 0
+value = ifelse(command = "UpBangC",1702,ifelse(command = "UpBangB",1701,1700))
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = var(25) > 0 && !time
+value = 1710
+
+
+[State DEMON CRADLE]
+type = VarSet
+trigger1 = !time && anim = [1710,1712]
+var(0) = (Vel X > 2)
+[State END]
+type = VelSet
+trigger1 = !time
+x = 0
+y = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+triggerall = anim = [1700,1702]
+trigger1 = animelem = 2 || animelem = 5
+value = S0,1
+channel = 2
+
+[State 0, PlaySnd]
+type = PlaySnd
+triggerall = anim = [1710,1712]
+trigger1 = animelem = 2
+value = S0,5
+
+[State 0, PlaySnd]
+type = PlaySnd
+triggerall = anim = [1710,1712]
+trigger1 = animelem = 2 || animelem = 5 || animelem = 8 || animelem = 11 || animelem = 14
+value = S0,1
+channel = 2
+
+[State 0, Explod]
+type = Explod
+triggerall = anim = [1710,1712]
+trigger1 = animelem = 2 || animelem = 5 || animelem = 8 || animelem = 11 || animelem = 14
+anim = 1715
+ID = 1715
+pos = 0,-115
+postype = p1
+facing = 1
+bindtime = -1
+removetime = -2
+scale = 1,1
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = anim = 1700
+trigger1 = Animelemtime(2) <= 1
+value = SCA
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = anim = 1710
+trigger1 = Animelemtime(4) <= 1
+value = SCA
+
+[State Death out of order!]
+type = VelAdd
+triggerall = animelemtime(2) >= 0
+trigger1 = statetype = A
+y = 0.4-0.2*((anim = [1710,1712])&&Animelemtime(15)<0)
+[State Death 2]
+type = StateTypeSet
+trigger1 = anim = [1700,1702]
+trigger1 = Animelem = 2
+trigger2 = anim = [1710,1712]
+trigger2 = Animelem = 2
+statetype = A
+[State Death]
+type = VelSet
+triggerall = anim = [1700,1702]
+trigger1 = Animelem = 2
+x = 2
+y = -7.6 - 2.5*(anim%10)
+[State Death]
+type = VelSet
+triggerall = anim = [1710,1712]
+trigger1 = Animelem = 2
+x = 2
+y = -7.8
+
+[State Multi box helper]
+type = VarSet
+triggerall = anim = [1700,1702]
+trigger1 = Animelemtime(3) = 0 || Animelemtime(6) = 0
+var(6) = 0
+
+[State Up 1]
+type = HitDef
+triggerall = !var(24)
+triggerall = var(6) = 0
+triggerall = anim = [1700,1702]
+trigger1 = AnimelemTime(2) >= 0 && Animelemtime(3) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = M
+animtype = Up
+air.animtype = Up
+fall.animtype = Up
+priority = 4,Hit
+damage = 50+10*(anim%10),5+1*(anim%10)
+pausetime = var(2):=10,10
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12+0*ceil(fvar(0):=30.0),ceil(fvar(1):=-60)
+hitsound = S5,3
+guardsound = S6,1
+ground.type = High
+ground.slidetime = 24
+guard.slidetime = 24
+ground.hittime = 24
+guard.hittime = 24
+air.hittime = 24
+airguard.hittime = 24
+airguard.ctrltime = 24
+yaccel = 0.4
+ground.velocity = -1,-6 - 3*(anim%10)
+guard.velocity = -4
+air.velocity = -1,-6 - 3*(anim%10)
+down.velocity = -1,-6 - 3*(anim%10)
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1700
+getpower = ceil((50+10*(anim%10))*fvar(11)*0.7),ceil((50+10*(anim%10))*fvar(11)*0.7)/2
+givepower = ceil((50+10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil((50+10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)/2
+
+[State Up 2]
+type = HitDef
+triggerall = !var(24)
+triggerall = var(6) = 0
+triggerall = anim = [1700,1702]
+trigger1 = AnimelemTime(5) >= 0 && Animelemtime(6) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Up
+air.animtype = Up
+fall.animtype = Up
+priority = 4,Hit
+damage = 50,5
+pausetime = var(2):=10,10
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12+0*ceil(fvar(0):=30.0),ceil(fvar(1):=-60)
+hitsound = S5,3
+guardsound = S6,1
+ground.type = High
+ground.slidetime = 24
+guard.slidetime = 16
+ground.hittime = 24
+guard.hittime = 16
+air.hittime = 24
+airguard.hittime = 16
+airguard.ctrltime = 16
+yaccel = 0.4
+ground.velocity = -1.5,-6 - 4.5*((anim%10) = 2)
+guard.velocity = -4
+air.velocity = -1.5,-6 - 4.5*((anim%10) = 2)
+down.velocity = -1.5,-6 - 4.5*((anim%10) = 2)
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1700
+getpower = ceil(50*fvar(11)*0.7),ceil(25*fvar(11)*0.7)
+givepower = ceil(50*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil(25*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)
+
+[State Multi box helper]
+type = VarSet
+triggerall = anim = [1710,1712]
+trigger1 = animelemno(0) = [2,15]
+trigger1 = Animelemtime(animelemno(0)) = 0
+var(6) = 0
+
+[State Up 1]
+type = HitDef
+triggerall = !var(24)
+triggerall = var(6) = 0
+triggerall = anim = [1710,1712]
+trigger1 = animelemtime(2) >= 0 && Animelemtime(15) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = M
+animtype = Up
+air.animtype = Up
+fall.animtype = Up
+priority = 4,Hit
+damage = 10+(anim%10),1
+pausetime = var(2):=1,1
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12+0*ceil(fvar(0):=30.0),ceil(fvar(1):=-60)
+hitsound = S5,2
+guardsound = S6,1
+ground.type = High
+ground.slidetime = 32
+guard.slidetime = 14
+ground.hittime = 32
+guard.hittime = 14
+air.hittime = 32
+airguard.hittime = 14
+airguard.ctrltime = 14
+yaccel = 0.4
+ground.velocity = 0,-5.6
+guard.velocity = 0
+air.velocity = 0,-5.6
+down.velocity = 0,-5.6
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = 1
+fall.recovertime = 43
+down.bounce = 1
+id = 1710
+getpower = ceil((10+(anim%10))*fvar(11)*0.7),ceil((10+(anim%10))*fvar(11)*0.7)/2
+givepower = ceil((10+(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil((10+(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)/2
+
+;Regular EX DP
+[State Multi box set to 1]
+type = VarSet
+triggerall = anim = [1700,1702]
+trigger1 = (Animelemtime(2) >= 0 && Animelemtime(3) < 0) || (Animelemtime(5) >= 0 && Animelemtime(6) < 0)
+trigger1 = var(6) = 0
+trigger1 = (movecontact = 1 && hitpausetime = 10) || movereversed = 1
+var(6) = 1
+ignorehitpause = 1
+
+;DRAGON INSTALL EX DP
+[State Multi box set to 1]
+type = VarSet
+triggerall = anim = [1710,1712]
+trigger1 = (Animelemtime(2) >= 0 && Animelemtime(15) < 0)
+trigger1 = var(6) = 0
+trigger1 = (movecontact = 1 && hitpausetime = 1) || movereversed = 1
+var(6) = 1
+ignorehitpause = 1
+
+[State No]
+type = TargetBind
+trigger1 = movehit = 1 && !movereversed && numtarget(1700) && hitpausetime = 10
+time = 1
+id = 1700
+pos = ceil(p2dist X),ifelse(p2dist Y > 50, 50, p2dist Y)
+ignorehitpause = 1
+
+[State Neo-Juggle-System-Flag]
+type = VarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = var(40) | floor(exp(6*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+triggerall = anim = [1700,1702]
+trigger1 = Animelem = 6
+movetype = I
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+triggerall = anim = [1710,1712]
+trigger1 = Animelem = 15
+movetype = I
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = statetype = A
+trigger1 = vel y > 0 && pos y + vel y >= 0
+value = 1250
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; Bandit Revolver?
+[Statedef 1800]
+type    = A
+movetype= A
+physics = N
+juggle  = 0;cond((var(40) & floor(exp(7*ln(2)) + 0.5)), 2, 0)
+velset = 3,-3.8
+ctrl = 0
+anim = 1800
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State MULTI HIT MOVE: Save Juggle Status]
+type = VarSet
+trigger1 = Time = 0
+var(24) = cond((var(40) & floor(exp(7*ln(2)) + 0.5)), 1, 0)
+
+[State MULTI HIT MOVE: Restore Juggle if flag becomes zero somehow]
+type = VarSet
+trigger1 = !(var(40) & floor(exp(7*ln(2)) + 0.5))
+var(24) = 0
+ignorehitpause = 1
+
+[State MULTI HIT MOVE: Reset Multihit Enabler]
+type = VarSet
+trigger1 = Time = 0
+var(6) = 0
+
+[State DRAGON INSTALL]
+type = PlaySnd
+trigger1 = Time = 0
+value = S1300,0
+channel = 0
+
+[State DRAGON INSTALL]
+type = PlaySnd
+trigger1 = Animelem = 6
+value = S1300,1
+channel = 0
+
+;Proj invuln applies to burst mode too
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = anim%10 = 0
+trigger1 = AnimelemTime(3) >= 0
+value = ,AP
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = anim%10 = 1
+trigger1 = AnimelemTime(3) >= 0 && AnimelemTime(6) < 0
+value = ,AP
+
+[State Anim Change]
+type = ChangeAnim
+trigger1 = Time = 0 && var(25) <= 0
+value = ifelse(command = "ScaryC",1802,ifelse(command = "ScaryB",1801,1800))
+
+[State BURST VARIATION]
+type = ChangeAnim
+trigger1 = var(25) > 0 && !time
+value = anim + 10
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = !time && anim = [1801,1802]
+x = 4.5 + 1.5*(anim%10 - 1)
+y = -4.6
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = !time && anim = [1810,1812]
+x = 2
+y = -4.6
+
+[State 0, PlaySnd]
+type = PlaySnd
+triggerall = anim = [1800,1802]
+trigger1 = animelem = 2 || animelem = 6
+value = S0,1
+channel = 2
+
+[State 0, PlaySnd]
+type = PlaySnd
+triggerall = anim = [1810,1812]
+trigger1 = animelem = 6
+value = S0,5
+channel = 2
+
+[State Death out of order!]
+type = VelAdd
+triggerall = anim = [1800,1802]
+trigger1 = statetype = A
+y = 0.2
+[State Death out of order!]
+type = VelAdd
+triggerall = anim = [1810,1812]
+trigger1 = statetype = A
+trigger1 = animelemtime(6) < 0 || animelemtime(18)>=0
+y = 0.4
+[State 0, VelSet]
+type = VelSet
+trigger1 = anim = [1810,1812]
+trigger1 = animelem = 6
+x = 6
+y = 0
+
+[State Multi box helper]
+type = VarSet
+triggerall = anim = [1800,1802]
+trigger1 = animelemtime(4) = 0
+trigger2 = Animelemtime(10) = 0
+var(6) = 0
+
+[State Up 1]
+type = HitDef
+triggerall = anim = [1800,1802]
+triggerall = !var(24)
+triggerall = var(6) = 0
+trigger1 = AnimelemTime(3) >= 0 && Animelemtime(4) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+air.animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = 30 + 10*(anim%10),3 + 1*(anim%10)
+pausetime = var(2):=10,10
+sparkno = S6200+random%2
+guard.sparkno = S6041
+sparkxy = -12,-60
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 24
+guard.slidetime = 24
+ground.hittime = 24
+guard.hittime = 24
+air.hittime = 24
+airguard.hittime = 24
+airguard.ctrltime = 24
+yaccel = 0.4
+ground.velocity = -1.25, -5.6 - 1*((anim%10) >= 1);+2*((var(40) & floor(exp(7*ln(2)) + 0.5))>0)
+guard.velocity = -1.25
+air.velocity = -1.25, -5.6 - 1*((anim%10) >= 1);+2*((var(40) & floor(exp(7*ln(2)) + 0.5))>0)
+down.velocity = -1.25, -5.6 - 1*((anim%10) >= 1);+2*((var(40) & floor(exp(7*ln(2)) + 0.5))>0)
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = 1
+fall.recovertime = 36
+down.bounce = 1
+id = 1800
+getpower = ceil((30 + 10*(anim%10))*fvar(11)*0.7),ceil((30 + 10*(anim%10))*fvar(11)*0.7)/2
+givepower = ceil((30 + 10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil((30 + 10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)/2
+
+[State Up 1]
+type = HitDef
+triggerall = anim = [1800,1802]
+triggerall = !var(24)
+triggerall = var(6) = 0
+trigger1 = AnimelemTime(9) >= 0 && Animelemtime(10) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+air.animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = 40 + 10*(anim%10),4 + 1*(anim%10)
+pausetime = var(2):=10,10
+sparkno = S6200+random%2
+guard.sparkno = S6041
+sparkxy = -12,-60
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 24
+guard.slidetime = 10
+ground.hittime = 24
+guard.hittime = 10
+air.hittime = 24
+airguard.hittime = 10
+airguard.ctrltime = 10
+yaccel = 0.4
+ground.velocity = -2.5, -5.6;+2*((var(40) & floor(exp(7*ln(2)) + 0.5))>0)
+guard.velocity = -2.5
+air.velocity = -2.5, -5.6;+2*((var(40) & floor(exp(7*ln(2)) + 0.5))>0)
+down.velocity = -2.5, -5.6;+2*((var(40) & floor(exp(7*ln(2)) + 0.5))>0)
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = 1
+fall.recovertime = 36
+down.bounce = 1
+id = 1800
+getpower = ceil((40 + 10*(anim%10))*fvar(11)*0.7),ceil((40 + 10*(anim%10))*fvar(11)*0.7)/2
+givepower = ceil((40 + 10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil((40 + 10*(anim%10))*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)/2
+
+;Regular EX Tatsu
+[State Multi box set to 1]
+type = VarSet
+triggerall = anim = [1800,1802]
+trigger1 = (Animelemtime(3) >= 0 && Animelemtime(4) < 0) || (Animelemtime(9) >= 0 && Animelemtime(10) < 0)
+trigger1 = var(6) = 0
+trigger1 = (movecontact = 1 && hitpausetime = 10) || movereversed = 1
+var(6) = 1
+ignorehitpause = 1
+
+[State Multi box helper]
+type = VarSet
+triggerall = anim = [1810,1812]
+trigger1 = animelemno(0) = [6,17]
+trigger1 = Animelemtime(animelemno(0)) = 0
+var(6) = 0
+
+[State Hits 1-11]
+type = HitDef
+triggerall = anim = [1810,1812]
+triggerall = !var(24)
+triggerall = var(6) = 0
+trigger1 = animelemtime(6) >= 0 && animelemtime(17) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+air.animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = 10,1
+pausetime = var(2):=2,2
+sparkno = -1;S6205
+guard.sparkno = S6041
+sparkxy = -12+0*ceil(fvar(0):=30),ceil(fvar(1):=-45.0)
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 32
+guard.slidetime = 14
+ground.hittime = 32
+guard.hittime = 14
+air.hittime = 32
+airguard.hittime = 14
+airguard.ctrltime = 14
+yaccel = 0.4
+ground.velocity = -2.5, -1.6
+guard.velocity = -2.5
+air.velocity = -2.5, -1.6
+down.velocity = -2.5, -1.6
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+fall = 1
+fall.recover = (var(39) >= 1)
+fall.recovertime = 2100
+down.bounce = 1
+id = 1810
+getpower = ceil(10*fvar(11)*0.7),ceil(5*fvar(11)*0.7)
+givepower = ceil(10*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil(5*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)
+[State Hit 12]
+type = HitDef
+triggerall = anim = [1810,1812]
+triggerall = !var(24)
+triggerall = var(6) = 0
+trigger1 = animelemtime(17) >= 0 && animelemtime(18) < 0
+attr = A,SA
+hitflag = MAFD
+guardflag = MA
+animtype = Diagup
+air.animtype = Diagup
+fall.animtype = Diagup
+priority = 4,Hit
+damage = 10,1
+pausetime = var(2):=2,2
+sparkno = -1;S6205
+guard.sparkno = S6041
+sparkxy = -12+0*ceil(fvar(0):=30),ceil(fvar(1):=-45.0)
+hitsound = S5,3
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 32
+guard.slidetime = 14
+ground.hittime = 32
+guard.hittime = 14
+air.hittime = 32
+airguard.hittime = 14
+airguard.ctrltime = 14
+yaccel = 0.4
+ground.velocity = -9, 0
+guard.velocity = -3
+air.velocity = -9, 0
+down.velocity = -9, 0
+airguard.velocity = -3,-0.8
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+p2facing = 1
+;p2stateno = 5250
+fall.yvelocity = 0
+fall = 1
+fall.recover = (var(39) >= 1)
+fall.recovertime = 2100
+down.bounce = 0
+id = 1811
+getpower = ceil(10*fvar(11)*0.7),ceil(5*fvar(11)*0.7)
+givepower = ceil(10*(1.0 - (fvar(11) - 1.0)*0.5)*0.6),ceil(5*(1.0 - (fvar(11) - 1.0)*0.5)*0.6)
+
+;DRAGON INSTALL EX Tatsu
+[State Multi box set to 1]
+type = VarSet
+triggerall = anim = [1810,1812]
+trigger1 = (Animelemtime(6) >= 0 && Animelemtime(18) < 0)
+trigger1 = var(6) = 0
+trigger1 = (movecontact = 1 && hitpausetime = 2) || movereversed = 1
+var(6) = 1
+ignorehitpause = 1
+
+[State No]
+type = TargetBind
+trigger1 = movehit = 1 && !movereversed && numtarget(1810) && hitpausetime = 2
+time = 1
+id = 1810
+pos = ceil(p2dist X),-10
+ignorehitpause = 1
+[State No]
+type = TargetBind
+trigger1 = movehit = 1 && !movereversed && numtarget(1811) && hitpausetime = 2
+time = 1
+id = 1811
+pos = ceil(p2dist X),-10
+ignorehitpause = 1
+
+[State Neo-Juggle-System-Flag]
+type = VarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = var(40) | floor(exp(7*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+triggerall = anim = [1800,1802]
+trigger1 = Animelem = 10
+movetype = I
+[State 0, StateTypeSet]
+type = StateTypeSet
+triggerall = anim = [1810,1812]
+trigger1 = Animelem = 18
+movetype = I
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = statetype = A
+trigger1 = vel y > 0 && pos y + vel y >= 0
+value = 1250
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; ??? Ecstasy Crunch?
+[Statedef 1900]
+type    = A
+movetype= A
+physics = N
+juggle  = 0
+ctrl = 0
+anim = 1900
+facep2 = 1
+poweradd = ceil(100*fvar(11))
+
+[State BURST VARIATION]
+type = ChangeAnim
+trigger1 = var(25) > 0 && !time
+value = anim + 10
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+fvar(0) = Vel X
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+fvar(1) = Vel Y
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = Time = 0
+x = 0
+y = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = anim = [1900,1909]
+trigger1 = Animelem = 2
+trigger2 = anim = [1910,1919]
+trigger2 = Animelem = 2
+value = S0,6
+channel = 2
+
+[State Prorate]
+type = VarSet
+triggerall = Var(20) = 1 ;prevStateContact
+trigger1 = Time = 0
+fvar(10) = fvar(10) * 0.9
+[State -2, StateContact reset]
+type = VarSet
+trigger1 = Time = 0
+var(20) = 0
+[State -2, StateContact?]
+type = VarSet
+triggerall = Var(20) = 0
+trigger1 = MoveHit
+var(20) = 1
+ignorehitpause = 1
+
+[State Mezameyo Anim]
+type = ChangeAnim
+trigger1 = 0
+trigger1 = Var(25) > 0 && Time = 0
+value = Anim+10
+
+[State Reset ??? Flag]
+type = VarSet
+trigger1 = !Time && (Anim = [1600,1619]) && (var(45) & floor(exp(8*ln(2)) + 0.5))
+var(45) = var(45) ^ floor(exp(8*ln(2)) + 0.5)
+ignorehitpause = 1
+
+[State Broi]
+type = Helper
+trigger1 = anim = [1900,1909]
+trigger1 = Animelem = 3
+trigger2 = anim = [1910,1919]
+trigger2 = Animelem = 3
+helpertype = normal
+name = "Crumch Munch"
+ID = 1950+10*(anim = [1910,1919])
+stateno = 1949+10*(anim = [1910,1919])
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+
+[State n0GGA]
+type = StateTypeSet
+trigger1 = anim = [1900,1919]
+trigger1 = AnimElemTime(2)>=1
+movetype = I
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = Animelemtime(6) >= 0
+y = 0.4
+[State 0, VelSet]
+type = VelSet
+trigger1 = Animelem = 6
+x = fvar(0)
+y = fvar(1)
+
+[State Das Ende]
+type = ChangeState
+trigger1 = vel y > 0
+trigger1 = pos y + vel y >= 0
+value = 1250
+ctrl = 0
+
+;??? Projectile
+[Statedef 1949]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+;[State After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = 20
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,256,256
+;paladd = 0,0,0
+;palmul = .7,.7,.7
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(41) = cond((parent,var(40) & floor(exp(7*ln(2)) + 0.5)), 1, 0)
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1905
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+;[State After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = -1
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,256,256
+;paladd = 0,0,0
+;palmul = .8,.8,.8
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;??? Projectile 
+[Statedef 1950]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+;[State 0, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = invisible
+;ignorehitpause = 1
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 0,0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(7*ln(2)) + 0.5))
+var(41) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1951,1952)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State ???Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(80-60*var(41))),8
+pausetime = 0,10;-(var(0)<=1)
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12,-78
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 24
+airguard.hittime = 24
+airguard.ctrltime = 24
+yaccel = 0.4
+ground.velocity = -0.75, -3.6+3*var(41)
+guard.velocity = -0.75
+air.velocity = -0.75, -3.6+3*var(41)
+airguard.velocity = -3,-0.8
+down.velocity = -0.75, -3.6+3*var(41)
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = 1
+fall.recovertime = 24
+down.bounce = 1
+id = 1950
+getpower = ceil(((80-60*var(41)))*fvar(10)*0.7),ceil(((80-60*var(41)))*fvar(10)*0.7)/2
+givepower = ceil(((80-60*var(41)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(((80-60*var(41)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+palfx.add = 0,0,0
+palfx.mul = 16,256,256
+palfx.color = 256
+palfx.time = 24
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1950)
+trigger1 = !target(1950),ishelper || playeridexist(target(1950),id)
+helpertype = normal ;player
+name = "Orange Blue Halo"
+ID = 910
+stateno = 910
+pos = ceil(target(1950),pos X - pos X)*facing,-78
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+supermovetime = 9999999
+pausemovetime = 9999999
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1950)
+trigger1 = !target(1950),ishelper || playeridexist(target(1950),id)
+helpertype = normal
+name = "Fire Effect"
+ID = 906
+stateno = 905
+pos = 0,-45
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+;
+;[State 0, Explod]
+;type = Explod
+;trigger1 = time = 0 || gametime%6 = 0
+;anim = 1606
+;ID = 1606
+;pos = 0,0
+;postype = p1
+;facing = 1
+;bindtime = 1
+;removetime = -2
+;scale = 1,1
+;sprpriority = 0
+;ontop = 1
+;shadow = 0,0,0
+;ownpal = 1
+;removeongethit = 0
+
+;[State Projectile Flag]
+;type = ParentVarSet
+;trigger1 = movehit = 1 && !movereversed
+;var(45) = parent,var(45) | floor(exp(5*ln(2)) + 0.5)
+;ignorehitpause = 1
+;persistent = 0
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(8*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(7*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1951,1952)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+trigger2 = root,movetype = H
+trigger3 = root,stateno != 1900
+value = 1952
+
+;Hurt Projectile
+[Statedef 1951]
+type = A
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+hitdefpersist = 0
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+var(59) = animelemno(0)
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time >= 10
+value = 1650
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1952]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 0,0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 9999
+ctrl = 0
+
+;??? Projectile
+[Statedef 1959]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+ctrl = 0
+anim = 9741
+sprpriority = 3
+
+;[State After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = 20
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,256,256
+;paladd = 0,0,0
+;palmul = .7,.7,.7
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time 
+var(41) = cond((parent,var(40) & floor(exp(8*ln(2)) + 0.5)), 1, 0)
+
+[State Anim to use]
+type = ChangeAnim
+trigger1 = !time
+value = 1915
+
+[State Hits to take and dish]
+type = VarSet
+trigger1 = !Time
+var(0) = 3
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+;[State After Imajenes]
+;type = AfterImage
+;trigger1 = !time
+;time = -1
+;length = 12
+;palcolor = 256
+;palinvertall = 0
+;palbright = 0,0,0
+;palcontrast = 256,256,256
+;paladd = 0,0,0
+;palmul = .8,.8,.8
+;timegap = 2
+;framegap = 1
+;trans = add
+;ignorehitpause = 1
+
+[State Die]
+type = ChangeState
+trigger1 = !time
+value = stateno+1
+ctrl = 0
+
+;??? Projectile 
+[Statedef 1960]
+type = A
+movetype = A
+physics = N
+juggle = 0
+velset = 0,0
+ctrl = 0
+sprpriority = 3
+
+;[State 0, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = invisible
+;ignorehitpause = 1
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 0,0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !(parent,var(40) & floor(exp(8*ln(2)) + 0.5))
+var(41) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = 1
+fvar(10) = root,fvar(11)
+
+[State -2, Dampener p1]
+type = ParentVarSet
+trigger1 = movehit = 1
+var(20) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AA,AT
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 1005, HitOverride]
+type = hitoverride
+trigger1 = 1
+time = -1
+stateno = ifelse(var(0)>1,1961,1962)
+attr = SCA, AA, AT, AP
+forceair = 1
+ignorehitpause = 1
+
+[State ???Hitdef]
+type = HitDef
+trigger1 = !movecontact && !movereversed
+attr = A,SP
+hitflag = MAFD
+guardflag = MA
+animtype = Back
+fall.animtype = Back
+priority = 4,Hit
+damage = ceil(fvar(10)*(40-33*var(41))),4
+pausetime = 0,10;-(var(0)<=1)
+sparkno = -1;205
+guard.sparkno = S6041
+sparkxy = -12,-55
+hitsound = S5,2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 24
+ground.hittime = 24
+guard.slidetime = 24
+guard.hittime = 24
+air.hittime = 24
+airguard.hittime = 24
+airguard.ctrltime = 24
+yaccel = 0.4
+ground.velocity = -0.75, -3.6+3*var(41)
+guard.velocity = -0.75
+air.velocity = -0.75, -3.6+3*var(41)
+airguard.velocity = -3,-0.8
+down.velocity = -0.75, -3.6+3*var(41)
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+fall = 1
+fall.recover = parent,var(39) >= 1
+fall.recovertime = 2100
+down.bounce = 1
+id = 1960
+getpower = ceil(((40-33*var(41)))*fvar(10)*0.7),ceil(((40-33*var(41)))*fvar(10)*0.7)/2
+givepower = ceil(((40-33*var(41)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6),ceil(((40-33*var(41)))*(1.0 - (fvar(10) - 1.0)*0.5)*0.6)/2
+;getpower = 100,50
+;givepower = 50,25
+p2facing = 1
+palfx.add = 0,0,0
+palfx.mul = 16,256,256
+palfx.color = 256
+palfx.time = 24
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1960)
+trigger1 = !target(1960),ishelper || playeridexist(target(1960),id)
+helpertype = normal ;player
+name = "Orange Blue Halo"
+ID = 910
+stateno = 910
+pos = ceil(target(1960),pos X - pos X)*facing,-55
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+supermovetime = 9999999
+pausemovetime = 9999999
+
+[State 0, Helper]
+type = Helper
+trigger1 = movehit = 1 && !movereversed
+trigger1 = numtarget(1960)
+trigger1 = !target(1960),ishelper || playeridexist(target(1960),id)
+helpertype = normal
+name = "Fire Effect"
+ID = 906
+stateno = 905
+pos = 0,-45
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+;
+;[State 0, Explod]
+;type = Explod
+;trigger1 = time = 0 || gametime%6 = 0
+;anim = 1606
+;ID = 1606
+;pos = 0,0
+;postype = p1
+;facing = 1
+;bindtime = 1
+;removetime = -2
+;scale = 1,1
+;sprpriority = 0
+;ontop = 1
+;shadow = 0,0,0
+;ownpal = 1
+;removeongethit = 0
+
+;[State Projectile Flag]
+;type = ParentVarSet
+;trigger1 = movehit = 1 && !movereversed
+;var(45) = parent,var(45) | floor(exp(5*ln(2)) + 0.5)
+;ignorehitpause = 1
+;persistent = 0
+
+[State Projectile Flag]
+type = ParentVarSet
+trigger1 = movehit = 1 && !movereversed
+var(45) = parent,var(45) | floor(exp(8*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State Neo-Juggle-System-Flag]
+type = ParentVarSet
+trigger1 = movehit = [1,2]
+trigger1 = numtarget
+trigger1 = target,GetHitVar(fall)
+var(40) = parent,var(40) | floor(exp(8*ln(2)) + 0.5)
+ignorehitpause = 1
+persistent = 0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = movecontact || movereversed
+value = ifelse(var(0)>1,1961,1962)
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+trigger2 = root,movetype = H
+trigger3 = root,stateno != 1900
+value = 1962
+
+;Hurt Projectile
+[Statedef 1961]
+type = A
+movetype = A
+physics = N
+juggle = 0
+ctrl = 0
+sprpriority = 3
+movehitpersist = 1
+hitdefpersist = 0
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 0,0
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+ignorehitpause = 1
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !time
+var(59) = animelemno(0)
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State 0, PosFreeze]
+type = PosFreeze
+trigger1 = 1
+value = 1
+ignorehitpause = 1
+
+[State Freeze Anim]
+type = ChangeAnim
+trigger1 = 1
+value = anim
+elem = var(59)
+
+[State Remove 1 armor point]
+type = VarAdd
+trigger1 = !time
+var(0) = -1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time >= 10
+value = 1960
+ctrl = 0
+
+;Projectile death anim
+[Statedef 1962]
+type = A
+movetype = I
+physics = N
+juggle = 0
+ctrl = 0
+velset = 0,0
+sprpriority = 3
+movehitpersist = 1
+
+
+
+[State 0, BindToParent]
+type = BindToParent
+trigger1 = 1
+time = 1
+pos = 0,0
+
+[State GOT HIT WHILE OTG]
+type = ParentVarset
+triggerall = parent,var(39) = 1
+trigger1 = movehit = 1
+var(39) = 2
+ignorehitpause = 1
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State NOT REAL]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+[State Go to death state]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 9999
+ctrl = 0
+
+; Universal Destroyed Projectile State (thx dan)
+[Statedef 9999]
+movetype = I
+physics = N
+ctrl = 0
+anim = 9741 ;<- empty anim
+velset = 0,0
+movehitpersist = 1
+sprpriority = 0
+
+;SOFT TECHING
+[State -2, P2 Safe Fall]
+type= targetstate
+trigger1= numtarget=1; Just to prevent Simul mode shenanigans
+trigger1= target,command="recovery" || (target,name = "Training" && target,var(16)>=1)
+trigger1 = (target, pos y >= -48 && target, vel y > 0) || (target,stateno = 5100)
+trigger1= target,alive && target,hitfall && (target,gethitvar(fall.recover) && target,gethitvar(fall.recovertime) >= 2100)
+trigger1= target,stateno=5030 || target,stateno=5035 || target,stateno=5050 || target,stateno=5071 || (target,stateno = [5100,5101]) || (target,stateno = 5253) || (target,stateno = 5258) || (target,stateno = 5243) || (target,stateno = 5243) || (target,statetype = L&&target,stateno!=5242&&target,movetype=H&&target,stateno!=5110&&target,stateno!=5120) ;OTG
+trigger1 = parent, var(39) >= 2
+value= 5206
+ignorehitpause= 1
+ 
+[State 1112, nothitby]
+type = nothitby
+trigger1 = ishelper
+time = 1
+value = SCA
+ignorehitpause = 1
+ 
+[State 1112, NoShadow]
+type = AssertSpecial
+trigger1 = ishelper
+flag = noshadow
+ignorehitpause = 1
+ 
+[State 1112, End]
+type = destroyself
+triggerall = ishelper
+trigger1 = !numtarget
+trigger2 = numtarget
+trigger2 = target, time <= 1 && !(target, hitshakeover)
+ignorehitpause = 1
+

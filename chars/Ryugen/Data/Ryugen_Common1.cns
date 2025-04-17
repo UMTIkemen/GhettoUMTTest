@@ -1,0 +1,4086 @@
+;---------------------------------------------------------------------------
+; 通常立ち
+[Statedef 0]
+Type = S
+Physics = S
+SprPriority = 0
+
+[State 0, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 0, Are you dead?]
+Type = ChangeState
+Trigger1 = !Alive
+Value = 5050
+
+[State 0, 前進歩き戻りアニメ]
+Type = ChangeAnim
+Trigger1 = Anim = 20
+Value = 22
+
+[State 0, 後退歩き戻りアニメ]
+Type = ChangeAnim
+Trigger1 = Anim = 21
+Value = 23
+
+[State 0, 1]
+Type = ChangeAnim
+Trigger1 = Anim != 0 && Anim != 5
+Trigger1 = Anim != 22 && Anim != 23
+Trigger2 = Anim = 5 && AnimTime = 0 ;Turn Anim Over
+Trigger3 = Anim = 22 && AnimTime = 0
+Trigger4 = Anim = 23 && AnimTime = 0
+Value = 0
+
+[State 0, 2]
+Type = VelSet
+Trigger1 = Time = 0
+X = 0
+Y = 0
+
+[State 0, ぶつかり判定の消失]
+Type = PlayerPush
+Trigger1 = RoundState > 2
+Value = 0
+
+;---------------------------------------------------------------------------
+; 立ち状態からしゃがむ(AI専用)
+[Statedef 9]
+Type    = C
+Physics = C
+Anim = 10
+
+[State 9, AIでない場合は復帰]
+Type = ChangeState
+Trigger1 = Var(59) <= 0
+Value = 0
+Ctrl = 1
+
+[State 9, 1]
+Type = VelMul
+Trigger1 = Time = 0
+X = Const(Movement.Crouch.Friction)
+
+[State 9, 2]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 11
+
+;---------------------------------------------------------------------------
+; 立ち状態からしゃがむ
+[Statedef 10]
+Type    = C
+Physics = C
+Anim = 10
+
+[State 10, AI]
+Type = ChangeState
+Trigger1 = Var(59) > 0
+Value = 0
+Ctrl = 1
+
+[State 10, 1]
+Type = VelMul
+Trigger1 = Time = 0
+X = Const(Movement.Crouch.Friction)
+
+[State 10, 2]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 11
+
+;---------------------------------------------------------------------------
+; しゃがみ
+[Statedef 11]
+Type    = C
+Physics = C
+Anim = 11
+SprPriority = 0
+
+[State 11, 1] ;Change from turning Animation
+Type = ChangeAnim
+Trigger1 = Anim = 6 && AnimTime = 0
+Value = 11
+
+[State 11, AI]
+Type = ChangeState
+Value = 12
+TriggerAll = Var(59) > 0
+Trigger1 = RoundState != 2
+Trigger2 = P2Dist X < 0
+Trigger3 = EnemyNear(Var(57)),StateType = A
+
+;---------------------------------------------------------------------------
+; しゃがみ状態から立ち上がる
+[Statedef 12]
+Type    = S
+Physics = S
+Anim = 12
+
+[State 12, 1]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 前進(AI専用)
+[Statedef 18]
+Type    = S
+Physics = S
+SprPriority = 0
+
+[State 18, AIでない場合は復帰]
+Type = ChangeState
+Trigger1 = Var(59) <= 0
+Value = 0
+Ctrl = 1
+
+[State 18, 1]
+Type = VelSet
+Trigger1 = Anim = 20
+X = Const(Velocity.Walk.Fwd.X)
+
+[State 18, 3]
+Type = ChangeAnim
+TriggerAll = Var(31) <= 0
+Trigger1 = Anim != 20 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 20
+
+[State 18, AI]
+Type = VelSet
+Trigger1 = Anim = 24
+X = Const(Velocity.Walk.Fwd.X) * 2
+
+[State 18, AI]
+Type = ChangeAnim
+TriggerAll = Var(31) > 0
+Trigger1 = Anim != 24 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 24
+
+[State 18, AI]
+Type = VelMul
+Trigger1 = Anim = [24,25]
+Trigger1 = Time < 20
+X = 0.33
+
+[State 18, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = EnemyNear(Var(57)),StateType = L
+Trigger1 = P2BodyDist X <= 90
+Value = 0
+Ctrl = 1
+
+[State 18, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = EnemyNear(Var(57)),StateType != L
+TriggerAll = EnemyNear(Var(57)),MoveType != H
+TriggerAll = EnemyNear(Var(57)),MoveType = A || EnemyNear(Var(57)),StateNo < 200
+Trigger1 = P2BodyDist X <= 70
+Value = 0
+Ctrl = 1
+
+[State 18, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = RoundState != 2
+Trigger2 = EnemyNear(Var(57)),Alive = 0
+Trigger3 = EnemyNear(Var(57)),Life = 0
+Trigger4 = P2Dist X < 0
+Trigger5 = FrontEdgeBodyDist <= 10
+Trigger6 = P2BodyDist X <= 5
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 後退(AI専用)
+[Statedef 19]
+Type    = S
+Physics = S
+SprPriority = 0
+
+[State 19, AIでない場合は復帰]
+Type = ChangeState
+Trigger1 = Var(59) <= 0
+Value = 0
+Ctrl = 1
+
+[State 19, 2]
+Type = VelSet
+Trigger1 = Anim = 21
+X = Const(Velocity.Walk.Back.X)
+
+[State 19, 4]
+Type = ChangeAnim
+TriggerAll = Var(31) <= 0
+Trigger1 = Anim != 21 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 21
+
+[State 19, AI]
+Type = VelSet
+Trigger1 = Anim = 25
+X = Const(Velocity.Walk.Back.X) * 2
+
+[State 19, AI]
+Type = ChangeAnim
+TriggerAll = Var(31) > 0
+Trigger1 = Anim != 25 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 25
+
+[State 19, AI]
+Type = VelMul
+Trigger1 = Anim = [24,25]
+Trigger1 = Time < 20
+X = 0.33
+
+[State 19, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = EnemyNear(Var(57)),StateType = L
+TriggerAll = EnemyNear(Var(57)),MoveType = H
+Trigger1 = P2BodyDist X >= 100
+Value = 0
+Ctrl = 1
+
+[State 19, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = RoundState != 2
+Trigger2 = EnemyNear(Var(57)),Alive = 0
+Trigger3 = EnemyNear(Var(57)),Life = 0
+Trigger4 = P2Dist X < 0
+Trigger5 = BackEdgeBodyDist <= 10
+Trigger6 = Time >= 50
+Trigger6 = P2BodyDist X >= 140
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 歩き
+[Statedef 20]
+Type    = S
+Physics = S
+SprPriority = 0
+
+[State 20, AI]
+Type = ChangeState
+Trigger1 = Var(59) > 0
+Value = 0
+Ctrl = 1
+
+[State 20, 1]
+Type = VelSet
+Trigger1 = Anim = 20
+X = Const(Velocity.Walk.Fwd.X)
+
+[State 20, 2]
+Type = VelSet
+Trigger1 = Anim = 21
+X = Const(Velocity.Walk.Back.X)
+
+[State 20, 3]
+Type = ChangeAnim
+TriggerAll = Var(59) <= 0
+TriggerAll = Var(31) <= 0
+TriggerAll = Command = "holdfwd"
+Trigger1 = Anim != 20 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 20
+
+[State 20, 4]
+Type = ChangeAnim
+TriggerAll = Var(59) <= 0
+TriggerAll = Var(31) <= 0
+TriggerAll = Command = "holdback"
+Trigger1 = Anim != 21 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 21
+
+[State 20, 1]
+Type = VelSet
+Trigger1 = Anim = 24
+X = Const(Velocity.Walk.Fwd.X) * 2
+
+[State 20, 2]
+Type = VelSet
+Trigger1 = Anim = 25
+X = Const(Velocity.Walk.Back.X) * 2
+
+[State 20, 3]
+Type = ChangeAnim
+TriggerAll = Var(59) <= 0
+TriggerAll = Var(31) > 0
+TriggerAll = Command = "holdfwd"
+Trigger1 = Anim != 24 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 24
+
+[State 20, 4]
+Type = ChangeAnim
+TriggerAll = Var(59) <= 0
+TriggerAll = Var(31) > 0
+TriggerAll = Command = "holdback"
+Trigger1 = Anim != 25 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 25
+
+[State 20, 減速]
+Type = VelMul
+Trigger1 = Anim = [24,25]
+Trigger1 = Time < 20
+X = 0.33
+
+;---------------------------------------------------------------------------
+; ジャンプ開始(AI専用)
+[Statedef 39]
+Type    = S
+Physics = S
+Anim = 40
+Ctrl = 0
+SprPriority = 1
+
+[State 39, AIでない場合は復帰]
+Type = ChangeState
+Trigger1 = Var(59) <= 0
+Value = 0
+Ctrl = 1
+
+[State 39, 1]
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 39, 2]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = P2BodyDist X >= 80
+Trigger1 = P2BodyDist X != [90,95]
+sysvar(1) = 1
+
+[State 39, 3]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = P2BodyDist X < 30
+sysvar(1) = -1
+
+[State 39, 4]
+Type = VelSet
+Trigger1 = AnimTime = 0
+X = IfElse(SysVar(1) = 0, Const(Velocity.Jump.Neu.X), IfElse(SysVar(1) = 1, Const(Velocity.Jump.Fwd.X), Const(Velocity.Jump.Back.X)))
+Y = Const(Velocity.Jump.Y)
+
+[State 39, 5]
+Type = VelSet
+Trigger1 = AnimTime = 0
+Trigger1 = PrevStateNo = 100 ;Run_FWD
+Trigger1 = SysVar(1) = 1
+Trigger1 = (Var(10) & 16)
+X = Const(Velocity.RunJump.Fwd.X)
+
+[State 39, SE : ジャンプ音]
+Type = PlaySnd
+Trigger1 = AnimTime = 0
+Value = 40, 0
+
+[State 39, 6]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 50
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; ジャンプ開始
+[Statedef 40]
+Type    = S
+Physics = S
+Anim = 40
+Ctrl = 0
+SprPriority = 1
+
+[State 40, AI]
+Type = ChangeState
+Trigger1 = Var(59) > 0
+Value = 0
+Ctrl = 1
+
+[State 40, 1]
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 40, 2]
+Type = VarSet
+TriggerAll = Var(59) <= 0
+Trigger1 = Command = "holdfwd"
+sysvar(1) = 1
+
+[State 40, 3]
+Type = VarSet
+TriggerAll = Var(59) <= 0
+Trigger1 = Command = "holdback"
+sysvar(1) = -1
+
+[State 40, 4]
+Type = VelSet
+Trigger1 = AnimTime = 0
+X = IfElse(SysVar(1) = 0, Const(Velocity.Jump.Neu.X), IfElse(SysVar(1) = 1, Const(Velocity.Jump.Fwd.X), Const(Velocity.Jump.Back.X)))
+Y = Const(Velocity.Jump.Y)
+
+[State 40, 5]
+Type = VelSet
+Trigger1 = AnimTime = 0
+Trigger1 = PrevStateNo = 100 ;Run_FWD
+Trigger1 = SysVar(1) = 1
+Trigger1 = (Var(10) & 16)
+X = Const(Velocity.RunJump.Fwd.X)
+
+[State 40, SE : ジャンプ音]
+Type = PlaySnd
+Trigger1 = AnimTime = 0
+Value = 40, 0
+
+[State 40, 6]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 50
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 空中ジャンプ開始
+[Statedef 45]
+Type    = A
+Physics = N
+Anim = 48
+Ctrl = 0
+VelSet = 0,0
+
+[State 45, 空中ジャンプ回数消費]
+Type = VarAdd
+TriggerAll = Var(4)
+Trigger1 = Time = 0
+V = 4
+Value = -1
+
+[State 45, 3]
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 45, 4]
+Type = VarSet
+TriggerAll = Var(59) <= 0
+Trigger1 = Command = "holdfwd"
+sysvar(1) = 1
+
+[State 45, 5]
+Type = VarSet
+TriggerAll = Var(59) <= 0
+Trigger1 = Command = "holdback"
+sysvar(1) = -1
+
+[State 45, AI]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = 0
+sysvar(1) = 1
+
+[State 45, AI]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = 0
+sysvar(1) = -1
+
+[State 45, 6]
+Type = VelSet
+Trigger1 = AnimTime = 0
+X = IfElse(SysVar(1) = 0, Const(Velocity.AirJump.Neu.X), IfElse(SysVar(1) = 1, Const(Velocity.AirJump.Fwd.X), Const(Velocity.AirJump.Back.X)))
+Y = Const(Velocity.AirJump.Y)
+
+[State 45, SE : 空中ジャンプ音]
+Type = PlaySnd
+Trigger1 = AnimTime = 0
+Value = 45, 0
+
+[State 45, 7]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 50
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; ジャンプ
+[Statedef 50]
+Type    = A
+Physics = N
+
+[State 50, 1]
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 50, 2]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Value = IfElse((Vel X) = 0, 41, IfElse((Vel X) > 0, 42, 43))
+
+[State 50, 重力]
+Type = Gravity
+Trigger1 = AnimElemNo(0) != [7,9]
+Trigger2 = PrevStateNo != [30,49]
+
+[State 50, 前方加速]
+Type = VelAdd
+TriggerAll = Var(59) <= 0
+TriggerAll = Vel X < IfElse(PrevStateNo = 45,Const(Velocity.AirJump.Fwd.X),Const(Velocity.Jump.Fwd.X))
+Trigger1 = Command = "holdfwd"
+Trigger1 = Command != "holdup"
+X = 0.133
+
+[State 50, 後方加速]
+Type = VelAdd
+TriggerAll = Var(59) <= 0
+TriggerAll = Vel X > IfElse(PrevStateNo = 45,Const(Velocity.AirJump.Back.X),Const(Velocity.Jump.Back.X))
+Trigger1 = Command = "holdback"
+Trigger1 = Command != "holdup"
+X = -0.133
+
+[State 50, 着地]
+Type = ChangeState
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 0
+Value = 52
+
+;---------------------------------------------------------------------------
+; ジャンプ下降
+[Statedef 51]
+Type    = A
+Physics = A
+
+[State 51, 1]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Value = IfElse((Vel X) = 0, 44, IfElse((Vel X) > 0, 45, 46))
+
+;---------------------------------------------------------------------------
+; 着地
+[Statedef 52]
+Type    = S
+Physics = S
+Ctrl = (PrevStateNo = 5210) || (Var(31) > 0)
+Anim = 47
+
+[State 52, 1]
+Type = VelSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 52, 2]
+Type = PosSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 52, 3]
+Type = CtrlSet
+Trigger1 = PrevStateNo != [600,699]
+Value = 1
+
+[State 52, SE : 着地音]
+Type = PlaySnd
+Trigger1 = Time = 0
+Value = 52, 0
+
+[State 52, 着地の振動]
+Type = EnvShake
+Trigger1 = Time = 0
+Time = 5
+Freq = 90
+Ampl = -4
+
+[State 52, 着地のエフェクト]
+Type = Explod
+Trigger1 = Time = 0
+Anim = 8052
+ID = 8052
+Pos = 0,0
+PosType = P1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = -2
+OwnPal = 1
+
+[State 52, 4]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; ダッシュ
+[Statedef 100]
+Type    = S
+Physics = N
+Ctrl = 0
+Anim = 100
+SprPriority = 1
+FaceP2 = 1
+
+[State 100, ダッシュジャンプフラグOFF]
+Type = VarSet
+Trigger1 = Time = 0
+V = 10
+Value = (Var(10) | 16) - 16
+
+[State 100, 1]
+Type = VelSet
+Trigger1 = 1
+X = Const(Velocity.Run.Fwd.X)
+
+[State 100, 2]
+Type = AssertSpecial
+Trigger1 = 1
+Flag = NoWalk
+Flag2 = NoAutoTurn
+
+[State 100, 減速]
+Type = VelMul
+Trigger1 = Time < 20
+X = 0.33
+
+[State 100, 残像]
+Type = AfterImage
+Trigger1 = Time = 0
+Time = -1
+Length = 10
+PalContrast = 64,64,64
+TimeGap = 1
+FrameGap = 4
+Trans = Add1
+
+[State 100, ダッシュジャンプフラグON]
+Type = VarSet
+Trigger1 = Time = 20
+V = 10
+Value = (Var(10) | 16)
+
+[State 100, ダッシュ終了へ]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command != "holdfwd"
+Value = 101
+
+[State 100, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = EnemyNear(Var(57)),StateType = L
+Trigger1 = P2BodyDist X <= 40
+Value = 101
+
+[State 100, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = EnemyNear(Var(57)),StateType != L
+TriggerAll = EnemyNear(Var(57)),MoveType != H
+TriggerAll = EnemyNear(Var(57)),MoveType = A || EnemyNear(Var(57)),StateNo < 200
+Trigger1 = P2BodyDist X <= 70
+Value = 101
+
+[State 100, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = RoundState != 2
+Trigger2 = EnemyNear(Var(57)),Alive = 0
+Trigger3 = EnemyNear(Var(57)),Life = 0
+Trigger4 = P2Dist X < 0
+Trigger5 = FrontEdgeBodyDist <= 10
+Trigger6 = P2BodyDist X <= 5
+Value = 101
+
+;---------------------------------------------------------------------------
+; ダッシュ終了
+[Statedef 101]
+Type    = S
+Physics = S
+Ctrl = 0
+VelSet = 0,0
+Anim = 101
+
+[State 101, 立ち状態へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; バックステップ
+[Statedef 105]
+Type    = S
+Physics = N
+Ctrl = 0
+Anim = 105
+SprPriority = 1
+
+[State 105, 投げ以外無敵]
+Type = HitBy
+Trigger1 = Time = 0
+Value = SCA,NT,ST,HT
+Time = 10
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 105, 1]
+Type = VelSet
+Trigger1 = AnimElem = 3
+X = Const(Velocity.Run.Back.X)
+
+[State 105, 2]
+Type = AssertSpecial
+Trigger1 = 1
+Flag = NoWalk
+Flag2 = NoAutoTurn
+
+[State 105, 減速]
+Type = VelMul
+Trigger1 = AnimElem = 3, > 0
+X = 0.92
+
+[State 105, 残像]
+Type = AfterImage
+Trigger1 = Time = 0
+Time = -1
+Length = 10
+PalContrast = 64,64,64
+TimeGap = 1
+FrameGap = 4
+Trans = Add1
+
+[State 105, 操作受付]
+Type = CtrlSet
+Trigger1 = Time = 20
+Value = 1
+
+[State 105, バックステップ終了へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 106
+
+;---------------------------------------------------------------------------
+; バックステップ終了
+[Statedef 106]
+Type    = S
+Physics = S
+Ctrl = 1
+VelSet = 0,0
+Anim = 106
+
+[State 106, 立ち状態へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 空中ダッシュ
+[Statedef 110]
+Type    = A
+Physics = N
+Ctrl = 0
+VelSet = 0,0
+Anim = 100
+SprPriority = 1
+
+[State 110, 空中ジャンプ回数消費]
+Type = VarAdd
+TriggerAll = Var(4)
+Trigger1 = Time = 0
+V = 4
+Value = -1
+
+[State 110, 1]
+Type = VelSet
+Trigger1 = Time < 45
+X = Const(Velocity.AirJump.Fwd.X)
+
+[State 110, 減速]
+Type = VelMul
+Trigger1 = Time < 15
+X = 0.33
+
+[State 110, 減速]
+Type = VelMul
+Trigger1 = Time >= 45
+X = 0.92
+
+[State 110, 残像]
+Type = AfterImage
+Trigger1 = Time = 0
+Time = -1
+Length = 10
+PalContrast = 64,64,64
+TimeGap = 1
+FrameGap = 4
+Trans = Add1
+
+[State 110, 空中ダッシュ終了へ]
+Type = ChangeState
+TriggerAll = Time >= 15
+Trigger1 = Time >= 60
+Trigger2 = Var(59) <= 0
+Trigger2 = Command != "holdfwd"
+Value = 111
+
+[State 110, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = (Var(59) > 5) || (Var(50) <= Var(59) * 133 && (Random + GameTime) % 1000 <= 133)
+TriggerAll = Time >= 15
+Trigger1 = RoundState != 2
+Trigger2 = EnemyNear(Var(57)),Alive = 0
+Trigger3 = EnemyNear(Var(57)),Life = 0
+Trigger4 = FrontEdgeBodyDist <= 10
+Value = 111
+
+;---------------------------------------------------------------------------
+; 空中ダッシュ終了
+[Statedef 111]
+Type    = A
+Physics = A
+Ctrl = 0
+Anim = 101
+
+[State 111, 落下状態へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 51
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 空中バックダッシュ
+[Statedef 115]
+Type    = A
+Physics = N
+Ctrl = 0
+VelSet = 0,0
+Anim = 105
+SprPriority = 1
+
+[State 115, 空中ジャンプ回数消費]
+Type = VarAdd
+TriggerAll = Var(4)
+Trigger1 = Time = 0
+V = 4
+Value = -1
+
+[State 115, 1]
+Type = VelSet
+Trigger1 = AnimElem = 3
+X = Const(Velocity.Run.Back.X)
+
+[State 115, 減速]
+Type = VelMul
+Trigger1 = AnimElem = 3, > 0
+X = 0.92
+
+[State 115, 残像]
+Type = AfterImage
+Trigger1 = Time = 0
+Time = -1
+Length = 10
+PalContrast = 64,64,64
+TimeGap = 1
+FrameGap = 4
+Trans = Add1
+
+[State 115, 空中バックダッシュ終了へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 116
+
+;---------------------------------------------------------------------------
+; 空中バックダッシュ終了
+[Statedef 116]
+Type    = A
+Physics = A
+Ctrl = 0
+Anim = 106
+
+[State 116, 落下状態へ]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 51
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; ガード開始
+[Statedef 120]
+Type = U    ;Leave State Type unchanged
+Physics = U ;Leave Physics unchanged
+FaceP2 = 1
+
+[State 120, Guard_Effect]
+Type = Helper
+Trigger1 = NumHelper(6120) = 0
+HelperType = Normal
+Name = "Guard_Effect"
+ID = 6120
+Pos = 0, 0
+PosType = P1
+Facing = 1
+StateNo = 6120
+OwnPal = 1
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+Size.XScale = 0.5
+Size.YScale = 0.5
+IgNoreHitPause = 1
+
+[State 120, 1]
+Type = ChangeAnim
+TriggerAll = Anim != [130,159]
+Trigger1 = Time = 0
+Value = 120 + (StateType = C) + (StateType = A) * 2
+
+[State 120, 2]
+Type = StateTypeSet
+Trigger1 = Time = 0 && StateType = S
+Physics = S
+
+[State 120, 3]
+Type = StateTypeSet
+Trigger1 = Time = 0 && StateType = C
+Physics = C
+
+[State 120, 4]
+Type = StateTypeSet
+Trigger1 = Time = 0 && StateType = A
+Physics = A
+
+[State 120, Hi to Lo]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = S && Command = "holddown"
+StateType = C
+Physics = C
+
+[State 120, Lo to Hi]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = C && Command != "holddown"
+StateType = S
+Physics = S
+
+[State 120, Hi to Lo(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = S
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+StateType = C
+Physics = C
+
+[State 120, Lo to Hi(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = C
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+StateType = S
+Physics = S
+
+[State 120, 5]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 130 + (StateType = C) + (StateType = A) * 2
+
+[State 120, Stop Guarding]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command != "holdback"
+Trigger2 = !InGuardDist
+Value = 140
+
+[State 120, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = NumHelper(66666)
+Trigger1 = !InGuardDist
+Trigger1 = !Helper(66666),Var(54)
+Trigger2 = RoundState = 3
+Trigger2 = Time >= 120
+Value = 140
+
+;---------------------------------------------------------------------------
+; 立ちガード受付
+[Statedef 130]
+Type    = S
+Physics = S
+
+[State 130, 後退OFF]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = RoundState != 2
+Trigger2 = PlayerIDExist(Var(48))
+Trigger2 = (Facing * (PlayerID(Var(48)),Pos X - Pos X)) >= 120
+Trigger3 = PlayerIDExist(Var(48)) = 0
+Trigger4 = BackEdgeBodyDist <= 10
+V = 40
+Value = (Var(40) | 1) - 1
+
+[State 130, 後退]
+Type = VarSet
+TriggerAll = Var(59) > 0
+Trigger1 = PlayerIDExist(Var(48))
+Trigger1 = (Facing * (PlayerID(Var(48)),Pos X - Pos X)) = [0,80]
+Trigger1 = BackEdgeBodyDist > 20
+V = 40
+Value = (Var(40) | 1)
+
+[State 130, 1]
+Type = ChangeAnim
+TriggerAll = !(Var(40) & 1)
+Trigger1 = Anim != 130
+Value = 130
+
+[State 130, Hi to Lo]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command = "holddown"
+Value = 131
+
+[State 130, AI]
+Type = VelSet
+Trigger1 = Anim = 21
+X = Const(Velocity.Walk.Back.X)
+
+[State 130, AI]
+Type = ChangeAnim
+TriggerAll = Var(31) <= 0
+TriggerAll = (Var(40) & 1)
+Trigger1 = Anim != 21 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 21
+
+[State 130, AI]
+Type = VelSet
+Trigger1 = Anim = 25
+X = Const(Velocity.Walk.Back.X) * 2
+
+[State 130, AI]
+Type = ChangeAnim
+TriggerAll = Var(31) > 0
+TriggerAll = (Var(40) & 1)
+Trigger1 = Anim != 25 && Anim != 5
+Trigger2 = Anim = 5 && AnimTime = 0
+Value = 25
+
+[State 130, Hi to Lo(AI)]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Value = 131
+
+[State 130, Stop Guarding]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command != "holdback"
+Trigger2 = !InGuardDist
+Value = 140
+
+[State 130, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = NumHelper(66666)
+Trigger1 = !InGuardDist
+Trigger1 = !Helper(66666),Var(54)
+Trigger2 = RoundState = 3
+Trigger2 = Time >= 120
+Value = 140
+
+;---------------------------------------------------------------------------
+; しゃがみガード受付
+[Statedef 131]
+Type    = C
+Physics = C
+
+[State 131, 1]
+Type = ChangeAnim
+Trigger1 = Anim != 131
+Value = 131
+
+[State 131, Lo to Hi]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command != "holddown"
+Value = 130
+
+[State 131, Lo to Hi(AI)]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+Value = 130
+
+[State 131, Stop Guarding]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command != "holdback"
+Trigger2 = !InGuardDist
+Value = 140
+
+[State 131, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = NumHelper(66666)
+Trigger1 = !InGuardDist
+Trigger1 = !Helper(66666),Var(54)
+Trigger2 = RoundState = 3
+Trigger2 = Time >= 120
+Value = 140
+
+;---------------------------------------------------------------------------
+; 空中ガード受付
+[Statedef 132]
+Type    = A
+Physics = N
+
+[State 132, 1]
+Type = ChangeAnim
+Trigger1 = Anim != 132
+Value = 132
+
+[State 132, 2]
+Type = VelAdd
+Trigger1 = 1
+Y = Const(Movement.YAccel)
+
+[State 132, 3]
+Type = VarSet
+Trigger1 = 1
+sysvar(0) = (Pos Y >= 0) && (Vel Y > 0)
+
+[State 132, 4]
+Type = VelSet
+Trigger1 = SysVar(0)
+Y = 0
+
+[State 132, 5]
+Type = PosSet
+Trigger1 = SysVar(0)
+Y = 0
+
+[State 132, 6]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = SysVar(0)
+Trigger1 = Command = "holdback"
+Trigger1 = InGuardDist
+Value = 130
+
+[State 132, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = SysVar(0)
+Trigger1 = InGuardDist
+Value = 130
+
+[State 132, 7]
+Type = ChangeState
+Trigger1 = SysVar(0)
+Value = 52
+
+[State 132, Stop Guarding]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = Command != "holdback"
+Trigger2 = !InGuardDist
+Value = 140
+
+[State 132, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = NumHelper(66666)
+Trigger1 = !InGuardDist
+Trigger1 = !Helper(66666),Var(54)
+Trigger1 = EnemyNear(Var(57)),NumProj = 0
+Trigger1 = PlayerIDExist(Var(48)) = 0
+Trigger2 = RoundState = 3
+Trigger2 = Time >= 120
+Value = 140
+
+;---------------------------------------------------------------------------
+; ガード終了
+[Statedef 140]
+Type = U    ;Leave State Type unchanged
+Physics = U ;Leave Physics unchanged
+Ctrl = 1
+
+[State 140, 1]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Value = 140 + (StateType = C) + (StateType = A) * 2
+
+[State 140, 2]
+Type = StateTypeSet
+Trigger1 = Time = 0 && StateType = S
+Physics = S
+
+[State 140, 3]
+Type = StateTypeSet
+Trigger1 = Time = 0 && StateType = C
+Physics = C
+
+[State 140, 4]
+Type = StateTypeSet
+Trigger1 = Time = 0 && StateType = A
+Physics = A
+
+[State 140, Hi to Lo]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = S && Command = "holddown"
+StateType = C
+Physics = C
+
+[State 140, Lo to Hi]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = C && Command != "holddown"
+StateType = S
+Physics = S
+
+[State 140, Hi to Lo(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = S
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+StateType = C
+Physics = C
+
+[State 140, Lo to Hi(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = C
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+StateType = S
+Physics = S
+
+;[State 140, 5] ;Implemented within engine
+;Type = ChangeState
+;Trigger1 = AnimTime = 0
+;Value = (StateType = C) * 11 + (StateType = A) * 51
+
+;---------------------------------------------------------------------------
+; 立ちガード硬直
+[Statedef 150]
+Type    = S
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 150, 1]
+Type = ChangeAnim
+Trigger1 = 1
+Value = 150
+
+[State 150, 2]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = HitShakeOver
+Value = 151 + 2 * (Command = "holddown")
+
+[State 150, Hi to Lo]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = S && Command = "holddown"
+StateType = C
+Physics = C
+
+[State 150, Lo to Hi]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = C && Command != "holddown"
+StateType = S
+Physics = S
+
+[State 150, Hi to Lo(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = S
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+StateType = C
+Physics = C
+
+[State 150, Lo to Hi(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = C
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+StateType = S
+Physics = S
+
+[State 150, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = HitShakeOver
+Value = 151 + 2 * (StateType = C)
+
+[State 150, 3]
+Type = ForceFeedBack
+Trigger1 = Time = 0
+WaveForm = Square
+Time = 3
+
+;---------------------------------------------------------------------------
+; 立ちガード硬直後の後退
+[Statedef 151]
+Type    = S
+MoveType= H
+Physics = S
+Anim = 150
+
+[State 151, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+
+[State 151, 2]
+Type = VelSet
+Trigger1 = Time = GetHitVar(SlideTime)
+Trigger2 = HitOver
+X = 0
+
+[State 151, 3]
+Type = CtrlSet
+Trigger1 = Time = GetHitVar(CtrlTime)
+Value = 1
+
+[State 151, Hi to Lo]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = S && Command = "holddown"
+StateType = C
+Physics = C
+
+[State 151, Lo to Hi]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = C && Command != "holddown"
+StateType = S
+Physics = S
+
+[State 151, Hi to Lo(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = S
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+StateType = C
+Physics = C
+
+[State 151, Lo to Hi(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = C
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+StateType = S
+Physics = S
+
+[State 151, 4]
+Type = ChangeState
+Trigger1 = HitOver
+Value = 130
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; しゃがみガード硬直
+[Statedef 152]
+Type    = C
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 152, 1]
+Type = ChangeAnim
+Trigger1 = 1
+Value = 151
+
+[State 152, 3]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = HitShakeOver
+Value = 151 + 2 * (Command = "holddown")
+
+[State 152, Hi to Lo]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = S && Command = "holddown"
+StateType = C
+Physics = C
+
+[State 152, Lo to Hi]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = C && Command != "holddown"
+StateType = S
+Physics = S
+
+[State 152, Hi to Lo(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = S
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+StateType = C
+Physics = C
+
+[State 152, Lo to Hi(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = C
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+StateType = S
+Physics = S
+
+[State 152, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = HitShakeOver
+Value = 151 + 2 * (StateType = C)
+
+[State 152, 4]
+Type = ForceFeedBack
+Trigger1 = Time = 0
+WaveForm = Square
+Time = 4
+
+;---------------------------------------------------------------------------
+; しゃがみガード硬直後の後退
+[Statedef 153]
+Type    = C
+MoveType= H
+Physics = C
+Anim = 151
+
+[State 153, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+
+[State 153, 2]
+Type = VelSet
+Trigger1 = Time = GetHitVar(SlideTime)
+Trigger2 = HitOver
+X = 0
+
+[State 153, 3]
+Type = CtrlSet
+Trigger1 = Time = GetHitVar(CtrlTime)
+Value = 1
+
+[State 153, Hi to Lo]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = S && Command = "holddown"
+StateType = C
+Physics = C
+
+[State 153, Lo to Hi]
+Type = StateTypeSet
+TriggerAll = Var(59) <= 0
+Trigger1 = StateType = C && Command != "holddown"
+StateType = S
+Physics = S
+
+[State 153, Hi to Lo(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = S
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType = C
+Trigger1 = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 != 0
+Trigger2 = Var(51) - Var(51) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 != 0
+Trigger3 = Var(52) - Var(52) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != 0
+Trigger4 = Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != 0
+Trigger5 = Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != 0
+Trigger6 = Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = EnemyNear(Var(57)),StateNo
+StateType = C
+Physics = C
+
+[State 153, Lo to Hi(AI)]
+Type = StateTypeSet
+TriggerAll = Var(59) > 0
+TriggerAll = StateType = C
+TriggerAll = NumHelper(60000)
+TriggerAll = (Var(51) - Var(51) / 100000 * 100000 = 0) || (Var(51) - Var(51) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Var(52) - Var(52) / 100000 * 100000 = 0) || (Var(52) - Var(52) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 = 0) || (Helper(60000),Var(10) - Helper(60000),Var(10) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 = 0) || (Helper(60000),Var(11) - Helper(60000),Var(11) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+TriggerAll = (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 = 0) || (Helper(60000),Var(12) - Helper(60000),Var(12) / 100000 * 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = EnemyNear(Var(57)),StateType != C
+Trigger1 = (Var(51) / 100000 = 0) || (Var(51) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Var(52) / 100000 = 0) || (Var(52) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(10) / 100000 = 0) || (Helper(60000),Var(10) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(11) / 100000 = 0) || (Helper(60000),Var(11) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger1 = (Helper(60000),Var(12) / 100000 = 0) || (Helper(60000),Var(12) / 100000 != EnemyNear(Var(57)),StateNo)
+Trigger2 = Var(51) / 100000 != 0
+Trigger2 = Var(51) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger3 = Var(52) / 100000 != 0
+Trigger3 = Var(52) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger4 = Helper(60000),Var(10) / 100000 != 0
+Trigger4 = Helper(60000),Var(10) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger5 = Helper(60000),Var(11) / 100000 != 0
+Trigger5 = Helper(60000),Var(11) / 100000 = EnemyNear(Var(57)),StateNo
+Trigger6 = Helper(60000),Var(12) / 100000 != 0
+Trigger6 = Helper(60000),Var(12) / 100000 = EnemyNear(Var(57)),StateNo
+StateType = S
+Physics = S
+
+[State 153, 4]
+Type = ChangeState
+Trigger1 = HitOver
+Value = 131
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 空中ガード硬直
+[Statedef 154]
+Type    = A
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 154, 1]
+Type = ChangeAnim
+Trigger1 = 1
+Value = 152
+
+[State 154, 2]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Value = 155 ;AGUARDHIT2
+
+[State 154, 3]
+Type = ForceFeedBack
+Trigger1 = Time = 0
+WaveForm = Square
+Time = 4
+
+;---------------------------------------------------------------------------
+; 空中ガード硬直後の後退
+[Statedef 155]
+Type    = A
+MoveType= H
+Physics = N
+Anim = 152
+
+[State 155, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+Y = 1
+
+[State 155, 2]
+Type = VelAdd
+Trigger1 = 1
+Y = Const(Movement.YAccel)
+
+[State 155, 3]
+Type = CtrlSet
+Trigger1 = Time = GetHitVar(CtrlTime)
+Value = 1
+
+[State 155, 4]
+Type = VarSet
+Trigger1 = 1
+sysvar(0) = (Pos Y >= 0) && (Vel Y > 0)
+
+[State 155, 5]
+Type = VelSet
+Trigger1 = SysVar(0)
+Y = 0
+
+[State 155, 6]
+Type = PosSet
+Trigger1 = SysVar(0)
+Y = 0
+
+[State 155, 6]
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+Trigger1 = SysVar(0)
+Trigger1 = Command = "holdback"
+Trigger1 = InGuardDist
+Value = 130
+
+[State 155, AI]
+Type = ChangeState
+TriggerAll = Var(59) > 0
+Trigger1 = SysVar(0)
+Trigger1 = InGuardDist
+Value = 130
+
+[State 155, 7]
+Type = ChangeState
+Trigger1 = SysVar(0)
+Value = 52
+
+;---------------------------------------------------------------------------
+; タイムオーバーで負けた時
+[Statedef 170]
+Type = S
+Ctrl = 0
+Anim = 170
+VelSet = 0,0
+
+[State 170, 1]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+;---------------------------------------------------------------------------
+; タイムオーバーで引き分けた時
+[Statedef 175]
+Type = S
+Ctrl = 0
+VelSet = 0,0
+
+[State 175, 1] ; If no Anim, use go to lose State.
+Type = ChangeState
+Trigger1 = Time = 0
+Trigger1 = !SelfAnimExist(175)
+Value = 170
+
+[State 175, 2]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Value = 175
+
+[State 175, 3]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+;---------------------------------------------------------------------------
+; 勝利ポーズ分岐
+[Statedef 180]
+Type = S
+
+[State 180, 1]
+Type = ChangeState
+Trigger1 = Time = 0
+Value = 181
+
+;---------------------------------------------------------------------------
+; 勝利ポーズ
+[Statedef 181]
+Type = S
+Ctrl = 0
+Anim = 181
+VelSet = 0,0
+
+[State 181, 1]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+;---------------------------------------------------------------------------
+; イントロ分岐
+[Statedef 190]
+Type = S
+Ctrl = 0
+VelSet = 0,0
+
+[State 190, イントロへ] ;Go straight to intro.
+Type = ChangeState
+Trigger1 = Time = 0
+Value = 191
+
+;---------------------------------------------------------------------------
+; イントロ
+[Statedef 191]
+Type = S
+Ctrl = 0
+Anim = IfElse(!IsHelper,191,59191)
+
+[State 191, イントロ状態を維持]
+Type = AssertSpecial
+Trigger1 = 1
+Flag = Intro
+
+[State 191, 無敵]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+[State 191, 黒化]
+Type = PalFX
+Trigger1 = !IsHelper
+Time = 1
+Mul = 0,0,0
+
+[State 191, 黒からフェードイン]
+Type = PalFX
+TriggerAll = !IsHelper
+Trigger1 = Time >= 100
+Time = 1
+Mul = (Time - 100) * 4,(Time - 100) * 4,(Time - 100) * 4
+
+[State 191, ヘルパー呼出]
+Type = Helper
+TriggerAll = !IsHelper
+TriggerAll = NumHelper(191) = 0
+Trigger1 = Time = 30
+HelperType = Normal
+Name = "Intro_Helper"
+ID = 191
+Pos = 0, 0
+PosType = P1
+Facing = 1
+StateNo = 191
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+Size.XScale = 0.5
+Size.YScale = 0.5
+
+[State 191, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 100
+Anim = 6092
+ID = 6092
+Pos = 0, -50
+PosType = P1
+Facing = 1
+BindTime = 1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = 1
+OwnPal = 1
+
+[State 191, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 105
+Anim = 6092
+ID = 6092
+Pos = 50, -25
+PosType = P1
+Facing = 1
+BindTime = 1
+Vel = 0, -3
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = 1
+OwnPal = 1
+
+[State 191, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 105
+Anim = 6092
+ID = 6092
+Pos = -40, -20
+PosType = P1
+Facing = -1
+BindTime = 1
+Vel = 0, -3
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = 1
+OwnPal = 1
+
+[State 191, 立ち状態へ]
+Type = ChangeState
+TriggerAll = !IsHelper
+Trigger1 = AnimTime = 0
+Value = 0
+
+;----------------------------[ヘルパー用処理]
+
+[State 191, 影を不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 191, 画像表示の優先度]
+Type = SprPriority
+TriggerAll = IsHelper
+Trigger1 = Time = 0
+Value = -5
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = Time = [10,30]
+Trigger1 = Time % 6 = 0
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -4.5 + Random % 10 * 0.1
+Accel = 0, 0.075
+Random = 20, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.25, 0.25
+SprPriority = 3
+OwnPal = 1
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = [10,20]
+Trigger1 = Time % 6 = 0
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -5.5 + Random % 20 * 0.1
+Accel = 0, 0.075
+Random = 80, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.25, 0.25
+SprPriority = 3
+OwnPal = 1
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = [10,20]
+Trigger1 = Time % 12 = 6
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -5.5 + Random % 20 * 0.1
+Accel = 0, 0.075
+Random = 80, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.25, 0.25
+SprPriority = -3
+OwnPal = 1
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = [12,18]
+Trigger1 = Time % 2 = 0
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -5.5 + Random % 30 * 0.1
+Accel = 0, 0.075
+Random = 160, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = [12,18]
+Trigger1 = Time % 4 = 2
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -5.5 + Random % 30 * 0.1
+Accel = 0, 0.075
+Random = 160, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = -3
+OwnPal = 1
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = 15
+Trigger1 = Time % 4 = 0
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -5.5 + Random % 30 * 0.1
+Accel = 0, 0.075
+Random = 200, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 191, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = 15
+Trigger1 = Time % 4 = 2
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -5.5 + Random % 30 * 0.1
+Accel = 0, 0.075
+Random = 200, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = -3
+OwnPal = 1
+
+[State 191, 残像ヘルパー呼出]
+Type = Helper
+TriggerAll = IsHelper(191)
+Trigger1 = NumHelper(19102) = 0
+HelperType = Normal
+Name = "Intro_Helper2"
+ID = 19102
+Pos = 0, 0
+PosType = P1
+Facing = 1
+StateNo = 191
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+Size.XScale = 0.5
+Size.YScale = 0.5
+
+;----------------------------[ヘルパー用処理2]
+
+[State 191, アニメ同期]
+Type = ChangeAnim
+TriggerAll = NumHelper(191)
+Trigger1 = IsHelper(19102)
+Value = Parent,Anim
+Elem = Parent,AnimElemNo(0)
+IgNoreHitPause = 1
+
+[State 191, 角度描画]
+Type = AngleDraw
+Trigger1 = IsHelper(19102)
+Trigger1 = AnimElemNo(0) < 10
+Scale = 1 + (Time * 0.03),1 + (Time * 0.03)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 191, 角度描画]
+Type = AngleDraw
+Trigger1 = IsHelper(19102)
+Trigger1 = AnimElemNo(0) = [10,14]
+Scale = 1 + (Time * 0.02),1 + (Time * 0.02)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 191, 角度描画]
+Type = AngleDraw
+Trigger1 = IsHelper(19102)
+Trigger1 = AnimElemNo(0) >= 15
+Scale = 1 + (Time * 0.01),1 + (Time * 0.01)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 191, 透過処理]
+Type = Trans
+Trigger1 = IsHelper(19102)
+Trans = AddAlpha
+Alpha = 256 - (Time * 12), (Time * 12)
+IgNoreHitPause = 1
+
+[State 191, 黒化]
+Type = PalFX
+Trigger1 = IsHelper(19102)
+Time = 1
+Mul = 0,0,0
+IgNoreHitPause = 1
+
+[State 191, 消失]
+Type = DestroySelf
+TriggerAll = IsHelper(19102)
+Trigger1 = Time = 20
+IgNoreHitPause = 1
+
+[State 191, 波紋ヘルパー呼出]
+Type = Helper
+TriggerAll = IsHelper(191)
+Trigger1 = AnimElemNo(0) = [12,15]
+Trigger1 = AnimElemTime(12) % 20 = 0
+HelperType = Normal
+Name = "Intro_Helper3"
+ID = 19103
+Pos = 0, 5
+PosType = P1
+Facing = 1
+StateNo = 191
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+Size.XScale = 0.5
+Size.YScale = 0.5
+
+;----------------------------[ヘルパー用処理3]
+
+[State 191, アニメ切替]
+Type = ChangeAnim
+TriggerAll = IsHelper(19103)
+Trigger1 = Time = 0
+Value = 6093
+
+[State 191, 透過処理]
+Type = Trans
+Trigger1 = IsHelper(19103)
+Trans = Sub
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 191, 角度描画]
+Type = AngleDraw
+TriggerAll = IsHelper(19103)
+Trigger1 = Anim = 6093
+Scale = 1.33,0.2
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 191, 消失]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = AnimTime = 0
+Trigger2 = Root,StateNo = 0
+Trigger3 = Root,RoundState >= 2
+
+;---------------------------------------------------------------------------
+; イントロ2
+[Statedef 192]
+Type = S
+Ctrl = 0
+Anim = IfElse(!IsHelper,192,59192)
+
+[State 192, イントロ状態を維持]
+Type = AssertSpecial
+Trigger1 = 1
+Flag = Intro
+
+[State 192, 無敵]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+[State 192, SE : ワープホール出現]
+Type = PlaySnd
+TriggerAll = !IsHelper
+Trigger1 = Time = 30
+Value = 192, 0
+
+[State 192, Effect : ワープホール]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 30
+Anim = 6091
+ID = 6091
+Pos = 0, -80
+PosType = P1
+BindTime = 1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = -3
+OwnPal = 1
+Under = 1
+
+[State 192, Effect : 登場時の波紋]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 60
+Anim = 6093
+ID = 6093
+Pos = 0, -80
+PosType = P1
+BindTime = 1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = -3
+OwnPal = 1
+Under = 1
+
+[State 192, Effect : 登場時の波紋]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 63
+Anim = 6093
+ID = 6093
+Pos = 0, -80
+PosType = P1
+BindTime = 1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = -3
+OwnPal = 1
+Under = 1
+
+[State 192, Effect : 登場時の波紋]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = Time = 66
+Anim = 6093
+ID = 6093
+Pos = 0, -80
+PosType = P1
+BindTime = 1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = -3
+OwnPal = 1
+Under = 1
+
+[State 192, ヘルパー呼出]
+Type = Helper
+TriggerAll = !IsHelper
+TriggerAll = NumHelper(192) = 0
+Trigger1 = Time = 60
+HelperType = Normal
+Name = "Intro_Helper"
+ID = 192
+Pos = 0, -20
+PosType = P1
+Facing = 1
+StateNo = 192
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+Size.XScale = 0.5
+Size.YScale = 0.5
+
+[State 192, 透明アニメで待機]
+Type = ChangeAnim
+TriggerAll = !IsHelper
+Trigger1 = NumHelper(192) = 0
+Trigger1 = Time < 60
+Trigger2 = NumHelper(192)
+Trigger2 = Helper(192),Pos Y < 0
+Value = Anim
+
+[State 192, 身体を紫に]
+Type = PalFX
+Trigger1 = !IsHelper
+Time = 1
+Mul = 64 + (192 / (AnimElemTime(1) - AnimTime) * AnimElemTime(1)),(256 / (AnimElemTime(1) - AnimTime) * AnimElemTime(1)),128 + (128 / (AnimElemTime(1) - AnimTime) * AnimElemTime(1))
+
+[State 192, 身体を真っ黒に]
+Type = PalFX
+Trigger1 = !IsHelper
+Trigger1 = Time <= 60
+Time = 1
+Mul = 0,0,0
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 2
+Anim = 6092
+ID = 6092
+Pos = 0, -60
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 4
+Anim = 6092
+ID = 6092
+Pos = 40, -40
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 5
+Anim = 6092
+ID = 6092
+Pos = -40, -30
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 5, = 4
+Anim = 6092
+ID = 6092
+Pos = 0, -50
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 光粒子エフェクト(黒玉)]
+Type = Null;Explod
+TriggerAll = !IsHelper
+TriggerAll = AnimElem = 2, >= 0
+Trigger1 = GameTime % 20 = 0
+Trigger2 = AnimElem = 6, < 0
+Trigger2 = GameTime % 6 = 0
+Anim = 6011
+ID = 6011
+Pos = 0, 0
+PosType = P1
+Facing = 1
+VFacing = 1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -4.5 + Random % 10 * 0.1
+Accel = 0, 0.075
+Random = 80, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.25, 0.25
+SprPriority = 3
+OnTop = 0
+Shadow = 0, 0, 0
+OwnPal = 1
+ReMoveOnGetHit = 0
+
+[State 192, SE : 着地音]
+Type = PlaySnd
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 2
+Value = 52, 0
+
+[State 192, 着地の振動]
+Type = EnvShake
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 2
+Time = 5
+Freq = 90
+Ampl = -4
+
+[State 192, 着地のエフェクト]
+Type = Explod
+TriggerAll = !IsHelper
+Trigger1 = AnimElem = 2
+Anim = 8052
+ID = 8052
+Pos = 0,0
+PosType = P1
+ReMoveTime = -2
+Scale = 0.5, 0.5
+SprPriority = -2
+OwnPal = 1
+
+[State 192, 立ち状態へ]
+Type = ChangeState
+TriggerAll = !IsHelper
+Trigger1 = AnimTime = 0
+Value = 0
+
+;----------------------------[ヘルパー用処理]
+
+[State 192, 状態変更]
+Type = StateTypeSet
+TriggerAll = IsHelper
+Trigger1 = Time = 0
+StateType = A
+Physics = N
+
+[State 192, ジャンプ速度]
+Type = VelSet
+TriggerAll = IsHelper
+Trigger1 = Time = 0
+Y = -8
+
+[State 192, 重力]
+Type = VelAdd
+Trigger1 = IsHelper
+Y = 0.35
+
+[State 192, SE : 登場]
+Type = PlaySnd
+TriggerAll = IsHelper
+Trigger1 = Time = 0
+Value = 1100, 0
+
+[State 192, 身体を紫に]
+Type = PalFX
+Trigger1 = IsHelper
+Time = 1
+Mul = 64,0,128
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = Time % 15 = 0
+Anim = 6092
+ID = 6092
+Pos = 0, -100
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = Time % 15 = 4
+Anim = 6092
+ID = 6092
+Pos = 40, -80
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 身体の炎エフェクト]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = Time % 15 = 9
+Anim = 6092
+ID = 6092
+Pos = -40, -60
+PosType = P1
+Facing = IfElse(Random % 2,1,-1)
+BindTime = -1
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.5, 0.5
+SprPriority = 3
+OwnPal = 1
+
+[State 192, 光粒子エフェクト(黒玉)]
+Type = Explod
+TriggerAll = IsHelper
+Trigger1 = GameTime % 6 = 0
+Anim = 6011
+ID = 6011
+Pos = 40 - Random % 80, 0
+PosType = P1
+Facing = 1
+VFacing = 1
+BindTime = 1
+Vel = 1 - Random % 20 * 0.1, -4.5 + Random % 10 * 0.1
+Accel = 0, 0.075
+Random = 0, 0
+ReMoveTime = -2
+SuperMoveTime = 0
+PauseMoveTime = 0
+Scale = 0.25, 0.25
+SprPriority = 3
+OnTop = 0
+Shadow = 0, 0, 0
+OwnPal = 1
+ReMoveOnGetHit = 0
+
+[State 192, 消失]
+Type = DestroySelf
+TriggerAll = IsHelper
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 0
+Trigger2 = Root,StateNo = 0
+
+;---------------------------------------------------------------------------
+; 挑発
+[Statedef 195]
+Type = S
+Ctrl = 0
+Anim = 195
+VelSet = 0,0
+MoveType = I
+Physics = S
+SprPriority = 2
+
+[State 195, 1]
+Type = CtrlSet
+Trigger1 = Time = 50
+Value = 1
+
+[State 195, 2]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 立ち喰らい
+[Statedef 5000]
+Type    = S
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 5000, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5000, 1] ;Anim for HIT_LIGHT to HIT_HARD
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) != [3,5]
+Value = IfElse((GetHitVar(GroundType) = 1),5000,5010) + GetHitVar(AnimType)
+
+[State 5000, 2] ;Anim for HIT_BACK
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) = [3,5]
+Value = 5030
+
+[State 5000, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = (GetHitVar(AnimType) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(AnimType)))
+Value = 5047 + GetHitVar(AnimType) ;5051 - 4 + Type
+
+[State 5000, 4] ;Freeze Anim
+Type = ChangeAnim
+Trigger1 = Time > 0
+Value = Anim
+
+[State 5000, 5] ;State Type gets set to aerial if getting hit up
+Type = StateTypeSet
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(YVel) != 0 || GetHitVar(Fall)
+Trigger2 = Pos Y != 0
+StateType = A
+
+[State 5000, 6]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Trigger1 = GetHitVar(YVel) = 0 && !GetHitVar(Fall)
+Value = 5001 ;HITG_Slide
+
+[State 5000, 7]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Value = 5030
+
+[State 5000, FFB Light]
+Type = ForceFeedBack
+Trigger1 = Anim = 5000
+Trigger2 = Anim = 5010
+Persistent = 0
+Time = 6
+WaveForm = Square
+
+[State 5000, FFB Medium]
+Type = ForceFeedBack
+Trigger1 = Anim = 5001
+Trigger2 = Anim = 5011
+Persistent = 0
+Time = 8
+WaveForm = SineSquare
+Ampl = 110,-1,-.3
+
+[State 5000, FFB Hard]
+Type = ForceFeedBack
+Trigger1 = Anim = 5012
+Trigger2 = Anim = 5002
+Trigger3 = Anim = 5030
+Persistent = 0
+Time = 15
+WaveForm = SineSquare
+Ampl = 140
+
+;---------------------------------------------------------------------------
+; 立ち喰らい後の後退
+[Statedef 5001]
+Type    = S
+MoveType= H
+Physics = S
+
+[State 5001, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5001, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+
+[State 5001, 2]
+Type = ChangeAnim
+Trigger1 = AnimTime = 0
+Value = 5005 + GetHitVar(AnimType) + (GetHitVar(GroundType) = 2) * 10
+
+[State 5001, 3] ;Stop sliding back
+Type = VelMul
+Trigger1 = Time >= GetHitVar(SlideTime)
+X = .6
+
+[State 5001, 4]
+Type = VelSet
+Trigger1 = HitOver
+X = 0
+
+[State 5001, 5]
+Type = DefenceMulSet
+Trigger1 = HitOver
+Value = 1
+
+[State 5001, 6]
+Type = ChangeState
+Trigger1 = HitOver
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; しゃがみ喰らい
+[Statedef 5010]
+Type    = C
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 5010, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5010, 1] ;Anim for HIT_LIGHT to HIT_HARD
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) != [3,5]
+Value = 5020 + GetHitVar(AnimType)
+
+[State 5010, 2] ;Anim for HIT_BACK
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) = [3,5]
+Value = 5030
+
+[State 5010, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = (GetHitVar(AnimType) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(AnimType)))
+Value = 5047 + GetHitVar(AnimType) ;5051 - 4 + Type
+
+[State 5010, 4] ;Freeze Anim
+Type = ChangeAnim
+Trigger1 = Time > 0
+Value = Anim
+
+[State 5010, 5] ;State Type gets set to aerial if getting hit up
+Type = StateTypeSet
+TriggerAll = Time = 0
+Trigger1 = GetHitVar(YVel) != 0 || GetHitVar(Fall)
+Trigger2 = Pos Y != 0
+StateType = A
+
+[State 5010, 6]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Trigger1 = GetHitVar(YVel) = 0 && !GetHitVar(Fall)
+Value = 5011 ;HITC_Slide
+
+[State 5010, 7]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Value = 5030
+
+[State 5010, FFB Light]
+Type = ForceFeedBack
+Trigger1 = Anim = 5020
+Persistent = 0
+Time = 6
+WaveForm = Square
+
+[State 5010, FFB Medium]
+Type = ForceFeedBack
+Trigger1 = Anim = 5021
+Persistent = 0
+Time = 8
+WaveForm = SineSquare
+Ampl = 110,-1,-.3
+
+[State 5010, FFB Hard]
+Type = ForceFeedBack
+Trigger1 = Anim = 5022
+Persistent = 0
+Time = 15
+WaveForm = SineSquare
+Ampl = 140
+
+;---------------------------------------------------------------------------
+; しゃがみ喰らい後の後退
+[Statedef 5011]
+Type    = C
+MoveType= H
+Physics = C
+
+[State 5011, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5011, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+
+[State 5011, 2]
+Type = ChangeAnim
+Trigger1 = AnimTime = 0
+Value = 5025 + GetHitVar(AnimType)
+
+[State 5011, 3] ;Stop sliding back
+Type = VelMul
+Trigger1 = Time >= GetHitVar(SlideTime)
+X = .6
+
+[State 5011, 4]
+Type = VelSet
+Trigger1 = HitOver
+X = 0
+
+[State 5011, 5]
+Type = DefenceMulSet
+Trigger1 = HitOver
+Value = 1
+
+[State 5011, 6]
+Type = ChangeState
+Trigger1 = HitOver
+Value = 11
+Ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; 空中喰らい
+[Statedef 5020]
+Type    = A
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 5020, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5020, 1] ;Anim for HIT_LIGHT to HIT_HARD
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) != [3,5]
+Value = IfElse((GetHitVar(AirType) = 1),5000,5010) + GetHitVar(AnimType)
+
+[State 5020, 2] ;Anim for HIT_BACK
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(AnimType) = [3,5]
+Value = 5030
+
+[State 5020, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = (GetHitVar(AnimType) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(AnimType)))
+Value = 5047 + GetHitVar(AnimType) ;5051 - 4 + Type
+
+[State 5020, 4] ;Freeze Anim
+Type = ChangeAnim
+Trigger1 = Time > 0
+Value = Anim
+
+[State 5020, 5]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Value = 5030
+
+[State 5020, FFB Light]
+Type = ForceFeedBack
+Trigger1 = Anim = 5000
+Trigger2 = Anim = 5010
+Persistent = 0
+Time = 6
+WaveForm = Square
+
+[State 5020, FFB Medium]
+Type = ForceFeedBack
+Trigger1 = Anim = 5001
+Trigger2 = Anim = 5011
+Persistent = 0
+Time = 8
+WaveForm = SineSquare
+Ampl = 110,-1,-.3
+
+[State 5020, FFB Hard]
+Type = ForceFeedBack
+Trigger1 = Anim = 5012
+Trigger2 = Anim = 5002
+Trigger3 = Anim = 5030
+Trigger4 = Anim = [5051,5059]
+Persistent = 0
+Time = 15
+WaveForm = SineSquare
+Ampl = 140
+
+;---------------------------------------------------------------------------
+; 吹っ飛び開始
+[Statedef 5030]
+Type    = A
+MoveType= H
+Physics = N
+Ctrl = 0
+
+[State 5030, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5030, 吹っ飛びアニメ切り替え]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = SelfAnimExist(5035)
+Trigger1 = Anim != [5051,5059] ;Not if in hit up Anim
+Trigger1 = Anim != 5090 ;Not if hit off Ground Anim
+Trigger1 = Anim != 5035
+Value = 5035
+
+[State 5030, 1]
+Type = VelAdd;Gravity
+Trigger1 = 1
+Y = GetHitVar(YAccel)
+
+[State 5030, 2]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+Y = 1
+
+[State 5030, 3]
+Type = ChangeState
+TriggerAll = !HitFall
+Trigger1 = HitOver
+Trigger2 = Vel Y > 0    ;Hit Ground
+Trigger2 = Pos Y >= 10  ;.
+Value = 5040 ;HITA_RECOV
+
+[State 5030, 4]
+Type = ChangeState
+TriggerAll = HitFall
+Trigger1 = HitOver
+Trigger2 = Vel Y > 0    ;Hit Ground
+Trigger2 = Pos Y >= 10  ;.
+Value = 5050 ;HITA_Fall
+
+[State 5030, 5]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 5035 ;HITA_UP (transition)
+
+;---------------------------------------------------------------------------
+; 吹っ飛び（ダウン判定）
+[Statedef 5035]
+Type    = A
+MoveType= H
+Physics = N
+
+[State 5035, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5035, 1]
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = SelfAnimExist(5035)
+Trigger1 = Anim != [5051,5059] ;Not if in hit up Anim
+Trigger1 = Anim != 5090 ;Not if hit off Ground Anim
+Trigger1 = Anim != 5035
+Value = 5035
+
+[State 5035, 2]
+Type = VelAdd
+Trigger1 = 1
+Y = GetHitVar(YAccel)
+
+[State 5035, 3]
+Type = ChangeState
+TriggerAll = !HitFall
+Trigger1 = HitOver  ;Hit is Over
+Trigger2 = AnimTime = 0 ;Animation Over
+Trigger3 = Vel Y > 0    ;Hit Ground
+Trigger3 = Pos Y >= 10  ;.
+Trigger4 = Time = 0     ;No transition Anim
+Trigger4 = Anim != 5035 ;.
+Value = 5040 ;HITA_RECOV
+
+[State 5035, 4]
+Type = ChangeState
+TriggerAll = HitFall
+Trigger1 = HitOver  ;Hit is Over
+Trigger2 = AnimTime = 0 ;Anim is Over
+Trigger3 = Vel Y > 0    ;Hit Ground
+Trigger3 = Pos Y >= 10  ;.
+Trigger4 = Time = 0     ;No transition Anim
+Trigger4 = Anim != 5035 ;.
+Value = 5050 ;HITA_Fall
+
+;---------------------------------------------------------------------------
+; 吹っ飛びから自動受身
+[Statedef 5040]
+Type    = A
+MoveType= H
+Physics = N
+
+[State 5040, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5040, 1]
+Type = ChangeState
+Trigger1 = !Alive
+Value = 5050
+
+[State 5040, 2]
+Type = ChangeAnim
+Trigger1 = AnimTime = 0
+Trigger1 = Anim != 5040
+Trigger2 = Time = 0
+Trigger2 = Anim != 5035
+Value = 5040
+
+[State 5040, 3]
+Type = CtrlSet
+Trigger1 = HitOver
+Value = 1
+
+[State 5040, 4]
+Type = StateTypeSet
+Trigger1 = HitOver
+MoveType = I
+
+[State 5040, 5]
+Type = VelAdd
+Trigger1 = 1
+Y = GetHitVar(YAccel)
+
+[State 5040, 6]
+Type = ChangeState
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 0
+Value = 52 ;JumpLAND
+
+;---------------------------------------------------------------------------
+; 吹っ飛びからダウン下降
+[Statedef 5050]
+Type    = A
+MoveType= H
+Physics = N
+
+[State 5050, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5050, 1] ;Change Anim when done with transition
+Type = ChangeAnim
+Trigger1 = AnimTime = 0
+Trigger1 = Anim = 5035
+Trigger2 = Time = 0     ;If no transition Anim
+Trigger2 = Anim != 5035
+Trigger2 = (Anim != [5051, 5059]) && (Anim != [5061, 5069])
+Trigger2 = Anim != 5090 ;Not if hit off Ground Anim
+Value = 5050
+
+[State 5050, 2] ;Coming down Anim
+Type = ChangeAnim
+Trigger1 = Anim = [5050,5059]
+Trigger1 = Vel Y >= IfElse(Anim = 5050, 1, -2)
+Trigger1 = SelfAnimExist(Anim + 10)
+Value = Anim + 10
+Persistent = 0
+
+[State 5050, 3] ;Gravity
+Type = VelAdd
+Trigger1 = 1
+Y = GetHitVar(YAccel)
+
+[State 5050, 4] ;Recover near Ground
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+TriggerAll = Vel Y > 0
+TriggerAll = Pos Y >= -20
+TriggerAll = Alive
+TriggerAll = CanRecover
+Trigger1 = Command = "recovery"
+Value = 5200 ;HITFall_Recover
+
+[State 5050, 5]; Recover in mid Air
+Type = ChangeState
+TriggerAll = Var(59) <= 0
+TriggerAll = Vel Y > -1
+TriggerAll = Alive
+TriggerAll = CanRecover
+Trigger1 = Command = "recovery"
+Value = 5210 ;HITFall_AirRecover
+
+[State 5050, AI] ;Recover near Ground
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = (Var(59) > 5) || (Var(50) <= Var(59) * 133 && (Random + GameTime) % 1000 <= 133)
+TriggerAll = NumHelper(60000)
+TriggerAll = NumHelper(66666)
+TriggerAll = Vel Y > 0
+TriggerAll = Pos Y >= -20
+TriggerAll = Alive
+TriggerAll = CanRecover
+Trigger1 = RoundState != 2
+Trigger2 = Time
+Trigger2 = Var(50) % 10 < 5
+Trigger2 = (Random + GameTime) % 10 < 1 * (Time / 5)
+Trigger3 = EnemyNear(Var(57)),MoveType = H
+Trigger4 = EnemyNear(Var(57)),AnimTime < -80
+Trigger4 = EnemyNear(Var(57)),HitDefAttr = SCA,AA,AP,AT
+Trigger5 = Helper(60000),Var(4) - Life <= 133
+Value = 5200 ;HITFall_Recover
+
+[State 5050, AI]; Recover in mid Air
+Type = ChangeState
+TriggerAll = Var(59) > 0
+TriggerAll = (Var(59) > 5) || (Var(50) <= Var(59) * 133 && (Random + GameTime) % 1000 <= 133)
+TriggerAll = NumHelper(60000)
+TriggerAll = NumHelper(66666)
+TriggerAll = Vel Y > -1
+TriggerAll = Alive
+TriggerAll = CanRecover
+Trigger1 = RoundState != 2
+Trigger2 = Time
+Trigger2 = Var(50) % 10 < 5
+Trigger2 = (Random + GameTime) % 10 < 1 * (Time / 5)
+Trigger3 = EnemyNear(Var(57)),MoveType = H
+Trigger4 = EnemyNear(Var(57)),AnimTime < -80
+Trigger4 = EnemyNear(Var(57)),HitDefAttr = SCA,AA,AP,AT
+Trigger5 = Helper(60000),Var(4) - Life <= 133
+Value = 5210 ;HITFall_AirRecover
+
+[State 5050, 6]
+Type = ChangeState
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= IfElse((Anim = [5051,5059]) || (Anim = [5061,5069]), 0, 25)
+Value = 5100 ;HIT_BOUNCE
+
+;---------------------------------------------------------------------------
+; 足払いで転ぶ（硬直）
+[Statedef 5070]
+Type    = A
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 5070, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5070, 1]
+Type = ChangeAnim 
+Trigger1 = 1
+Value = 5070
+
+[State 5070, 2]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Value = 5071
+
+[State 5070, 3]
+Type = ForceFeedBack
+Trigger1 = Time = 0
+Time = 12
+WaveForm = SineSquare
+Ampl = 140
+
+;---------------------------------------------------------------------------
+; 足払いで転ぶ（硬直後）
+[Statedef 5071]
+Type    = A
+MoveType= H
+Physics = N
+
+[State 5071, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5071, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+Y = 1
+
+[State 5071, 2] ;Acceleration
+Type = VelAdd
+Trigger1 = 1
+Y = GetHitVar(YAccel)
+
+[State 5071, 3] ;Hit Ground
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 0
+Type = ChangeState
+Value = 5110
+
+;---------------------------------------------------------------------------
+; 横に倒れている時の喰らい硬直
+[Statedef 5080]
+Type    = L
+MoveType= H
+Physics = N
+VelSet = 0,0
+
+[State 5080, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5080, 1] ;Set default Anim
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(2) = IfElse (GetHitVar(YVel) = 0, 5080, 5090)
+
+[State 5080, 2]
+Type = VarAdd
+Trigger1 = Time = 0
+Trigger1 = (Anim = [5081,5089]) || (Anim = [5111,5119])
+Trigger1 = SelfAnimExist(SysVar(2) + (Anim % 10))
+sysvar(2) = Anim % 10
+
+[State 5080, 3] ;If 5090 doesn't exist, default to 5030
+Type = VarSet
+Trigger1 = Time = 0
+Trigger1 = SysVar(2) = 5090
+Trigger1 = !SelfAnimExist(5090)
+sysvar(2) = 5030
+
+[State 5080, 3] ;Freeze
+Type = ChangeAnim
+Trigger1 = 1
+Value = SysVar(2)
+
+[State 5080, 4]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Trigger1 = GetHitVar(YVel) = 0
+Value = 5081 ;HITL_Slide
+
+[State 5080, 5]
+Type = ChangeState
+Trigger1 = HitShakeOver
+Trigger1 = GetHitVar(YVel) != 0
+Value = 5030 ;HITA_UP
+
+;---------------------------------------------------------------------------
+; 横に倒れている時の喰らい硬直後の後退
+[Statedef 5081]
+Type    = L
+MoveType= H
+Physics = C
+
+[State 5081, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5081, 1]
+Type = HitVelSet
+Trigger1 = Time = 0
+X = 1
+
+[State 5081, 2]
+Type = VelSet
+Trigger1 = HitOver
+X = 0
+
+[State 5081, 3] ;Don't show hit Ground frame
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(0) = 1
+
+[State 5081, 4]
+Type = ChangeState
+Trigger1 = HitOver
+Value = 5110 ;HIT_LIEDOWN
+
+;---------------------------------------------------------------------------
+; 吹っ飛び後の地面に激突
+[Statedef 5100]
+Type    = L
+MoveType= H
+Physics = N
+
+[State 5100, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5100, 1]
+Type = VelSet
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(Fall.YVel) = 0
+Trigger1 = Vel X > 1
+X = 1
+
+[State 5100, EnvShake]
+Type = FallEnvShake
+Trigger1 = Time = 0
+
+[State 5100, Var] ;Save Fall Velocity
+Type = VarSet
+Trigger1 = Time = 0
+sysvar(1) = Floor(Vel Y)
+
+[State 5100, 2] ;Hit Ground Anim (normal)
+Type = ChangeAnim
+TriggerAll = Time = 0
+Trigger1 = (Anim != [5051,5059]) && (Anim != [5061,5069])
+Trigger2 = !SelfAnimExist(5100 + (Anim % 10))
+Value = 5100
+
+[State 5100, 3] ;Hit Ground Anim (for hit up)
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = (Anim = [5051,5059]) || (Anim = [5061,5069])
+Trigger1 = SelfAnimExist(5100 + (Anim % 10))
+Value = 5100 + (Anim % 10)
+
+[State 5100, 4]
+Type = PosSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 5100, 5]
+Type = VelSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 5100, 6] ;Reduce speed
+Type = VelMul
+Trigger1 = Time = 0
+X = 0.75
+
+[State 5100, 7]
+Type = ChangeState
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(Fall.YVel) = 0
+Value = 5110 ;HIT_LIEDOWN
+
+[State 5100, 8]
+Type = GameMakeAnim
+Trigger1 = Time = 0
+Value = 60 + (SysVar(1) > 5) + (SysVar(1) > 14)
+Pos = 0, 0
+Under = SysVar(1) <= 14
+
+[State 5100, 9]
+Type = HitFallDamage
+Trigger1 = Time = 0
+
+[State 5100, 10]
+Type = PlaySnd
+Trigger1 = Time = 0
+Value = F7, (SysVar(1) > 5) + (SysVar(1) > 14)
+
+[State 5100, 11]
+Type = PosFreeze
+Trigger1 = 1
+
+[State 5100, 12]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 5101
+
+[State 5100, 13]
+Type = ForceFeedBack
+Trigger1 = Time = 0
+WaveForm = SineSquare
+Ampl = 128,-3,-.2,.005
+Time = 20
+
+;---------------------------------------------------------------------------
+; 地面に激突後バウンド
+[Statedef 5101]
+Type    = L
+MoveType= H
+Physics = N
+
+[State 5101, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5101, 1] ;Coming hit Ground Anim (normal)
+Type = ChangeAnim
+TriggerAll = Time = 0
+Trigger1 = Anim != [5101,5109]
+Trigger2 = !SelfAnimExist(5160 + (Anim % 10))
+Value = 5160
+
+[State 5101, 2] ;Coming hit Ground Anim (for hit up)
+Type = ChangeAnim
+TriggerAll = Time = 0
+Trigger1 = Anim = [5101,5109]
+Trigger1 = SelfAnimExist(5160 + (Anim % 10))
+Value = 5160 + (Anim % 10)
+
+[State 5101, 3]
+Type = HitFallVel
+Trigger1 = Time = 0
+
+[State 5101, 4]
+Type = PosSet
+Trigger1 = Time = 0
+Y = 20
+
+[State 5101, 5] ;Acceleration
+Type = VelAdd
+Trigger1 = 1
+Y = .4
+
+[State 5101, 6] ;Hit Ground
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 0
+Type = ChangeState
+Value = 5110
+
+;---------------------------------------------------------------------------
+; 横に倒れる
+[Statedef 5110]
+Type    = L
+MoveType= H
+Physics = N
+
+[State 5110, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5110, EnvShake]
+Type = FallEnvShake
+Trigger1 = Time = 0
+
+[State 5110, 1] ;For hit up/up-diag Type (from State 5081)
+Type = ChangeAnim
+Persistent = 0
+Trigger1 = SelfAnimExist(5110 + (Anim % 10))
+Trigger1 = Anim = [5081,5089]
+Value = 5110 + (Anim % 10)
+
+[State 5110, 2] ;Hit Ground Anim (normal)
+Type = ChangeAnim
+TriggerAll = Time = 0
+TriggerAll = Anim != [5110,5119] ;Not already changed Anim
+Trigger1 = Anim != [5161,5169]
+Trigger2 = !SelfAnimExist(5170 + (Anim % 10))
+Value = 5170
+
+[State 5110, 3] ;Hit Ground Anim (for hit up)
+Type = ChangeAnim
+TriggerAll = Time = 0
+TriggerAll = Anim != [5110,5119] ;Not already changed Anim
+Trigger1 = Anim = [5161,5169]
+Trigger1 = SelfAnimExist(5170 + (Anim % 10))
+Value = 5170 + (Anim % 10)
+
+[State 5110, 4]
+Type = HitFallDamage
+Trigger1 = Time = 0
+
+[State 5110, 5]
+Type = PosSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 5110, Var] ;Get Fall Velocity
+Type = VarSet
+Trigger1 = Time = 0
+Trigger1 = GetHitVar(Fall.YVel) != 0
+sysvar(1) = Floor(Vel Y)
+
+[State 5110, 6]
+Type = PlaySnd
+Trigger1 = Time = 0
+Trigger1 = !SysVar(0)
+Value = F7, (SysVar(1) > 5) + (SysVar(1) > 14)
+
+[State 5110, 7]
+Type = GameMakeAnim
+Trigger1 = Time = 0
+Trigger1 = !SysVar(0)
+Value = 60 + (SysVar(1) > 5) + (SysVar(1) > 14)
+Pos = 0, 0
+Under = SysVar(1) <= 14
+
+[State 5110, 8]
+Type = VelSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 5110, 9] ;For hit up Type
+Type = ChangeAnim
+Persistent = 0
+TriggerAll = Anim = [5171,5179]
+TriggerAll = SelfAnimExist(5110 + (Anim % 10))
+Trigger1 = AnimTime = 0
+Trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit Ground Anim
+Value = 5110 + (Anim % 10)
+
+[State 5110, 10] ;For normal
+Type = ChangeAnim
+Persistent = 0
+TriggerAll = Anim != [5111,5119]
+Trigger1 = AnimTime = 0
+Trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit Ground frame
+Value = 5110
+
+[State 5110, 11] ;If just died
+Type = ChangeState
+TriggerAll = !Alive
+Trigger1 = AnimTime = 0
+Trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit Ground frame
+Trigger3 = Anim = [5110,5119]
+Value = 5150
+
+[State 5110, 12]
+Type = VarSet
+Trigger1 = SysVar(0)
+Trigger1 = Time = 0
+sysvar(0) = 0
+
+[State 5110, 13] ;Friction
+Type = VelMul
+Trigger1 = 1
+X = 0.85
+
+[State 5110, 14]
+Type = ForceFeedBack
+Trigger1 = Alive
+Trigger1 = Time = 0
+Time = 8
+Ampl = 240
+WaveForm = Sine
+
+[State 5110, 15]
+Type = ForceFeedBack
+Trigger1 = !Alive
+Trigger1 = Time = 0
+Ampl = 200, 7, -.467
+Time = 30
+WaveForm = Sine
+
+;---------------------------------------------------------------------------
+; 起き上がる
+[Statedef 5120]
+Type    = L
+MoveType= I
+Physics = N
+
+[State 5120, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5120, 1a] ;Get up Anim (normal)
+Type = ChangeAnim
+TriggerAll = Time = 0
+Trigger1 = Anim != [5111,5119]
+Trigger2 = !SelfAnimExist(5120 + (Anim % 10))
+Value = 5120
+
+[State 5120, 1b] ;Get up Anim (for hit up/diag-up)
+Type = ChangeAnim
+TriggerAll = Time = 0
+Trigger1 = Anim = [5111,5119]
+Trigger1 = SelfAnimExist(5120 + (Anim % 10))
+Value = 5120 + (Anim % 10)
+
+[State 5120, 2]
+Type = VelSet
+Trigger1 = Time = 0
+X = 0
+
+[State 5120, 3]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+[State 5120, 4]
+Type = HitFallSet
+Trigger1 = AnimTime = 0
+Value = 1
+
+[State 5120, 5] ;Can't be thrown right after getting up
+Type = NotHitBy
+Trigger1 = AnimTime = 0
+Value = , NT,ST,HT
+Time = 4
+
+[State 5120, 6] ;Can't be hit right after getting up (short Time)
+Type = NotHitBy
+Trigger1 = AnimTime = 0
+Value2 = SCA,AA,AP,AT
+Time = 1
+
+[State 5120, 7]
+Type = ChangeState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 横に倒れる（敗北時）
+[Statedef 5150]
+Type    = L
+MoveType= H
+Physics = N
+SprPriority = -3
+
+[State 5150, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5150, 1] ;Normal Anim
+Type = ChangeAnim
+TriggerAll = Time = 0
+TriggerAll = SelfAnimExist(5140)
+Trigger1 = (Anim != [5111,5119]) && (Anim != [5171,5179])
+Trigger2 = !SelfAnimExist(5140 + (Anim % 10))
+Value = 5140
+
+[State 5150, 3] ;Hit up Type Anim
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = (Anim = [5111,5119]) || (Anim = [5171,5179])
+Trigger1 = SelfAnimExist(5140 + (Anim % 10))
+Value = 5140 + (Anim % 10)
+
+[State 5150, 4] ;Match Over Anim
+Type = ChangeAnim
+Persistent = 0
+;Trigger1 = Time = 0
+Trigger1 = MatchOver = 1
+Trigger1 = Anim = [5140,5149]
+Trigger1 = SelfAnimExist(Anim + 10)
+Value = Anim + 10
+
+[State 5150, 5] ;Switch to 5110 if liedead Anim does not exist
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = Anim != [5140,5159]
+Trigger1 = Anim != [5110,5119]
+Value = 5110
+
+[State 5150, 6] ;Friction
+Type = VelMul
+Trigger1 = 1
+X = 0.85
+
+[State 5150, 7] ;Friction
+Type = VelSet
+Trigger1 = Vel X < .05
+Persistent = 0
+X = 0
+
+[State 5150, 8]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+;---------------------------------------------------------------------------
+; 地上に近い時の受身準備
+[Statedef 5200]
+Type    = A
+MoveType= H
+Physics = N
+
+[State 5200, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5200, 1] ;Change Anim if done with transition
+Type = ChangeAnim
+Trigger1 = Anim = 5035
+Trigger1 = AnimTime = 0
+Value = 5050
+
+[State 5200, 2]
+Type = VelAdd
+Trigger1 = 1
+Y = GetHitVar(YAccel)
+
+[State 5200, 3]
+Type = SelfState
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 10
+Value = 5201
+
+;---------------------------------------------------------------------------
+; 地上に近い時の受身
+[Statedef 5201]
+Type    = A
+MoveType= H
+Physics = N
+Anim = 5200
+
+[State 5201, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5201, 1] ;Turn if not facing opponent
+Type = Turn
+Trigger1 = Time = 0
+Trigger1 = P2Dist X < 0
+
+[State 5201, 2]
+Type = VelSet
+Trigger1 = Time = 0
+X = -4
+
+[State 5201, 2]
+Type = VelSet
+Trigger1 = AnimElem = 11
+X = 0
+
+[State 5201, 2]
+Type = VelSet
+Trigger1 = Time = 0
+Y = 0
+
+[State 5201, 3]
+Type = PosSet
+Trigger1 = 1;Time = 0
+Y = 0
+
+[State 5201, 4]
+Type = NotHitBy
+Trigger1 = 1
+Value = SCA,AA,AP,AT
+Time = 1
+
+[State 5201, 5] ;Blink white
+Type = PalFX
+Trigger1 = Time = 0
+Time = 3
+Add = 128,128,128 ;256,256,256
+
+[State 700, 点滅]
+Type = PalFX
+Trigger1 = Time % 5 = 0
+Time = 1
+Add = 64,64,64
+Mul = 192,192,192
+
+[State 5201, 6]
+Type = GameMakeAnim
+Trigger1 = Time = 1
+Value = 60
+Pos = 0, 0
+Under = 1
+
+[State 5201, 減速]
+Type = VelMul
+Trigger1 = AnimElem = 3, > 0
+X = 0.92
+
+[State 5201, 残像]
+Type = AfterImage
+Trigger1 = Time = 0
+Time = -AnimTime
+Length = 10
+PalContrast = 64,64,64
+TimeGap = 1
+FrameGap = 4
+Trans = Add1
+
+[State 5201, 着地]
+Type = SelfState
+Trigger1 = AnimTime = 0
+Value = 0
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; 空中受身
+[Statedef 5210]
+Type    = A
+MoveType= I
+Physics = N
+Anim = 5210
+Ctrl = 0
+
+[State 5210, 分裂したヘルパーの救済]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgNoreHitPause = 1
+
+[State 5210, 1] ;Blink white
+Type = PalFX
+Trigger1 = Time = 0
+Time = 3
+Add = 128,128,128 ;256,256,256
+
+[State 5210, 1]
+Type = PosFreeze
+Trigger1 = Time = 0
+Value = 4
+
+[State 5210, 2] ;Turn if not facing opponent
+Type = Turn
+Trigger1 = Time = 0
+Trigger1 = P2Dist X < 0
+
+[State 5210, 1] 
+Type = VelMul
+Trigger1 = Time = 4
+X = .8
+Y = .8
+
+[State 5210, 1]
+Type = VelAdd
+Trigger1 = Time = 4
+Y = -4.5
+
+[State 5210, 1] 
+Type = VelMul
+Trigger1 = Time = 4
+Trigger1 = Vel Y > 0
+Y = .5
+
+[State 5210, 1]
+Type = VelAdd
+Trigger1 = Time = 4
+Trigger1 = Vel Y > -3
+Y = -2
+
+[State 5210, 1]
+Type = VelAdd
+Trigger1 = Time = 4
+Trigger1 = Vel Y > -2
+Y = -1
+
+[State 5210, 2] ;Go up
+Type = VelAdd
+TriggerAll = Var(59) <= 0
+Trigger1 = Time = 4
+Trigger1 = Command = "holdup"
+Y = -2
+
+[State 5210, 2] ;Go down
+Type = VelAdd
+TriggerAll = Var(59) <= 0
+Trigger1 = Time = 4
+Trigger1 = Command = "holddown"
+Y = 1.5
+
+[State 5210, 2] ;Go fwd
+Type = VelMul
+TriggerAll = Var(59) <= 0
+Trigger1 = Time = 4
+Trigger1 = Command = "holdfwd"
+X = 1
+
+[State 5210, 2] ;Go back
+Type = VelAdd
+TriggerAll = Var(59) <= 0
+Trigger1 = Time = 4
+Trigger1 = Command = "holdback"
+X = -1
+
+[State 5210, 3]
+Type = NotHitBy
+Trigger1 = Time = 0
+Value = SCA,AA,AP,AT
+Time = 15
+
+[State 5210, 4]
+Type = CtrlSet
+Trigger1 = Time = 20
+Value = 1
+
+[State 5210, 5]
+Type = VelAdd;Gravity
+Trigger1 = Time >= 4
+Y = Const(Movement.YAccel)
+
+[State 5210, 5] ;Land on Ground
+Type = ChangeState
+Trigger1 = Vel Y > 0
+Trigger1 = Pos Y >= 0
+Value = 52 ;Jump_LAND
+Ctrl = 1
+
+;---------------------------------------------------------------------------
+; コンティニュー画面
+[Statedef 5500]
+Type = S
+Ctrl = 0
+Anim = 5300
+VelSet = 0,0
+
+[State 5500, 1] ;Use continue Animation if available
+Type = ChangeAnim
+Trigger1 = Time = 0
+Trigger1 = SelfAnimExist(5500)
+Value = 5500
+
+;---------------------------------------------------------------------------
+; ラウンド切り替え時の初期化
+[Statedef 5900]
+Type = S
+
+[State 5900, 1] ;Clear all int variables
+Type = VarRangeSet
+Trigger1 = RoundsExisted = 0
+Value = 0
+
+[State 5900, 2] ;Clear all float variables
+Type = VarRangeSet
+Trigger1 = RoundsExisted = 0
+FValue = 0
+
+[State 5900, 3] ;Intro for round 1
+Type = ChangeState
+Trigger1 = RoundsExisted = 0
+Value = 190
+

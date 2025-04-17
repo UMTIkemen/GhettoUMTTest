@@ -1,0 +1,32 @@
+; Definition file for Kung Fu Man
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name ="KyoXIII"
+displayname ="Kyo Kusanagi"
+versiondate =04,14,2002
+mugenversion =04,14,2002
+author ="Ahuron"
+pal.defaults =6,3,4,2
+
+; Files for the player
+[Files]
+cmd     =KyoXIII.cmd
+cns     =KyoXIII.cns
+st      =KyoXIII.cns
+st2     = KyoXIII2.cns   ;States
+stcommon =KyoXIIIcommon1.cns
+sprite  =KyoXIII.sff
+anim    =KyoXIII.air
+sound   =KyoXIII.snd
+pal1=KyoXIII4.act
+pal2=KyoXIII5.act
+pal3=KyoXIII6.act
+pal4=KyoXIII.act
+pal5=KyoXIII2.act
+pal6=KyoXIII3.act
+st1=KyoXIII2.cns
+[Arcade]
+intro.storyboard=
+ending.storyboard=

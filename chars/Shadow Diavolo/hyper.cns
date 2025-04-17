@@ -1,0 +1,1770 @@
+[Statedef 115000 - Tag Hyper]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 1150
+ctrl = 0
+sprpriority = 2
+poweradd = -1000
+  
+[State 1000, 音を鳴らす]
+type = PlaySnd
+trigger1 = animelem = 1
+value = 1100, 0
+channel = 0 
+
+[State 1000, 7]
+type = Helper
+triggerall = var(49) = 0
+triggerall = !time
+trigger1 = !numhelper(1001)
+trigger2 = helper(1001),stateno = 1102
+trigger3 = helper(1001),stateno = 206 || helper(1001),stateno = 216 || helper(1001),stateno = 226
+trigger4 = helper(1001),stateno = 406 || helper(1001),stateno = 416 || helper(1001),stateno = 426
+trigger5 = numhelper(1001) < 2
+trigger5 = helper(1001),stateno = 417 ||helper(1001),stateno = 418
+trigger6 = helper(1001), stateno = 10120
+helpertype = normal
+name = "king crimson"
+stateno = 1151
+id = 1001
+pos = 20, 0
+postype = p1
+ownpal = 1
+facing = 1
+size.xscale = .833
+size.yscale = 1.00
+ 
+[State 1]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 0, 27
+
+[State 1]
+type = Explod
+trigger1 = animelem = 6
+anim = 30200
+ID = 30200
+pos = 66,0
+postype = p1
+facing = 1
+vel = 0, 0
+accel = 0, 0
+;random = 0, 0
+removetime = -2
+bindtime = 1
+supermovetime = 0
+pausemovetime = 0
+scale = 2,3
+sprpriority = -5
+ontop = 0
+shadow = 0, 0, 0
+ownpal = 1
+removeongethit = 0
+persistent = 0
+ignorehitpause = 0
+
+[State 1]
+type = Helper
+trigger1 = animelem = 6
+id = 11501
+name = "effect"
+sprpriority = 1
+pos = 66,0
+postype = p1
+stateno = 11501
+helpertype = normal
+supermovetime = 0
+pausemovetime = 0
+keyctrl = 1 
+ownpal = 1
+persistent = 0
+ignorehitpause = 0
+
+[State -2, FLAG RECOVERY FRAMES]
+type = statetypeset
+trigger1 = animelemtime(7) >= 0
+movetype = I
+persistent = 0
+ignorehitpause = 1
+
+
+[State 1000, ステート変更]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+[Statedef 3000 - Epitaph!]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3000
+ctrl = 0
+sprpriority = 2
+
+[State 3000, ゲージ減少]
+type = PowerAdd
+trigger1 = time = 0
+value = -1000
+
+[state 0, helper]
+type = helper
+;trigger1 = !numhelper(1001) || helper(1001),stateno = 1102
+trigger1 = time = 1
+helpertype = normal
+name = "stand"
+stateno = 3040
+id = 1001
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 50
+supermovetime = 50
+size.xscale = 0.833
+size.yscale = 1
+
+[State 0, ]
+type = PlaySnd
+trigger1 = animelem = 1
+value = 4, 0
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 8
+value = 3000,0
+channel = 0
+
+[State 3000, 残像]
+type = AfterImage
+trigger1 = AnimElem = 2, 1
+time = 8
+length = 5
+FrameGap = 3
+PalBright = 1,1,1
+PalContrast = 128,128,128
+PalAdd = 0,0,0
+PalMul = 1,1,1
+trans = add1
+ 
+[State 30]
+type = HitBy  ;特定の攻撃以外食らわない
+trigger1 = time = 0
+value = SCA,NT,ST,HT
+time = 60
+;立ち、屈み、空中、通常なげ、必殺なげ、超必殺なげ
+
+[State 4200,01]
+type = Pause
+trigger1 = Time = 0
+moveTime = 50
+Time = 50
+ctrl = 0
+anim = -1
+;darken = 0
+
+[State 4200,02]
+type = BGPalfx
+trigger1 = Time = 0
+mul= 66,66,66
+time = 50
+ignorehitpause = 1
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "cutin"
+;stateno = ifelse(facing = 1,23101,23102)
+stateno = 23101
+id = 3101
+pos = -20,-40
+postype = back
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = .65
+size.yscale = .65
+facing = 1
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "line"
+;stateno = ifelse(facing = 1,23101,23102)
+stateno = 23105
+id = 3105
+pos = 350,-190;15
+postype = right;left
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = 0.5
+size.yscale = 0.5
+facing = 1
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "lineB"
+;stateno = ifelse(facing = 1,23101,23102)
+stateno = 23106
+id = 3106
+pos = -350,15;-190
+postype = left;right
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = 0.5
+size.yscale = 0.5
+facing = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 1
+helpertype = normal
+name = "count"
+stateno = 3080
+id = 3080
+pos = 0,-999
+postype = p1
+pausemovetime = 50
+supermovetime = 50
+ownpal = 1
+facing = 1
+size.xscale = 1
+size.yscale = 1
+
+[State 3000, ステート変更]
+type = Ctrlset
+trigger1 = time = 50
+value = 1
+
+[State 230, 2]
+type = changestate
+trigger1 = roundstate = 3
+value = 0
+ctrl = 1
+
+[Statedef 3090 - End]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3090
+ctrl = 0
+sprpriority = 2
+
+[State 181, 無敵]
+type = NotHitBy
+trigger1 = time = [0,120]
+value = SCA
+ignorhitpause = 1
+
+[state 0, helper]
+type = helper
+;trigger1 = !numhelper(1001) || helper(1001),stateno = 1102
+trigger1 = time = 1
+helpertype = normal
+name = "stand"
+stateno = 3095
+id = 1001
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 120
+supermovetime = 120
+size.xscale = 0.833
+size.yscale = 1
+
+[State 0, ]
+type = PlaySnd
+trigger1 = animelem = 1
+value = 1, 30
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 0
+value = 3090,0
+channel = 0
+
+[State 4200,01]
+type = Pause
+trigger1 = Time = 0
+moveTime = 120
+Time = 120
+ctrl = 0
+anim = -1
+;darken = 0
+
+[State 4200,02]
+type = BGPalfx
+trigger1 = Time = 0
+mul= 99,99,99
+time = 120
+ignorehitpause = 1
+
+[State 0, var]
+type = varset
+trigger1 = 1
+var(26) = 0
+
+[State 230, 2]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+[Statedef 3300 - Pinnacle of Eternity]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3300
+ctrl = 0
+sprpriority = 2
+
+[State 901, Throw]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 3000, ゲージ減少]
+type = PowerAdd
+trigger1 = time = 1
+value = -1500
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 1
+value = 3300,0
+channel = 0
+
+[State 1000, ステート変更]
+type = Changeanim
+trigger1 = anim = 3300
+trigger1 = !animtime
+value = 3301
+
+[State 1000, ステート変更]
+type = Changeanim
+trigger1 = anim = 3301
+trigger1 = time = 200
+value = 3302
+
+[state 0, helper]
+type = helper
+;trigger1 = !numhelper(1001) || helper(1001),stateno = 1102
+trigger1 = time = 6
+helpertype = normal
+name = "stand"
+stateno = 3340
+id = 1001
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 50
+supermovetime = 50
+size.xscale = 0.833
+size.yscale = 1
+
+[State 4200,02]
+type = BGPalfx
+trigger1 = Time = 0
+add= 66,66,66
+time = 50
+ignorehitpause = 1
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "cutin"
+;stateno = ifelse(facing = 1,23101,23102)
+stateno = 23103
+id = 3101
+pos = 80,-60
+postype = back
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = .65
+size.yscale = .65
+facing = 1
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "line"
+;stateno = ifelse(facing = 1,23101,23102)
+stateno = 23105
+id = 3105
+pos = 350,-190;15
+postype = right;left
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = 0.5
+size.yscale = 0.5
+facing = 1
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "lineB"
+;stateno = ifelse(facing = 1,23101,23102)
+stateno = 23106
+id = 3106
+pos = -350,15;-190
+postype = left;right
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = 0.5
+size.yscale = 0.5
+facing = 1
+
+[State 4200,02]
+type = null;BGPalfx
+trigger1 = Time = 0
+mul = 64,64,64
+time = 80
+ignorehitpause = 1
+
+[State 30]
+type = Null;NotHitBy  ;特定の攻撃以外食らわない
+trigger1 = time = [0,50]
+value = SCA,NT,ST,HT
+time = 60
+;立ち、屈み、空中、通常なげ、必殺なげ、超必殺なげ
+
+[State 30]
+type = Null;HitBy  ;特定の攻撃以外食らわない
+trigger1 = time = 50
+value = SCA,NT,ST,HT
+time = 60
+;立ち、屈み、空中、通常なげ、必殺なげ、超必殺なげ
+
+[State 4200,01]
+type = Pause
+trigger1 = Time = 0
+moveTime = 50
+Time = 50
+ctrl = 0
+anim = -1
+;darken = 0
+
+[State 0, ]
+type = PlaySnd
+trigger1 = !time
+value = 4, 5
+
+[State 1035, 2]
+type = ReversalDef
+trigger1 = time > 50
+attr = S, HA
+reversal.attr = SCA, NA, SA, HA
+pausetime = 1,1
+sparkno = -1
+sparkxy = 0,0
+id = 3300
+numhits = 0
+;hitsound = S1,1
+
+[State 220, 3]
+type = TargetState
+triggerall = numtarget(3300)
+triggerall = !target,Ishelper
+trigger1 = movehit
+value = 3350
+ignorehitpause = 1
+
+[State 220, 3]
+type = ChangeState
+triggerall = numtarget(3300)
+triggerall = !target,Ishelper
+trigger1 = movehit
+value = 3305
+ignorehitpause = 1
+
+[State 1000, ステート変更]
+type = ChangeState
+trigger1 = anim = 3302
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+[Statedef 3305]
+type    = S
+movetype= A
+physics = N
+velset = 0,0
+anim = 3305
+ctrl = 0
+sprpriority = 2
+ 
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = 1
+flag = nomusic
+ignorehitpause = 1
+
+[State 3000, Super Pause FX]
+type = helper
+trigger1 = time = 0
+helpertype = normal
+stateno = 8520
+ID = 8520
+name = "Zoom"
+postype = p1
+pos = 35, -65
+ownpal = 1
+persistent = 0
+supermovetime = 9999
+pausemovetime = 9999
+
+[state 0]
+type = poweradd
+trigger1 = time = 0
+value = -1500
+
+[State 901,1]
+type = targetBind
+trigger1 = time = 0
+pos = 120,0
+postype = p1
+time = 1
+
+[State 0,aa ]
+type = PlaySnd
+trigger1 = !time
+value = 1, 21
+
+[State -2]
+type = PalFX
+trigger1 = !time
+time = 30
+add = 255,255,255
+sinadd = 80,80,80,35
+ignorehitpause = 1
+persistent = 0
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "stand"
+stateno = 3341
+id = 1001
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = 0.833
+size.yscale = 1
+
+[State 5210, 2] ;Turn if not facing opponent
+type = Turn
+trigger1= !time
+trigger1 = p2dist X < 0
+
+[State 1000, ステート変更]
+type = pause
+trigger1 = !time
+time = 80
+movetime = 80
+
+[State 5210, 2] ;Turn if not facing opponent
+type = velset
+trigger1= time = [0,4]
+x = -2
+
+[State 5210, 2] ;Turn if not facing opponent
+type = velset
+trigger1= time = 4
+x = -.5
+
+[State 5210, 2] ;Turn if not facing opponent
+type = veladd
+trigger1= time = [5,20]
+x = .01
+
+[State 3002,1]
+type = BGPalfx
+trigger1 = time = [50,80]
+add = (time-50)*-8,(time-50)*-8,(time-50)*-8
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 3002,1]
+type = Palfx
+trigger1 = time = [50,80]
+add = (time-50)*-8,(time-50)*-8,(time-50)*-8
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 1000, ステート変更]
+type = ChangeState
+trigger1 = time = 80
+value = 3306
+
+[Statedef 3306]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3305
+ctrl = 0
+sprpriority = 3
+
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = 1
+flag = nomusic
+ignorehitpause = 1
+
+[State 7740, loclcamera]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,floor(pos y)
+
+[State 220, 3]
+type = TargetState
+trigger1 = !time
+value = 3351
+ignorehitpause = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 5
+helpertype = normal
+name = "do"
+stateno = 3360
+id = 3360
+pos = 30,-50
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 10
+helpertype = normal
+name = "do"
+stateno = 3360
+id = 3360
+pos = 80,-120
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 15
+helpertype = normal
+name = "do"
+stateno = 3360
+id = 3360
+pos = 130,-90
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 20
+helpertype = normal
+name = "do"
+stateno = 3360
+id = 3360
+pos = 180,-50
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 25
+helpertype = normal
+name = "do"
+stateno = 3360
+id = 3360
+pos = 230,-140
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 30
+helpertype = normal
+name = "do"
+stateno = 3360
+id = 3360
+pos = 290,-80
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[State 903, EnvShake]
+type = EnvShake
+trigger1 = time = 40
+time = 40
+ampl = -5
+freq = 20
+
+[State 903, EnvShake]
+type = EnvShake
+trigger1 = time = 80
+time = 150
+ampl = -5
+freq = 30
+
+[State 903, EnvShake]
+type = EnvShake
+trigger1 = time = 230
+time = 20
+ampl = -5
+freq = 10
+
+[State 0, ]
+type = PlaySnd
+trigger1 = !time
+value = 1, 22
+
+[State 0, ]
+type = PlaySnd
+trigger1 = !time
+value = 3300, 1
+channel = 0
+
+[State 0, ]
+type = PlaySnd
+trigger1 = !time
+value = 1, 28
+
+[State 191, 2] 
+type = AssertSpecial
+trigger1 = 1
+flag = invisible
+
+[State 3002,1]
+type = BGPalfx
+trigger1 = 1
+add = -255,-255,-255
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 220, 3]
+type = TargetState
+trigger1 = time = 235
+value = 3353
+ignorehitpause = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 60
+helpertype = normal
+name = "cliff"
+stateno = 3355
+id = 3355
+pos = 0,0
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 60
+helpertype = normal
+name = "place"
+stateno = 3356
+id = 3356
+pos = 0,0
+postype = p2
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 60
+helpertype = normal
+name = "placeB"
+stateno = 3385
+id = 3356
+pos = -40,0
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+bindtime = 1
+size.xscale = .8
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 60
+helpertype = normal
+name = "placeC"
+stateno = 3386
+id = 3356
+pos = 200,0
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+bindtime = 1
+size.xscale = .6
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 60
+helpertype = normal
+name = "placeD"
+stateno = 3387
+id = 3356
+pos = 40,0
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+bindtime = 1
+size.xscale = .6
+size.yscale = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 60
+helpertype = normal
+name = "placeE"
+stateno = 3388
+id = 3356
+pos = 100,0
+postype = left
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+bindtime = 1
+size.xscale = .6
+size.yscale = 1
+
+[State 0, explod];足場B
+type = null;explod
+trigger1 = time = 200
+anim = 3356
+id = 3356
+pos = -112,0
+postype = p2
+scale = 1,1
+sprpriority = 3
+pausemovetime = 0
+supermovetime = 0
+bindtime = -1
+removetime = 320
+ownpal = 1
+
+[state 0, helper]
+type = helper
+trigger1 = time = 0
+helpertype = normal
+name = "back"
+stateno = 3358
+id = 3358
+pos = 0,0
+postype = back
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+;バー非表示
+[State 9000, Assert]
+type = null;AssertSpecial
+trigger1 = 1
+flag = NoBarDisplay
+ignorehitpause = 1
+
+[State 1000, ステート変更]
+type = ChangeState
+trigger1 = time = 320
+value = 3307
+
+[Statedef 3307]
+type    = S
+movetype= A
+physics = S
+velset = 0,0
+anim = 3307
+ctrl = 0
+sprpriority = 3
+
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = 1
+flag = nomusic
+ignorehitpause = 1
+
+[State 3000, Super Pause FX]
+type = helper
+trigger1 = time = 0
+helpertype = normal
+stateno = 8521
+ID = 8521
+name = "Zoom"
+postype = p1
+pos = 35, -65
+ownpal = 1
+persistent = 0
+supermovetime = 9999
+pausemovetime = 9999
+
+[State 52, 3 s]
+type = PlaySnd
+trigger1 = Time = 0
+value = 1, 6
+
+[State 52, 3 s]
+type = PlaySnd
+trigger1 = Time = 30
+value = 1, 29
+
+[State 0, explod]
+type = explod
+trigger1 = time = 0
+anim = 110
+id = 110
+pos = 20,-70
+postype = p1
+scale = .5,.5
+sprpriority = 3
+pausemovetime = 999999
+supermovetime = 999999
+bindtime = -1
+
+[State 7740, loclcamera]
+type = ScreenBound
+trigger1 = 1
+value = 0
+movecamera = 0,floor(pos y)
+
+[State 200, 7]
+type = screenbound
+trigger1 = 1
+value = 0
+
+[State 3002,1]
+type = Palfx
+trigger1 = time = [0,10]
+add = -160+(time*16),-160+(time*16),-160+(time*16)
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 0, ]
+type = velset
+trigger1 = time = [0,10]
+x = 6
+
+[State 0, ]
+type = velset
+trigger1 = time > 10
+x = 0
+
+[State 0, ]
+type = PlaySnd
+trigger1 = time = 28
+value = 3300, 2
+channel = 0
+
+[State 4100, Pos]
+type=posadd
+trigger1= !time
+x=p2dist x-140
+
+[State 901,1]
+type = null;targetBind
+trigger1 = time = 1
+pos = 140, 0
+postype = P1
+time = 1
+
+[State 5210, 2] ;Turn if not facing opponent
+type = Turn
+trigger1= !time
+trigger1 = p2dist X < 0
+ 
+
+[State 220, 3]
+type = Targetlifeadd 
+trigger1 = time = 105
+value = ifelse(life < 301,-500*1.1,-500)
+
+[state 0, helper]
+type = helper
+trigger1 = !time
+helpertype = normal
+name = "stand"
+stateno = 3342
+id = 1001
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+pausemovetime = 999999
+supermovetime = 999999
+size.xscale = 0.833
+size.yscale = 1
+
+[State 0, 血]
+type = explod
+trigger1 = time = 105
+anim = 921
+id = 921
+pos = -5,-70
+postype = p2
+sprpriority = 6
+ownpal = 1
+shadow = 0,0,0
+scale = 1.5,2
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 0, 血B]
+type = explod
+trigger1 = time = 110
+anim = 922
+id = 922
+pos = -5,-70
+postype = p2
+sprpriority = 6
+ownpal = 1
+shadow = 0,0,0
+scale = 1.5,1.5
+removetime = 60
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 0, 血C]
+type = explod
+trigger1 = time = 110
+anim = 923
+id = 923
+pos = -5,-70
+postype = p2
+sprpriority = 6
+ownpal = 1
+shadow = 0,0,0
+scale = 1.5,1.5
+removetime = 60
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 903, EnvShake]
+type = EnvShake
+trigger1 = time = 105
+time = 35
+ampl = -24
+freq = 80
+
+[State 0, ]
+type = PlaySnd
+trigger1 = time = 105
+value = 1, 11
+
+[State 240, 音を鳴らす]
+type = PlaySnd
+trigger1 = Time = 105
+value = 1, 35
+
+[State 0, ]
+type = PlaySnd
+trigger1 = time = 110
+value = 1, 23
+
+[State 0, ]
+type = PlaySnd
+trigger1 = time = 190
+value = 3300, 3
+channel = 0
+
+[State 210, 画像表示優先度]
+type = SprPriority
+trigger1 = time = 165
+value = 5
+
+[State 220, 3]
+type = TargetState
+trigger1 = time = 200
+value = 10425
+ignorehitpause = 1
+
+[State 3002,1]
+type = BGPalfx
+trigger1 = time = [0,200]
+add = -255,-255,-255
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 9000, Assert]
+type = null;AssertSpecial
+trigger1 = 1
+flag = NoBarDisplay
+ignorehitpause = 1
+
+[State 3002,1]
+type = AllPalfx
+trigger1 = time = [130,200]
+add = (time-130)*8,(time-130)*8,(time-130)*8
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 1000, ステート変更]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+[Statedef 3200 - Kidnapping]
+type = S
+ctrl = 0
+anim = 3200
+velset = 0,0
+poweradd = -1000
+
+[state 0]
+type = varset
+trigger1 = 1
+var(26) = 0
+
+[State 3000, 4]
+type = Pause
+trigger1 = !time
+time = 50
+movetime = 50
+ignorehitpause = 1
+
+[State 1000, 7]
+type = Helper
+triggerall = numhelper(3580) = 0
+trigger1 = !time
+helpertype = normal
+name = "anten"
+stateno = 3580
+id = 3580
+pos = 0, 0
+postype = p1
+ownpal = 1
+facing = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 1000, 音を鳴らす]
+type = PlaySnd
+trigger1 = time = 0
+value = 3200, 0
+channel = 0
+persistent = 0
+
+[State 181, EnvColor]
+type = Bgpalfx
+trigger1 = time = [22,32]
+time = 1
+invertall = 1
+add = 128,0,0
+;color = 0
+ignorehitpause = 1
+
+[State 1000, 音を鳴らす]
+type = PlaySnd
+trigger1 = time = 22
+value = 1, 16
+
+[State 1000, 速度]
+type = velset
+trigger1 = time = [0,34]
+x = 1
+
+[State 1000, 速度]
+type = velset
+trigger1 = time > 34
+x = 0
+
+
+[State 191, 特殊効果];試合が開始するまではこのコントローラを使おう（※２）
+type = null;AssertSpecial
+trigger1 = numhelper(192)
+trigger1 = time <= 114
+trigger2 = time < 50
+flag = invisible
+
+[State 191, ステート変更];アニメーションが終われば「通常立ち」のステートに変更する
+type = ChangeState
+triggerall = var(59)<=0
+trigger1 = time > 200
+trigger2 = time > 95
+trigger2 = command != "hold_x"
+trigger2 = command != "hold_y"
+trigger2 = command != "hold_z" 
+value = 3201
+
+[State 191, ステート変更];AI用⑨
+type = ChangeState
+triggerall = var(59)>0 && roundstate = 2
+triggerall = enemynear,stateType != A
+triggerall = enemynear,stateType != L
+triggerall = enemynear,stateType = S
+trigger1 = time > 200
+trigger2 = time > 95
+trigger2 = p2stateno = 52
+trigger3 = time > 95
+trigger3 = var(57) = 0 
+trigger3 = enemynear,ctrl = 0
+trigger4 = time > 95
+trigger4 = enemynear,moveType = A
+trigger4 = enemynear,facing = -1
+value = 3201
+ 
+[Statedef 3201]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+velset = 0,0
+ctrl = 0
+anim = 3201
+sprpriority = 2
+
+[State 810, HitBy]
+type = NotHitBy
+trigger1 = var(31)
+value = SCA
+
+[State 4100, Pos]
+type=posadd
+trigger1= time = 0
+x=p2dist x+20
+
+[State 5210, 2]
+type = Turn
+trigger1 = Time = 0
+;trigger1 = p2dist X < -20
+
+[State 181, EnvColor]
+type = Bgpalfx
+trigger1 = time = [0,10]
+time = 1
+invertall = 1
+add = 128,0,0
+;color = 0
+ignorehitpause = 1
+ 
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 3
+value = 0,5
+
+[State 900, 1]
+type = HitDef
+;triggerall = P2movetype != H 
+trigger1 = AnimElem = 3
+attr = S, HA
+hitflag = M
+priority = 3, hit   
+sparkno = -1
+p1facing = 1
+p1stateno = 3210
+p2facing = 1
+p2stateno = 3230
+guard.dist = 0
+getpower = 0
+givepower = 0
+air.fall = 1
+fall = 1
+fall.recover = 0
+hitonce = 1
+numhits = 0
+envshake.time = 10
+envshake.freq = 40
+envshake.ampl = -4
+id = 3200
+
+[state 0, helper]
+type = helper
+trigger1 = time = 3
+helpertype = normal
+name = "stand"
+stateno = 3205
+id = 1001
+pos = 0,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+size.xscale = 0.833
+size.yscale = 1
+
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = numtarget(3200)
+flag = nomusic
+ignorehitpause = 1
+
+[State 800, ステート変更]
+type = ChangeState
+Trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+[Statedef 3210]
+type    = S
+movetype= A
+physics = N
+anim = 3210
+velset = 0,0
+sprpriority = 2
+
+[State 3000, Super Pause FX]
+type = helper
+trigger1 = time = 0
+helpertype = normal
+stateno = 8520
+ID = 8520
+name = "Zoom"
+postype = p1
+pos = 35, -65
+ownpal = 1
+persistent = 0
+supermovetime = 9999
+pausemovetime = 9999
+
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = 1
+flag = nomusic
+ignorehitpause = 1
+
+[State 901,1]
+type = targetBind
+trigger1 = time = [0,20]
+pos = 75, 0
+postype = P1
+time = 1
+
+[State 901,1]
+type = targetBind
+trigger1 = time = [20,110]
+pos = 20, 0
+postype = P1
+time = 1
+
+[State 901,1]
+type = targetBind
+trigger1 = time = [110,180]
+pos = 100, -140
+postype = P1
+time = 1
+ 
+
+[state 3000]
+type = pause
+trigger1 = time = 0
+time = 15
+movetime = 0
+
+[State 20, 1]
+type = VelSet
+trigger1 = time = [20,24]
+x = -8
+
+[State 20, 1]
+type = VelSet
+trigger1 = time = 24
+x = -4
+
+[State 20, 1]
+type = Veladd
+trigger1 = time = [24,40]
+x = .2
+
+[State 20, 1]
+type = VelSet
+trigger1 = time >= 40
+x = 0
+ 
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 0
+value = 1,9
+;channel = 0
+
+[State 230, 2]
+type = playerpush
+trigger1 = 1
+value = 0
+
+[State 181, 無敵]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 3002,1]
+type = AllPalfx
+trigger1 = time = [18,200]
+add = time*-4,time*-4,time*-4
+;sinadd = 10, 10, 10
+time = 1
+supermove = 1
+ignorehitpause = 1
+ 
+[State 230, 2]
+type = assertspecial
+trigger1 = time >= 40
+flag = invisible
+
+[State 20, 1]
+type = VarSet
+trigger1= power >= 3000
+trigger1= time = [18,100] 
+var(24) = 1
+
+[State 810, ステート変更]
+type = ChangeState
+trigger1= var(24) = 1
+trigger1= power >= 1000
+trigger1= time = 100
+value = 3400
+ 
+[state 0, helper]
+type = helper
+trigger1= var(24) = 0
+trigger1 = time = [60,200]
+trigger1 = !numhelper(3290)
+helpertype = normal
+name = "blood"
+stateno = 3290
+id = 3290
+pos = 0,-40
+postype = p2
+ownpal = 1
+keyctrl = 0
+pausemovetime = 0
+supermovetime = 0
+size.xscale = 1
+size.yscale = 1
+
+[State 810, ステート変更]
+type = ChangeState
+trigger1 = time > 200
+value = 3220
+
+[Statedef 3220]
+type    = S
+movetype= A
+physics = N
+anim = 3220
+velset = 0,0
+sprpriority = 2
+
+[State 181, EnvColor]
+type = bgpalfx
+trigger1 = time = [0,20]
+time = 1
+invertall = 1
+add = 128,0,0
+;color = 0
+ignorehitpause = 1
+
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = time = [0,20]
+flag = nomusic
+ignorehitpause = 1
+
+[State 10000, Assert]
+type = pause
+trigger1 = time = [0,20]
+ignorehitpause = 1
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 0
+value = 3,6
+
+[State 1027, Sound]
+type = null;PlaySnd
+trigger1 = time = 20
+value = 3200,0
+channel = 0
+
+[State 901, Hurt]
+type = TargetLifeAdd 
+trigger1 = time = 0
+value = ifelse(life < 301,-320*1.1,-320) 
+
+[State 901,1]
+type = targetBind
+trigger1 = time < 100
+pos = 100, -140
+postype = P1
+time = 1
+
+[State 181, 無敵]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[state 0, helper]
+type = helper
+trigger1 = time = 0
+helpertype = normal
+name = "gate"
+stateno = 3250
+id = 3250
+pos = 100,0
+postype = p1
+ownpal = 1
+keyctrl = 0
+size.xscale = .9
+size.yscale = .9
+
+[State 810, ステート変更]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+[Statedef 3400 - Kill]
+type    = S
+movetype= A
+physics = N
+anim = 3400
+velset = 0,0
+sprpriority = 2
+poweradd = -3000
+
+[State 0, state]
+type = posset
+trigger1 = time = 0
+x = 0
+
+[State 220, 3]
+type = TargetState
+triggerall = !time
+trigger1 = numtarget
+value = 3430
+ignorehitpause = 1
+
+[State 0, 調理台]
+type = explod
+trigger1 = time = 0
+anim = 3431
+id = 3431
+pos = 0,0
+postype = p1
+sprpriority = 0
+removetime = 300
+ownpal = 1
+shadow = 0,0,0
+scale = 1.0,1.0
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 2000, Spellcard Effect]
+type = helper
+trigger1 = time = 0
+helpertype = normal
+name = "Meat Box"
+id = 24300
+stateno = 24300
+pos = 0,0
+postype = p1
+ownpal = 1
+facing = 1
+persistent = 0
+pausemovetime=9999999999999
+supermovetime=9999999999999
+
+[State 10000, Assert]
+type = AssertSpecial
+trigger1 = time = [0,320]
+flag = nomusic
+ignorehitpause = 1
+
+[State 10000, Assert]
+type = pause
+trigger1 = time = [300,320]
+ignorehitpause = 1
+
+[State 1027, Sound]
+type = null;PlaySnd
+trigger1 = time = 300
+value = 3,6
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 10
+value = 3400,0
+channel = 0
+
+[State 901,1]
+type = targetBind
+trigger1 = time = [0,300]
+pos = 0, -60
+postype = P1
+time = 1
+
+[State 181, 無敵]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 3002,1]
+type = AllPalfx
+trigger1 = time = [0,40]
+trigger2 = time = [46,60]
+trigger3 = time = [66,80]
+trigger4 = time = [86,300]
+add = -255,-255,-255
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 3002,1]
+type = AllPalfx
+trigger1 = time = [41,45]
+trigger2 = time = [61,65]
+trigger3 = time = [81,85]
+add = 0,0,0
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 3002,1]
+type = AllPalfx
+trigger1 = time > 300
+add = 0,0,0
+time = 1
+supermove = 1
+ignorehitpause = 1
+
+[State 181, EnvColor]
+type = bgpalfx
+trigger1 = time = [300,320]
+time = 1
+invertall = 1
+add = 128,0,0
+;color = 0
+ignorehitpause = 1
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 20
+trigger2 = time = 24
+trigger3 = time = 28
+value = 1,24
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 40
+trigger2 = time = 70
+trigger3 = time = 100
+value = 1,25
+
+[State 1027, Sound]
+type = PlaySnd
+trigger1 = time = 150
+trigger2 = time = 200
+value = 1,26
+
+[State 230, 2]
+type = assertspecial
+trigger1 = winko
+trigger1 = time > 200
+flag = invisible
+
+[State 810, ステート変更]
+type = ChangeState
+trigger1 = winko
+trigger1 = !animtime
+value = 3401
+
+[State 810, ステート変更]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+[Statedef 3401 - Win KO]
+type    = S
+movetype= I
+physics = S
+anim = 36400
+velset = 0,0
+
+[State 183, win]
+type=changestate
+trigger1= prevstateno=3400 && time=100
+value=180
+ctrl=1
+
+[State 230, 2]
+type = assertspecial
+trigger1 = 1
+flag = invisible

@@ -1,0 +1,1157 @@
+;============================================================================
+;
+;　　特殊武器をゲット可能な相手リスト
+;
+;■設定可能場所
+;　・「━」で挟まれている場所が設定可能な場所です。
+;　　その他の場所は弄らないでください。
+;
+;■ゲット可能相手リスト
+;　・追加の仕方は追加したいキャラクターのdefファイルを開き、
+;　　「name = "MegaMari"」をゲットしたい武器の場所に
+;　　「Trigger16 = Target,Name = "MegaMari"」のように追加することで、
+;　　そのキャラクターからその武器がゲット可能になります。
+;　・追加要望を受付所にて受け付けています。詳しくは受付所へどうぞ。
+;
+;============================================================================
+[Statedef -3];消さないでね
+
+[State 覇王翔吼拳]
+Type  = VarSet
+V     = 9
+Value = 1
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;覇王翔吼拳をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "Ryo Sakazaki"		;お覇王だった場合
+Trigger2  = Target,Name = "cvsryo"
+Trigger3  = Target,Name = "Ryo"
+Trigger4  = Target,Name = "Robert Garcia"		;ぼちぼちでんなあ
+Trigger5  = Target,Name = "nbcrobert"
+Trigger6  = Target,Name = "Robert NBC"
+Trigger7  = Target,Name = "Yuri Sakazaki"		;よゆうっち
+Trigger8  = Target,Name = "cvsyuri"
+Trigger9  = Target,Name = "Yuri"
+Trigger10 = Target,Name = "Marco Rodriguez"
+Trigger11 = Target,Name = "Khushnood Butt"		;ロドリゲス
+Trigger12 = Target,Name = "Marco"
+Trigger12 = Random < 500
+Trigger13 = Target,Name = "Khushnood"			;メタスラのロッシの人にも反応する
+Trigger14 = Target,Name = "ryo.sakazaki"
+Trigger15 = Target,Name = "ffspRyo"
+Trigger16 = Target,Name = "SVCKARATE"			;by EMU 極限流の創始者にしてリョウの実父。
+Trigger17 = Target,Name = "餓狼SPリョウ"
+Trigger18 = Target,Name = "ryo.sakazaki"
+Trigger19 = Target,Name = "Mr. Karate"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 真・昇竜拳]
+Type  = VarSet
+V     = 9
+Value = 2
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;真・昇竜拳をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Ryu"
+Trigger2 = Target,Name = "Ryu-X"
+Trigger3 = Target,Name = "Luigi"				;まんまみ～や
+Trigger4 = Target,Name = "cvsryu"
+Trigger4 = IfElse((Target,Var(12) = 10), ((Random % 2) = 0), 1)	;殺意判定、別技：瞬獄殺
+Trigger5 = Target,Name = "AIHARA NATSUMI"			;by EMU 「真・昇キュー拳」は「真・昇龍拳」のパロディ。
+Trigger6 = Target,Name = "PLAYER1"				;by 既にその名前は（ｒｙ 初代リュウのnameはPLAYER1
+Trigger7 = Target,Name = "Lyris Aileron"			;by nazo 「雷牙」という「真・昇竜拳」のパロディ技
+Trigger7 = (Random % 2) = 0					;別技：瞬獄殺
+Trigger8 = Target,Name = "lyris"				;by nazo 「雷牙」という「真・昇竜拳」のパロディ技
+Trigger8 = (Random % 2) = 0					;別技：瞬獄殺
+Trigger9  = Target,Name = "Heart_Aino"				;by EMU すっごいはーとふるぱんちがぽくね？
+Trigger10 = Target,Name = "Sanae Kotiya"			;ルイージ
+Trigger11 = Target,Name = "Konata"				;　　愛　　だ　　よ　　！　　！
+Trigger11 = (Random % 2) = 0
+Trigger12 = Target,Name = "SF2'リュウ"
+Trigger13 = Target,Name = "ikemen"
+Trigger14 = Target,Name = "svcryu"
+Trigger15 = Target,Name = "Taiga&Buruma"			;大河姉さんとイリヤ
+Trigger16 = Target,Name = "akashi_kaoru"			;絶チルのあれ。
+Trigger17 = Target,Name = "Lucario"
+Trigger17 = (Random % 3) = 0					;別技：バーストストリーム・瞬獄殺
+Trigger18 = Target,Name = "Ryu_MvC"
+Trigger19 = Target,Name = "Gouken"
+Trigger20 = Target,Name = "Gouken SF4"
+Trigger21 = Target,Name = "Street Fighter Marisa"		;スト4魔理沙
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ヴェノム魔理沙]
+Type  = VarSet
+V     = 9
+Value = 3
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ヴェノム魔理沙をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Venom"
+Trigger1 = (Random % 2) = 0
+Trigger2 = Target,Name = "VenomEX"
+Trigger3 = Target,Name = "Venom+"	;We Are Venom
+Trigger4 = Target,Name = "Spider-man"	;スパイダーマッ！
+Trigger4 = Random < 333
+Trigger5 = Target,Name = "Spiderman"
+Trigger5 = Random < 333
+Trigger6 = Target,Name = "SPY-DAMA"
+Trigger6 = Random < 333
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ダークエンジェル]
+Type  = VarSet
+V     = 9
+Value = 4
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ダークエンジェルをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Venom"
+Trigger2 = Target,Name = "gg_venom"
+Trigger3 = Target,Name = "VENOM"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State スラッシュクロー]
+Type  = VarSet
+V     = 9
+Value = 5
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;スラッシュクローをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Strider Hiryu"
+Trigger2 = Target,Name = "Strider Hien"		;ター
+Trigger3 = Target,Name = "rockman zero"
+Trigger4 = Target,Name = "ROCKMAN ZERO"
+Trigger5 = Target,Name = "Zero"			;伝説の英雄
+Trigger6 = Target,Name = "Omega Zero"		;by ｾｲﾊｯﾄｳ 理由は知らん
+Trigger6 = (Random % 2) = 0			;別技：ロードローラー
+Trigger7 = Target,Name = "Flandre_Scarlet"	;似た技あるっしょ
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State メリークリスマス]
+Type  = VarSet
+V     = 9
+Value = 6;めりーくりすます
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 333;あたりづらくしている
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;メリークリスマスをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "udon"
+Trigger2 = Target,Name = "Reisen_Udongein_Inaba"
+Trigger3 = Target,Name = "Reisen Udongein Inaba"	;by 既に(ry MBうどんげ
+Trigger4 = Target,Name = "Dan Hibiki"			;by 鯉鯉 漢道的な意味で
+Trigger5 = Target,Name = "cvsdan"			;by 鯉鯉 漢道的な意味で
+Trigger6 = Target,Name = "minoru_shiraishi"		;白石自身自爆技持ち
+Trigger7 = Target,Name = "Reisen U Inaba"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State レイジングストーム]
+Type  = VarSet
+V     = 9
+Value = 7
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;レイジングストームをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "cvsgeese"
+Trigger1  = Random < 600			;別技：羅生門
+Trigger2  = Target,Name = "Geese"
+Trigger2  = Random < 600			;別技：羅生門
+Trigger3  = Target,Name = "NIGHTMARE GEESE"
+Trigger3  = Random < 600			;別技：羅生門
+Trigger4  = Target,Name = "Geese Howard"
+Trigger4  = Random < 600			;別技：羅生門
+Trigger5  = Target,Name = "cvsrock"
+Trigger5  = Random < 600			;別技：羅生門
+Trigger6  = Target,Name = "Rock"
+Trigger6  = Random < 600			;別技：羅生門
+Trigger7  = Target,Name = "Robo Rock"
+Trigger7  = Random < 600			;別技：羅生門
+Trigger8  = Target,Name = "Robo Rock Type-2"
+Trigger8  = Random < 600			;別技：羅生門
+Trigger9  = Target,Name = "Zangeese"		;by Masanobu Uchida ザンギエフとギースのフュージョンキャラ
+Trigger9  = Target,Var(30) = 0			;ごんぶとモード
+Trigger9  = Random < 600			;別技：羅生門
+Trigger10 = Target,Name = "Geese Howard "	;by Masanobu Uchida 「霊人虞ストーム」というパロディ技あり
+Trigger11 = Target,Name = "Yami_miko"
+Trigger11 = (Random % 2) = 0
+Trigger12 = Target,Name = "gikoneko"
+Trigger12 = (Random % 2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 羅生門]
+Type  = VarSet
+V     = 9
+Value = 8
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;羅生門をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "cvsgeese"
+Trigger2  = Target,Name = "Geese"
+Trigger3  = Target,Name = "NIGHTMARE GEESE"
+Trigger4  = Target,Name = "Geese Howard"
+Trigger5  = Target,Name = "cvsrock"
+Trigger6  = Target,Name = "Rock"
+Trigger7  = Target,Name = "Robo Rock"
+Trigger7  = (Random % 2) = 0			;別技：タンクローリー
+Trigger8  = Target,Name = "Robo Rock Type-2"
+Trigger9  = Target,Name = "Ju Do Man"		;by 既に(ry 羅生門つかえますし
+Trigger9  = (Random % 3) = 0
+Trigger10 = Target,Name = "Zangeese"		;by Masanobu Uchida ザンギエフとギースのフュージョンキャラ
+Trigger10 = Random < 500			;ごんぶとモードのみなため
+Trigger11 = Target,Name = "gikoneko"
+Trigger11 = (Random % 2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 滅びのバーストストリーム]
+Type  = VarSet
+V     = 9
+Value = 9;粉砕玉砕大喝采
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 666
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;滅びのバーストストリームをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Seto Kaiba"		;俺のＤＡＡＡＡＡＡＡ
+Trigger2 = Target,Name = "Tamiflu Miko"		;フホハハハハハ
+Trigger2 = (Random % 2) = 0			;別技：北斗飛衛拳EX
+Trigger3 = Target,Name = "dragon"		;とある竜の恋の歌
+Trigger4 = Target,Name = "Fiona"		;by K.S. 契約アルカナであるオレイカルコスのアルカナブレイズがそれっぽかった
+Trigger4 = (Random % 2) = 0			;別技：冥道烈火
+Trigger5 = Target,Name = "Minis Mahn"		;シルヴァーナの竜つながり
+Trigger6 = Target,Name = "nagato"		;海馬召喚可能
+Trigger7 = Target,Name = "Lucario"		;はどうのあらしがドラゴンのブラストスクリームにそっくり。
+Trigger7 = (Random % 3) = 0			;別技：真昇竜・瞬獄殺
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ハイパーボッ（笑）]
+Type  = VarSet
+V     = 9
+Value = 10
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ハイパーボッ（笑）をゲットできる相手リスト
+;候補　ザンギエフ　ザンギュラ　ヒューゴー　ポチョムキン　きら
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "Alex"		;他に投げキャラ多数追加する
+Trigger1  = (Random % 3) = 0			;別技：ハイパーボム（岩男）
+Trigger2  = Target,Name = "kira"		;きら様
+Trigger3  = Target,Name = "cvszangief"
+Trigger4  = Target,Name = "Zangief"
+Trigger5  = Target,Name = "Zangyura"		;ハラショー
+Trigger6  = Target,Name = "Suika Ibuki"
+Trigger6  = Random < 750			;別技：ハイパーボム（岩男）
+Trigger6  = (Random % 2) = 0
+Trigger7  = Target,Name = "Ibuki_Suika"
+Trigger7  = Random < 750			;別技：ハイパーボム（岩男）
+Trigger7  = (Random % 2) = 0
+Trigger8  = Target,Name = "Suika_Ibuki"
+Trigger8  = Random < 750			;別技：ハイパーボム（岩男）
+Trigger8  = (Random % 2) = 0
+Trigger9  = Target,Name = "siteittene"		;まんじゅう
+Trigger9  = Random < 150
+Trigger9  = (Random % 3) = 0
+Trigger10 = Target,Name = "Mandoraf"		;by 既にその名前は使われ ザンギの画像変えた投げキャラ、マンドラフ
+Trigger11 = Target,Name = "Fullmoon_Suika"	;by sakyou 萃香だし
+Trigger11 = Random < 750
+Trigger11 = (Random % 2) = 0
+Trigger12 = Target,Name = "Youki-so-Suika"
+Trigger12 = Random < 750
+Trigger12 = (Random % 2) = 0
+Trigger13 = Target,Name = "ore_no_yome"
+Trigger13 = Random < 750
+Trigger13 = (Random % 2) = 0
+Trigger14 = Target,Name = "Chibi Suika"
+Trigger14 = Random < 750
+Trigger14 = (Random % 2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ハイパーボム（岩男）]
+Type  = VarSet
+V     = 9
+Value = 11
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ハイパーボム（岩男）をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Alex"			;他に投げキャラ多数追加する？
+Trigger2 = Target,Name = "Bomber Man"		;by nazo ボンバーマンだから
+Trigger3 = Target,Name = "Suika Ibuki"		;by 不明 萃香の通常強射撃は花火≒爆弾と見なせる
+Trigger3  = Random < 750
+Trigger3  = (Random % 2) = 0
+Trigger4 = Target,Name = "Ibuki_Suika"
+Trigger4  = Random < 750
+Trigger4  = (Random % 2) = 0
+Trigger5 = Target,Name = "Suika_Ibuki"
+Trigger5  = Random < 750
+Trigger5  = (Random % 2) = 0
+Trigger6 = Target,Name = "Fullmoon_Suika"
+Trigger6  = Random < 750
+Trigger6  = (Random % 2) = 0
+Trigger7 = Target,Name = "Youki-so-Suika"
+Trigger7 = Random < 750
+Trigger7 = (Random % 2) = 0
+Trigger8 = Target,Name = "ore_no_yome"
+Trigger8 = Random < 750
+Trigger8 = (Random % 2) = 0
+Trigger9 = Target,Name = "Chibi Suika"
+Trigger9 = Random < 750
+Trigger9 = (Random % 2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State Rocks]
+Type = VarSet
+V = 9
+Value = 12;歌エネルギー
+IgnoreHitPause = 1
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;Rocksをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "HATSUNE MIKU"
+Trigger2 = Target,Name = "Meer Campbel"		;by T's 原作にてプラントの歌姫(偽)であり、ライブシーンあり。
+Trigger2 = (Random % 2) = 0			;別技：タンクローリー
+Trigger3 = Target,Name = "mystia"		;by sakyou 歌つながり
+Trigger4 = Target,Name = "miku"			;はちゅね
+Trigger5 = Target,Name = "Haruhi Suzumiya"	;God knows...
+Trigger6 = Target,Name = "Konata"		;もってけ＆カラオケ
+Trigger6 = (Random % 2) = 0			;別技：真昇竜
+Trigger7 = Target,Name = "akira_kogami"		;自称アイドル
+Trigger8 = Target,Name = "MN"			;ナコ月　インバードブリッド
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 裏百八式・大蛇薙]
+Type  = VarSet
+V     = 9
+Value = 13
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;裏百八式・大蛇薙をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "Kyo Kusanagi"
+Trigger2 = Target,Name = "cvskyo"
+Trigger3 = Target,Name = "ex-kyo"
+Trigger4 = Target,Name = "KUSANAGI"
+Trigger5 = Target,Name = "CHRIS"
+Trigger6 = Target,Name = "saisyu"
+Trigger7 = Target,Name = "KYOKO"	;by nazo 女版の京で大蛇薙を使える
+Trigger8 = Target,Name = "mokou"	;by sakyou 火繋がり
+Trigger8 = Random < 700			;無理やりらしいので
+Trigger9 = Target,Name = "Kyo"
+Trigger10= Target,Name = "SkyKyo"
+Trigger10= (Random % 2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ЯМИДОКОКУ]
+Type  = VarSet
+V     = 9
+Value = 14;神父
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ЯМИДОКОКУをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "goenitz"
+Trigger2  = Target,Name = "goenitz96"			;by hkwhkw06 記述忘れ
+Trigger3  = Target,Name = "SVC for Goenitz"
+Trigger4  = Target,Name = "wind"
+Trigger5  = Target,Name = "goeniko"
+Trigger6  = Target,Name = "Amanda"
+Trigger7  = Target,Name = "another wind"
+Trigger8  = Target,Name = "Ikumi Amasawa by Toshi"	;by EMU 「やみどうこく」のパロディ技「別離」を所持。
+Trigger9  = Target,Name = "Reas"				;by 鯉鯉 ゲニ子の一種でやみどうこくも持っている。
+Trigger10 = Target,Name = "Patchouli"			;by sakyou 類似技持ち
+Trigger11 = Target,Name = "EFZaya"
+Trigger12 = Target,Name = "Kanako Yasaka2"
+Trigger13 = Target,Name = "wind_FS"			;by sakyou ゲニ子シリーズ
+Trigger14 = Target,Name = "c-wind"
+Trigger15 = Target,Name = "GoenikoD4"
+Trigger16 = Target,Name = "uraler"			;by hkwhkw06 新たなゲニ技キャラ登場
+Trigger17 = Target,Name = "cheapest KFM!!!"
+Trigger17 = (Random % 2) = 0
+Trigger18 = Target,Name = "Ju Do Man"
+Trigger18 = (Random % 3) = 0
+Trigger19 = Target,Name = "Schlussel"			;ゲニ子
+Trigger20 = Target,Name = "Kanako Yasaka2"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ギガンテックプレッシャー]
+Type  = VarSet
+V     = 9
+Value = 15;運送
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ギガンテックプレッシャーをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "Rugal"
+Trigger1  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger2  = Target,Name = "Rugal.B"
+Trigger2  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger3  = Target,Name = "cvsrugal"
+Trigger3  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger4  = Target,Name = "cvsg_rugal"
+Trigger4  = (Random % 4) = 0			;別技：瞬獄殺・ジェノサイドカッター・ダークバリヤー
+Trigger5  = Target,Name = "Omega Rugal"
+Trigger5  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger6  = Target,Name = "Rugal94(BOSS)"
+Trigger6  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger7  = Target,Name = "Rugal94"
+Trigger7  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger8  = Target,Name = "S_Rugal"
+Trigger8  = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger9  = Target,Name = "God Rugal"
+Trigger9  = (Random % 4) = 0			;別技：瞬獄殺・ジェノサイドカッター・ダークバリヤー
+Trigger10 = Target,Name = "G Rugal"
+Trigger10 = (Random % 4) = 0			;別技：瞬獄殺・ジェノサイドカッター・ダークバリヤー
+Trigger11 = Target,Name = "Adel"
+Trigger11 = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger12 = Target,Name = "o-Adel"
+Trigger12 = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger13 = Target,Name = "g-Adel"
+Trigger13 = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger14 = Target,Name = "Mature"
+Trigger15 = Target,Name = "Krizalid"
+Trigger16 = Target,Name = "IGNIZ"
+Trigger17 = Target,Name = "Sayuri Kurata"
+Trigger17 = (Random % 2) = 0			;別技：ジェノサイドカッター
+Trigger18 = Target,Name = "SB"
+Trigger18 = (Random % 3) = 0			;別技：瞬獄殺・ジェノサイドカッター
+Trigger19 = Target,Name = "moraler"		;by 凱 技名もそのまま『ギガンテックプレッシャー』があります
+Trigger19 = (Random % 4) = 0
+Trigger19 = Random < 666			;別技：瞬獄殺
+Trigger20 = Target,Name = "siteittene"		;by 通りすがりのニｋ(ry ゆっくり霊夢が運送を使えるから。それだけ。
+Trigger20 = Random < 500
+Trigger20 = (Random % 3) = 0
+Trigger21 = Target,Name = "eiki"		;運送持ってた。縦もあるけど
+Trigger21 = (Random % 2) = 0			;別技：瞬獄殺
+Trigger22 = Target,Name = "Oswald"		;運送と仕分けって一緒の扱いでいいのか？
+Trigger22 = (Random % 2) = 0			;まぁｸﾘ坊も入ってるしいいか
+Trigger23 = Target,Name = "Rugal_TLE"		;ルガールです
+Trigger24 = Target,Name = "Androide GRugal"	;入ってなかったので
+Trigger24 = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger25 = Target,Name = "Rugal B."
+Trigger25 = (Random % 3) = 0			;別技：ジェノサイドカッター・ダークバリヤー
+Trigger26 = Target,Name = "J_marisa"		;ジョブチェン魔理沙。設定より
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 私の名を言ってみろ！]
+Type  = VarSet
+V     = 9
+Value = 16;名前言ってね
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;私の名を言ってみろ！をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "JAGI"
+Trigger1 = (Random % 2) = 0			;別技：北斗飛衛拳EX
+Trigger2 = Target,Name = "Ayu Tukimiya"
+Trigger3 = Target,Name = "Hong Meirin"
+Trigger3 = (Random % 2) = 0			;別技：瞬獄殺
+Trigger4 = Target,Name = "Hong_Meirin"
+Trigger5 = Target,Name = "Chu-goku"
+Trigger6 = Target,Name = "Ayu&Misuzu&Mizuka"	;by EMU 「コールマイネーム」が「俺の名を言ってみろ」のパロディ。
+Trigger7  = Target,Name = "Nayuki Minase"	;by 不明 原作の台詞
+Trigger7  = Random < 300			;技として実装されていない
+Trigger8  = Target,Name = "leona"		;by a-ya-na-mi 勝利セリフより
+Trigger9  = Target,Name = "leona heidern"
+Trigger10 = Target,Name = "youkanman"		;by 不明 4択投げ技「クイズミリオネ餡」持ち
+Trigger11 = Target,Name = "Arima_Meirin"
+Trigger11 = (Random % 3) = 0
+Trigger12 = Target,Name = "Meilyne Cujo"
+Trigger13 = Target,Name = "JagiMeirin"
+Trigger13 = (Random % 2) = 0
+Trigger14 = Target,Name = "Hong Meirin"		;カンフー美鈴
+Trigger14 = (Random % 2) = 0			;別技：瞬獄殺
+Trigger15 = Target,Name = "Master China"
+Trigger16 = Target,Name = "TOUGH Meilin"
+Trigger16 = (Random % 4) = 0
+Trigger17 = Target,Name = "Meiling Hong"
+Trigger17 = (Random % 2) = 0
+Trigger18 = Target,Name = "Hei Meiling"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 北斗飛衛拳EX]
+Type  = VarSet
+V     = 9
+Value = 17;┌┤´д`├┐ﾋｴｲｹﾝ
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;北斗飛衛拳EXをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "RAOH"		;北斗４キョウダイ+アルファ
+Trigger2  = Target,Name = "TOKI"
+Trigger3  = Target,Name = "TOKI-(NERICYA)"
+Trigger4  = Target,Name = "JAGI"
+Trigger5  = Target,Name = "SHIN"
+Trigger6  = Target,Name = "HAKUREI"		;ぶ　ち　ま　け　ら　れ　て　ー　か　ー　！
+Trigger7  = Target,Name = "TELETTE"		;暴力があると聞いてやってきました
+Trigger8  = Target,Name = "Reimu_Hakurei"	;れいむ
+Trigger8  = (Random % 2) = 0
+Trigger9  = Target,Name = "Tamiflu Miko"
+Trigger10 = Target,Name = "hakureimu"
+Trigger11 = Target,Name = "ccreimu"
+Trigger11 = (Random % 2) = 0
+Trigger12 = Target,Name = "KENSHIRO"
+Trigger12 = (Random % 3) = 0
+Trigger13 = Target,Name = "Barbatos Komachi"	;リグルキック
+Trigger14 = Target,Name = "AbaReimu"
+Trigger14 = (Random%2) = 0
+Trigger15 = Target,Name = "ONI-MIKO-REIMU"
+Trigger16 = Target,Name = "Reimu Hakurei"
+Trigger16 = (Random%2) = 0
+Trigger17 = Target,Name = "Reimu_Scarlet"
+Trigger17 = (Random%2) = 0
+Trigger18 = Target,Name = "Miyako Arima"
+Trigger18 = (Random%2) = 0			;別技：禊
+Trigger19 = Target,Name = "Arima_Meirin"
+Trigger19 = (Random % 3) = 0
+Trigger20 = Target,Name = "ccreimu"
+Trigger20 = (Random % 2) = 0
+Trigger21 = Target,Name = "CHENSHIROU"
+Trigger21 = (Random % 3) = 0 
+Trigger22 = Target,Name = "Aino_Shin"
+Trigger22 = (Random % 2) = 0			;別技：ジェノサイドカッター
+Trigger23 = Target,Name = "JagiMeirin"
+Trigger23 = (Random % 2) = 0
+Trigger24 = Target,Name = "TOUGH Meilin"
+Trigger24 = (Random % 4) = 0
+Trigger25 = Target,Name = "jam"
+Trigger26 = Target,Name = "ROBO-JAM"
+Trigger27 = Target,Name = "Toki Hakurei"	;博麗トキ
+Trigger28 = Target,Name = "Yami_miko"
+Trigger28 = (Random % 2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 北斗残悔拳]
+Type  = VarSet
+V     = 9
+Value = 18
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;北斗残悔拳をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "KENSHIRO"
+Trigger1 = (Random % 3) = 0
+Trigger2 = Target,Name = "Kung Fu Man Neo"
+Trigger3 = Target,Name = "CHENSHIROU"
+Trigger3 = (Random % 3) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 天破活殺]
+Type  = VarSet
+V     = 9
+Value = 19
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;天破活殺をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "KENSHIRO"
+Trigger1 = (Random % 3) = 0
+Trigger2 = Target,Name = "CHENSHIROU"
+Trigger2 = (Random % 3) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State タンクローリーだッ！]
+Type  = VarSet
+V     = 9
+Value = 20;タンクローリーどぁ
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;タンクローリーをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "DIO"
+Trigger2  = Target,Name = "Shadow DIO"
+Trigger3  = Target,Name = "Sakuya Izayoi"
+Trigger3  = (Random % 3) = 0
+Trigger4  = Target,Name = "Izayoi Sakuya Brando"
+Trigger4  = (Random % 3) = 0
+Trigger5  = Target,Name = "Sakuya Shadow Brando"
+Trigger5  = (Random % 3) = 0
+Trigger6  = Target,Name = "Kagamine Rin"
+Trigger7  = Target,Name = "Kagamine Len"
+Trigger8  = Target,Name = "Kagamine Rin&Len"
+Trigger9  = Target,Name = "Yukari Tanizaki"		;by nazo 「Steam Roller」という「ロードローラーだッ」のパロディ技
+Trigger10 = Target,Name = "Sakuya OS"
+Trigger10 = (Random % 3) = 0
+Trigger11 = Target,Name = "Robo Rock"			;by T's ロードローラーではなく戦車を叩き壊す「戦車だッ」を使用可能。
+Trigger11 = Random < 500				;EX時のみなため
+Trigger12 = Target,Name = "Zero Hotaru"			;by T's 特定パレット時のみ、そのまんまな技「ロードローラー」を使用可能。
+Trigger12 = Random < 500				;「ロードローラー」を使用可能なのは7p～12pカラーなため
+Trigger13 = Target,Name = "Meer Campbel"		;by T's ロードローラーだッ！とほぼ同じ技「NSXですわ!」と「F40ですわ!」を使用可能。
+Trigger14 = Target,Name = "Omega Zero"			;by ｾｲﾊｯﾄｳ オメガゼロｖ4からアレンジ技として「Mettaur Drop」（Sを押した後X+A）という技（ロードローラーではなくメットール）を使用できる。
+Trigger14 = Random < 500
+Trigger15 = Target,Name = "Sakuya_Izayoi"
+Trigger15 = (Random % 3) = 0
+Trigger16 = Target,Name = "cheapest KFM!!!"
+Trigger16 = (Random % 2) = 0
+Trigger17 = Target,Name = "The_World_Sakuya"
+Trigger17 = (Random % 3) = 0				;別技：冥道烈火
+Trigger18 = Target,Name = "dio"
+Trigger19 = Target,Name = "High･Sakuya"
+Trigger19 = (Random % 3) = 0
+Trigger20 = Target,Name = "SakuyaEX"			;制服咲夜
+Trigger20 = (Random % 3) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 瞬獄殺]
+Type  = VarSet
+V     = 9
+Value = 21;ベガさんおつかれさまです・１
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;瞬獄殺をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "GOUKI"
+Trigger1  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger2  = Target,Name = "OGRE"
+Trigger2  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger3  = Target,Name = "cvsgouki"
+Trigger3  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger4  = Target,Name = "cvsgouki_normal"
+Trigger4  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger5  = Target,Name = "cvsgouki_ex"
+Trigger5  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger6  = Target,Name = "Rare Akuma"
+Trigger6  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger7  = Target,Name = "Akuma"
+Trigger7  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger8  = Target,Name = "Pocket Shin Gouki"
+Trigger8  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger9  = Target,Name = "Shin Gouki"
+Trigger9  = (Random % 2) = 0			;ゴウキの場合確率半分
+Trigger10 = Target,Name = "Marisa Kirisame"
+Trigger11 = Target,Name = "Hong Meirin"		;カンフー美鈴
+Trigger11 = (Random % 2) = 0			;別技：俺の名を言ってみろ！
+Trigger12 = Target,Name = "cvsg_rugal"
+Trigger12 = (Random % 3) = 0			;別技：ジェノサイドカッター・ギガンテックプレッシャー・ダークバリヤー
+Trigger13 = Target,Name = "God Rugal"
+Trigger13 = (Random % 3) = 0			;別技：ジェノサイドカッター・ギガンテックプレッシャー・ダークバリヤー
+Trigger14 = Target,Name = "G Rugal"
+Trigger14 = (Random % 3) = 0			;別技：ジェノサイドカッター・ギガンテックプレッシャー・ダークバリヤー
+Trigger15 = Target,Name = "Akane Satomura"	;by EMU 「瞬獄殺」のパロディ技「嫌獄殺」所持。
+Trigger15 = Random < 777
+Trigger16 = Target,Name = "SB"			;by EMU 「マジカル☆ジャッジメント」はGルガールの「ラストジャッジメント」が元ネタ。
+Trigger16 = Random < 500
+Trigger17 = Target,Name = "cvsryu"		;by EMU
+Trigger17 = Random < 500			;殺意リュウのみなため
+Trigger18 = Target,Name = "cvssakura"		;by EMU
+Trigger18 = Random < 500			;日焼けのみなため
+Trigger19 = Target,Name = "Lyris Aileron"	;by nazo 「フラッシュバック」という「瞬獄殺」のパロディ技
+Trigger20 = Target,Name = "lyris"		;by nazo 「フラッシュバック」という「瞬獄殺」のパロディ技
+Trigger20 = Random < 444			;登場演出で繰り出すのみだから
+Trigger21 = Target,Name = "Yukari Tanizaki"	;by nazo 「Shun Goku Satsu」という、ずばり瞬獄殺な技
+Trigger22 = Target,Name = "CINNAMON"		;by Masanobu Uchida 「偽・瞬○殺」という技があります
+Trigger22 = Random < 100			;ほとんど使わないから
+Trigger23 = Target,Name = "moraler"		;by 凱 持っているらしい
+Trigger23 = (Random % 4) = 0			;別技：ジェノサイドカッター・流影陣
+Trigger23 = Random < 100			;ほとんど使わないから
+Trigger24 = Target,Name = "yukkuri"		;by どっかのニコ動住民 「当店自慢の餃子です、ゆっくり食べていってね」
+Trigger24 = Random < 800			;「天洋殺」ともいわれているため
+Trigger25 = Target,Name = "yuyuyukkuriri"	;by どっかのニコ動住民 「当店自慢の餃子です、ゆっくり食べていってね」
+Trigger25 = Random < 800			;「天洋殺」ともいわれているため
+Trigger26 = Target,Name = "Yadamon"		;by Masanobu Uchida 瞬獄殺系技「マジカル乱舞」を所有
+Trigger27 = Target,Name = "Shiki_Nanaya"	;by T's 瞬獄殺系の技「瞬閃殺」を所持。
+Trigger28 = Target,Name = "SF3 Chun Li"		;by T's 覚醒発動後、瞬獄殺系の技「春屋殺」を所持。
+Trigger28 = Random < 500			;覚醒時のみなので
+Trigger29 = Target,Name = "Mikuru Asahina"	;by Masanobu Uchida 「瞬ハル殺」を持っている
+Trigger30 = Target,Name = "eiki"		;瞬獄殺持ってた。やってたのはてんこだけど
+Trigger31 = Target,Name = "siteittene"		;当店自慢の餃子です
+Trigger31 = (Random % 3) = 0
+Trigger32 = Target,Name = "Ju Do Man"
+Trigger32 = (Random % 3) = 0
+Trigger33 = Target,Name = "Lucario"		;『　導　』
+Trigger33 = (Random % 2) = 0			;別技：バーストストリーム・真昇竜拳
+Trigger34 = Target,Name = "Omae mona-"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 禊]
+Type  = VarSet
+V     = 9
+Value = 22;ベガさんおつかれさまです・２
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;禊をゲットできる相手リスト
+;例のみやみやにも対応させたいけど、Rockなのしか持ってないんだぜ・・・
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "GOUKI"
+Trigger2  = Target,Name = "OGRE"
+Trigger3  = Target,Name = "cvsgouki"
+Trigger4  = Target,Name = "cvsgouki_normal"
+Trigger5  = Target,Name = "cvsgouki_ex"
+Trigger6  = Target,Name = "Rare Akuma"
+Trigger7  = Target,Name = "Akuma"
+Trigger8  = Target,Name = "Pocket Shin Gouki"
+Trigger9  = Target,Name = "Shin Gouki"
+Trigger10 = Target,Name = "Miyako Arima"		;by EMU 「鳳凰双展翔」が「禊」のパロディ？
+Trigger10 = (Random%2) = 0				;別技：北斗飛衛拳EX
+Trigger11 = Target,Name = "Arima_Meirin"
+Trigger11 = (Random % 3) = 0
+Trigger12 = Target,Name = "Meiling Hong"
+Trigger12 = (Random % 2) = 0	
+Trigger13 = Target,Name = "syobo-n"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state キングベヒんもス]
+type = varset
+v = 9
+value = 23;おいィ？
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;キングベヒんもスをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = target,name = "Buront"
+Trigger1 = (Random %2) = 0
+Trigger2 = target,name = "Tenko"
+Trigger2 = (Random %2) = 0
+Trigger3 = target,name = "Tenshi Hinanai"
+Trigger3 = (Random %2) = 0
+Trigger4 = target,name = "melty_magic_tenko"
+Trigger4 = (Random %2) = 0
+Trigger5 = Target,Name = "Tenshi_K"
+Trigger5 = (Random %2) = 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state 冥道烈火]
+type = varset
+v = 9
+value = 24;ドッゴラァ
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;冥道烈火をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "Fiona"
+Trigger1  = (Random % 2)= 0
+Trigger2  = Target,Name = "enja"
+Trigger3  = Target,Name = "Hisui"		;メイドう　なんちゃって
+Trigger4  = Target,Name = "Hisui&Kohaku"
+Trigger5  = Target,Name = "Sakuya_Izayoi"
+Trigger5  = (Random % 3)= 0
+Trigger6  = Target,Name = "Izayoi Sakuya Brando"
+Trigger6  = (Random % 3)= 0
+Trigger7  = Target,Name = "Sakuya OS"
+Trigger7  = (Random % 3)= 0
+Trigger8  = Target,Name = "Sakuya Shadow Brando"
+Trigger8  = (Random % 3)= 0
+Trigger9  = Target,Name = "Sakuya Izayoi"
+Trigger9  = (Random % 3)= 0
+Trigger10 = Target,Name = "Tesse"
+Trigger11 = Target,Name = "Oswald"		;by zen ハートの追撃技Aの成功時がよく似ているため
+Trigger12 = Target,Name = "The_World_Sakuya"
+Trigger12 = (Random % 3)= 0
+Trigger13 = Target,Name = "High･Sakuya"
+Trigger13 = (Random % 3)= 0
+Trigger14 = Target,Name = "SakuyaEX"		;制服咲夜
+Trigger14 = (Random % 3)= 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ジェノサイドカッター]
+Type  = VarSet
+V     = 9
+Value = 25;審査員
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ジェノサイドカッターをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "Rugal"
+Trigger1  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger2  = Target,Name = "Rugal.B"
+Trigger2  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger3  = Target,Name = "cvsrugal"
+Trigger3  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger4  = Target,Name = "cvsg_rugal"
+Trigger4  = (Random % 2) = 0			;別技：瞬獄殺・ギガンテックプレッシャー・ダークバリヤー
+Trigger5  = Target,Name = "Omega Rugal"
+Trigger5  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger6  = Target,Name = "Rugal94(BOSS)"
+Trigger6  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger7  = Target,Name = "Rugal94"
+Trigger7  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger8  = Target,Name = "S_Rugal"
+Trigger8  = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger9  = Target,Name = "God Rugal"
+Trigger9  = (Random % 2) = 0			;別技：瞬獄殺・ギガンテックプレッシャー・ダークバリヤー
+Trigger10 = Target,Name = "G Rugal"
+Trigger10 = (Random % 2) = 0			;別技：瞬獄殺・ギガンテックプレッシャー・ダークバリヤー
+Trigger11 = Target,Name = "Adel"
+Trigger11 = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger12 = Target,Name = "o-Adel"
+Trigger12 = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger13 = Target,Name = "g-Adel"
+Trigger13 = (Random % 2) = 0			;別技：ギガンテックプレッシャー・ダークバリヤー
+Trigger14 = Target,Name = "Sayuri Kurata"
+Trigger15 = Target,Name = "SB"
+Trigger16 = Target,Name = "yumemi okazaki"
+Trigger16 = (Random%2) = 0
+Trigger17 = Target,Name = "Hong Meilin"
+Trigger17 = Target,authorName = "barai"	;生足美鈴
+Trigger18 = Target,Name = "Androide GRugal"	;入ってなかったので
+Trigger18 = (Random % 3) = 0			;別技：運送・ダークバリヤー
+Trigger19 = Target,Name = "Rugal B."
+Trigger19 = (Random % 3) = 0			;別技：運送・ダークバリヤー
+Trigger20 = Target,Name = "Aino_Shin"		;よく似た対空技持ち。
+Trigger20 = (Random % 2) = 0			;別技：北斗飛衛拳EX
+Trigger21 = Target,Name = "TOUGH Meilin"
+Trigger21 = (Random % 4) = 0
+Trigger21 = Target,authorName = "barai"	;生足美鈴
+Trigger22 = Target,Name = "Sikieiki_Yamaxanadu"
+Trigger23 = Target,Name = "moraler"		;by 凱 持っているらしい
+Trigger23 = (Random % 4) = 0			;別技：瞬獄殺・流影陣
+Trigger24 = Target,Name = "Subaru"		;スバル･ナカジマ。そっくりな対空技あり。
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 苺クロス]
+Type  = VarSet
+V     = 9
+Value = 26;いやっほーぅ！
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;苺クロスをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name = "yumemi okazaki"
+Trigger2  = Target,Name = "Sachiel"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State 最終鬼畜ゲー]
+Type  = VarSet
+V     = 9
+Value = 27;GAME OVER
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;最終鬼畜ゲーをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = Target,Name ="Mukuro"
+Trigger1  = Target,authorName ="ahuron"
+Trigger1  = Target,palno =[7,12]		;アフロン骸アレンジモード
+Trigger2  = Target,Name = "iea"
+Trigger3  = Target,Name = "Ultra Magnus"
+Trigger4  = Target,Name = "Spelunker"
+Trigger5  = Target,Name = "vegalunker"		;名前間違ってるかも…
+Trigger6  = Target,Name = "shadowgate"		;いや、そもそも掴めないのはわかってるんだけどもｗ全般的にｗ
+Trigger7  = Target,Name = "jinseiowata"		;そういやわすれてた
+Trigger8  = Target,Name = "STGmarisa"
+Trigger9  = Target,Name = "STG0235"
+Trigger10 = Target,Name = "nantekottai"
+Trigger11 = Target,Name = "Prinny"
+Trigger12 = Target,Name = "STGinu398"
+Trigger13 = Target,Name = "kirby-zakochara"	;ワドルディ
+Trigger14 = Target,Name = "mario"		;チビマリオって一撃で死ぬでしょ？
+Trigger15 = Target,Name = "nesmario"
+Trigger16 = Target,Name = "SkyKyo"		;STGなので恐らく一撃死。
+Trigger16 = (Random % 2) = 0
+Trigger17 = Target,Name = "KYOK USANAGI"	;上に同じく。sky京
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state ダークパワー]
+type = varset
+v = 9
+value = 28;お前らは今の言葉聞こえたか？
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ダークパワーをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = target,name = "Buront"
+Trigger1 = (Random % 2)= 0
+Trigger2 = target,name = "Tenko"
+Trigger2 = (Random % 2)= 0
+Trigger3 = Target,Name = "Reimu_Hakurei"	;エリ夢
+Trigger3 = (Random % 2)= 0
+Trigger4 = target,name = "Tenshi Hinanai"
+Trigger4 = (Random % 2)= 0
+Trigger5 = target,name = "melty_magic_tenko"
+Trigger5 = (Random % 2)= 0
+Trigger6 = Target,Name = "Tenshi_K"
+Trigger6 = (Random % 2)= 0
+Trigger7 = Target,Name = "ccreimu"
+Trigger7 = (Random % 2)= 0
+Trigger8 = Target,Name = "AbaReimu"
+Trigger8 = (Random % 2)= 0
+Trigger9 = Target,Name = "Reimu Hakurei"
+Trigger9 = (Random % 2)= 0
+Trigger10= Target,Name = "Reimu_Scarlet"
+Trigger10= (Random % 2)= 0
+Trigger11= Target,Name = "ccreimu"
+Trigger11= (Random % 2)= 0
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state 流影陣]
+type = varset
+v = 9
+value = 29;反射技
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;流影陣をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = target,name = "Eiji Kisaragi"	;如月流忍術
+Trigger2  = target,name = "FUWA JIN"		;すごい漢
+Trigger3  = Target,Name = "Mr_shihan"
+Trigger4  = Target,Name = "Athena Asamiya"	;サイコリフレクター
+Trigger5  = Target,Name = "cvsathena"
+Trigger6  = Target,Name = "Rugal"
+Trigger7  = Target,Name = "Rugal.B"
+Trigger8  = Target,Name = "cvsrugal"
+Trigger9  = Target,Name = "cvsg_rugal"
+Trigger10 = Target,Name = "Omega Rugal"
+Trigger11 = Target,Name = "Rugal94(BOSS)"
+Trigger12 = Target,Name = "Rugal94"
+Trigger13 = Target,Name = "S_Rugal"
+Trigger14 = Target,Name = "God Rugal"
+Trigger15 = Target,Name = "G Rugal"
+Trigger16 = Target,Name = "Adel"
+Trigger17 = Target,Name = "o-Adel"
+Trigger18 = Target,Name = "g-Adel"
+Trigger19 = Target,Name = "Androide GRugal"	;入ってなかったので
+Trigger19 = (Random % 3) = 0			;別技：ジェノサイドカッター・運送
+Trigger20 = Target,Name = "Rugal B."
+Trigger20 = (Random % 3) = 0			;別技：運送・ジェノサイドカッター
+Trigger21 = Target,Name = "moraler"
+Trigger21 = (Random % 4) = 0			;別技：瞬獄殺・ジェノサイドカッター
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state ヘリ]
+type = varset
+v = 9
+value = 30;厄
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ヘリをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = target,name = "Remilia_Scarlet"	;東方GTA -レミリア様がゆく-
+Trigger2 = target,name = "Maxime"		;ヘリつながり
+Trigger3 = Target,Name = "Igniz_Scarlet"
+Trigger4 = Target,Name = "THOUTHER_REMILIA"	;要Nameの変更。聖帝レミリア
+Trigger5 = Target,Name = "hina"			;HINA-891"YAKUGAMI"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state カイザーウェイブ]
+type = varset
+v = 9
+value = 31;１秒間１０カイザー
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;カイザーウェイブをゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = target,name = "Wolfgang Krauser"	;クラウザーさん
+Trigger2 = target,name = "Krauser"		;クラウザーさん
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state ハンマー状態]
+type = varset
+v = 9
+value = 32;最後のほう特に力入れた
+ignorehitpause = 1
+triggerall = var(9) = 0
+triggerall = numtarget
+triggerall = target,time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ハンマー状態をゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1  = target,name = "MARIO"			;mario
+Trigger2  = target,name = "SuperMario"			;mario
+Trigger3  = target,name = "nesmario"			;mario
+Trigger4  = Target,Name = "Sakuya_Izayoi"		;ナイト・オブ・ナイツ
+Trigger4  = (Random % 3)= 0
+Trigger5  = Target,Name = "Izayoi Sakuya Brando"
+Trigger5  = (Random % 3)= 0
+Trigger6  = Target,Name = "Sakuya OS"
+Trigger6  = (Random % 3)= 0
+Trigger7  = Target,Name = "Sakuya Shadow Brando"
+Trigger7  = (Random % 3)= 0
+Trigger8  = Target,Name = "Sakuya Izayoi"
+Trigger8  = (Random % 3)= 0
+Trigger9  = Target,Name = "High･Sakuya"
+Trigger9  = (Random % 3)= 0
+Trigger10 = Target,Name = "SakuyaEX"			;制服咲夜
+Trigger10 = (Random % 3)= 0
+Trigger11 = Target,Name = "The_World_Sakuya"
+Trigger11 = (Random % 3)= 0
+Trigger12 = Target,Name = "King DeDeDe"			;ハンマー繋がり。デデデ大王
+Trigger13 = Target,Name = "masked_dedede"		;夫氏マスクドデデデ
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[State ランダムゲット]
+Type  = VarRandom
+V     = 9
+Range = 1, 24
+IgnoreHitPause = 1
+TriggerAll = Var(9) = 0
+TriggerAll = NumTarget > 0
+TriggerAll = Target,Time = 0
+TriggerAll = Random < 888
+
+;■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+;ランダムゲットできる相手リスト
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Trigger1 = Target,Name = "kirby"	;スマブラカービィ
+Trigger2 = Target,Name = "StarShip-Kirby"
+Trigger3 = Target,Name = "Nico"		;もうとにかくカオスすぎる。
+Trigger3 = Random < 100			;でも実際は一つも持ってないから
+Trigger4 = Target,Name = "KirbyStar"
+Trigger5 = Target,Name = "Fkilby"
+;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[state リセット]
+type = varset
+trigger1 = var(9) != 0
+trigger1 = !numtarget
+v = 9
+value = 0
+ignorehitpause = 1
