@@ -7,10 +7,10 @@
 [Data]
 life              = 1000
 power             = 5000
-attack            = 100
+attack            = 120
 defence           = 100
 fall.defence_up   = 50
-liedown.time      = 60
+liedown.time      = 26
 airjuggle         = 99
 sparkno           = -1
 guard.sparkno     = -1
@@ -1977,7 +1977,8 @@ sparkxy = -2, -94
 hitsound = s400, 0
 guardsound = s120, 0
 ground.type = High
-guard.hittime = 8
+guard.hittime = 13
+guard.ctrltime = 13
 ground.slidetime = 10+var(41)
 ground.hittime  = 10+var(41)
 ground.velocity = -4.1* fvar(14)
@@ -2009,6 +2010,7 @@ sparkxy = -2, -94
 hitsound = s400, 0
 guardsound = s120, 0
 ground.type = High
+guard.hittime = 11
 ground.slidetime = 15+var(41)
 ground.hittime  = 15+var(41)
 ground.velocity = -4.1*fvar(14)
@@ -3680,7 +3682,7 @@ triggerall = var(33) = 0
 trigger1 = animelem = 2
 attr = S, NA
 animtype  = Diagup
-damage    = ceil(96*fvar(6)*ifelse((var(29)&4),0.8,1)*ifelse((var(29)&8),0.85,1)), 0
+damage    = ceil(96*fvar(6)*ifelse((var(29)&4),0.9,1)*ifelse((var(29)&8),0.95,1)), 0
 priority = 4
 hitflag = MAFD
 guardflag = HA
@@ -3700,8 +3702,7 @@ air.velocity = -4.2* fvar(14),-8.7
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(44*fvar(25))
-
+fall.recovertime = 55
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -3736,7 +3737,6 @@ down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
 fall.recovertime = ceil(58*fvar(25))
-
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -5025,7 +5025,7 @@ sparkxy = -2, -94
 hitsound = s400, 10
 guardsound = s120, 4
 ground.type = low
-guard.hittime = 6
+guard.hittime = 12
 ground.slidetime = 10+var(41)
 ground.hittime  = 10+var(41)
 ground.velocity = -4.5* fvar(14)
@@ -6330,8 +6330,7 @@ ground.velocity = -6.5* fvar(14)
 air.velocity = -4.1* fvar(14),ifelse(var(8),-5*(1-(helper(10000),var(12)/15)*0.3),-6.5)
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(31*fvar(25))
-
+fall.recovertime = 25
 fall.envshake.time = 9
 air.fall = 1
 yaccel = .51*ifelse(var(8),.9055,fvar(15))
@@ -7733,7 +7732,7 @@ poweradd = 160
 [state 7000,]
 type = varadd
 trigger1 = AnimTime = 0
-fvar(30) = 0.01
+fvar(30) = 0.5
 persistent = 0
 
 [State 810, 0] ;音
@@ -8108,7 +8107,7 @@ ownpal = 1
 [state 7000,]
 type = varadd
 trigger1 = movehit
-fvar(30) = 0.01*fvar(6)
+fvar(30) = 0.5
 persistent = 0
 
 [state a];ガードエフェクト
@@ -9440,8 +9439,7 @@ ground.velocity = -7.5*parent,fvar(14)
 air.velocity = -3.7*parent,fvar(14),-5.2
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(29*root,fvar(25))
-
+fall.recovertime = 60
 fall.envshake.time = 9
 air.fall = 1
 yaccel = .51
@@ -9477,7 +9475,6 @@ air.velocity = -3.7*parent,fvar(14),-5.2
 fall.recover = 1
 fall.yvelocity = -3.2
 fall.recovertime = 56
-
 fall.envshake.time = 9
 air.fall = 1
 yaccel = .51
@@ -9784,7 +9781,7 @@ pausemovetime = 999999
 ;---------------------[ステート移行]
 [State 200, 7]
 type = ChangeState
-triggerall = time > 12
+triggerall = time > 4
 triggerall = time < 30
 trigger1 = command != "holdS"
 trigger2 = var(58)
@@ -9805,7 +9802,7 @@ value = 1106
 [State 200, 7]
 type = ChangeState
 triggerall = time >= 45
-triggerall = time < 60
+triggerall = time < 50
 trigger1 = command != "holdS"
 trigger2 = var(58)
 trigger2 = p2bodydist X < 90
@@ -9814,7 +9811,7 @@ value = 1107
 
 [State 200, 7]
 type = ChangeState
-triggerall = time >= 60
+triggerall = time >= 50
 trigger1 = command != "holdS"
 trigger2 = time >= 79
 trigger3 = var(58)
@@ -9839,7 +9836,7 @@ poweradd = 0
 
 [State 170, 1]
 type = NotHitBy
-trigger1 = time < 4
+trigger1 = time < 8
 value = SCA
 time = 1
 
@@ -10071,7 +10068,7 @@ trigger1 = AnimElem = 2
 trigger1 = var(33) = 0
 attr = A, SA
 animtype  = medium
-damage    = ceil(54*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 11
+damage    = ceil(54*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 50
 priority = 3
 hitflag = MAFD
 guardflag = MA
@@ -10090,10 +10087,11 @@ guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-3.5*fvar(14)),ifelse(p2statetype = L,-.5,-11.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-3.5*fvar(14))
 down.velocity = -13.2,0
-fall.recover = 1
+air.fall = 1
+air.hittime = 100
+fall.recover = 0
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10114,7 +10112,7 @@ trigger1 = AnimElem = 2
 trigger1 = var(33) >= 1
 attr = A, SA
 animtype  = up
-damage    = 59, 11
+damage    = 59, 60
 priority = 7
 hitflag = MAFD
 guardflag = MA
@@ -10132,10 +10130,11 @@ ground.velocity = -1.5,-9.2
 guard.velocity = -6
 air.velocity = -1.5* fvar(14),-10.2
 down.velocity = -13.2,0
-fall.recover = 1
+air.fall = 1
+air.hittime = 100
+fall.recover = 0
 fall.yvelocity = -3.2
-fall.recovertime = 55
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10160,7 +10159,7 @@ trigger1 = AnimElemTime(3) <= 5
 trigger1 = var(33) = 0
 attr = A, SA
 animtype  = medium
-damage    = ceil(30*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 6
+damage    = ceil(89*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 29
 priority = 3
 hitflag = MAFD
 guardflag = MA
@@ -10179,10 +10178,11 @@ down.velocity = -13.2,0
 guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-2*fvar(14)),ifelse(p2statetype = L,-.5,-11.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
-fall.recover = 1
+air.fall = 1
+air.hittime = 100
+fall.recover = 0
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10220,12 +10220,13 @@ ground.velocity = -1.5,-9.2
 guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-1.5*fvar(14)),ifelse(p2statetype = L,-.5,-10.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
-fall.recover = 1
+air.fall = 1
+air.hittime = 100
+fall.recover = 0
 fall.yvelocity = -3.2
 down.velocity = -13.2,0
-
 fall.envshake.time = 9
-fall.recovertime = 55
+fall.recovertime = 100
 fall = 1
 yaccel = .51*fvar(15)
 getpower = ceil(20*fvar(31)*fvar(6)),ceil(10*fvar(31)*fvar(6))
@@ -10247,7 +10248,7 @@ trigger1 = AnimElemTime(3) <= 11
 trigger1 = var(33) = 0
 attr = A, SA
 animtype  = medium
-damage    = ceil(40*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 8
+damage    = ceil(95*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 26
 priority = 3
 hitflag = MAFD
 guardflag = MA
@@ -10266,10 +10267,9 @@ guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-2*fvar(14)),ifelse(p2statetype = L,-.5,-11.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
-fall.recover = 1
+fall.recover = 0
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10308,10 +10308,9 @@ guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-1.5*fvar(14)),ifelse(p2statetype = L,-.5,-10.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 down.velocity = -13.2,0
-fall.recover = 1
+fall.recover = 0
 fall.yvelocity = -3.2
-fall.recovertime = 55
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10354,10 +10353,9 @@ guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-2*fvar(14)),ifelse(p2statetype = L,-.5,-11.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
-fall.recover = 1
+fall.recover = 60
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10398,8 +10396,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = 55
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10443,8 +10440,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -10485,9 +10481,8 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 fall.recover = 1
 fall.yvelocity = -3.2
 down.velocity = -13.2,0
-fall.recovertime = 55
+fall.recovertime = 100
 fall = 1
-
 fall.envshake.time = 9
 yaccel = .51*fvar(15)
 getpower = ceil(40*fvar(31)*fvar(6)),ceil(30*fvar(31)*fvar(6))
@@ -10993,8 +10988,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-3.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 60
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11035,7 +11029,6 @@ down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
 fall.recovertime = 55
-
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11081,8 +11074,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 80
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11123,8 +11115,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = 55
-
+fall.recovertime = 80
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11168,8 +11159,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 80
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11211,7 +11201,6 @@ down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
 fall.recovertime = 55
-
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11255,8 +11244,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 80
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11737,8 +11725,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-3.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 80
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11777,8 +11764,7 @@ air.velocity = -1.5* fvar(14),-10.2
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = 68
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11823,8 +11809,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11865,8 +11850,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = 68
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11910,8 +11894,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -11952,8 +11935,7 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = 68
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -12164,7 +12146,7 @@ poweradd = 0
 
 [State 170, 1]
 type = NotHitBy
-trigger1 = time < 4
+trigger1 = time < 5
 value = SCA
 time = 1
 
@@ -12306,7 +12288,7 @@ trigger1 = AnimElem = 2
 trigger1 = var(33) = 0
 attr = A, SA
 animtype  = medium
-damage    = ceil(44*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 9
+damage    = ceil(62*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 9
 priority = 3
 hitflag = MAFD
 guardflag = MA
@@ -12324,10 +12306,11 @@ ground.velocity = -3.5,-9.2
 guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-3.5*fvar(14)),ifelse(p2statetype = L,-.5,-10.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-3.5*fvar(14))
-fall.recover = 1
+fall.recover = 0
+air.fall = 1
+air.hittime = 100
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -12363,10 +12346,11 @@ ground.velocity = -1.5,-9.2
 guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-1.5*fvar(14)),ifelse(p2statetype = L,-.5,-10.2)
 ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
-fall.recover = 1
+fall.recover = 0
+air.fall = 1
+air.hittime = 100
 fall.yvelocity = -3.2
-fall.recovertime = 68
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
 yaccel = .51*fvar(15)
@@ -12409,7 +12393,7 @@ trigger1 = animelem = 3
 trigger1 = var(33) = 0
 attr = A, SA
 animtype  = medium
-damage    = ceil(40*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 9
+damage    = ceil(57*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.7,1)*ifelse((var(29)&8),0.85,1)), 9
 priority = 3
 hitflag = MAFD
 guardflag = MA
@@ -12430,10 +12414,11 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-2*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = ceil(35*fvar(25))
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
+air.fall = 1
+air.hittime = 100
 yaccel = .51*fvar(15)
 getpower = ceil(30*fvar(31)*fvar(6)),ceil(10*fvar(31)*fvar(6))
 palfx.time = 35
@@ -12470,10 +12455,11 @@ ground.cornerpush.veloff = ifelse(p2statetype = L,-12,-1.5*fvar(14))
 down.velocity = -13.2,0
 fall.recover = 1
 fall.yvelocity = -3.2
-fall.recovertime = 68
-
+fall.recovertime = 100
 fall.envshake.time = 9
 fall = 1
+air.fall = 1
+air.hittime = 100
 yaccel = .51*fvar(15)
 getpower = ceil(100*fvar(31)*fvar(6)),ceil(30*fvar(31)*fvar(6))
 palfx.time = 5
@@ -16116,7 +16102,7 @@ ignorehitpause = 1
 type = Varadd
 trigger1=numtarget
 trigger1=moveguarded=1
-var(ifelse(target,ID=helper(10000),var(50),6,15))=14
+var(50) = (ifelse(target,ID=helper(10000),var(50),6,15))=14
 persistent = 0
 ignorehitpause = 1
 [state 7000,]
@@ -16165,7 +16151,7 @@ type = HitDef
 trigger1 = animelem = 2
 attr = S, HA
 animtype  = hard
-damage    = ceil(108*ifelse(fvar(6)<0.25,0.25,fvar(6))*ifelse((var(29)&4),0.6,1)*ifelse((var(29)&8),0.85,1)), 20
+damage    = ceil(108*ifelse(fvar(6)<0.50,0.50,fvar(6))*ifelse((var(29)&4),0.8,1)*ifelse((var(29)&8),0.95,1)), 20
 hitflag = MAFD
 guardflag = MA
 pausetime = 14,14

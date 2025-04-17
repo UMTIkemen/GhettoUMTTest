@@ -1,0 +1,1002 @@
+;; SFZ2 Rose's stage MUGEN Edition
+
+
+[Info]
+	name="Water2014"
+	displayname="Italy"
+	versiondate=12,12,2017
+;op;	mugenversion=1.1
+	author="WATER"
+
+[Camera]
+	startx=0
+	starty=0
+	boundleft=-280
+	boundright=280
+	boundhigh=-280
+	boundlow=0
+	verticalfollow=1
+
+	floortension=150
+	tension=100 ;;50
+
+	;;--- * v1.1 (zoom) *---
+;;	cuthigh=30 ;;c_hi
+	cutlow=10 ;;c_lo
+	;;---
+	overdrawhigh=5
+	overdrawlow=5
+	;;---
+	tensionhigh=85 ;;t_hi
+	tensionlow=25
+	startzoom=1
+	zoomout=0.85 ;;c_zo
+	zoomin=1 ;;c_zi
+	;;--- * v1.1 (zoom) *---
+
+[PlayerInfo]
+	p1startx=-73
+	p1starty=0
+	p1startz=0
+	p1facing=1
+
+	p2startx=73
+	p2starty=0
+	p2startz=0
+	p2facing=-1
+
+	leftbound=-1000
+	rightbound=1000
+	topbound=0
+	botbound=0
+
+
+[Scaling]
+	topz=0
+	botz=50
+	topscale=1
+	botscale=1.2
+
+
+[Bound]
+	screenleft=15
+	screenright=15
+
+
+[StageInfo]
+	zoffset=215
+	autoturn=1
+	resetBG=0
+	localcoord=320,240
+
+[Shadow]
+	color=0,0,0
+	yscale=-0.05
+	fade.range=-100,0
+	reflect=0
+	intensity=196
+[Reflection]
+	intensity=0
+
+[Music]
+	bgmusic=sound/Rose.mp3
+	bgvolume=0
+
+;----------------
+[BGdef]
+	spr=water2014.sff
+	debugbg=0
+
+
+
+
+
+;----------------
+
+;----------------
+
+
+;---
+;--- sky
+[bg 0]
+	id=10
+	type=normal
+	spriteno=1,1
+	start=-160,-100
+	mask=0
+	delta=    0,0.3
+	zoomdelta=0
+	tile=0,0
+	tilespacing=0,0
+	;---
+;op;	scalestart=1,1
+;op;	scaledelta=0,0
+
+
+;---
+;--- bg_far
+[bg 0]
+	id=10
+	type=normal
+	spriteno=2,1
+	start=-160,169
+	mask=1
+	delta=    0.3,0.3
+	zoomdelta=0.3
+	tile=1,0
+	tilespacing=0,0
+
+
+;---
+;--- bg_sea_up
+[bg 0]
+	id=10
+	type=normal
+	spriteno=5,21
+	start=0,184
+	mask=1
+	delta=    0,0.45
+	zoomdelta=0.45
+	tile=1,0
+	tilespacing=0,0
+
+
+;---
+;--- bg_sea
+[bg 0]
+	id=10
+	type=normal
+	spriteno=5,41
+	start=0,183
+	mask=1
+	delta=    0,0.45
+	zoomdelta=0.45
+	tile=1,0
+	tilespacing=0,0
+
+;---
+;--- pos_y_reset
+[bgctrldef pos_y_reset]
+looptime=-1
+ctrlid=10
+;---
+[bgctrl 0]
+	type=posadd
+	time=0
+	y=-2
+
+
+
+
+
+
+
+
+
+
+;---
+;--- floor_up
+[bg 0]
+	id=200
+	type=normal
+	spriteno=5,31
+	start=0,199
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	delta=    0,0.75
+	zoomdelta=0.75
+
+
+
+
+;---
+;--- floor (layered for wave-eff)
+;; [257x(2+2)x16]
+
+;---
+[bg 0]
+	id=201
+	type=parallax
+	spriteno=20,11
+	start=120,206
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=265,280
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=    0.75,0.75
+	zoomdelta=0.75
+[bg 0]
+	id=202
+	type=parallax
+	spriteno=20,12
+	start=120,208
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=280,295
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=    0.8,0.8
+	zoomdelta=0.8
+[bg 0]
+	id=203
+	type=parallax
+	spriteno=20,13
+	start=120,210
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=295,310
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=    0.85,0.85
+	zoomdelta=0.85
+[bg 0]
+	id=204
+	type=parallax
+	spriteno=20,14
+	start=120,212
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=310,325
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=    0.9,0.9
+	zoomdelta=0.9
+
+[bg 0]
+	id=205
+	type=parallax
+	spriteno=20,15
+	start=120,214
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=325,340
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=    0.95,0.95
+	zoomdelta=0.95
+[bg 0]
+	id=206
+	type=parallax
+	spriteno=20,16
+	start=120,216
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=340,355
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1,1
+[bg 0]
+	id=207
+	type=parallax
+	spriteno=20,17
+	start=120,218
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=355,370
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.05,1.05
+[bg 0]
+	id=208
+	type=parallax
+	spriteno=20,18
+	start=120,220
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=370,385
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.1,1.1
+[bg 0]
+	id=209
+	type=parallax
+	spriteno=20,19
+	start=120,222
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=385,400
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.15,1.15
+[bg 0]
+	id=210
+	type=parallax
+	spriteno=20,20
+	start=120,224
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=400,415
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.2,1.2
+[bg 0]
+	id=211
+	type=parallax
+	spriteno=20,21
+	start=120,226
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=415,430
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.25,1.25
+[bg 0]
+	id=212
+	type=parallax
+	spriteno=20,22
+	start=120,228
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=430,445
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.3,1.3
+[bg 0]
+	id=213
+	type=parallax
+	spriteno=20,23
+	start=120,230
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=445,460
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.35,1.35
+[bg 0]
+	id=214
+	type=parallax
+	spriteno=20,24
+	start=120,232
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=460,475
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.4,1.4
+[bg 0]
+	id=215
+	type=parallax
+	spriteno=20,25
+	start=120,234
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=475,490
+	yscalestart=100
+	yscaledelta=1.1
+	;---
+	delta=      1.45,1.45
+[bg 0]
+	id=216
+	type=parallax
+	spriteno=20,26
+	start=120,236
+	mask=1
+	tile=1,0
+	tilespacing=0,0
+	width=490,700
+	yscalestart=50
+	yscaledelta=1.1
+	;---
+	delta=      1.5,1.5
+
+;---
+;---
+
+
+
+
+
+
+
+
+
+
+
+;---
+;--- light
+[bg 0]
+	id=10
+	type=anim
+	actionno=151
+	start=-160,191
+	mask=1
+	tile=0,0
+	tilespacing=0,0
+	delta=    0.45,0.45
+	zoomdelta=0.45
+[bg 0]
+	id=10
+	type=anim
+	actionno=152
+	start=-160,191
+	mask=1
+	tile=0,0
+	tilespacing=0,0
+	delta=    0.45,0.45
+	zoomdelta=0.45
+;---
+[Begin Action 151]
+5,1,0,0,12
+5,1,1,0,12
+5,1,2,0,12
+5,1,3,0,12
+5,1,2,0,12
+5,1,1,0,12
+[Begin Action 152]
+5,1,320,1,12,h
+5,1,319,1,12,h
+5,1,318,1,12,h
+5,1,317,1,12,h
+5,1,318,1,12,h
+5,1,319,1,12,h
+
+
+;---
+;--- bg_mid
+[bg 0]
+	id=10
+	type=normal
+	spriteno=2,2
+	start=0,189
+	mask=1
+	delta=    0.45,0.45
+	zoomdelta=0.45
+	tile=1,0
+	tilespacing=0,0
+
+
+;---
+;--- char
+[bg 0]
+	id=10
+	type=anim
+	actionno=301
+	start=-300,189
+	mask=1
+	delta=    0.45,0.45
+	zoomdelta=0.45
+	tile=0,0
+	tilespacing=0,0
+;---
+[Begin Action 301]
+30,1,0,0,10
+30,2,0,0,10
+30,1,0,0,12
+30,2,0,0,12
+30,1,0,0,8
+30,2,0,0,8
+30,1,0,0,5
+30,2,0,0,5
+30,1,0,0,6
+30,2,0,0,6
+
+
+
+
+
+;---
+;--- bg_boat_far
+[bg 0]
+	id=10
+	type=normal
+	spriteno=2,20
+	start=30,193
+	mask=1
+	delta=    0.5,0.475
+	zoomdelta=0.5
+	tile=1,0
+	tilespacing=80,0
+
+
+
+
+
+
+
+;---
+;--- ship
+[bg 0]
+	id=18
+	type=normal
+	spriteno=8,1
+	start=600,-51
+	mask=1
+	tile=1,0
+	tilespacing=1600,0
+	delta=    0.55,0.55
+	zoomdelta=0.55
+;---
+;--- ship_velocity
+[bgctrldef ship_velocity]
+looptime=5
+ctrlid=18
+;---
+[bgctrl 0]
+	type=posadd
+	time=0
+	x=-1
+
+
+
+
+
+;---
+;--- bar
+[bg 0]
+	id=60
+	type=anim
+	actionno=132
+	start=-320,202
+	mask=1
+	tile=0,0
+	tilespacing=200,0
+	delta=    0.6,0.6
+	zoomdelta=0.6
+
+[bg 0]
+	id=60
+	type=anim
+	actionno=133
+	start=-280,202
+	mask=1
+	tile=0,0
+	tilespacing=200,0
+	delta=    0.62,0.62
+	zoomdelta=0.62
+
+[bg 0]
+	id=60
+	type=anim
+	actionno=134
+	start=-180,202
+	mask=1
+	tile=0,0
+	tilespacing=200,0
+	delta=    0.64,0.64
+	zoomdelta=0.64
+;---
+[Begin Action 132]
+3,2,100,0,-1
+[Begin Action 133]
+3,3,100,0,-1
+[Begin Action 134]
+3,4,100,0,-1
+
+
+;---
+;--- moku
+[bg 0]
+	id=60
+	type=anim
+	actionno=138
+	start=-410,203
+	mask=1
+	tile=0,0
+	tilespacing=118,0
+	delta=    0.7,0.7
+	zoomdelta=0.7
+;---
+[Begin Action 138]
+3,8,100,0,-1
+
+
+;---
+;--- stature
+[bg 0]
+	id=60
+	type=anim
+	actionno=131
+	start=-430,204
+	mask=1
+	tile=0,0
+	tilespacing=200,0
+	delta=    0.75,0.75
+	zoomdelta=0.75
+;---
+[Begin Action 131]
+3,1,100,0,-1
+
+
+;---
+;--- pillar_1/2
+[bg 0]
+	id=60
+	type=anim
+	actionno=135
+	start=-87,44
+	mask=1
+	tile=0,0
+	tilespacing=580,0
+	delta=    0.8,0.8
+	zoomdelta=0.8
+[bg 0]
+	id=60
+	type=anim
+	actionno=135
+	start=-80,208
+	mask=1
+	tile=0,0
+	tilespacing=580,0
+	delta=    0.8,0.8
+	zoomdelta=0.8
+;---
+[Begin Action 135]
+3,5,100,0,-1
+
+
+;---
+;--- pillar_2/2
+[bg 0]
+	id=60
+	type=anim
+	actionno=136
+	start=75,-156 ;;44-200
+	mask=1
+	tile=7,0
+	tilespacing=170,0
+	delta=    0.8,0.8
+	zoomdelta=0.8
+[bg 0]
+	id=60
+	type=anim
+	actionno=136
+	start=80,8 ;;208-200
+	mask=1
+	tile=7,0
+	tilespacing=170,0
+	delta=    0.8,0.8
+	zoomdelta=0.8
+;---
+[Begin Action 136]
+3,6,100,200,-1
+
+
+;---
+;--- saku
+[bg 0]
+	id=60
+	type=anim
+	actionno=137
+	start=165,8 ;;208-200
+	mask=1
+	tile=6,0
+	tilespacing=170,0
+	delta=    0.8,0.8
+	zoomdelta=0.8
+;---
+[Begin Action 137]
+3,7,100,200,-1
+
+
+;---
+;--- moku
+[bg 0]
+	type=normal
+	spriteno=3,9
+	start=-750,135
+	mask=1
+	tile=0,0
+	tilespacing=118,0
+	delta=    1.6,1.6
+	zoomdelta=1
+	layerno=1
+
+
+
+
+
+
+
+
+
+
+
+
+;---
+;--- floor_wave_x
+;---
+[bgctrldef 200]
+looptime=-1
+ctrlid=200
+;---
+[bgctrl 0]
+	type=sinx
+	time=0
+	value= 1,40,0
+	ctrlid=201
+[bgctrl 0]
+	type=sinx
+	time=5
+	value= 1.25,40,0
+	ctrlid=202
+[bgctrl 0]
+	type=sinx
+	time=10
+	value= 1.5,40,0
+	ctrlid=203
+[bgctrl 0]
+	type=sinx
+	time=15
+	value= 1.75,40,0
+	ctrlid=204
+[bgctrl 0]
+	type=sinx
+	time=20
+	value= 2,40,0
+	ctrlid=205
+[bgctrl 0]
+	type=sinx
+	time=25
+	value= 2.25,40,0
+	ctrlid=206
+[bgctrl 0]
+	type=sinx
+	time=30
+	value= 2.5,40,0
+	ctrlid=207
+[bgctrl 0]
+	type=sinx
+	time=35
+	value= 2.75,40,0
+	ctrlid=208
+[bgctrl 0]
+	type=sinx
+	time=40
+	value= 3,40,0
+	ctrlid=209
+[bgctrl 0]
+	type=sinx
+	time=45
+	value= 3.25,40,0
+	ctrlid=210
+[bgctrl 0]
+	type=sinx
+	time=50
+	value= 3.5,40,0
+	ctrlid=211
+[bgctrl 0]
+	type=sinx
+	time=55
+	value= 3.75,40,0
+	ctrlid=212
+[bgctrl 0]
+	type=sinx
+	time=60
+	value= 4,40,0
+	ctrlid=213
+[bgctrl 0]
+	type=sinx
+	time=65
+	value= 4.25,40,0
+	ctrlid=214
+[bgctrl 0]
+	type=sinx
+	time=70
+	value= 4.5,40,0
+	ctrlid=215
+[bgctrl 0]
+	type=sinx
+	time=75
+	value= 4.75,40,0
+	ctrlid=216
+
+
+;---
+;--- floor_wave_y
+;---
+[bgctrldef 210]
+looptime=80
+ctrlid=200
+;---
+[bgctrl 0]
+	type=siny
+	time=0
+	value= 1,30,0
+	ctrlid=201
+[bgctrl 0]
+	type=siny
+	time=5
+	value= 1.01,30,0
+	ctrlid=202
+[bgctrl 0]
+	type=siny
+	time=10
+	value= 1.02,30,0
+	ctrlid=203
+[bgctrl 0]
+	type=siny
+	time=15
+	value= 1.03,30,0
+	ctrlid=204
+[bgctrl 0]
+	type=siny
+	time=20
+	value= 1.04,30,0
+	ctrlid=205
+[bgctrl 0]
+	type=siny
+	time=25
+	value= 1.05,30,0
+	ctrlid=206
+[bgctrl 0]
+	type=siny
+	time=30
+	value= 1.06,30,0
+	ctrlid=207
+[bgctrl 0]
+	type=siny
+	time=35
+	value= 1.07,30,0
+	ctrlid=208
+[bgctrl 0]
+	type=siny
+	time=40
+	value= 1.08,30,0
+	ctrlid=209
+[bgctrl 0]
+	type=siny
+	time=45
+	value= 1.09,30,0
+	ctrlid=210
+[bgctrl 0]
+	type=siny
+	time=50
+	value= 1.10,30,0
+	ctrlid=211
+[bgctrl 0]
+	type=siny
+	time=55
+	value= 1.11,30,0
+	ctrlid=212
+[bgctrl 0]
+	type=siny
+	time=60
+	value= 1.12,30,0
+	ctrlid=213
+[bgctrl 0]
+	type=siny
+	time=65
+	value= 1.13,30,0
+	ctrlid=214
+[bgctrl 0]
+	type=siny
+	time=70
+	value= 1.14,30,0
+	ctrlid=215
+[bgctrl 0]
+	type=siny
+	time=75
+	value= 1.15,30,0
+	ctrlid=216
+
+
+;---
+;--- floor_wave_y_stop
+;---
+[bgctrldef 220]
+looptime=160
+ctrlid=200
+;---
+[bgctrl 0]
+	type=siny
+	time=0
+	value= 0,0,0
+	ctrlid=201
+[bgctrl 0]
+	type=siny
+	time=5
+	value= 0,0,0
+	ctrlid=202
+[bgctrl 0]
+	type=siny
+	time=10
+	value= 0,0,0
+	ctrlid=203
+[bgctrl 0]
+	type=siny
+	time=15
+	value= 0,0,0
+	ctrlid=204
+[bgctrl 0]
+	type=siny
+	time=20
+	value= 0,0,0
+	ctrlid=205
+[bgctrl 0]
+	type=siny
+	time=25
+	value= 0,0,0
+	ctrlid=206
+[bgctrl 0]
+	type=siny
+	time=30
+	value= 0,0,0
+	ctrlid=207
+[bgctrl 0]
+	type=siny
+	time=35
+	value= 0,0,0
+	ctrlid=208
+[bgctrl 0]
+	type=siny
+	time=40
+	value= 0,0,0
+	ctrlid=209
+[bgctrl 0]
+	type=siny
+	time=45
+	value= 0,0,0
+	ctrlid=210
+[bgctrl 0]
+	type=siny
+	time=50
+	value= 0,0,0
+	ctrlid=211
+[bgctrl 0]
+	type=siny
+	time=55
+	value= 0,0,0
+	ctrlid=212
+[bgctrl 0]
+	type=siny
+	time=60
+	value= 0,0,0
+	ctrlid=213
+[bgctrl 0]
+	type=siny
+	time=65
+	value= 0,0,0
+	ctrlid=214
+[bgctrl 0]
+	type=siny
+	time=70
+	value= 0,0,0
+	ctrlid=215
+[bgctrl 0]
+	type=siny
+	time=75
+	value= 0,0,0
+	ctrlid=216
+;---
+;---
+
+
+
+
+
+
+
+;---
+;---
+;[EOF]

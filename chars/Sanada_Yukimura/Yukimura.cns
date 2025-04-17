@@ -6214,15 +6214,15 @@ id = 1011
 [State 1000, 7] 
 type = ChangeState
 triggerall = time > 10
-triggerall = time < 54
+triggerall = time < 30
 trigger1 = command != "holdP"
 value = 1005
 
 [State 1000, 7]
 type = ChangeState
-trigger1 = time >= 54
+trigger1 = time >= 35
 trigger1 = command != "holdP"
-trigger2 = time >= 76
+trigger2 = time >= 45
 value = 1006
 
 ;---------------------------------------------------------------------------
@@ -6667,6 +6667,9 @@ ground.type = low
 ground.slidetime = 16+var(41)
 ground.hittime  = 16+var(41)
 ground.velocity = -7.5* fvar(14)
+guard.hittime = 26
+guard.ctrltime = 26
+guard.slidetime = 22
 air.velocity = ifelse(p2statetype = L,-9,-4*fvar(14)),ifelse(p2statetype = L,-.5,-5.2*fvar(15))
 fall.recover = 1
 fall.recovertime = 39
@@ -6703,6 +6706,9 @@ ground.type = low
 ground.slidetime = 22+var(41)
 ground.hittime  = 22+var(41)
 ground.velocity = -7.5* fvar(14)
+guard.hittime = 26
+guard.ctrltime = 26
+guard.slidetime = 22
 air.velocity = ifelse(p2statetype = L,-9,-4*fvar(14)),ifelse(p2statetype = L,-.5,-5.2*fvar(15))
 fall.recover = 1
 fall.recovertime = 55
@@ -7012,8 +7018,8 @@ ground.hittime  = 20+var(41)
 ground.velocity = -2.2* fvar(14),-6.6*fvar(15)
 air.velocity = ifelse(p2statetype = L,-9,-2.2*fvar(14)),ifelse(p2statetype = L,-.5,-6.6*fvar(15))
 p2stateno = 550
-fall.recover = 1
-fall.recovertime = 37
+fall.recover = 0
+fall.recovertime = 90
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1
@@ -7048,7 +7054,7 @@ ground.velocity = -2.2* fvar(14),-6.6*fvar(15)
 air.velocity = ifelse(p2statetype = L,-9,-2.2*fvar(14)),ifelse(p2statetype = L,-.5,-6.6*fvar(15))
 p2stateno = 550
 fall.recover = 0
-fall.recovertime = 48
+fall.recovertime = 90
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1
@@ -7694,7 +7700,7 @@ triggerAll = var(33) = 0
 trigger1 = animelem = 4
 attr = S, SA
 animtype  = medium
-damage    = ceil(65*fvar(6)), 7
+damage    = ceil(130*fvar(6)), 7
 priority = 5
 hitflag = MAFD
 guardflag = M
@@ -7712,7 +7718,7 @@ guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-3.5*fvar(14)),ifelse(p2statetype = L,-.5,-13.7*fvar(15))
 ground.cornerpush.veloff = ifelse(p2statetype = L,-35,-3.5*fvar(14))
 fall.recover = 1
-fall.recovertime = 40
+fall.recovertime = 100
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1
@@ -7750,7 +7756,7 @@ guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-3.5*fvar(14)),ifelse(p2statetype = L,-.5,-13.7*fvar(15))
 ground.cornerpush.veloff = ifelse(p2statetype = L,-35,-1.5*fvar(14))
 fall.recover = 1
-fall.recovertime = 54
+fall.recovertime = 100
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1
@@ -8107,10 +8113,10 @@ trigger1 = var(33) = 0
 trigger1 = animelem = 4
 attr = S, SA
 animtype  = up
-damage    = ceil(160*fvar(6)), 12
+damage    = ceil(185*fvar(6)), 12
 priority = 5
 hitflag = MAFD
-guardflag = M
+guardflag = 
 pausetime = 28,28
 sparkno = -1
 guard.sparkno = S-1
@@ -8125,7 +8131,7 @@ guard.velocity = -12
 air.velocity = ifelse(p2statetype = L,-9,-12.5*fvar(14)),ifelse(p2statetype = L,-.5,-20.7*fvar(15))
 ground.cornerpush.veloff = ifelse(p2statetype = L,-35,-3.5*fvar(14))
 fall.recover = 0
-fall.recovertime = 52
+fall.recovertime = 100
 fall.envshake.time = 9
 fall.yvelocity = -1
 fall = 1
@@ -8163,7 +8169,7 @@ guard.velocity = -12
 air.velocity = ifelse(p2statetype = L,-9,-12.5*fvar(14)),ifelse(p2statetype = L,-.5,-20.7*fvar(15))
 ground.cornerpush.veloff = ifelse(p2statetype = L,-35,-1.5*fvar(14))
 fall.recover = 0
-fall.recovertime = 68
+fall.recovertime = 100
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1
@@ -8536,8 +8542,8 @@ ground.velocity = -1.5* fvar(14),-15.2*fvar(15)
 guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-1.5*fvar(14)),ifelse(p2statetype = L,-.5,-17.7*fvar(15))
 ground.cornerpush.veloff = ifelse(p2statetype = L,-35,-3.5*fvar(14))
-fall.recover = 1
-fall.recovertime = 40
+fall.recover = 0
+fall.recovertime = 100
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1
@@ -8574,8 +8580,8 @@ ground.velocity = -1.5* fvar(14),-15.2*fvar(15)
 guard.velocity = -6
 air.velocity = ifelse(p2statetype = L,-9,-1.5*fvar(14)),ifelse(p2statetype = L,-.5,-17.7*fvar(15))
 ground.cornerpush.veloff = ifelse(p2statetype = L,-35,-1.5*fvar(14))
-fall.recover = 1
-fall.recovertime = 54
+fall.recover = 0
+fall.recovertime = 100
 fall.yvelocity = -1
 fall.envshake.time = 9
 fall = 1

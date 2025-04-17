@@ -1,0 +1,446 @@
+;; SFA2 Kasugano Residence (Sakura stage) MUGEN Edition
+
+[Info]
+	name="Home2014"
+	displayname="Kasugano Residence"
+	versiondate=12,12,2017
+;op;	mugenversion=2002,02,14 ;; [default]
+
+
+[Camera]
+	startx=0
+	starty=0
+	boundleft=-360
+	boundright=360
+	boundhigh=-360
+	boundlow=0
+	verticalfollow=1
+	tension=100
+	floortension=150
+
+	;;--- * v1.1 (zoom) *---
+	;;cuthigh=30
+	cutlow=10
+	;;---
+	overdrawhigh=5
+	overdrawlow=5
+	;;---
+	tensionhigh=85 ;;t_hi
+	tensionlow=25
+	startzoom=1
+	zoomout=0.85 ;;c_zo
+	zoomin=1 ;;c_zi
+	;;--- * v1.1 (zoom) *---
+
+[PlayerInfo]
+	p1startx=-70
+	p1starty=0
+	p1startz=0
+	p1facing=1
+	p2startx=70
+	p2starty=0
+	p2startz=0
+	p2facing=-1
+	leftbound=-1000
+	rightbound=1000
+	topbound=0
+	botbound=0
+
+[Scaling]
+	topz=0
+	botz=50
+	topscale=1
+	botscale=1.2
+
+[Bound]
+	screenleft=15
+	screenright=15
+
+[StageInfo]
+	zoffset=215
+	autoturn=1
+	resetBG=0
+	localcoord=320,240
+
+[Shadow]
+	color=0,0,0
+	intensity=196
+	reflect=0
+	yscale=0.05
+	fade.range=-100,0
+[Reflection]
+	intensity=0
+
+[Music]
+	bgmusic=sound/Sakura.mp3
+	bgvolume=0
+
+
+
+;-----------------------
+[BGdef]
+	spr=home2014.sff
+	debugbg=0
+
+
+;-----------------------
+
+;-----------------------
+
+
+
+;---
+;--- sky
+[bg 0]
+	type=normal
+	spriteno=0,0
+	start=-230,-70
+	mask=0
+	delta=    0.15,0.15
+	zoomdelta=0.15
+
+
+
+;---
+;---bg_Left
+;---
+[bg 0]
+	type=normal
+	spriteno=3,3
+	start=-260,6
+	mask=1
+	delta=    0.3,0.3
+	zoomdelta=0.3
+[bg 0]
+	type=normal
+	spriteno=3,2
+	start=-295,6
+	mask=1
+	delta=    0.345,0.345
+	zoomdelta=0.345
+[bg 0]
+	type=normal
+	spriteno=3,1
+	start=-310,-36
+	mask=1
+	delta=    0.375,0.375
+	zoomdelta=0.375
+
+
+
+
+;---
+;---bg_Right
+;---
+[bg 0]
+	type=normal
+	spriteno=4,2
+	start=103,10
+	mask=1
+	delta=    0.3,0.3
+	zoomdelta=0.3
+
+[bg 0]
+	type=normal
+	spriteno=4,1
+	start=132,-87
+	mask=1
+	delta=    0.4,0.4
+	zoomdelta=0.4
+
+
+
+
+
+
+
+;---
+;---home_Center
+;---
+;---wall_Left
+[bg 0]
+	type=normal
+	spriteno=9,1
+	start=-280,119
+	mask=1
+	delta=    0.45,0.45
+	zoomdelta=0.45
+
+;---
+;---kennel
+[bg 0]
+	type=normal
+	spriteno=7,1
+	start=-306,120
+	mask=1
+	delta=    0.5,0.5
+	zoomdelta=0.5
+
+;--- dog
+[bg 0]
+	type=anim
+	actionno=60
+	start=-280,175
+	mask=1
+	delta=    0.55,0.55
+	zoomdelta=0.55
+;---
+[Begin Action 60]
+6,1,0,0,60
+6,2,0,0,10
+6,1,0,0,10
+6,2,0,0,10
+6,1,0,0,10
+6,2,0,0,10
+
+
+
+
+
+
+
+
+
+
+
+;---home_Center
+
+
+
+
+;--- room
+[bg 0]
+	type=normal
+	spriteno=2,5
+	start=-190,75
+	mask=1
+	delta=    0.45,0.45
+	zoomdelta=0.45
+
+
+;--- table
+[bg 0]
+	type=normal
+	spriteno=2,6
+	start=-50,139
+	mask=1
+	delta=    0.5,0.5
+	zoomdelta=0.5
+
+
+;--- tv
+[bg 0]
+	type=anim
+	actionno=70
+	start=-109,145
+	mask=1
+	delta=    0.55,0.55
+	zoomdelta=0.55
+;---
+[Begin Action 70]
+2,71,0,0,3
+2,72,0,0,3
+2,73,0,0,3
+2,72,0,0,3
+
+;---
+[bg 0]
+	type=normal
+	spriteno=2,7
+	start=-150,140
+	mask=1
+	delta=    0.55,0.55
+	zoomdelta=0.55
+
+
+;--- boy
+[bg 0]
+	type=anim
+	actionno=80
+	start=-50,155
+	mask=1
+	delta=    0.55,0.55
+	zoomdelta=0.55
+;---
+[Begin Action 80]
+
+2,81,0,0,36
+2,82,0,0,16
+2,81,0,0,16
+2,82,0,0,16
+2,81,0,0,16
+2,82,0,0,16
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+
+2,83,0,0,8
+2,84,0,0,8
+2,83,0,0,8
+2,84,0,0,8
+2,83,0,0,8
+2,84,0,0,8
+2,83,0,0,8
+2,84,0,0,8
+2,83,0,0,8
+2,84,0,0,8
+
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+2,81,0,0,8
+2,82,0,0,8
+
+2,81,0,0,16
+2,82,0,0,16
+2,81,0,0,16
+2,82,0,0,16
+2,81,0,0,16
+2,82,0,0,16
+
+2,81,0,0,26
+2,85,0,0,16
+2,81,0,0,26
+2,85,0,0,60
+
+
+;--- home_back
+[bg 0]
+	type=normal
+	spriteno=10,1
+	start=96,-90
+	mask=1
+	delta=    0.525,0.525
+	zoomdelta=0.525
+
+;--- front
+[bg 0]
+	type=normal
+	spriteno=2,1
+	start=-350,-95
+	mask=1
+	delta=    0.6,0.6
+	zoomdelta=0.6
+
+
+
+;---
+;---floor
+[bg 0]
+	type=normal
+	spriteno=20,2
+	start=0,205
+	tile=1,0
+	mask=0
+	delta=    0.6,0.6
+	zoomdelta=0.6
+
+;---floor_Left
+[bg 0]
+	type=parallax
+	spriteno=20,3
+	start=-316,205
+	mask=1
+	delta=    0.6,0.6
+	zoomdelta=0.6
+	width=180,360
+	yscalestart=100
+
+;---floor
+[bg 0]
+	type=parallax
+	spriteno=20,4
+	mask=1
+	tilespacing=0,0
+;op;	start=0,215
+;op;	tile=0,0
+;op;	width=1100,2200
+	start=-180,215
+	tile=1,0
+	width=600,1200
+	yscalestart=100
+	yscaledelta=1.1
+
+
+
+;---
+;--- incinerator
+[bg 0]
+	type=normal
+	spriteno=5,1
+	start=320,118
+	mask=1
+	delta=    0.7,0.7
+	zoomdelta=0.7
+
+
+
+
+;---
+;--- wall_Right
+[bg 0]
+	type=normal
+	spriteno=10,2
+	start=345,125
+	mask=1
+	delta=    0.6,0.6
+	zoomdelta=0.6
+
+
+
+
+
+
+;---
+;--- sand
+[bg 0]
+	type=normal
+	spriteno=8,4
+	start=120,184
+	mask=1
+
+;--- grass
+[bg 0]
+	type=normal
+	spriteno=8,2
+	start=-180,192
+	tile=2,0
+	tilespacing=580,0
+	mask=1
+
+[bg 0]
+	type=normal
+	spriteno=8,1
+	start=310,212
+	mask=1
+	delta=    1.55,1.55
+	layerno=1
+
+[bg 0]
+	type=normal
+	spriteno=8,3
+	start=580,218
+	mask=1
+	tile=1,0
+	tilespacing=300,0
+	delta=    1.75,1.75
+	layerno=1
+
+
+
+
+
+
+;---
+;---
+;[EOF]

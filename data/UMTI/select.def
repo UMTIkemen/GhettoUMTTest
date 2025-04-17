@@ -61,7 +61,7 @@ Blitztank
 akfgz
 Ryugen
 ;============ 9TH ROW ============
-randomselect
+WannaKOF
 Wolverine
 Joe
 cvsjill
@@ -101,6 +101,13 @@ stages/KOFXI_Russia_Stage.def
 stages/KOFXI_Magaki_Hi_Resolution_Stage.def
 stages/KOFXI_Shion_Hi_Resolution_Stage.def
 stages/mbac_neco_D4_1.1.def
+stages/Spain2019.def
+stages/Water2014.def
+stages/BestestKenSFA2.def
+stages/Home2014.def
+stages/Neo_Osaka2019.def
+stages/cammy2019_ver.2.def
+stages/Battle of Hasedo.def
 ;-------------------------------------------------------------------------------
  
 
