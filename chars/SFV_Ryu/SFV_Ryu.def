@@ -1,0 +1,42 @@
+; Definition file for player
+; Contains all the filenames needed for the character
+
+; Player information
+[Info]
+name = "Ryu"        ;Name of character
+displayname = "Ryu" ;Name of character to display
+versiondate = 2.0  ;Version date of character
+mugenversion = 1.1  ;Version of M.U.G.E.N character works on
+author = "Mr. I and Violin Ken"      ;Character author name
+pal.defaults = 1, 2, 3, 4, 5, 6;Default palettes in order of preference
+
+; Files for the player
+[Files]
+cmd     = SFV_Ryu.cmd   ;Command set
+cns     = SFV_Ryu.cns   ;Constants
+st		= SFV_Ryu-Common.cns ;Common states
+st1		= SFV_Ryu-Normal.cns
+st2		= SFV_Ryu-Special.cns
+st3		= SFV_Ryu-Super.cns
+st4		= SFV_Ryu-Neg-2.cns
+st5		= SFV_Ryu-Neg-3.cns
+st6		= SFV_Ryu-Inputs.cns
+st7		= SFV_Ryu-P2States.cns
+st8		= SFV_Ryu-V-System.cns
+st9		= SFV_Ryu-Bars.cns
+sprite  = SFV_Ryu.sff   ;Sprite
+anim    = SFV_Ryu.air   ;Animation
+sound  = SFV_Ryu.snd   ;Sound
+movelist = SFV_Ryu_movelist.dat
+pal1   = pal1.act   ;Palettes (can have up to 12)
+pal2   = pal2.act
+pal3   = pal3.act
+pal4   = pal4.act
+pal5   = pal5.act
+pal6   = pal6.act
+;pal7   = pal7.act
+;pal8   = pal8.act
+;pal9   = pal9.act
+;pal10  =
+;pal11  =
+;pal12  =

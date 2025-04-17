@@ -1,0 +1,21 @@
+;---------------------------------------------------------------------------
+; States that are executed when in self's state file (use statedef -3)
+;---------------------------------------------------------------------------
+[Statedef -3]
+
+[State -3, Cheap KO] ;POTS' Ryu
+type = changestate
+triggerall = !alive && (stateno = [5000,5010]) && (stateno != 5130)
+trigger1 = (p2stateno = [200,209]) || (p2stateno = [300,309]) || (p2stateno = [230,239]) || (p2stateno = [330,339]) || (p2stateno = [400,409]) || (p2stateno = [500,509]) || (p2stateno = [430,439]) || (p2stateno = [530,539])
+trigger2 = (p2stateno = [600,609]) || (p2stateno = [630,639]) || (p2stateno = [700,709]) || (p2stateno = [730,739])
+trigger3 = (prevstateno = [130,131]) || (prevstateno = [140,141]) || (prevstateno = [150,153])
+value = 6120
+ignorehitpause = 1
+
+[State -1, Negative Edge]; - Reset // Release // Hold - By Messatsu
+type     = null
+trigger1 = var(39)&4032
+trigger1 = (var(39):= var(39) - var(39)^4032)*0
+trigger2 = var(39)&63
+trigger2 = (var(39):= var(39) +64*(var(39)&1 && command != "fholda") +128*(var(39)&2 && command != "fholdb") +256*(var(39)&4 && command != "fholdc") +512*(var(39)&8 && command != "fholdx") +1024*(var(39)&16 && command != "fholdy") +2048*(var(39)&32 && command != "fholdz")) - var(39)
+trigger3 = var(39):= var(39)-(var(39)&63) + 1*(command = "fholda") + 2*(command = "fholdb") + 4*(command = "fholdc") + 8*(command = "fholdx") + 16*(command = "fholdy") + 32*(command = "fholdz")

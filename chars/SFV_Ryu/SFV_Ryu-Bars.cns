@@ -1,0 +1,1508 @@
+;---------------------------------------------------
+;Bar
+[Statedef 19000]
+type = A
+movetype = I
+physics = N
+anim = 2
+sprpriority = 1
+
+[State 19000, board]
+type = displaytoclipboard
+trigger1 = 1
+text = "0 = %d, 1 = %d, 2 = %d, ROOTVAR 6 = %d, ROOTVAR 3 = %d"
+params = var(0), var(1), var(2), (root, var(6)), (root, var(3))
+ignorehitpause = 1
+
+;===================== PLAYER 1 =====================
+;------ V ------
+[State 19000, V]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19900
+anim = cond(root, var(15) > 0, 19002, cond( root, var(3) < 300, 19000, 19001))
+space = screen
+pos = 20, (ScreenHeight - 20)
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Trigger]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(2) = 1
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19010
+anim = 19010
+space = screen
+pos = 26, (ScreenHeight - 20)
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Trigger]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(2) = 2
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19010
+anim = 19011
+space = screen
+pos = 26, (ScreenHeight - 20)
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Skill]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(1) = 1
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19020
+anim = 19020
+space = screen
+pos = 14, (ScreenHeight - 20)
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Skill]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(1) = 2
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19020
+anim = 19021
+space = screen
+pos = 14, (ScreenHeight - 20)
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;the word skill
+[State 19000, Skill]
+type = explod
+triggerall = root, var(1) = 1 || root, var(1) = 2
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19021
+anim = 19022
+space = screen
+pos = 14, (ScreenHeight - 14) ;226
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ Reversal/Trigger ------
+; < 300 = nothing
+; VT1 & < 900 = reversal
+; VT2 & < 600 = reversal
+; VT1 & 900 = trigger
+; VT2 & 600 = trigger
+[State 19000, Text - V-Trigger Inactive]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19030 
+anim = ifelse(root, var(3) < 300, 2, ifelse( ( root, var(2) = 3 && root, var(3) < 900 ) || ( root, var(2) != 3 && root, var(3) < 600) , 19030, 19031 ))
+space = screen
+pos = 29, (ScreenHeight - 24) ;216
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, Text - V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19030 
+anim = cond( root, var(15) > 0, 19032, 2)
+space = screen
+pos = 29, (ScreenHeight - 24) ;216
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ V-Meter -------
+;VT1 = 2 bars
+;VT2 = 2 bars
+[State 19000, Bar: V-Trigger Inactive]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = root, var(15) <= 0
+trigger1 = 1
+id = 19100
+anim = cond( root, var(2) = 3, 19100, 19110)
+space = screen
+pos = 37, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, Bar {Backdrop}: V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = root, var(15) > 0
+trigger1 = 1
+id = 19100
+anim = 19151
+space = screen
+pos = 37, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Timer: V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = root, var(15) > 0
+trigger1 = 1
+id = 19200
+anim = cond( (root, var(14) = 1), (19200 + 71 - floor( root, var(15) / 14.08 )), (19200 + 71 - floor( root, var(15) / 42.25 )))
+space = screen
+pos = 37, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, Bar Front: V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = root, var(15) > 0
+trigger1 = 1
+id = 19100
+anim = 19150
+space = screen
+pos = 37, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ V-Meter Bars ------
+[State 19200, V-Meter: 0-300]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19200
+anim = 19299 + cond( root, var(3) >= 300, 31, floor( root, var(3) / 10))
+space = screen
+pos = 37, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, V-Meter: 300-600]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19200
+anim = 19299 + cond( root, var(3) >= 600, 31, cond( root, var(3) < 300, 0, floor( (root, var(3) - 300) / 10)))
+space = screen
+pos = 54, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, V-Meter: 600-900]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = root, var(2) = 3
+trigger1 = 1
+id = 19200
+anim = 19299 + cond( root, var(3) >= 900, 31, cond( root, var(3) < 600, 0, floor( (root, var(3) - 600) / 10)))
+space = screen
+pos = 71, (ScreenHeight - 18) ;222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ Power Bar ------
+[State 19000, Power Bar]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19900
+anim = 19050
+space = screen
+pos = 29, (ScreenHeight - 11) ;229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ Power Text ------
+;0 - 300 = Ex Off
+;300 - 900 = Ex On
+;900 = Ca
+[State 19000, Text]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19900
+anim = cond(power < 300, 19051, cond(power < 900, 19052, 19053))
+space = screen
+pos = 29, (ScreenHeight - 11) ;229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, Power: 0-300]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+trigger1 = 1
+id = 19200
+anim = 19399 + cond( root, power >= 300, 31, floor( root, power / 10))
+space = screen
+pos = 29, (ScreenHeight - 11) ;229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, Power: 300-600]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = power >= 300
+trigger1 = 1
+id = 19200
+anim = 19399 + cond( root, power >= 600, 31, floor( (root, power - 300) / 10))
+space = screen
+pos = 48, (ScreenHeight - 11) ;229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, Power: 600-900]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = power >= 600
+trigger1 = 1
+id = 19200
+anim = 19399 + cond( root, power >= 900, 31, floor( (root, power - 600) / 10))
+space = screen
+pos = 67, (ScreenHeight - 11) ;229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ System Messages ------
+[State 19000, Counter]
+type = explod
+triggerall = root, var(10)
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = !numexplod(19070)
+triggerall = root, stateno != 220
+triggerall = root, stateno != 250
+triggerall = root, stateno != 450
+triggerall = root, stateno != 4000
+triggerall = root, stateno != 4015
+triggerall = root, stateno != 4025
+triggerall = root, stateno != 4035
+triggerall = root, stateno != 4050
+triggerall = root, stateno != 4065
+triggerall = root, stateno != 4075
+triggerall = root, stateno != 4085
+trigger1 = enemynear, movetype = h
+anim = 19070
+id = 19070
+space = screen
+pos = 15, (ScreenHeight - 130) ;90
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, Crush Counter]
+type = explod
+triggerall = root, var(10)
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = !numexplod(19071)
+triggerall = root, stateno = 220 || root, stateno = 250 || root, stateno = 450 || root, stateno = 4000 || root, stateno = 4015 || root, stateno = 4025 || root, stateno = 4035 || root, stateno = 4050 || root, stateno = 4065 || root, stateno = 4075 || root, stateno = 4085
+trigger1 = enemynear, movetype = h
+anim = 19071
+id = 19071
+space = screen
+pos = 15, (ScreenHeight - 120) ;100
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, V Reversal]
+type = explod
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = !numexplod(19074)
+trigger1 = root, stateno = 4300
+anim = 19074
+id = 19074
+space = screen
+pos = 15, (ScreenHeight - 130) ;110
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, Technical]
+type = explod
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = !numexplod(19073)
+trigger1 = root, stateno = 5121; back roll
+trigger2 = root, stateno = 5120 && root, var(19) < 10 && root, var(19) > 0
+anim = 19073
+id = 19073
+space = screen
+pos = 15, (ScreenHeight - 120) ;120
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, Reversal]
+type = explod
+triggerall = roundstate > 1
+triggerall = teamside = 1
+triggerall = !numexplod(19072)
+trigger1 = root, var(37)
+anim = 19072
+id = 19072
+space = screen
+pos = 15, (ScreenHeight - 110) ;130
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+
+;--- player 2 ----------------------------------------------
+;------ V ------
+[State 19000, V]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19900
+anim = cond(root, var(15) > 0, 19002, cond( root, var(3) < 300, 19000, 19001))
+space = screen
+pos = (Screenwidth - 20), (ScreenHeight - 20) ;300, 220
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Trigger]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(2) = 1
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19010
+anim = 19010
+space = screen
+pos = (Screenwidth - 26), (ScreenHeight - 20) ;294, 220
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Trigger]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(2) = 2
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19010
+anim = 19011
+space = screen
+pos = (Screenwidth - 26), (ScreenHeight - 20) ;294, 220
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Skill]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(1) = 1
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19020
+anim = 19020
+space = screen
+pos = (Screenwidth - 14), (ScreenHeight - 20) ;306, 220
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Skill]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = root, var(1) = 2
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19020
+anim = 19021
+space = screen
+pos = (Screenwidth - 14), (ScreenHeight - 20) ;306, 220
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;the word skill
+[State 19000, Skill]
+type = explod
+triggerall = root, var(1) = 1 || root, var(1) = 2
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19021
+anim = 19022
+space = screen
+pos = (Screenwidth - 14), (ScreenHeight - 14) ;306, 226
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ Reversal/Trigger ------
+; < 300 = nothing
+; VT1 & < 900 = reversal
+; VT2 & < 600 = reversal
+; VT1 & 900 = trigger
+; VT2 & 600 = trigger
+[State 19000, Text - V-Trigger Inactive]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19030 
+anim = ifelse(root, var(3) < 300, 2, ifelse( ( root, var(2) = 3 && root, var(3) < 900 ) || ( root, var(2) != 3 && root, var(3) < 600) , 19030, 19031 ))
+space = screen
+pos = (Screenwidth - 29), (ScreenHeight - 24) ;291, 216
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, Text - V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19030 
+anim = cond( root, var(15) > 0, 19532, 2)
+space = screen
+pos = (Screenwidth - 29), (ScreenHeight - 24) ;291, 216
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ V-Meter -------
+;VT1 = 3 bars
+;VT2 = 2 bars
+[State 19000, Bar: V-Trigger Inactive]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = root, var(15) <= 0
+trigger1 = 1
+id = 19100
+anim = cond( root, var(2) = 3, 19600, 19610)
+space = screen
+pos = (Screenwidth - 37), (ScreenHeight - 18) ;283, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, Bar {Backdrop}: V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = root, var(15) > 0
+trigger1 = 1
+id = 19100
+anim = 19651
+space = screen
+pos = (Screenwidth - 37), (ScreenHeight - 18) ;283, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, V-Timer: V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = root, var(15) > 0
+trigger1 = 1
+id = 19200
+anim = cond( (root, var(14) = 1), (19700 + 71 - floor( root, var(15) / 14.08 )), (19700 + 71 - floor( root, var(15) / 42.25 )))
+space = screen
+pos = (Screenwidth - 37), (ScreenHeight - 18) ;283, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19000, Bar Front: V-Trigger Active]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = root, var(15) > 0
+trigger1 = 1
+id = 19100
+anim = 19650
+space = screen
+pos = (Screenwidth - 37), (ScreenHeight - 18) ;283, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ V-Meter Bars ------
+[State 19200, V-Meter: 0-300]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19200
+anim = 19799 + cond( root, var(3) >= 300, 31, floor( root, var(3) / 10))
+space = screen
+pos = (Screenwidth - 37), (ScreenHeight - 18) ;283, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, V-Meter: 300-600]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = root, var(3) >= 300
+trigger1 = 1
+id = 19200
+anim = 19799 + cond( root, var(3) >= 600, 31, cond( root, var(3) < 300, 0, floor( (root, var(3) - 300) / 10)))
+space = screen
+pos = (Screenwidth - 54), (ScreenHeight - 18) ;266, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, V-Meter: 600-900]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = root, var(3) >= 600
+triggerall = root, var(2) = 3
+trigger1 = 1
+id = 19200
+anim = 19799 + cond( root, var(3) >= 900, 31, cond( root, var(3) < 600, 0, floor( (root, var(3) - 600) / 10)))
+space = screen
+pos = (Screenwidth - 71), (ScreenHeight - 18) ; 249, 222
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ Power Bar ------
+[State 19000, Power Bar]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19900
+anim = 19550
+space = screen
+pos = (Screenwidth - 29), (ScreenHeight - 11) ;291, 229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+;------ Power Text ------
+;0 - 300 = Ex Off
+;300 - 900 = Ex On
+;900 = Ca
+[State 19000, Text]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19900
+anim = cond(power < 300, 19051, cond(power < 900, 19052, 19053))
+space = screen
+pos = (Screenwidth - 31), (ScreenHeight - 11) ;289, 229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+
+[State 19200, Power: 0-300]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+trigger1 = 1
+id = 19200
+anim = 19899 + cond( root, power >= 300, 31, floor( root, power / 10))
+space = screen
+pos = (Screenwidth - 29), (ScreenHeight - 11) ;291, 229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, Power: 300-600]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = power >= 300
+trigger1 = 1
+id = 19200
+anim = 19899 + cond( root, power >= 600, 31, floor( (root, power - 300) / 10))
+space = screen
+pos = (Screenwidth - 48), (ScreenHeight - 11) ;272, 229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+[State 19200, Power: 600-900]
+type = explod
+triggerall = root, var(6) = 0
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = power >= 600
+trigger1 = 1
+id = 19200
+anim = 19899 + cond( root, power >= 900, 31, floor( (root, power - 600) / 10))
+space = screen
+pos = (Screenwidth - 67), (ScreenHeight - 11) ;253, 229
+scale = 0.25, 0.25
+bindtime = -1
+ignorehitpause = 1
+ontop = 1
+pausemovetime = 99999
+supermovetime = 99999
+
+
+;------ System Messages ------
+[State 19000, Counter]
+type = explod
+triggerall = root, var(10)
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = !numexplod(19070)
+triggerall = root, stateno != 220
+triggerall = root, stateno != 250
+triggerall = root, stateno != 450
+triggerall = root, stateno != 4000
+triggerall = root, stateno != 4015
+triggerall = root, stateno != 4025
+triggerall = root, stateno != 4035
+triggerall = root, stateno != 4050
+triggerall = root, stateno != 4065
+triggerall = root, stateno != 4075
+triggerall = root, stateno != 4085
+trigger1 = enemynear, movetype = h
+anim = 19570
+id = 19070
+space = screen
+pos = (Screenwidth - 15), (ScreenHeight - 150) ;305, 90
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, Crush Counter]
+type = explod
+triggerall = root, var(10)
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = !numexplod(19071)
+triggerall = root, stateno = 220 || root, stateno = 250 || root, stateno = 450 || root, stateno = 4000 || root, stateno = 4015 || root, stateno = 4025 || root, stateno = 4035 || root, stateno = 4050 || root, stateno = 4065 || root, stateno = 4075 || root, stateno = 4085
+trigger1 = enemynear, movetype = h
+anim = 19571
+id = 19071
+space = screen
+pos = (Screenwidth - 15), (ScreenHeight - 140) ;305, 100
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, V Reversal]
+type = explod
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = !numexplod(19074)
+trigger1 = root, stateno = 4300
+anim = 19574
+id = 19074
+space = screen
+pos = (Screenwidth - 15), (ScreenHeight - 130) ;305, 110
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, Technical]
+type = explod
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = !numexplod(19073)
+trigger1 = root, stateno = 5121; back roll
+trigger2 = root, stateno = 5120 && root, var(19) < 10 && root, var(19) > 0
+anim = 19573
+id = 19073
+space = screen
+pos = (Screenwidth - 15), (ScreenHeight - 120) ;305, 120
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+[State 19000, Reversal]
+type = explod
+triggerall = roundstate > 1
+triggerall = teamside = 2
+triggerall = !numexplod(19072)
+trigger1 = root, var(37)
+anim = 19572
+id = 19072
+space = screen
+pos = (Screenwidth - 15), (ScreenHeight - 110) ;305, 130
+scale = 0.25, 0.25
+ontop = 1
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+
+
+;--------  Sounds ----------
+[State 2100, 50]
+type = varset
+trigger1 = 1
+v = 50
+value = root, power
+
+[State 2100, super is full]
+type = playsnd
+triggerall = roundstate != 0
+triggerall = root, power = 1000
+trigger1 = var(52)
+value = 5, 1
+
+[State 2100, super is full]
+type = playsnd
+triggerall = roundstate != 0
+triggerall = root, power = 1000
+trigger1 = var(52)
+value = 5, 0
+
+[State 2100, inbetween]
+type = varset
+trigger1 = 1
+v = 52
+value = var(50) - var(51)
+
+[State 2100, 51]
+type = varset
+trigger1 = 1
+v = 51
+value = root, power
+
+[State 2100, 43]
+type = varset
+trigger1 = 1
+v = 43
+value = cond(var(41) = var(42), 0, 1)
+
+[State 2100, half full]
+type = playsnd
+trigger1 = var(41) >= 500 && var(42) < 500
+value = 6, 0
+
+[State 2100, full]
+type = playsnd
+triggerall = root, var(3) = 1000
+triggerall = !var(45)
+trigger1 = var(43)
+value = 6, 1
+
+[State 2100, 42]
+type = varset
+trigger1 = 1
+v = 42
+value = root, var(3)
+
+[State 2100, i am at full]
+type = varset
+trigger1 = root, var(3) = 1000
+v= 45
+value = 1
+
+[State 2100, i am not full]
+type = varset
+trigger1 = root, var(3) < 1000
+v = 45
+value = 0
+
+;-------------------------------------
+;Super KO finish helper
+[Statedef 19100]
+type = u
+movetype = i
+physics = n
+anim = 2
+
+[State 19100, ko bg]
+type = explod
+trigger1 = time = 0
+anim = 15600
+id = 4444
+space = screen
+pos = (Screenwidth - 380), (ScreenHeight + 40) ; -20, 250
+supermovetime = 999
+pausemovetime = 999
+ownpal = 1
+scale = 0.55, 0.55
+removetime = 180
+bindtime = -1
+persistent = 0
+sprpriority = -3
+ignorehitpause = 1
+
+[State -2, ko sound]
+type = playsnd
+trigger1 = time = 0
+value = 10, 1
+ignorehitpause = 1  
+
+[State -2, ko sound]
+type = playsnd
+trigger1 = time = 10
+value = 10, 0
+ignorehitpause = 1  
+
+[State -2, no music]
+type = assertspecial
+trigger1 = numexplod(4444)
+flag = nomusic
+flag2 = nofg
+flag3 = nobg
+ignorehitpause = 1
+
+[State -2, ko pause]
+type = pause
+trigger1 = time <= 60
+time = 3
+movetime = 3
+
+[State -2, set 11 to 2]
+type = parentvarset
+trigger1 = time = 0
+var(11) = 2
+
+[State 19100, destroy]
+type = destroyself
+trigger1 = time > 179
+
+;-------------------------------------
+;Ex KO finish helper
+[Statedef 19101]
+type = u
+movetype = i
+physics = n
+anim = 2
+
+[State 19101, ko bg]
+type = explod
+trigger1 = time = 0
+anim = 15601
+id = 4444
+pos = (Screenwidth - 380), (ScreenHeight + 40) ;-60, 280
+space = screen
+supermovetime = 999
+pausemovetime = 999
+ownpal = 1
+scale = 0.55, 0.55
+bindtime = -1
+persistent = 0
+sprpriority = cond(root, stateno = 1435, 991, -3)
+ignorehitpause = 1
+
+[State 19101, ko sound]
+type = playsnd
+trigger1 = time = 0
+value = 10, 2
+ignorehitpause = 1 
+
+[State -2, ko pause]
+type = pause
+trigger1 = time <= 30
+time = 3
+movetime = 3 
+
+[State 19101, set 11 to 2]
+type = parentvarset
+trigger1 = time = 0
+var(11) = 2
+
+[State 19101, destroy]
+type = destroyself
+trigger1 = time > 92
+
+;---------------------------- Ultra Select ---------------------------------
+[Statedef 11000]
+type = u
+movetype = u
+physics = n
+anim = 2
+ctrl = 1
+
+;0 - timer
+;1 - selection
+;2 - selected
+
+[State 11000, timer]
+type = varadd
+trigger1 = 1
+v = 0
+value = 1
+
+[State 11000, VT1]
+type = explod
+triggerall = numexplod(11000) = 0
+trigger1 = var(1) = 0
+id = 11000
+anim = 22000
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 210), (ScreenWidth - 110)), (ScreenHeight - 30)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VT1]
+type = removeexplod
+trigger1 = var(1) != 0
+trigger2 = roundstate > 1
+id = 11000
+
+[State 11000, remove 1]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11000
+
+[State 11000, VT2]
+type = explod
+triggerall = numexplod(11001) = 0
+trigger1 = var(1) = 1
+anim = 22001
+id = 11001
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 210), (ScreenWidth - 110)), (ScreenHeight - 30)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VT2]
+type = removeexplod
+trigger1 = var(1) != 1
+trigger2 = roundstate > 1
+id = 11001
+
+[State 11000, remove 2]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11001
+
+[State 11000, VT3]
+type = explod
+triggerall = numexplod(11007) = 0
+trigger1 = var(1) = 2
+anim = 22004
+id = 11007
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 210), (ScreenWidth - 110)), (ScreenHeight - 30)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VT2]
+type = removeexplod
+trigger1 = var(1) != 2
+trigger2 = roundstate > 1
+id = 11007
+
+[State 11000, remove 2]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11007
+
+[State 11000, Trigger]
+type = explod
+trigger1 = numexplod(11102) = 0
+id = 11102
+anim = 22002
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 210), (ScreenWidth - 110)), (ScreenHeight - 19)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove trigger]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11102
+
+[State 11000, Left]
+type = explod
+trigger1 = numexplod(11103) = 0
+id = 11103
+anim = 22300
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 222), (ScreenWidth - 122)), (ScreenHeight - 23)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove left]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11103
+
+[State 11000, right]
+type = explod
+trigger1 = numexplod(11104) = 0
+id = 11104
+anim = 22301
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 198), (ScreenWidth - 98)), (ScreenHeight - 23)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove right]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11104
+
+[State 11000, toggle]
+type = varset
+triggerall = var(1) > 2
+trigger1 = 1
+var(1) = 0
+
+[State 11000, toggle]
+type = varset
+triggerall = var(1) <0
+trigger1 = 1
+var(1) = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = parent, command = "F"
+v = 1     
+value = 1
+
+[State 11000, toggle]
+type = varadd
+trigger1 = parent, command = "B"
+var(1) = -1
+
+[State 11000, sound]
+type = playsnd
+trigger1 = parent, command = "F"
+value = 7, 0
+
+[State 11000, sound]
+type = playsnd
+trigger1 = parent, command = "B"
+value = 7, 0
+;-----
+
+[State 11000, VS1]
+type = explod
+triggerall = numexplod(11100) = 0
+trigger1 = var(4) = 0
+id = 11100
+anim = 22100
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 264), (ScreenWidth - 55)), (ScreenHeight - 30)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VS1]
+type = removeexplod
+trigger1 = var(4) != 0
+trigger2 = roundstate > 1
+id = 11100
+
+[State 11000, remove VS1]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11100
+
+[State 11000, VS2]
+type = explod
+triggerall = numexplod(11101) = 0
+trigger1 = var(4) = 1
+anim = 22101
+id = 11101
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 265), (ScreenWidth - 55)), (ScreenHeight - 30)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VS2]
+type = removeexplod
+trigger1 = var(4) != 1
+trigger2 = roundstate > 1
+id = 11101
+
+[State 11000, remove VS2]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11101
+
+[State 11000, VS3]
+type = explod
+triggerall = numexplod(11107) = 0
+trigger1 = var(4) = 2
+anim = 22104
+id = 11107
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 265), (ScreenWidth - 55)), (ScreenHeight - 30)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VS3]
+type = removeexplod
+trigger1 = var(4) != 2
+trigger2 = roundstate > 1
+id = 11107
+
+[State 11000, remove VS3]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11107
+
+[State 11000, skill]
+type = explod
+trigger1 = numexplod(11110) = 0
+id = 11110
+anim = 22102
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 260), (ScreenWidth - 60)), (ScreenHeight - 19)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove trigger]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11110
+
+[State 11000, up]
+type = explod
+trigger1 = numexplod(11111) = 0
+id = 11111
+anim = 22303
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 254), (ScreenWidth - 66)), (ScreenHeight - 27) 
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove up]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11111
+
+[State 11000, down]
+type = explod
+trigger1 = numexplod(11112) = 0
+id = 11112
+anim = 22302
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 254), (ScreenWidth - 66)), (ScreenHeight - 20)
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove down]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11112
+
+[State 11000, toggle]
+type = varset
+triggerall = var(4) > 2
+trigger1 = 1
+var(4) = 0
+
+[State 11000, toggle]
+type = varset
+triggerall = var(4) <0
+trigger1 = 1
+var(4) = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = parent, command = "U"
+v = 4     
+value = 1
+
+[State 11000, toggle]
+type = varadd
+trigger1 = parent, command = "D"
+var(4) = -1
+
+[State 11000, sound]
+type = playsnd
+trigger1 = parent, command = "U"
+value = 7, 1
+
+[State 11000, sound]
+type = playsnd
+trigger1 = parent, command = "D"
+value = 7, 1
+;---------------
+
+[State 11000,  Mode Select]
+type = explod
+triggerall = numexplod(11200) = 0
+trigger1 = var(4) = 0
+id = 11200
+anim = 22200
+ownpal = 1
+ontop = 1
+space = screen
+pos = cond( teamside = 1, (Screenwidth - 235), (ScreenWidth - 85)), (ScreenHeight - 10) 
+bindtime = -1
+scale = 0.5, 0.5
+
+[State 11000, remove VS2]
+type = removeexplod
+trigger1 = roundstate > 1
+id = 11200
+
+
+;---------------
+
+[State 11000, displ]
+type = displaytoclipboard
+trigger1 = 1
+text = "var0 = %d, var1 = %d, var4 = %d"
+params = var(0), var(1), var(4)
+
+[State 11000, set trigger var]
+type = parentvarset
+trigger1 = 1
+v = 2
+value = var(1) + 1
+
+[State 11000, set skill var]
+type = parentvarset
+trigger1 = 1
+v = 1
+value = var(4) + 1
+
+[State 11000, sound]
+type = varset
+trigger1 = parent, command = "a" || parent, command = "b" || parent, command = "c" || parent, command = "x" || parent, command = "y" || parent, command = "z"
+v = 2
+value = 1
+
+[State 11000, remove]
+type = destroyself
+trigger1 = roundstate > 1

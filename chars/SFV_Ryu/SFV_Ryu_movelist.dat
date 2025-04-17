@@ -1,0 +1,37 @@
+<#f0f000>Unique Attacks</>
+Collarbone Breaker							_F_+^MP
+Solar Plexus Strike							_F_+^HP
+Axe Kick									_B_+^HK
+Jodan Nirengeki								^HP_-^HK
+Jodan Sarengeki (1) (Standing)				^MP_-^HP
+Jodan Sarengeki (1) (Crouching)				^MP_-_D_+^HP
+Jodan Sarengeki (2)							^MP_-^HP_-^HK
+
+<#f0f000>Special Moves</>
+Hadouken_EX									_QCF_+^P
+Shoryuken_EX								_DSF_+^P
+Tatsumaki Senpukyaku_EX						_QCB_+^K
+Airborne Tatsumaki Senpukyaku_EX			_AIR_QCB_+^K
+Jodan Sokutou Geri_EX						_HCF_+^K
+
+<#f0f000>V-Skill</>
+Mind's Eye (I)								^MP_+^MK
+Thrust Strike (II)							^MP_+^MK								
+
+<#f0f000>V-Reversal</>
+Hashogeki									_F_+^3P
+
+<#f0f000>V-Shift</>
+V-Shift										^MK_+^HP
+_!V-Shift Break								[Hold]^MK_+^HP					
+
+<#f0f000>V-Trigger</>
+Denjin Renki (I)							^HP_+^HK
+_!Hadouken_EX								_QCF_+^P (Can Charge)
+_!Shoryuken_EX								_DSF_+^P
+Kakko Fubatsui (II)							^HP_+^HK
+_!Isshin									^HP_+^HK
+
+<#f0f000>Critical Art</>
+Shinkuu Hadouken							_QCF_QCF_+^P
+Denjin Hadouken								{VT1 Only}_QCF_QCF_+^P

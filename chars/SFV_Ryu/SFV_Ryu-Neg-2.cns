@@ -1,0 +1,1704 @@
+;---------------- -2 ----------------- 
+[Statedef -2]
+
+[State -2, wallbounce]
+type = targetstate
+triggerall = numtarget
+triggerall = stateno = 1330
+trigger1 = movehit = 1 && target, hitshakeover
+value = 1335
+
+[State -2, wallbounce]
+type = targetstate
+triggerall = numtarget
+triggerall = stateno = 4120
+trigger1 = movehit = 1 && target, hitshakeover
+value = 1335
+
+;wallbounce sound
+[State 0, PlaySnd]
+type = playsnd
+triggerall = numtarget
+triggerall = Target,time = 1
+trigger1 = target, stateno = 1336
+value = 0,17
+channel = 2
+persistent = 1
+volumescale = 75
+
+[State 0, Explod]
+type = explod
+triggerall = numtarget
+triggerall = Target, time = 1
+trigger1 = target,stateno = 1336
+anim = 1332
+ID = 1008
+space = stage
+facing = (target, facing)
+pos = cond(target, facing = 1, 1, -1) * 20, -55
+bindID = ( target, ID )
+bindtime = 1
+removetime = -2
+pausemovetime = 0
+scale = 0.75, 0.75
+sprpriority = -1
+shadow = 0,0,0
+ownpal = 0
+ignorehitpause = 0
+angle = -90
+
+
+;Vt1 electricity up hand
+[State 0, Explod]
+type = Explod
+triggerall = var(14) = 1
+triggerall = numexplod(4508) = 0
+trigger1 = var(15) > 0
+anim = 4508
+ID = 4508
+pos = 5,-85
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+removetime = -1
+scale = .35,.35
+sprpriority = 3
+shadow = 0,0,0
+ownpal = 1
+persistent =1
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = statetype = c
+ID = 4508
+pos = 10,-55
+postype = p1  ;p2,front,back,left,right
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = stateno = [5100,5112]
+ID = 4508
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = statetype != c && stateno != [5100,5120]
+ID = 4508
+pos = 5,-85
+postype = p1  ;p2,front,back,left,right
+sprpriority = 3
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = stateno = 5120 && time >=30
+ID = 4508
+pos = 0,-5
+postype = p1  ;p2,front,back,left,right
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = var(15) <= 0
+id = 4508
+
+;Vt1 electricity low hand
+[State 0, Explod]
+type = Explod
+triggerall = var(14) = 1
+triggerall = numexplod(4509) = 0
+trigger1 = var(15) > 0
+anim = 4509
+ID = 4509
+pos = 15,-65
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+removetime = -1
+scale = .35,.35
+sprpriority = 3
+shadow = 0,0,0
+ownpal = 1
+persistent =1
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = statetype = c
+ID = 4509
+pos = 25,-40
+postype = p1  ;p2,front,back,left,right
+
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = stateno = [5100,5112]
+ID = 4509
+pos = 10,-10
+postype = p1  ;p2,front,back,left,right
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = statetype != c && stateno != [5100,5120]
+ID = 4509
+pos = 15,-65
+postype = p1  ;p2,front,back,left,right
+sprpriority = 3
+
+[State 0, ModifyExplod]
+type = ModifyExplod
+trigger1 = stateno = 5120 && time >=30
+ID = 4509
+pos = 10,-10
+postype = p1  ;p2,front,back,left,right
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = var(15) <= 0
+id = 4509
+
+;--- UI sound ---
+[State -2, vt1 runs out]
+type = playsnd
+triggerall = var(2) = 1
+trigger1 = var(15) < 0
+value = 4010, 4
+
+;--- No Air Guard - Ever ---
+[State -2, AssertSpecial] 
+type = AssertSpecial
+trigger1 = 1
+flag = noairguard
+
+;---- play random grunt during gethit
+[State -2, light gethit]
+type = PlaySnd
+triggerall = random < 667
+triggerall = alive
+triggerall = life > 0
+triggerall = gethitvar(animtype) = 0
+triggerall = time = 0
+trigger1 = stateno = 5000 || stateno = 5010 || stateno = 5020 || stateno = 5070
+value = 4, 0 + (random % 3)
+channel = 0
+
+[State -2, medium gethit]
+type = PlaySnd
+triggerall = random < 667
+triggerall = alive
+triggerall = life > 0
+triggerall = gethitvar(animtype) = 1
+triggerall = time = 0
+trigger1 = stateno = 5000 || stateno = 5010 || stateno = 5020 || stateno = 5070
+value = 4, 3 + (random % 3)
+channel = 0
+
+[State -2, hard gethit]
+type = PlaySnd
+triggerall = random < 667
+triggerall = alive
+triggerall = life > 0
+triggerall = gethitvar(animtype) = [2, 4]
+triggerall = time = 0
+trigger1 = stateno = 5000 || stateno = 5010 || stateno = 5020 || stateno = 5070
+value = 4, 6 + (random % 3)
+channel = 0
+
+;--- helper(10371) - Vans Input and Buffering Helper ---
+[State -2]
+Type = helper
+Trigger1 = !NumHelper(10371)
+name = "Buffering - (head.pos)"
+ID = 10371
+pos = 0,0
+posType = p1
+facing = 1
+StateNo = 10371
+keyctrl = 1
+ownpal = 1
+supermoveTime = 65535
+pausemoveTime = 65535
+
+;---- helper(19000) - Ultra bar
+[State -2, ultra bar helper]
+type = helper
+trigger1 = !NumHelper(19000)
+name = "Bar"
+ID = 19000
+stateno = 19000
+postype = back
+pos = 40,-20
+ignorehitpause = 1
+facing = 1
+ownpal = 1
+size.xscale = 0.15
+size.yscale = 0.15
+pausemovetime = 99999
+supermovetime = 99999
+
+;---- var(56) - detect ctrl for special moves buffer 
+[State -2, detect ctrl for spec moves]
+type = varset
+triggerall = !var(56)
+trigger1 = ctrl && stateno = [0,199]
+var(56) = 2
+
+;---- helper(11000) - ultra selection helper
+[State -2, select ultra]
+type = helper
+triggerall = numhelper(11000) = 0
+trigger1 = time = 0
+trigger1 = roundstate = 0
+trigger1 = roundsexisted = 0
+id = 11000
+stateno = 11000
+postype = left
+pos = 0,0
+
+;=== vars 3, 5, 6 used in ultra damage calculations ===
+;--- var(3) - revenge meter, used with var(5) for calculations ---
+[State -2, set to 0 at start of match]
+type = varset
+trigger1 = roundstate = 0
+var(3) = 0
+
+[State -2, max v meter - trigger 1]
+type = varset
+triggerall = var(2) = 1
+trigger1 = var(3) > 600
+var(3) = 600
+
+[State -2, max v meter - trigger 2]
+type = varset
+triggerall = var(2) = 2
+trigger1 = var(3) > 600
+var(3) = 600
+
+[State -2, max v meter - trigger 3]
+type = varset
+triggerall = var(2) = 3
+trigger1 = var(3) > 900
+var(3) = 900
+
+[State -2, Ultra Damage Calculation]
+type = varadd
+triggerall = !var(15)
+trigger1 = (var(5)-life) > 0
+var(3) = ceil((var(5)-life)*900/(const(data.life)*0.667))
+
+;--- var(5) - Holds Life for ultra meter calculations ---
+[State -2, Life measure 2]
+Type = VarSet
+Trigger1 = 1
+var(5) = life
+ignorehitpause = 1
+
+;--- var(6) - when active, makes ultra meter disappear ---
+[State -2, var 6 safety]
+type = null
+trigger1 = stateno != [3000, 4999]
+trigger2 = !alive
+v = 6
+value = 0
+
+[State -2, No Music plays during KO Flash (explod 4444)]
+type = assertspecial
+trigger1 = numexplod(4444)
+flag = nomusic
+flag2 = nofg
+flag3 = nobg
+ignorehitpause = 1
+
+;--- var(11) - detects if enemy is alive ---
+;used with var(4) to trigger the Super KO Helper
+[State -2, set when p2 is dead]
+type = varset
+triggerall = var(11) = 0
+trigger1 = enemynear, alive = 0
+var(11) = 1
+ignorehitpause = 1
+
+[State -2, reset on new round]
+type = varset
+triggerall = var(11)
+trigger1 = roundstate = 0
+var(11) = 0
+
+;---- helper(12345) - super ko finish helper
+[State -2, ko finish helper]
+type = helper
+triggerall = !numhelper(12345)
+trigger1 = var(11) = 1
+trigger1 = var(4)
+stateno = 19100
+id = 12345
+postype = p1
+pos = 0, 0
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+[State 1435, remove 1435]
+type = removeexplod
+trigger1 = numhelper(12345)
+id = 1435
+
+;---- helper(12346) - Ex KO finish helper
+[State -2, Ex KO finish helper]
+type = helper
+triggerall = !numhelper(12346)
+trigger1 = var(11) = 1
+trigger1 = var(16)
+stateno = 19101
+id = 12346
+postype = p1
+pos = 0, 0
+ignorehitpause = 1
+pausemovetime = 999999
+supermovetime = 999999
+
+;=== vars 8, 9, 10 used in p2 counter hit detection logic ===
+;--- var(8) - Records how long p2 was in movetype = a ---
+[State -2, P2 is in movetype = a]
+type = varadd
+trigger1 = enemynear, movetype = a
+var(8) = 1
+
+[State -2, P2 no longer in movetype = a]
+type = varset
+trigger1 = enemynear, movetype != a
+var(8) = 0
+
+;--- var(9) - detects how long I am in movetype = a ---
+;set at the start of each attack state to 1 less than my move's startup
+[State -2, reset 9]
+type = varset
+trigger1 = movetype != a
+var(9) = 0
+ignorehitpause = 1
+
+;--- var(10) - counter hit logic calculation ---
+;Counter hit valid if p2's movetype = a for less than my move's startup
+[State -2, counter hit logic]
+type = varset
+trigger1 = 1
+var(10) = cond( ( (var(8) < var(9)) && var(8) || (enemynear, authorname = "Mr. I and Violin Ken" && (enemynear, fvar(30) || enemynear, fvar(31)) ) ), 1, 0)
+
+;--- var(4) - Countdown var for various effects ---
+;used with var(11) to trigger the Super KO Helper
+[State -2, run 4 down]
+type = varadd
+trigger1 = var(4) > 0
+v = 4
+value = -1
+
+;--- var(16) - Countdown var for various effects ---
+;used with var(11) to trigger the Ex KO Helper
+[State -2, run 16 down]
+type = varadd
+trigger1 = var(16) > 0
+v = 16
+value = -1
+
+;--- var(12) - Prevents multi-hit move from adding to scaling ---
+;Set during moves that do multiple hits
+[State -2, reset]
+type = varset
+trigger1 = enemynear, ctrl
+trigger2 = enemynear, movetype != h
+var(12) = 0
+
+;--- var(13) - juggle point counter ---
+;Set to 1 during moves that apply juggle potential
+;Set to 1000 to moves that should reset opponent
+[State -2, reset]
+type = varset
+trigger1 = enemynear, ctrl
+trigger2 = enemynear, movetype != h
+trigger3 = enemynear, statetype != a
+var(13) = 0
+
+
+[State -2, negative]
+type = varset
+trigger1 = var(15) < 0
+var(14) = 0
+
+;--- var(15) - V-Trigger Timer ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(15) > 0
+v = 15
+value = -1
+
+[State -2, negative]
+type = varset
+trigger1 = var(15) < 0
+var(15) = 0
+
+;--- reset 19 ----
+[State -2, reset 19]
+type = varset
+triggerall = var(19)
+trigger1 = ctrl
+var(19) = 0
+
+;--- var(21) - represents grey life ---
+[State -2, grey life is lost on hit]
+type = VarSet
+trigger1 = movetype = h && stateno = [5000, 5099]
+var(21) = 0
+
+;---- var(23) - when active, player is in an armored state
+[State -2, reset 23]
+type = varset
+trigger1 = stateno != 1040
+trigger1 = stateno != 5000
+v = 23
+value = 0
+
+;--- var(24) - represents the time before grey life begins building back ---
+[State -2, set to 75 when absorbing and blocking]
+type = varset
+triggerall = var(24) != 75
+trigger1 = stateno = [150, 160]
+trigger2 = stateno = 1040
+var(24) = 75
+ignorehitpause = 1
+
+[State -2, count down]
+type = varadd
+trigger1 = var(24) > 0
+v = 24
+value = -1
+
+[State -2, reset on hit]
+type = varset
+triggerall = stateno != [150, 160]
+trigger1 = movetype = h
+var(24) = 0
+
+[State -2, grey life begins rebuilding after one second of no hits or blocks]
+type = LifeAdd
+triggerall = !var(24)
+trigger1 = var(21) && (Gametime%3)=1
+value = 1
+absolute = 0
+
+[State -2, represents amount of grey life to recover]
+type = VarAdd
+triggerall = !var(24)
+trigger1 = var(21) && (Gametime%3)=1
+v = 21
+value = -1
+
+;--- var(25) - corner push ---
+[State -2, no cornerpush when opponent is airborne]
+type = varset
+trigger1 = movetype != a
+v = 25
+value = 0
+
+[State -2, cornerpush calculation]
+type = velset
+triggerall = numtarget
+triggerall = movecontact
+triggerall = target, hitover = 0
+triggerall = var(25)
+triggerall = target, statetype != a
+trigger1 = target, backedgebodydist = 0
+trigger2 = target, frontedgebodydist = 0
+x = (target, gethitvar(xvel) * target, const(movement.stand.friction)**(movecontact)) * cond(target, facing = 1, 1, -1) * 1.177
+
+;--- var(27) - VT2 cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(27) > 0
+v = 27
+value = -1
+
+;--- var(28) - v skill cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(28) > 0
+v = 28
+value = -1
+
+;--- var(29) - v trigger cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(29) > 0
+v = 29
+value = -1
+
+;--- var(30) - special move cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(30) > 0
+v = 30
+value = -1
+
+;--- var(31) - critical art cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(31) > 0
+v = 31
+value = -1
+
+;--- var(32) - chain attack cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(32) > 0
+v = 32
+value = -1
+
+;--- var(33) - G Charge cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(33) > 0
+v = 33
+value = -1
+
+;--- var(34) - wake up buffer timing ---
+[State -2, reset]
+type = varset
+triggerall = var(34) != 0
+trigger1 = stateno != [5120, 5121]
+var(34) = 0
+
+;--- var(35) - VT1 Cancel ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(35) > 0
+v = 35
+value = -1
+
+;--- var(36) - VT1 Cancel Usage Reset ---
+[State -2, reset]
+type = varset
+triggerall = var(36)
+triggerall = stateno != 4515 && stateno != 4525
+trigger1 = ctrl 
+var(36) = 0
+
+;--- var(37) - Reversal Usage for UI ---
+[State -2, countdown]
+type = varadd
+trigger1 = var(37) > 0
+v = 37
+value = -1
+
+[State -2, reset]
+type = varset
+trigger1 = var(37) < 0
+var(37) = 0 
+
+;--- var(45) - time before ctrl returned ---
+[State -2, 45]
+type = varset
+triggerall = statetype != a
+trigger1 = movetype = h
+var(45) = gethitvar(hittime)
+
+[State -2, 45]
+type = varset
+trigger1 = movetype != h
+trigger2 = statetype = a
+trigger3 = var(45) < 0
+var(45) = 0
+
+;--- var(46) - time which reversal should be possible ---
+[State -2, 46]
+type = varadd
+trigger1 = var(46)
+v = 46
+value = -1
+
+;--- var(47) - holds reversal input ---
+[State -2, 47 reset]
+type = varset
+trigger1 = !var(46)
+var(47) = 0
+
+;=== reversal moves ===
+[State -2, V-Shift]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(3) >= 300
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "b") || ((helper(10371), var(12)) && (helper(10371), var(14)))
+var(46) = 8
+
+[State -2, V-Shift]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4900
+triggerall = var(3) >= 300
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "b") || ((helper(10371), var(12)) && (helper(10371), var(14)))
+var(47) = 4900
+
+[State -2, Hp Denjin Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "c" || helper(10371), var(12) ;MP
+var(46) = 8
+
+[State -2, Hp Denjin Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 7700
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "c" || helper(10371), var(12) ;MP
+var(47) = 7700
+
+[State -2, Mp Denjin Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "b" || helper(10371), var(11) ;MP
+var(46) = 8
+
+[State -2, Mp Denjin Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 7600
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "a" || helper(10371), var(10) ;LP
+var(47) = 7600
+
+[State -2, Lp Denjin Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "a" || helper(10371), var(10) ;LP
+var(46) = 8
+
+[State -2, Lp Denjin Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 7500
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "a" || command = "b" || command = "c" || helper(10371), var(10) || helper(10371), var(11) || helper(10371), var(12) ;P
+var(47) = 7500
+
+[State -2, Hp Shinkuu Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "c" || helper(10371), var(12) ;MP
+var(46) = 8
+
+[State -2, Hp Shinkuu Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 7200
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "c" || helper(10371), var(12) ;MP
+var(47) = 7200
+
+[State -2, Mp Shinkuu Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "b" || helper(10371), var(11) ;MP
+var(46) = 8
+
+[State -2, Mp Shinkuu Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 7100
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "a" || helper(10371), var(10) ;LP
+var(47) = 7100
+
+[State -2, Lp Shinkuu Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "a" || helper(10371), var(10) ;LP
+var(46) = 8
+
+[State -2, Lp Shinkuu Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 7000
+triggerall = power >= 900
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(50) ;2QCF
+trigger1 = command = "a" || command = "b" || command = "c" || helper(10371), var(10) || helper(10371), var(11) || helper(10371), var(12) ;P
+var(47) = 7000
+
+[State -2, Kakko Fubatsui {V-Trigger II}]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(2) = 2
+triggerall = var(3) >= 600
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(46) = 8
+
+[State -2, Kakko Fubatsui {V-Trigger II}]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4700
+triggerall = var(2) = 2
+triggerall = var(3) >= 600
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(47) = 4700
+
+[State -2, Kakko Fubatsui {V-Trigger II}]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(2) = 3
+triggerall = var(3) >= 900
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = command = "holddown"
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(46) = 8
+
+[State -2, Kakko Fubatsui {V-Trigger II}]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4700
+triggerall = var(2) = 3
+triggerall = var(3) >= 900
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = command = "holddown"
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(47) = 4700
+
+[State -2, Denjin Renki {V-Trigger I}]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(2) = 3 
+triggerall = var(3) >= 900
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(46) = 8
+
+[State -2, Denjin Renki {V-Trigger I}]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4500
+triggerall = var(2) = 3
+triggerall = var(3) >= 900
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(47) = 4500
+
+[State -2, Denjin Renki {V-Trigger I}]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(2) = 1 
+triggerall = var(3) >= 600
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(46) = 8
+
+[State -2, Denjin Renki {V-Trigger I}]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4500
+triggerall = var(2) = 1
+triggerall = var(3) >= 600
+triggerall = var(15) <= 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(47) = 4500
+
+
+[State -2, Isshin (V-Skill II)]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(2) = 2
+triggerall = var(15) > 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(46) = 8
+
+[State -2, Isshin (V-Skill II)]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4710
+triggerall = var(2) = 2
+triggerall = var(15) > 0
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "z" && command = "c") || ((helper(10371), var(12)) && (helper(10371), var(15)))
+var(47) = 4710
+
+[State -2, VT1 Mind's Eye (V-Skill I)]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(1) = 1 || var(1) = 3
+triggerall = var(15)
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(46) = 8
+
+[State -2, VT1 Mind's Eye (V-Skill I)]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4670
+triggerall = var(1) = 1 || var(1) = 3
+triggerall = var(15)
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(47) = 4670
+
+[State -2, VT1 Ex Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(46) = 8
+
+[State -2, VT1 Ex Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4630
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(47) = 4630
+
+[State -2, VT1 Hp Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "z" || helper(10371), var(12) ;HP
+var(46) = 8
+
+[State -2, VT1 Hp Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4620
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "z" || (helper(10371), var(12)) ;HP
+var(47) = 4620
+
+[State -2, VT1 Mp Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "y" || helper(10371), var(11) ;MP
+var(46) = 8
+
+[State -2, VT1 Mp Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4610
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "y" || (helper(10371), var(11)) ;MP
+var(47) = 4610
+
+[State -2, VT1 Lp Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "x" || helper(10371), var(10) ;LP
+var(46) = 8
+
+[State -2, VT1 Lp Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4600
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+triggerall = var(15)
+triggerall = var(14) = 1
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "x" || (helper(10371), var(10)) ;LP
+var(47) = 4600
+
+[State -2, VT1 Ex Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(46) = 8
+
+[State -2, VT1 Ex Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4570
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(47) = 4570
+
+[State -2, VT1 Hp Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "z" || helper(10371), var(12) ;HP
+var(46) = 8
+
+[State -2, VT1 Hp Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4530
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "z" || (helper(10371), var(12)) ;HP
+var(47) = 4530
+
+[State -2, VT1 Mp Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "y" || helper(10371), var(11) ;MP
+var(46) = 8
+
+[State -2, VT1 Mp Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4520
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "y" || (helper(10371), var(11)) ;MP
+var(47) = 4520
+
+[State -2, VT1 Lp Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "x" || helper(10371), var(10) ;LP
+var(46) = 8
+
+[State -2, VT1 Lp Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4510
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = var(15)
+triggerall = var(14) = 1
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "x" || (helper(10371), var(10)) ;LP
+var(47) = 4510
+
+[State -2, Thrust Strike {V-Skill I}]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(1) = 2
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(46) = 8
+
+[State -2, Thrust Strike {V-Skill II}]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4100
+triggerall = var(1) = 2
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(47) = 4100
+
+[State -2, Thrust Strike {V-Skill I}]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(1) = 3
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = command = "holddown"
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(46) = 8
+
+[State -2, Thrust Strike {V-Skill II}]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4100
+triggerall = var(1) = 3
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = command = "holddown"
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(47) = 4100
+
+[State -2, Mind's Eye (V-Skill I)]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = var(1) = 1 || var(1) = 3
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(46) = 8
+
+[State -2, Mind's Eye (V-Skill I)]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 4000
+triggerall = var(1) = 1 || var(1) = 3
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = (command = "y" && command = "b") || ((helper(10371), var(11)) && (helper(10371), var(14)))
+var(47) = 4000
+
+[State -2, Ex Jodan Sokutou Geri]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = (helper(10371), var(26)) || (helper(10371), var(27)) || (helper(10371), var(28)) || command = "ab" || command = "bc" || command = "ac" ;2K
+var(46) = 8
+
+[State -2, Ex Jodan Sokutou Geri]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1330
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = (helper(10371), var(26)) || (helper(10371), var(27)) || (helper(10371), var(28)) || command = "ab" || command = "bc" || command = "ac" ;2K
+var(47) = 1330
+
+[State -2, Hk Jodan Sokutou Geri]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = command = "c" || helper(10371), var(15) ;HK
+var(46) = 8
+
+[State -2, Hk Jodan Sokutou Geri]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1320
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = command = "c" || (helper(10371), var(15)) ;HK
+var(47) = 1320
+
+[State -2, Mk Jodan Sokutou Geri]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = command = "b" || helper(10371), var(14) ;MK
+var(46) = 8
+
+[State -2, Mk Jodan Sokutou Geri]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1310
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = command = "b" || (helper(10371), var(14)) ;MK
+var(47) = 1310
+
+[State -2, Lk Jodan Sokutou Geri]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = command = "a" || helper(10371), var(13) ;LK
+var(46) = 8
+
+[State -2, Lk Jodan Sokutou Geri]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(44) ;HCF
+trigger1 = command = "a" || (helper(10371), var(13)) ;LK
+var(47) = 1300
+
+[State -2, Ex Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = (helper(10371), var(26)) || (helper(10371), var(27)) || (helper(10371), var(28)) || command = "ab" || command = "bc" || command = "ac" ;2K
+var(46) = 8
+
+[State -2, Ex Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1230
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = (helper(10371), var(26)) || (helper(10371), var(27)) || (helper(10371), var(28)) || command = "ab" || command = "bc" || command = "ac" ;2K
+var(47) = 1230
+
+[State -2, Hk Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = command = "c" || helper(10371), var(15) ;HK
+var(46) = 8
+
+[State -2, Hk Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1220
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = command = "c" || (helper(10371), var(15)) ;HK
+var(47) = 1220
+
+[State -2, Mk Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = command = "b" || helper(10371), var(14) ;MK
+var(46) = 8
+
+[State -2, Mk Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1210
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = command = "b" || (helper(10371), var(14)) ;MK
+var(47) = 1210
+
+[State -2, Lk Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = command = "a" || helper(10371), var(13) ;LK
+var(46) = 8
+
+[State -2, Lk Tatsumaki Senpukyaku]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1200
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(41) ;QCB
+trigger1 = command = "a" || (helper(10371), var(13)) ;LK
+var(47) = 1200
+
+[State -2, Ex Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(46) = 8
+
+[State -2, Ex Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1130
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(47) = 1130
+
+[State -2, Hp Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "z" || helper(10371), var(12) ;HP
+var(46) = 8
+
+[State -2, Hp Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1120
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "z" || (helper(10371), var(12)) ;HP
+var(47) = 1120
+
+[State -2, Mp Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "y" || helper(10371), var(11) ;MP
+var(46) = 8
+
+[State -2, Mp Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1110
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "y" || (helper(10371), var(11)) ;MP
+var(47) = 1110
+
+[State -2, Lp Shoryuken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "x" || helper(10371), var(10) ;LP
+var(46) = 8
+
+[State -2, Lp Shoryuken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1100
+triggerall = !isHelper(10371)
+triggerall = statetype != a
+trigger1 = helper(10371), var(42) ;DP
+trigger1 = command = "x" || (helper(10371), var(10)) ;LP
+var(47) = 1100
+
+[State -2, Ex Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(46) = 8
+
+[State -2, Ex Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1030
+triggerall = power >= 300
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = (helper(10371), var(23)) || (helper(10371), var(24)) || (helper(10371), var(25)) || command = "xy" || command = "yz" || command = "xz" ;2P
+var(47) = 1030
+
+[State -2, Hp Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "z" || helper(10371), var(12) ;HP
+var(46) = 8
+
+[State -2, Hp Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1020
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "z" || (helper(10371), var(12)) ;HP
+var(47) = 1020
+
+[State -2, Mp Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "y" || helper(10371), var(11) ;MP
+var(46) = 8
+
+[State -2, Mp Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1010
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "y" || (helper(10371), var(11)) ;MP
+var(47) = 1010
+
+[State -2, Lp Hadouken]
+type = varset
+triggerall = var(45)
+triggerall = var(45) < 6
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "x" || helper(10371), var(10) ;LP
+var(46) = 8
+
+[State -2, Lp Hadouken]
+type = varset
+triggerall = var(46)
+triggerall = var(47) < 1000
+triggerall = !isHelper(10371)
+triggerall = !var(17)
+triggerall = statetype != a
+trigger1 = helper(10371), var(40) ;QCF
+trigger1 = command = "x" || (helper(10371), var(10)) ;LP
+var(47) = 1000
+
+[State -2, Reversal UI]
+type = varset
+triggerall = var(46)
+triggerall = var(47)
+triggerall = statetype != a
+trigger1 = ctrl
+var(37) = 5
+
+[State -2, Execute Reversal]
+type = changestate
+triggerall = var(46)
+triggerall = var(47)
+triggerall = statetype != a
+trigger1 = ctrl
+value = var(47)
+
+;--- var(51) - determines if normal was presed during jump (for trip guard) ---
+[State -2, reset when not in jump state]
+type = varset
+triggerall = var(51)
+triggerall = stateno != 52
+trigger1 = statetype != a
+var(51) = 0
+
+;--- fvar(39) - death voice variable ---
+[State -2, death var]
+type = varadd
+trigger1 = !alive
+fvar(39) = 1
+
+[State -2, death voice]
+type = playsnd
+trigger1 = fvar(39) = 2
+value = 11, cond(stateno = 6120, 1, 2)
+channel = 7
+
+;--- var(40) - combo scaling count ---
+;Used with fvar(10) to determine move scaling
+;Set at the start of each attack state to increment by 1 on hit
+[State -2, reset on p2 not being hit]
+type = varset
+trigger1 = p2movetype != h
+trigger1 = p2stateno != [50000, 69999]
+v = 40
+value = 0
+
+;---- fvar(10) - holds damage scaling factor
+;reset on opponent no longer in hit state
+[State -2, 1st and 2nd hits]
+type = varset
+trigger1 = var(40) < 1
+fvar(10) = 1.0
+
+[State -2, 3rd hit]
+type = varset
+trigger1 = var(40) = 1
+fvar(10) = 0.9
+
+[State -2, 3rd hit]
+type = varset
+trigger1 = var(40) = 2
+fvar(10) = 0.8
+
+[State -2, 4th hit]
+type = varset
+trigger1 = var(40) = 3
+fvar(10) = 0.7
+
+[State -2, 5th hit]
+type = varset
+trigger1 = var(40) = 4
+fvar(10) = 0.6
+
+[State -2, 6th hit]
+type = varset
+trigger1 = var(40) = 5
+fvar(10) = 0.5
+
+[State -2, 7th hit]
+type = varset
+trigger1 = var(40) = 6
+fvar(10) = 0.4
+
+[State -2, 8th hit]
+type = varset
+trigger1 = var(40) = 7
+fvar(10) = 0.3
+
+[State -2, 9th hit]
+type = varset
+trigger1 = var(40) = 8
+fvar(10) = 0.2
+
+[State -2, 10th+ hit]
+type = varset
+trigger1 = var(40) >= 9
+fvar(10) = 0.1
+
+[State -2, scaling factor]
+type = attackmulset
+trigger1 = 1
+value = fvar(10)
+ignorehitpause = 1
+
+;--- fvar(22) - enemy's x vel ---
+[State -2, enemy vel]
+type = varset
+trigger1 = 1
+fvar(22) = enemynear, vel x
+ignorehitpause = 1
+
+;--- fvar(23) - enemy backedgebodydist ---
+[State -2, enemy corner]
+type = varset
+trigger1 = 1
+fvar(23) = cond(enemynear, backedgebodydist = 0, 1, 0)
+ignorehitpause = 1
+
+;--- fvar(24) - self speed ---
+[State -2, myspeed]
+type = varset
+trigger1 = 1
+fvar(24) = vel x
+ignorehitpause = 1
+
+;--- fvar(25) - enemy movecontact ---
+[State -2, contact]
+type = varset
+trigger1 = 1
+fvar(25) = movecontact
+
+;-- fvar(30) - special crush counter --
+[State -2, special crush counter]
+type = varset
+triggerall = fvar(30) > 0
+trigger1 = ctrl
+trigger2 = movetype = h && time = 1
+fvar(30) = 0
+
+;-- fvar(31) - special punish counter --
+[State -2, special punish counter]
+type = varset
+triggerall = fvar(31) > 0
+trigger1 = ctrl
+trigger2 = movetype = h && time = 1
+fvar(31) = 0
+
+
+;---------------- DISPLAY ----------------
+[State -2, display]
+type = displaytoclipboard
+trigger1 = 1
+text = "combo = %d, 29 = %d, 46 = %d, juggle = %d, vel y = %f\n"
+params = var(40), var(29), var(46), var(13), vel y
+ignorehitpause = 1
+
+[State -2, display]
+type = appendtoclipboard
+trigger1 = 1
+text = "12 = %d, P2 Y = %f, pos y = %f, 39 = %d, V Timer = %d"
+params = var(12), enemynear, pos y, pos y, var(39), var(15)
+ignorehitpause = 1

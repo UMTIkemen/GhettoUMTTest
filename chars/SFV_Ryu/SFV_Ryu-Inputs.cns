@@ -1,0 +1,669 @@
+﻿;==============================================================================;
+;This command buffering below is modified from Shingo created by Vans
+;var guide:
+;var(0) - var(10) - single button press
+;var(10) - var(20) - single button release/negative edge
+;var(20) - var(30) - double button press
+;var(30) - var(40) - triple button press/start+button press
+;var(40) - var(50) - single motion
+;var(50) - var(59) - double/multiple motions
+
+[Statedef 10371]
+anim = 1
+ctrl = 0
+
+[State 10371, NO TURN BEHAVIOR.]
+type = AssertSpecial
+trigger1 = 1
+flag = invisible ;Just in case.
+ignorehitpause = 1
+
+[State 10371, BindToRoot]
+type = BindToRoot
+trigger1 = 1
+time = 1
+pos = Const(size.head.pos.x),Const(size.head.pos.y)
+ignorehitpause = 1
+
+[State 10371, AM I WORKING ?]
+type = DisplayToClipboard
+trigger1 = 1
+text = "spd = %d  rspd = %d 16 = %d DP = %d, hcb = %d\n"
+params = var(48), var(49), var(16), var(42), var(53)
+ignorehitpause = 1
+
+[State 10371, AM I WORKING ?]
+type = DisplayToClipboard
+trigger1 = 1
+text = "2qcf = %d, qcf = %d, qcb = %d "
+params = var(50), var(40), var(41)
+ignorehitpause = 1
+
+;----------------------------[BUFFER DECREASE]---------------------------------;
+
+;--------------------------------[BUTTONS]-------------------------------------;
+;BUTTON PRESS:
+;var(0)  = LP
+;var(1)  = MP 
+;var(2)  = HP 
+;var(3)  = LK 
+;var(4)  = MK
+;var(5)  = HK 
+;var(6)  = Start
+
+;BUTTON RELEASE:
+;var(10)  = LP
+;var(11)  = MP
+;var(12)  = HP
+;var(13)  = LK
+;var(14)  = MK
+;var(15)  = HK
+;var(16)  = Start
+
+;DOUBLE BUTTON COMBO:
+;var(20)  = LP+LK 
+;var(21)  = MP+MK 
+;var(22)  = HP+HK 
+;var(23)  = LP+MP
+;var(24)  = MP+HP
+;var(25)  = LP+HP
+;var(26)  = LK+MK
+;var(27)  = MK+HK
+;var(28)  = LK+HK
+
+;TRIPLE BUTTON COMBO:
+;var(30)  = PPP
+;var(31)  = KKK
+;var(32)  = LP+MP+MK
+;var(33)  = Start+MP
+
+;-------------------------[BUTTON PRESS RESETS]-------------------------;
+[State 10371, LP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(0)
+var(0) = -1
+
+[State 10371, MP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(1)
+var(1) = -1
+
+[State 10371, HP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(2)
+var(2) = -1
+
+[State 10371, LK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(3)
+var(3) = -1
+
+[State 10371, MK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(4) 
+var(4) = -1
+
+[State 10371, HK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(5)
+var(5) = -1
+
+[State 10371, START Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(6)
+var(6) = -1
+
+;-----------------------[BUTTON RELEASE RESETS]-----------------------;
+[State 10371, NEG LP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(10)
+var(10) = -1
+
+[State 10371, NEG MP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(11)
+var(11) = -1
+
+[State 10371, NEG HP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(12)
+var(12) = -1
+
+[State 10371, NEG LK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(13)
+var(13) = -1
+
+[State 10371, NEG MK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(14)
+var(14) = -1
+
+[State 10371, NEG HK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(15)
+var(15) = -1
+
+[State 10371, NEG START Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(16)
+var(16) = -1
+
+;----------------[DOUBLE BUTTON RELEASE RESETS]-----------------;
+[State 10371, LP+LK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(20)
+var(20) = -1
+
+[State 10371, MP+MK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(21)
+var(21) = -1
+
+[State 10371, HP+HK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(22)
+var(22) = -1
+
+[State 10371, LP+MP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(23)
+var(23) = -1
+
+[State 10371, MP+HP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(24)
+var(24) = -1
+
+[State 10371, LP+HP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(25)
+var(25) = -1
+
+[State 10371, LK+MK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(26)
+var(26) = -1
+
+[State 10371, MK+HK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(27)
+var(27) = -1
+
+[State 10371, LK+MK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(28)
+var(28) = -1
+
+;----------------[TRIPLE BUTTON RELEASE RESETS]-----------------;
+[State 10371, PPP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(30)
+var(30) = -1
+
+[State 10371, KKK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(31)
+var(31) = -1
+
+[State 10371, LP+MP+MK Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(32) 
+var(32) = -1
+
+[State 10371, LP+Start Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(33)
+var(33) = -1
+
+;--------------------------------[COMMANDS]------------------------------------;
+;SINGLE MOTION
+;var(40)  = QCF
+;var(41)  = QCB
+;var(42)  = DP
+;var(43)  = RDP
+;var(44)  = HCF
+;var(45)  = HCB
+;var(46)  = CHICKEN WING
+;var(47)  = R CHICKEN WING
+;var(48)  = SPD
+;var(49)  = R SPD
+
+;DOUBLE MOTION
+;var(50)  = 2QCF
+;var(51)  = 2QCB
+;var(52)	= 2HCF
+;var(53) 	= 2HCB
+
+;WEIRD STUFF
+;var(54)	= DD
+
+;----------------[DOUBLE MOTION RESETS]-----------------;
+[State 10371, 2QCB Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(54)
+var(54) = -1
+
+[State 10371, 2HCF Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(52)
+var(52) = -1
+
+[State 10371, 2HCB Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(53)
+var(53) = -1
+
+[State 10371, 2QCF Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(50)
+var(50) = -1
+
+[State 10371, 2QCB Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(51)
+var(51) = -1
+
+;----------------[SINGLE MOTION RESETS]-----------------;
+[State 10371, QCF Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(40)
+var(40) = -1
+
+[State 10371, QCB Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(41)
+var(41) = -1
+
+[State 10371, DP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(42)
+var(42) = -1
+
+[State 10371, RDP Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(43)
+var(43) = -1
+
+[State 10371, HCF Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(44)
+var(44) = -1
+
+[State 10371, HCB Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(45)
+var(45) = -1
+
+[State 10371, CHICKEN WING Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(46)
+var(46) = -1
+
+[State 10371, R CHICKEN WING Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(47)
+var(47) = -1
+
+[State 10371, SPD Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(48)
+var(48) = -1
+
+[State 10371, R SPD Dec]
+type = VarAdd
+triggerall = root, HitPauseTime = 0
+trigger1 = var(49)
+var(49) = -1
+
+;--------------------------[BUFFER DEFINITION]---------------------------------;
+;----------------------------[BUTTON BUFFER]-----------------------------------;
+;Leave the BUTTON BUFFER alone for compatibility.
+
+;BUTTON PRESS:
+;var(0)  = LP
+;var(1)  = MP
+;var(2)  = HP
+;var(3)  = LK 
+;var(4)  = MK
+;var(5)  = HK 
+;var(6)  = Start
+
+;BUTTON RELEASE:
+;var(10)  = LP
+;var(11)  = MP
+;var(12)  = HP
+;var(13)  = LK
+;var(14)  = MK
+;var(15)  = HK
+;var(16)  = Start
+
+;DOUBLE BUTTON:
+;var(20)  = LP+LK 
+;var(21)  = MP+MK 
+;var(22)  = HP+HK 
+;var(23)  = LP+MP
+;var(24)  = MP+HP
+;var(25)  = LP+HP
+;var(26)  = LK+MK
+;var(27)  = MK+HK
+;var(28)  = LK+HK
+
+;TRIPLE BUTTON:
+;var(30) = PPP
+;var(31) = KKK
+;var(32) = LP+MP+MK
+;var(33) = Start+LP
+
+;--------------------[SINGLE BUTTON INIT]--------------------;
+;SF4 Button Priority
+;HK > HP > MK > MP > LK > LP
+
+;--- HK ---
+[State 10371, HK Init]
+type = VarSet
+trigger1 = command = "c"
+var(5) = 2
+
+[State 10371, Neg HK Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "relc"
+var(15) = 1
+
+;HP
+[State 10371, HP Init]
+type = VarSet
+trigger1 = command = "z"
+var(2) = 2
+
+[State 10371, Neg HP Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "relz" 
+var(12) = 1
+
+;MK
+[State 10371, MK Init]
+type = VarSet
+trigger1 = command = "b"
+var(4) = 2
+
+[State 10371, Neg MK Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "relb"
+var(14) = 1
+
+;MP
+[State 10371, MP Init]
+type = VarSet
+trigger1 = command = "y"
+var(1) = 2
+
+[State 10371, Neg MP Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "rely"
+var(11) = 1
+
+;LK
+[State 10371, LK Init]
+type = VarSet
+trigger1 = command = "a"
+var(3) = 2
+
+[State 10371, Neg LK Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "rela"
+var(13) = 1
+
+;LP
+[State 10371, LP Init]
+type = VarSet
+trigger1 = command = "x"
+var(0) = 2
+
+[State 10371, Neg LP Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "relx"
+var(10) = 1
+
+;start
+[State 10371, START Init]
+type = VarSet
+trigger1 = command = "start"
+var(6) = 2
+
+[State 10371, neg START Init]
+type = VarSet
+triggerall = root, hitpausetime = 0
+trigger1 = command = "relstart"
+var(16) = 1
+
+;----------------------------[COMMAND BUFFER]----------------------------------;
+;SINGLE MOTION
+;var(40)  = QCF
+;var(41)  = QCB
+;var(42)  = DP
+;var(43)  = RDP
+;var(44)  = HCF
+;var(45)  = HCB
+;var(46)  = CHICKEN WING
+;var(47)  = R CHICKEN WING
+
+;DOUBLE MOTION
+;var(50)  = 2QCF
+;var(51)  = 2QCB
+;var(52)  = 2HCF
+;var(53)  = 2HCB
+
+;------------------- [DOUBLE MOTION INIT] -------------------;
+[State 10371, 2HCF Init]
+type = varset
+trigger1 = p2dist x >= 0 && command = "2HCF"
+trigger2 = p2dist x < 0 && command = "2HCB"
+trigger3 = p2dist x >= 0 && command = "HCF" && var(52)
+trigger4 = p2dist x < 0 && command = "HCB" && var(52)
+var(52) = 15
+
+[State 10371, 2HCB Init]
+type = varset
+trigger1 = p2dist x >= 0 && command = "2QCB"
+trigger2 = p2dist x < 0 && command = "2QCF"
+trigger3 = p2dist x >= 0 && command = "QCB" && var(53)
+trigger4 = p2dist x < 0 && command = "QCF" && var(53)
+var(53) = 15
+
+[State 10371, 2QCF Init]
+type = varset
+trigger1 = p2dist x >= 0 && command = "2QCF" 
+trigger2 = p2dist x < 0 && command = "2QCB"
+trigger3 = p2dist x >= 0 && command = "QCF" && var(50)
+trigger4 = p2dist x < 0 && command = "QCB" && var(50)
+var(50) = 12
+
+[State 10371, 2QCB Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "2QCB"
+trigger2 = p2dist X < 0 && command = "2QCF"
+trigger3 = p2dist x >= 0 && command = "QCB" && var(51)
+trigger4 = p2dist x < 0 && command = "QCF" && var(51)
+var(51) = 12
+
+;------------------- SPECIALS -------------------------------------------------;
+[State 10371, SPD Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "SPD"
+trigger2 = p2dist X < 0 && command = "R SPD"
+var(48) = 12
+
+[State 10371, SPD Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "R SPD"
+trigger2 = p2dist X < 0 && command = "SPD"
+var(49) = 12
+
+[State 10371, CHICKEN WING Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "CHICKEN WING"
+trigger2 = p2dist X < 0 && command = "R CHICKEN WING"
+var(46) = 12
+
+[State 10371, R CHICKEN WING Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "R CHICKEN WING"
+trigger2 = p2dist X < 0 && command = "CHICKEN WING"
+var(47) = 12
+
+[State 10371, HCF Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "HCF" 
+trigger2 = p2dist X < 0 && command = "HCB"
+var(44) = 14
+
+[State 10371, HCB Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "HCB"
+trigger2 = p2dist X < 0 && command = "HCF"
+var(45) = 14
+
+[State 10371, DP Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "DP"
+trigger2 = p2dist X < 0 && command = "RDP"
+var(42) = 12
+
+[State 10371, RDP Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "RDP"
+trigger2 = p2dist X < 0 && command = "DP"
+var(43) = 12
+
+[State 10371, QCF Init]
+type = VarSet
+triggerall = hitpausetime = 0
+trigger1 = p2dist X >= 0 && command = "QCF"
+trigger2 = p2dist X < 0 && command = "QCB"
+var(40) = 10
+
+[State 10371, QCB Init]
+type = VarSet
+trigger1 = p2dist X >= 0 && command = "QCB"
+trigger2 = p2dist X < 0 && command = "QCF"
+var(41) = 10
+
+[State 10371, QCB Init]
+type = VarSet
+trigger1 = command = "DD"
+var(54) = 10
+
+;----------------[TRIPLE BUTTON CHECK]----------------
+[State 10371, PPP Init]
+type = varset
+trigger1 = command = "xyz"
+var(30) = 2
+
+[State 10371, KKK Init]
+type = varset
+trigger1 = command = "abc"
+var(31) = 2
+
+[State 10371, LP+MP+MK Init]
+type = varset
+trigger1 = command = "xyb"
+var(32) = 2
+
+[State 10371, Start+LP]
+type = varset
+trigger1 = command = "xs"
+var(33) = 2
+
+;----------------[DOUBLE BUTTON CHECK]----------------
+[State 10371, LP+LK Init]
+type = varset
+trigger1 = command = "xa"
+var(20) = 2
+
+[State 10371, MP+MK Init]
+type = varset
+trigger1 = command = "yb"
+var(21) = 2
+
+[State 10371, HP+HK Init]
+type = varset
+trigger1 = command = "zc"
+var(22) = 2
+
+[State 10371, LP+MP Init]
+type = varset
+trigger1 = command = "xy"
+var(23) = 2
+
+[State 10371, MP+HP Init]
+type = varset
+trigger1 = command = "yz"
+var(24) = 2
+
+[State 10371, LP+HP Init]
+type = varset
+trigger1 = command = "xz"
+var(25) = 2
+
+[State 10371, LK+MK Init]
+type = varset
+trigger1 = command = "ab"
+var(26) = 2
+
+[State 10371, MK+HK Init]
+type = varset
+trigger1 = command = "bc"
+var(27) = 2
+
+[State 10371, LK+HK Init]
+type = varset
+trigger1 = command = "ac"
+var(28) = 2

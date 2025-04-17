@@ -1,0 +1,3517 @@
+;-----------------------------
+; Shoulder Throw P2 State
+[Statedef 815]
+type = A
+movetype = h
+physics = n
+facep2 = 1
+velset = 0, 0
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 38
+value = 20
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 38
+value = 20
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 39
+value = 40
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 40
+value = 60
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 41
+value = 80
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 42
+value = 100
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 43
+value = 120
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 44
+value = 140
+
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 45
+value = 160
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = time = 46
+value = 180
+
+
+
+[State 815, camera lock]
+type = screenbound
+trigger1 = 1
+value = 0
+movecamera = 1, 0
+
+[State 815, spr priority]
+type = sprpriority
+trigger1 = time = 0
+value = 0
+
+[State 815, spr priority]
+type = sprpriority
+trigger1 = time = 43
+value = 3
+
+[State 815, to anim]
+type = changeanim2
+trigger1 = time = 0
+value = 815
+
+[State 815, safety]
+type = turn
+trigger1 = time = 80
+
+[State 815, safety]
+type = selfstate
+trigger1 = time >= 80
+value = 5100
+
+;-----------------------------
+; Somersault Throw P2 State
+[Statedef 835]
+type = a
+movetype = h
+physics = n
+facep2 = 1
+
+[State 835, camera lock]
+type = screenbound
+trigger1 = 1
+value = 1
+movecamera = 1, 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = time = 37
+x = 8.5
+y = -9   
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = time = 54
+x = 0
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = time > 38
+y = 1.1
+
+[State 0, AngleAdd]
+type = Angledraw
+trigger1 = time >36 && time <53
+value = Time * -10
+
+[State 835, spr priority]
+type = sprpriority
+trigger1 = time = 0
+value = 3
+
+[State 835, spr priority]
+type = sprpriority
+trigger1 = time = 31
+value = 0
+
+[State 835, to anim]
+type = changeanim2
+trigger1 = time = 0
+value = 835
+
+[State 835, push]
+type = playerpush
+trigger1 = 1
+value = 1
+
+[State 1320, Land]
+type= selfstate
+trigger1= vel y > 0
+trigger1= pos y > -vel y
+value = 5100
+
+;--------------------------------------------------------
+; Ex Jodan Sokuto Geri - to wall
+[Statedef 1335]
+type = a
+movetype = h
+physics = n
+facep2 = 1
+
+[State 1335, to anim]
+type = changeanim2
+trigger1 = time = 0
+value = 1335
+
+[State 1335, velocity]
+type = velset
+trigger1 = 1
+x = cond(facing != enemynear, facing, -30, 30)
+y = 0
+
+[State 1335, stop screen]
+type = screenbound
+trigger1 = time >= 2
+movecamera = 0, 0
+
+[State 1335, to bounce]
+type = changestate
+trigger1 = frontedgebodydist <= 0
+trigger2 = backedgebodydist <= 0
+value = 1336
+
+;----------------------------------------------------------
+; Ex Jodan Sokuto Geri -at wall
+[Statedef 1336]
+type = a
+movetype = h
+physics = n
+
+[State 1336, stop]
+type = velset
+trigger1 = time = 0
+x = 0
+y = 0
+
+[State 1336, stop screen]
+type = screenbound
+trigger1 = time < 10
+movecamera = 0, 0
+
+[State 1336, to anim]
+type = changeanim2
+trigger1 = time = 0
+value = 1336
+
+[State 1336, shake]
+type = envshake
+trigger1 = time = 0
+time = 9
+freq = 90
+ampl = 5
+
+[State 1336, transition]
+type = changestate
+trigger1 = animtime = 0
+value = 1337
+
+;----------------------------------------------------------
+; Ex Jodan Sokuto Geri - bounce
+[Statedef 1337]
+type = a
+movetype = h
+physics = n
+
+[State 1337, to anim]
+type = changeanim2
+trigger1 = time = 0
+value = 1337
+
+[State 1337, gravity]
+type = veladd
+trigger1 = 1
+y = 0.5
+
+[State 1337, move forward a bit]
+type = velset
+trigger1 = time = 0
+x = cond(facing != enemynear, facing, 2, -2)
+
+[State 1337, move forward a bit]
+type = velset
+trigger1 = time < 20
+x = cond(vel x > 0,  ceil(0.12 * p2bodydist x / 2.5),  ceil(-0.12 * p2bodydist x / 2.5))
+
+[State 1337, y]
+type = veladd
+trigger1 = time < 3
+y = -2.8
+
+[State 1337, revert]
+type = selfstate
+trigger1 = (Pos Y >= 0) && (Vel Y > 0)
+value = 5110
+
+;---------------------------------------------------------------------------
+; P2 Isshin
+[Statedef 4735]
+type = s
+movetype = h
+physics = s
+facep2 = 1
+velset = 0, 0
+
+[State 1023, to anim]
+type = changeanim2
+trigger1 = time = 0
+value = 4735
+
+[State 1023, safety]
+type = selfstate
+trigger1 = time > 50
+value = 5050
+
+;---------------------------------------------------------------------------
+; Crush Counter - Standing Spin
+[Statedef 6000]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 6000, 1] ;Anim for HIT_LIGHT to HIT_HARD
+type = ChangeAnim2
+trigger1 = Time = 0
+value = 6000
+
+[State 6000, 4] ;Freeze anim
+type = ChangeAnim2
+trigger1 = Time > 0
+value = anim
+
+[State 6000, 6]
+type = selfstate
+trigger1 = HitShakeOver
+trigger1 = GetHitVar(yvel) = 0 && !GetHitVar(fall)
+value = 5001 ;Stand get-hit (knocked back)
+
+[State 6000, 7]
+type = selfstate
+trigger1 = HitShakeOver
+value = 5030
+
+;---------------------------------------------------------------------------
+; Crush Counter - Spinning Knockdown
+[Statedef 6100]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 6100, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+trigger1 = Time = 0
+value = cond(selfanimexist(5052), 5052, 5050)
+
+[State 6100, 4] ;Freeze anim
+type = ChangeAnim
+trigger1 = Time > 0
+value = anim
+
+[State 6100, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y != 0
+statetype = a
+
+[State 6100, 7]
+type = selfstate
+trigger1 = HitShakeOver
+value = 5030
+
+;---------------------------------------------------------------------------
+; Crush Counter - Hard Knockdown
+[Statedef 6200]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+facep2 = 1
+
+[State 6200, 1] ;Anim for HIT_LIGHT to HIT_HARD
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) != [3,5]
+value = cond((GetHitVar(groundtype) = 1),5000,5010) + GetHitVar(animtype)
+
+[State 6200, 2] ;Anim for HIT_BACK
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) = [3,5]
+value = 5030
+
+[State 6200, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+
+[State 6200, 4] ;Freeze anim
+type = ChangeAnim
+trigger1 = Time > 0
+value = anim
+
+[State 6200, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y != 0
+statetype = a
+
+[State 6200, 7]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 6230
+
+;;;;;;;
+;---------------------------------------------------------------------------
+; Air get-hit (knocked away)
+[Statedef 6230]
+type    = A
+movetype= H
+physics = N
+ctrl = 0
+
+[State 6230, 1]
+type = ChangeAnim
+trigger1 = Anim != [5000, 5199]
+trigger1 = SelfAnimExist(5030)
+value = 5030
+
+[State 6230, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State VelSet]
+type = velset
+trigger1 = Time = 0
+x = gethitvar(xvel)* facing
+y = gethitvar(yvel)
+
+[State 6230, 4]
+type = ChangeState
+triggerall = !HitFall
+trigger1 = HitOver
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= Const(movement.air.gethit.groundlevel)
+value = 6240 ;HITA_RECOV
+
+[State 6230, 5]
+type = ChangeState
+triggerall = HitFall
+trigger1 = HitOver
+trigger2 = Vel Y > 0    ;Hit ground
+trigger2 = Pos Y >= Const(movement.air.gethit.groundlevel)
+value = 6250 ;HITA_FALL
+
+[State 6230, 6]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 6235 ;Air get-hit (transition)
+
+;---------------------------------------------------------------------------
+; Air get-hit (transition)
+[Statedef 6235]
+type    = A
+movetype= H
+physics = N
+
+[State 6230, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(5035)
+trigger1 = Anim != [5051,5059] ;Not if in hit up anim
+trigger1 = Anim != 5090 ;Not if hit off ground anim
+value = 5035
+
+[State 6230, 2]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 6230, 3]
+type = ChangeState
+triggerall = !HitFall
+trigger1 = HitOver  ;Hit is over
+trigger2 = AnimTime = 0 ;Animation over
+trigger3 = Vel Y > 0    ;Hit ground
+trigger3 = Pos Y >= Const(movement.air.gethit.groundlevel)
+trigger4 = Time = 0     ;No transition anim
+trigger4 = Anim != 5035 ;.
+value = 6240 ;Air get-hit (recovering in air, not falling)
+
+[State 6230, 4]
+type = ChangeState
+triggerall = HitFall
+trigger1 = HitOver  ;Hit is over
+trigger2 = AnimTime = 0 ;Anim is over
+trigger3 = Vel Y > 0    ;Hit ground
+trigger3 = Pos Y >= Const(movement.air.gethit.groundlevel)
+trigger4 = Time = 0     ;No transition anim
+trigger4 = Anim != 5035 ;.
+value = 6250 ;Air get-hit (falling)
+
+;---------------------------------------------------------------------------
+; Air get-hit (recovering in air, not falling)
+[Statedef 6240]
+type    = A
+movetype= H
+physics = N
+
+[State 6240, 1]
+type = ChangeState
+trigger1 = !Alive
+value = 6250
+ctrl = 0
+
+[State 6240, 2]
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim != 5040
+trigger2 = Time = 0
+trigger2 = Anim != 5035
+value = 5040
+
+[State 6240, 3]
+type = CtrlSet
+trigger1 = HitOver
+value = 1
+
+[State 6240, 4]
+type = StateTypeSet
+trigger1 = HitOver
+movetype = I
+
+[State 6240, 5]
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 6240, 6]
+type = selfState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52 ;Jump land
+
+;---------------------------------------------------------------------------
+; Air get-hit (falling)
+[Statedef 6250]
+type    = A
+movetype= H
+physics = N
+
+[State 6250, 1] ;Change anim when done with transition
+type = ChangeAnim
+trigger1 = AnimTime = 0
+trigger1 = Anim = 5035
+trigger2 = Time = 0     ;If no transition anim
+trigger2 = Anim != 5035
+trigger2 = (Anim != [5051, 5059]) && (Anim != [5061, 5069])
+trigger2 = Anim != 5090 ;Not if hit off ground anim
+value = 5050
+
+[State 6250, 2] ;Coming down anim
+type = ChangeAnim
+trigger1 = anim = [5050,5059]
+trigger1 = Vel Y >= cond(anim = 5050, Const720p(4), Const720p(-8))
+trigger1 = SelfAnimExist(anim+10)
+value = anim+10
+persistent = 0
+
+[State 6250, 3] ;Gravity
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 6250, 6]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= cond((anim = [5051,5059]) || (anim = [5061,5069]), 0, Const(movement.air.gethit.groundlevel))
+value = 6310 ;Downed get-hit (hit ground from fall)
+
+;---------------------------------------------------------------------------
+; Tripped get-hit (shaking)
+[Statedef 6270]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 6270, 1]
+type = ChangeAnim
+trigger1 = 1
+value = 5070
+
+[State 6270, 2]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 6271
+
+;---------------------------------------------------------------------------
+; Tripped get-hit (knocked away)
+[Statedef 6271]
+type    = A
+movetype= H
+physics = N
+
+[State VelSet]
+type = velset
+trigger1 = Time = 0
+x = gethitvar(xvel)* facing
+y = gethitvar(yvel)
+
+[State 6271, 2] ;Acceleration
+type = VelAdd
+trigger1 = 1
+y = GetHitVar(yaccel)
+
+[State 6271, 3] ;Hit ground
+trigger1 = Vel Y > 0
+;trigger1 = Pos Y >= Const(movement.air.gethit.trip.groundlevel)
+type = ChangeState
+value = 6310
+
+;---------------------------------------------------------------------------
+; Downed get-hit (hit ground from fall)
+[Statedef 6300]
+type    = L
+movetype= H
+physics = N
+
+[State 6300, EnvShake]
+type = FallEnvShake
+trigger1 = Time = 0
+
+[State 6300, Var] ;Save fall velocity
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = floor(vel y)
+
+[State 6300, 2] ;Hit ground anim (normal)
+type = ChangeAnim
+triggerall = time = 0
+trigger1 = (anim != [5051,5059]) && (anim != [5061,5069])
+trigger2 = !SelfAnimExist(5100 + (anim % 10))
+value = 5100
+
+[State 6300, 3] ;Hit ground anim (for hit up)
+type = ChangeAnim
+trigger1 = time = 0
+trigger1 = (anim = [5051,5059]) || (anim = [5061,5069])
+trigger1 = SelfAnimExist(5100 + (anim % 10))
+value = 5100 + (anim % 10)
+
+[State 6300, 4]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 6300, 5]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 6300, 6] ;Reduce speed
+type = VelMul
+trigger1 = Time = 0
+x = 0.75
+
+[State 6300, 7]
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = GetHitVar(fall.yvel) = 0
+value = 6310 ;Downed get-hit (lying down)
+
+[State 6300, 8]
+type = Explod
+trigger1 = Time = 1
+anim = F(60 + (sysvar(1) > Const720p(20)) + (sysvar(1) > Const720p(56)))
+space = stage
+facing = facing
+pos = cond(facing = 1, 1, -1) * 0 + pos x + camerapos x , 0 + pos y
+sprpriority = cond (sysvar(1) <= Const720p(56), -10, 10)
+
+[State 6300, 9]
+type = HitFallDamage
+trigger1 = Time = 3
+
+[State 6300, 10]
+type = PlaySnd
+trigger1 = Time = 1
+value = F7, (sysvar(1) > Const720p(20)) + (sysvar(1) > Const720p(56))
+
+[State 6300, 11]
+type = PosFreeze
+trigger1 = 1
+
+[State 6300, 12]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 6311 ;Downed get-hit (bounce off ground)
+
+;---------------------------------------------------------------------------
+; Downed get-hit (bounce off ground)
+[Statedef 6311]
+type    = L
+movetype= H
+physics = N
+
+[State 6311, 1] ;Coming hit ground anim (normal)
+type = ChangeAnim
+triggerall = time = 0
+trigger1 = anim != [5101,5109]
+trigger2 = !SelfAnimExist(5160 + (anim % 10))
+value = 5160
+
+[State 6311, 2] ;Coming hit ground anim (for hit up)
+type = ChangeAnim
+triggerall = time = 0
+trigger1 = anim = [5101,5109]
+trigger1 = SelfAnimExist(5160 + (anim % 10))
+value = 5160 + (anim % 10)
+
+[State 6311, 3]
+type = HitFallVel
+trigger1 = Time = 0
+
+[State 6311, 4]
+type = PosSet
+trigger1 = Time = 0
+y = Const(movement.down.bounce.offset.y)
+
+[State 6311, 5]
+type = PosAdd
+trigger1 = Time = 0
+x = Const(movement.down.bounce.offset.x)
+
+[State 6311, 6] ;Acceleration
+type = VelAdd
+trigger1 = 1
+y = Const(movement.down.bounce.yaccel)
+
+[State 6311, 7] ;Hit ground
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= Const(movement.down.bounce.groundlevel)
+type = ChangeState
+value = 6310
+
+;---------------------------------------------------------------------------
+; Downed get-hit (lying down)
+[Statedef 6310]
+type    = L
+movetype= H
+physics = N
+
+[State 6310, turn]
+type = turn
+trigger1 = time = 0
+trigger1 = prevstateno = 835
+
+[State 6310, EnvShake]
+type = FallEnvShake
+trigger1 = Time = 0
+
+[State 6310, 1] ;For hit up/up-diag type (from state 5081)
+type = ChangeAnim
+persistent = 0
+trigger1 = SelfAnimExist(5110 + (anim % 10))
+trigger1 = anim = [5081,5089]
+value = 5110 + (anim % 10)
+
+[State 6310, 2] ;Hit ground anim (normal)
+type = ChangeAnim
+triggerall = time = 0
+triggerall = anim != [5110,5119] ;Not already changed anim
+trigger1 = anim != [5161,5169]
+trigger2 = !SelfAnimExist(5170 + (anim % 10))
+value = 5170
+
+[State 6310, 3] ;Hit ground anim (for hit up)
+type = ChangeAnim
+triggerall = time = 0
+triggerall = anim != [5110,5119] ;Not already changed anim
+trigger1 = anim = [5161,5169]
+trigger1 = SelfAnimExist(5170 + (anim % 10))
+value = 5170 + (anim % 10)
+
+[State 6310, 4]
+type = HitFallDamage
+trigger1 = Time = 0
+
+[State 6310, 5]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 6310, Var] ;Get fall velocity
+type = VarSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(fall.yvel) != 0
+sysvar(1) = floor(vel y)
+
+[State 6310, 7]
+type = Explod
+trigger1 = Time = 0
+trigger1 = !SysVar(0)
+anim = F(60 + (sysvar(1) > Const720p(20)) + (sysvar(1) > Const720p(56)))
+space = stage
+facing = facing
+pos = cond(facing = 1, 1, -1) * 0 + pos x + camerapos x , 0 + pos y
+sprpriority = cond (sysvar(1) <= Const720p(56), -10, 10)
+
+[State 6310, 8]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 6310, 9] ;For hit up type
+type = ChangeAnim
+persistent = 0
+triggerall = anim = [5171,5179]
+triggerall = SelfAnimExist(5110 + (anim % 10))
+trigger1 = AnimTime = 0
+trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit ground anim
+value = 5110 + (anim % 10)
+
+[State 6310, 10] ;For normal
+type = ChangeAnim
+persistent = 0
+triggerall = Anim != [5111,5119]
+trigger1 = AnimTime = 0
+trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit ground frame
+value = 5110
+
+[State 6310, 11] ;If just died
+type = selfState
+triggerall = !alive
+trigger1 = AnimTime = 0
+trigger2 = SysVar(0) ;SysVar(0) = 1 avoids hit ground frame
+trigger3 = Anim = [5110,5119]
+value = 5150
+
+[State 6310, 12]
+type = VarSet
+trigger1 = SysVar(0)
+trigger1 = Time = 0
+sysvar(0) = 0
+
+[State 6310, 13] ;Friction
+type = VelMul
+trigger1 = 1
+x = 0.85
+
+[State 6310, 14] ;Friction
+type = VelSet
+trigger1 = abs(Vel x) < Const(movement.down.friction.threshold)
+persistent = 0
+x = 0
+
+[State 6310, to 5120]
+type = selfstate
+trigger1 = time = 35
+value = 5120
+
+[State 6310, 8]
+type = Explod
+trigger1 = Time = 0
+anim = F(60 + (sysvar(1) > Const720p(20)) + (sysvar(1) > Const720p(56)))
+space = stage
+facing = facing
+pos = cond(facing = 1, 1, -1) * 0 + pos x + camerapos x , 0 + pos y
+sprpriority = cond (sysvar(1) <= Const720p(56), -10, 10)
+
+[State 6310, 10]
+type = PlaySnd
+trigger1 = Time = 0
+value = F7, (sysvar(1) > Const720p(20)) + (sysvar(1) > Const720p(56))
+
+;----------------------------------------
+;Crush Counter Crumple
+[Statedef 6400]
+type = s
+movetype = H
+physics = s
+facep2 = 1
+
+[State 6400, self]
+type = selfstate
+triggerall = time = 0
+triggerall = selfanimexist(5955)
+trigger1 = authorname = "Mr. I"
+trigger2 = authorname = "Mr. I and Violin Ken"
+value = 6401
+
+[State VelSet]
+type = velset
+trigger1 = hitshakeover
+x = gethitvar(xvel)* facing
+persistent = 0
+
+[State 6400, airborne]
+type = statetypeset
+trigger1 = time = 30
+statetype = a
+movetype = h
+physics = n
+
+[State 6400, by this time they should be invincible]
+type = nothitby
+trigger1 = time > 60
+value = SCA
+
+[State 6400, y to 0]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 6400, crumple?]
+type = changeanim
+triggerall = selfanimexist(5955)
+trigger1 = time = 0
+value = 5955
+
+[State 6400, crumple anim]
+type = ChangeAnim2
+trigger1 = time = 0
+value = 6020
+
+[State 6400, turn]
+type = turn
+triggerall = authorname = "Mr. I"
+triggerall = anim = 5955
+triggerall = !selfanimexist(5125)
+trigger1 = animtime = 0
+
+[State 6400, return]
+type = selfstate
+trigger1 = animtime = 0
+value = 5110
+
+;----------------------------------------
+;Crush Counter Crumple (Self State)
+[Statedef 6401]
+type = s
+movetype = H
+physics = s
+facep2 = 1
+
+[State 6401, VelSet]
+type = velset
+trigger1 = hitshakeover
+x = gethitvar(xvel)* facing
+persistent = 0
+
+[State 6401, airborne]
+type = statetypeset
+trigger1 = time = 30
+statetype = a
+movetype = h
+physics = n
+
+[State 6401, by this time they should be invincible]
+type = nothitby
+trigger1 = time > 60
+value = SCA
+
+[State 6401, y to 0]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 6401, voice]
+type = playsnd
+triggerall = time = 0
+trigger1 = authorname = "Mr. I and Violin Ken"
+trigger2 = authorname = "Mr. I"
+value = 6401, 0
+channel = 0
+
+[State 6401, ground]
+type = playsnd
+trigger1 = time = 61
+value = 0, 25
+
+[State 5100, 8]
+type = explod
+trigger1 = time = 61
+anim = 15013
+space = stage
+facing = facing
+pos = ifelse(facing = 1, 1, -1) * 0 + pos x + camerapos x, 0 + pos y
+scale = 0.38, 0.38
+sprpriority = -99
+ownpal = 1
+
+[State 6401, crumple anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 5955
+
+[State 6401, return]
+type = changestate
+trigger1 = animtime = 0
+value = 5110
+
+;---------------------------------------------------------------------------
+; P2 Inazuma Spin Hold
+[Statedef 7011]
+type    = U
+movetype= H
+physics = N
+facep2 = 1
+sprpriority = 995
+velset = 0,0
+
+[State 7011, VelSet]
+type = VelSet
+trigger1 = 1
+x = 0
+y = 0
+
+[State 7011, SprPriority]
+type = SprPriority
+trigger1 = time = 0
+value = 998
+
+[State 7011, SprPriority]
+type = SprPriority
+trigger1 = time = 33
+value = 995
+
+[State 7011, SprPriority]
+type = SprPriority
+trigger1 = time = 222
+value = 998
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [0,10]
+scale = 3.0, 3.0
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 11
+scale = 2.9, 2.9
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [12,13]
+scale = 2.7, 2.7
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [14,15]
+scale = 2.6, 2.6
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [16,17]
+scale = 2.4, 2.4
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [18,19]
+scale = 2.2, 2.2
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [20,33]
+scale = 2.0, 2.0
+value = 0
+
+;minus 1 for time
+;- = rotate clockwise. + = rotate counter clockwise 
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 34
+scale = .7, .7
+value = 45
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 35
+scale = .75, .75
+value = 50
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 36
+scale = .80, .80
+value = 55
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 37
+scale = .85, .85
+value = 60
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 38
+scale = .90, .90
+value = 65
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 39
+scale = .95, .95
+value = 70
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 40
+scale = 1.0, 1.0
+value = 75
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 41
+scale = 1.05, 1.05
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 42
+scale = 1.1, 1.1
+value = 85
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 43
+scale = 1.15, 1.15
+value = 90
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 44
+scale = 1.20, 1.20
+value = 100
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 45
+scale = 1.25, 1.25
+value = 110
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 46
+scale = 1.30, 1.30
+value = 120
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 47
+scale = 1.35, 1.35
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 48
+scale = 1.40, 1.40
+value = 140
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 49
+scale = 1.45, 1.45
+value = 145
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 50
+scale = 1.50, 1.50
+value = 150
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 51
+scale = 1.55, 1.55
+value = 160
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 52
+scale = 1.65, 1.65
+value = 165
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 53
+scale = 1.70, 1.70
+value = 170
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 54
+scale = 1.75, 1.75
+value = 175
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 55
+scale = 1.80, 1.80
+value = 190
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 56
+scale = 1.85, 1.85
+value = 210
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 57
+scale = 1.90, 1.90
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 58
+scale = 1.95, 1.95
+value = 250
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 59
+scale = 2.00, 2.00
+value = 270
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 60
+scale = 2.05, 2.05
+value = 290
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 61
+scale = 2.10, 2.10
+value = 310
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 62
+scale = 2.15, 2.15
+value = 330
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 63
+scale = 2.15, 2.15
+value = 350
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 64
+scale = 2.15, 2.15
+value = 10
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 65
+scale = 2.10, 2.10
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 66
+scale = 2.10, 2.10
+value = 50
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 67
+scale = 2.05, 2.05
+value = 80
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 68
+scale = 2.05, 2.05
+value = 110
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 69
+scale = 2.05, 2.05
+value = 140
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 70
+scale = 2.00, 2.00
+value = 170
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 71
+scale = 2.00, 2.00
+value = 200
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 72
+scale = 2.00, 2.00
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 73
+scale = 1.95, 1.95
+value = 260
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 74
+scale = 1.95, 1.95
+value = 280
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 75
+scale = 1.95, 1.95
+value = 300
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 76
+scale = 1.90, 1.90
+value = 320
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 77
+scale = 1.90, 1.90
+value = 340
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 78
+scale = 1.90, 1.90
+value = 350
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 79
+scale = 1.85, 1.85
+value = 0
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 80
+scale = 1.85, 1.85
+value = 10
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 81
+scale = 1.85, 1.85
+value = 15
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 82
+scale = 1.85, 1.85
+value = 20
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 83
+scale = 1.80, 1.80
+value = 25
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 84
+scale = 1.80, 1.80
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 85
+scale = 1.80, 1.80
+value = 35
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 86
+scale = 1.80, 1.80
+value = 40
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 87
+scale = 1.80, 1.80
+value = 45
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 88
+scale = 1.80, 1.80
+value = 50
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [89,90]
+scale = .9, .9
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 91
+scale = .9, .9
+value = 55
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 92
+scale = .9, .9
+value = 70
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 93
+scale = .9, .9
+value = 90
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 94
+scale = .9, .9
+value = 120
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 95
+scale = .9, .9
+value = 150
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 96
+scale = .9, .9
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 97
+scale = .9, .9
+value = 210
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 98
+scale = .9, .9
+value = 240
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 99
+scale = .9, .9
+value = 270
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 100
+scale = .9, .9
+value = 310
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 101
+scale = .9, .9
+value = 340
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 102
+scale = .9, .9
+value = 10
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 103
+scale = .9, .9
+value = 40
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 104
+scale = .9, .9
+value = 70
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 105
+scale = .9, .9
+value = 100
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 106
+scale = .9, .9
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 107
+scale = .9, .9
+value = 160
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 108
+scale = .9, .9
+value = 190
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 109
+scale = .9, .9
+value = 220
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 110
+scale = 1.0, 1.0
+value = 250
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 111
+scale = 1.1, 1.1
+value = 280
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 112
+scale = 1.2, 1.2
+value = 310
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 113
+scale = 1.3, 1.3
+value = 340
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 114
+scale = 1.4, 1.4
+value = 10
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 115
+scale = 1.5, 1.5
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 116
+scale = 1.65, 1.65
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 117
+scale = 1.80, 1.80
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 118
+scale = 1.95, 1.95
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 119
+scale = 2.15, 2.15
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 120
+scale = 2.20, 2.20
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 121
+scale = 2.25, 2.25
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 122
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 123
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 124
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 125
+scale = 2.30, 2.30
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 126
+scale = 2.30, 2.30
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 127
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 128
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 129
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 130
+scale = 2.30, 2.30
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 131
+scale = 2.30, 2.30
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 132
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 133
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 134
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 135
+scale = 2.30, 2.30
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 136
+scale = 2.30, 2.30
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 137
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 138
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 139
+scale = 2.30, 2.30
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 140
+scale = 2.30, 2.30
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 141
+scale = 2.30, 2.30
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 142
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 143
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 144
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 145
+scale = 2.30, 2.30
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 146
+scale = 2.30, 2.30
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 147
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 148
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 149
+scale = 2.30, 2.30
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 150
+scale = 2.30, 2.30
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 151
+scale = 2.30, 2.30
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 152
+scale = 2.30, 2.30
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 153
+scale = 2.30, 2.30
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 154
+scale = 2.0, 2.0
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 155
+scale = 2.0, 2.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 156
+scale = 2.0, 2.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 157
+scale = 2.0, 2.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 158
+scale = 2.0, 2.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 159
+scale = 2.0, 2.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 160
+scale = 2.0, 2.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 161
+scale = 2.0, 2.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 162
+scale = 2.0, 2.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 163
+scale = 2.0, 2.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 164
+scale = 2.0, 2.0
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 165
+scale = 2.0, 2.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 166
+scale = 2.0, 2.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 167
+scale = 2.0, 2.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 168
+scale = 1.5, 1.5
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 169
+scale = 1.5, 1.5
+value = 30
+
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 170
+scale = 1.5, 1.5
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 171
+scale = 1.5, 1.5
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 172
+scale = 1.5, 1.5
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 173
+scale = 1.5, 1.5
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 174
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 175
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 176
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 177
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 178
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 179
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 180
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 181
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 182
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 183
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 184
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 185
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 186
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 187
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 188
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 189
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 190
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 191
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 192
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 193
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 194
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 195
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 196
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 197
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 198
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 199
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 200
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 201
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 202
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 203
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 204
+scale = 1.0, 1.0
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 205
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 206
+scale = 1.0, 1.0
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 207
+scale = 1.0, 1.0
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 208
+scale = 1.0, 1.0
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 208
+scale = 1.0, 1.0
+value = 30
+
+;start
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 209
+scale = 1.0, 1.0
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 210
+scale = 1.05, 1.5
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 211
+scale = 1.1, 1.1
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 212
+scale = 1.13, 1.13
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 213
+scale = 1.17, 1.17
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 214
+scale = 1.2, 1.2
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 215
+scale = 1.3, 1.3
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 216
+scale = 1.4, 1.4
+value = 180
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 217
+scale = 1.6, 1.6
+value = 230
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 218
+scale = 1.8, 1.8
+value = 30
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 219
+scale = 2, 2
+value = 80
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 220
+scale = 2.2, 2.2
+value = 130
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 221
+scale = 2.4, 2.4
+value = 180
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 222
+scale = 2.6, 2.6
+value = 230
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 223
+scale = 3.0, 3.0
+value = 30
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = 224
+scale = 3.5, 3.5
+value = 0
+
+
+[State 7011, scaling]
+type = angledraw
+trigger1 = time = [225,267]
+scale = 4, 4
+value = 0
+
+[State 1013, PalFX]
+type = PalFX
+trigger1 = time = 207
+time = 60
+add = -64, -96, -160
+mul = 256,256,256
+sinadd = 64,96, 128, 10
+invertall = 1
+color = 0
+
+[State 7011, anim]
+type = changeanim2
+trigger1 = time = 0
+value = 3004
+ignorehitpause = 1
+
+[State 7011, camera lock]
+type = screenbound
+trigger1 = animelemtime(76) <= 0
+value = 0
+movecamera = 0, 0
+
+[State 7011, hkd]
+type = changestate
+trigger1 = time = 284
+value = 6300
+
+[State 7011, safety]
+type = selfstate
+trigger1 = time > 285
+value = 5100
+
+;---------------------------------------------------------------------------
+; P2 Inazuma Spin Hold {VT1}
+[Statedef 7111]
+type    = U
+movetype= H
+physics = N
+facep2 = 1
+sprpriority = 995
+velset = 0,0
+
+[State 7111, VelSet]
+type = VelSet
+trigger1 = 1
+x = 0
+y = 0
+
+[State 7111, SprPriority]
+type = SprPriority
+trigger1 = time = 0
+value = 998
+
+[State 7111, SprPriority]
+type = SprPriority
+trigger1 = time = 33
+value = 995
+
+[State 7111, SprPriority]
+type = SprPriority
+trigger1 = time = 222
+value = 998
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [0,10]
+scale = 3.0, 3.0
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 11
+scale = 2.9, 2.9
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [12,13]
+scale = 2.7, 2.7
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [14,15]
+scale = 2.6, 2.6
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [16,17]
+scale = 2.4, 2.4
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [18,19]
+scale = 2.2, 2.2
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [20,33]
+scale = 2.0, 2.0
+value = 0
+
+;minus 1 for time
+;- = rotate clockwise. + = rotate counter clockwise 
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 34
+scale = .7, .7
+value = 45
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 35
+scale = .75, .75
+value = 50
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 36
+scale = .80, .80
+value = 55
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 37
+scale = .85, .85
+value = 60
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 38
+scale = .90, .90
+value = 65
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 39
+scale = .95, .95
+value = 70
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 40
+scale = 1.0, 1.0
+value = 75
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 41
+scale = 1.05, 1.05
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 42
+scale = 1.1, 1.1
+value = 85
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 43
+scale = 1.15, 1.15
+value = 90
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 44
+scale = 1.20, 1.20
+value = 100
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 45
+scale = 1.25, 1.25
+value = 110
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 46
+scale = 1.30, 1.30
+value = 120
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 47
+scale = 1.35, 1.35
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 48
+scale = 1.40, 1.40
+value = 140
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 49
+scale = 1.45, 1.45
+value = 145
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 50
+scale = 1.50, 1.50
+value = 150
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 51
+scale = 1.55, 1.55
+value = 160
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 52
+scale = 1.65, 1.65
+value = 165
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 53
+scale = 1.70, 1.70
+value = 170
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 54
+scale = 1.75, 1.75
+value = 175
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 55
+scale = 1.80, 1.80
+value = 190
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 56
+scale = 1.85, 1.85
+value = 210
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 57
+scale = 1.90, 1.90
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 58
+scale = 1.95, 1.95
+value = 250
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 59
+scale = 2.00, 2.00
+value = 270
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 60
+scale = 2.05, 2.05
+value = 290
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 61
+scale = 2.10, 2.10
+value = 310
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 62
+scale = 2.15, 2.15
+value = 330
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 63
+scale = 2.15, 2.15
+value = 350
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 64
+scale = 2.15, 2.15
+value = 10
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 65
+scale = 2.10, 2.10
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 66
+scale = 2.10, 2.10
+value = 50
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 67
+scale = 2.05, 2.05
+value = 80
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 68
+scale = 2.05, 2.05
+value = 110
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 69
+scale = 2.05, 2.05
+value = 140
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 70
+scale = 2.00, 2.00
+value = 170
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 71
+scale = 2.00, 2.00
+value = 200
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 72
+scale = 2.00, 2.00
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 73
+scale = 1.95, 1.95
+value = 260
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 74
+scale = 1.95, 1.95
+value = 280
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 75
+scale = 1.95, 1.95
+value = 300
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 76
+scale = 1.90, 1.90
+value = 320
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 77
+scale = 1.90, 1.90
+value = 340
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 78
+scale = 1.90, 1.90
+value = 350
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 79
+scale = 1.85, 1.85
+value = 0
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 80
+scale = 1.85, 1.85
+value = 10
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 81
+scale = 1.85, 1.85
+value = 15
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 82
+scale = 1.85, 1.85
+value = 20
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 83
+scale = 1.80, 1.80
+value = 25
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 84
+scale = 1.80, 1.80
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 85
+scale = 1.80, 1.80
+value = 35
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 86
+scale = 1.80, 1.80
+value = 40
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 87
+scale = 1.80, 1.80
+value = 45
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 88
+scale = 1.80, 1.80
+value = 50
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [89,90]
+scale = .9, .9
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 91
+scale = .9, .9
+value = 55
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 92
+scale = .9, .9
+value = 70
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 93
+scale = .9, .9
+value = 90
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 94
+scale = .9, .9
+value = 120
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 95
+scale = .9, .9
+value = 150
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 96
+scale = .9, .9
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 97
+scale = .9, .9
+value = 210
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 98
+scale = .9, .9
+value = 240
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 99
+scale = .9, .9
+value = 270
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 100
+scale = .9, .9
+value = 310
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 101
+scale = .9, .9
+value = 340
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 102
+scale = .9, .9
+value = 10
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 103
+scale = .9, .9
+value = 40
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 104
+scale = .9, .9
+value = 70
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 105
+scale = .9, .9
+value = 100
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 106
+scale = .9, .9
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 107
+scale = .9, .9
+value = 160
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 108
+scale = .9, .9
+value = 190
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 109
+scale = .9, .9
+value = 220
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 110
+scale = 1.0, 1.0
+value = 250
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 111
+scale = 1.1, 1.1
+value = 280
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 112
+scale = 1.2, 1.2
+value = 310
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 113
+scale = 1.3, 1.3
+value = 340
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 114
+scale = 1.4, 1.4
+value = 10
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 115
+scale = 1.5, 1.5
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 116
+scale = 1.65, 1.65
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 117
+scale = 1.80, 1.80
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 118
+scale = 1.95, 1.95
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 119
+scale = 2.15, 2.15
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 120
+scale = 2.20, 2.20
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 121
+scale = 2.25, 2.25
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 122
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 123
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 124
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 125
+scale = 2.30, 2.30
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 126
+scale = 2.30, 2.30
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 127
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 128
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 129
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 130
+scale = 2.30, 2.30
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 131
+scale = 2.30, 2.30
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 132
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 133
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 134
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 135
+scale = 2.30, 2.30
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 136
+scale = 2.30, 2.30
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 137
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 138
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 139
+scale = 2.30, 2.30
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 140
+scale = 2.30, 2.30
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 141
+scale = 2.30, 2.30
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 142
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 143
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 144
+scale = 2.30, 2.30
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 145
+scale = 2.30, 2.30
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 146
+scale = 2.30, 2.30
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 147
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 148
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 149
+scale = 2.30, 2.30
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 150
+scale = 2.30, 2.30
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 151
+scale = 2.30, 2.30
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 152
+scale = 2.30, 2.30
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 153
+scale = 2.30, 2.30
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 154
+scale = 2.0, 2.0
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 155
+scale = 2.0, 2.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 156
+scale = 2.0, 2.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 157
+scale = 2.0, 2.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 158
+scale = 2.0, 2.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 159
+scale = 2.0, 2.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 160
+scale = 2.0, 2.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 161
+scale = 2.0, 2.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 162
+scale = 2.0, 2.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 163
+scale = 2.0, 2.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 164
+scale = 2.0, 2.0
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 165
+scale = 2.0, 2.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 166
+scale = 2.0, 2.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 167
+scale = 2.0, 2.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 168
+scale = 1.5, 1.5
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 169
+scale = 1.5, 1.5
+value = 30
+
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 170
+scale = 1.5, 1.5
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 171
+scale = 1.5, 1.5
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 172
+scale = 1.5, 1.5
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 173
+scale = 1.5, 1.5
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 174
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 175
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 176
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 177
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 178
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 179
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 180
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 181
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 182
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 183
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 184
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 185
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 186
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 187
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 188
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 189
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 190
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 191
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 192
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 193
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 194
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 195
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 196
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 197
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 198
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 199
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 200
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 201
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 202
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 203
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 204
+scale = 1.0, 1.0
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 205
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 206
+scale = 1.0, 1.0
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 207
+scale = 1.0, 1.0
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 208
+scale = 1.0, 1.0
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 208
+scale = 1.0, 1.0
+value = 30
+
+;start
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 209
+scale = 1.0, 1.0
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 210
+scale = 1.05, 1.5
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 211
+scale = 1.1, 1.1
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 212
+scale = 1.13, 1.13
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 213
+scale = 1.17, 1.17
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 214
+scale = 1.2, 1.2
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 215
+scale = 1.3, 1.3
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 216
+scale = 1.4, 1.4
+value = 180
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 217
+scale = 1.6, 1.6
+value = 230
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 218
+scale = 1.8, 1.8
+value = 30
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 219
+scale = 2, 2
+value = 80
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 220
+scale = 2.2, 2.2
+value = 130
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 221
+scale = 2.4, 2.4
+value = 180
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 222
+scale = 2.6, 2.6
+value = 230
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 223
+scale = 3.0, 3.0
+value = 30
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = 224
+scale = 3.5, 3.5
+value = 0
+
+
+[State 7111, scaling]
+type = angledraw
+trigger1 = time = [225,267]
+scale = 4, 4
+value = 0
+
+[State 1013, PalFX]
+type = PalFX
+trigger1 = time = 207
+time = 60
+add = -64, -96, -160
+mul = 256,256,256
+sinadd = 64,96, 128, 10
+invertall = 1
+color = 0
+
+[State 7111, anim]
+type = changeanim2
+trigger1 = time = 0
+value = 3004
+ignorehitpause = 1
+
+[State 7111, camera lock]
+type = screenbound
+trigger1 = animelemtime(76) <= 0
+value = 0
+movecamera = 0, 0
+
+[State 7111, hkd]
+type = changestate
+trigger1 = time = 284
+value = 6300
+
+[State 7111, safety]
+type = selfstate
+trigger1 = time > 285
+value = 5100
+

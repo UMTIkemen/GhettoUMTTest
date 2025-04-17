@@ -1,0 +1,128 @@
+[Data]
+life = 1000			
+power = 900
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 60
+airjuggle = 15
+sparkno = -1			
+guard.sparkno = -1	
+KO.echo = 0				
+IntPersistIndex = 0	
+FloatPersistIndex = 40  
+
+[Size]
+xscale = .35			
+yscale = .35			
+ground.back = 15	
+ground.front = 16	
+air.back = 15		
+air.front = 15		
+height = 60
+attack.dist = 160
+proj.attack.dist = 90
+proj.doscale = 0
+head.pos = 5, -95	
+mid.pos = 0, -65		
+shadowoffset = 0		
+draw.offset = 0,0		
+
+[Velocity]
+walk.fwd  = 2.7
+walk.back = -2
+run.fwd  = 4.6, 0		
+run.back = -4.5,-3.8	
+jump.neu = 0,-14	
+jump.back = -2.75		
+jump.fwd = 3.1    	
+runjump.back = -2.75,-8.1
+runjump.fwd = 3.1,-8.1	
+airjump.neu = 0,-8.1	
+airjump.back = -2.55	
+airjump.fwd = 2.5		
+
+[Movement]
+airjump.num = 0		
+airjump.height = 35	
+yaccel = .75		
+stand.friction = .85	
+crouch.friction = .82	
+
+[Quotes]
+victory1 = "I will keep on fighting. I know the answer lies ahead."
+victory2 = "The path to becoming a true martial artist never ends."
+victory3 = "What I seek is to use my power beyond fighting."
+victory4 = "I will never forget this fight."
+victory5 = "Prove yourself."
+victory6 = "The path of a true fighter never ends. We can only move forward one step at a time."
+
+
+;---------------------------------------------------------------------------
+; Variable usage:
+;----- ints -----
+;var(1) - V Skill Selector
+;var(2) - V-Trigger Selector
+;var(3) - V Meter
+;var(4) - Super KO variable
+;var(5) - Holds life
+;var(6) - Set to tell powerbars to disappear (for supers)
+;var(7) - Records enemy ctrl for throws, for teching
+;var(8) - Records how long p2 was in movetype = a, for counter hits
+;var(9) - Holds how long counter hit is available for
+;var(10)- Declares that a counter hit is possible
+;var(11)- Activates when p2 is ko and p1 is alive, for super ko
+;var(12)- For multi hit moves, damage scaling
+;var(13)- enemy juggle points
+;var(14)- 
+;var(15)- V-Trigger Timer
+;var(16)- Ex KO variable
+;var(17)- Projectile on screen
+;var(18)- Eagle Dynamite Distance
+;var(19)- Used to dermine if quick rise was performed
+;var(20)- 
+;var(21)- Reserved for Focus Attack part B (Lost life from hit)
+;var(22)- 
+;var(23)- I am in an armored state
+;var(24)- countdown for life gain (in focus attacks)
+;var(25)- cornerpush enabled for this move
+;var(26)- ultra selection variable
+;var(27)- isshin cancel
+;var(28)- v skill cancel
+;var(29)- v trigger cancel
+;var(30)- special cancel
+;var(31)- super cancel
+;var(32)- chain cancel
+;var(33)- 
+;var(34)- Wake up Buffer
+;var(35)- 
+;var(36)- VT1 cancel usage
+;var(37)- reversal was performed on wakeup for ui
+;var(38)- 
+;var(39)- neg edge
+;var(40)- combo scaling factor
+;
+;var(41)- Pre Jump Frame buffer
+;var(42)- Level 3 Ex Cancel
+;var(43)- Multi hit move scaling
+;var(44)- Idaten Number
+;var(45)- reversal var
+;var(46)- reversal var
+;var(47)- reversal var
+;var(48)- Projectile hits
+;var(49)- Multi Hit
+;
+;var(50)- 
+;var(51)- used for jump landing frames on air normal attacks
+;var(52)- red focus - ensure no posadd after re-entering state
+;var(53)- delayed standing variable
+;var(54)- used to keep animelem during armor absorb
+;var(55)- 
+;var(56)- special move inputs for buffering
+;var(57)- V-Shift Timer
+;var(58)- 
+;var(59)- CONIFG: Bar display
+
+;----- floats -----
+;fvar(39)- damage scaling factor
+;fvar(40) - ultra scaling
