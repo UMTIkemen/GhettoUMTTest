@@ -1,0 +1,39 @@
+	<#f0f000>NORMAL THROWS</>
+Nihon Nage		[_B/_F]_+^2P (near opponent)
+Hiza Jigoku		[_B/_F]_+^2K (near opponent)
+
+	<#f0f000>SPECIAL MOVES</>
+Hurricane Upper_EX		_B_DB_D_DF_F_+^P
+Slash Kick_EX		_B_DB_D_DF_F_+^K
+Tiger Kick_EX		_F_D_DF_+^K
+Ogon no Kakato_EX		_D_DB_B_+^K
+Bakuretsuken_EX		(mash) ^P / _F_D_DF_+^P
+_!Bakuretsu Hook		_D_DF_F_+[^LP/^MP]
+_!Bakuretsu Upper		_D_DF_F_+^HP
+
+	<#f0f000>SUPER MOVES</>
+Screw Upper_MAX		_D_DF_F_D_DF_F_+^P
+Bakuretsu Hurricane Tiger Kakato_MAX		_D_DF_F_DF_D_DB_B_+^P
+Ogon no Tiger Kick_MAX		_D_DF_F_UF_+^K
+		(hold to delay)
+Double Cyclone Upper <#bebebe>(Lv3)</>		_D_DB_B_D_DB_B_+^P
+
+	<#f0f000>SYSTEM</>
+Dash Forward		_F_F
+_!Run		(hold) _F
+Dash Backward		_B_B
+Super Jump		_TAP_D_UB / _TAP_D_U / _TAP_D_UF
+Hop		_TAP_UB / _TAP_U / _TAP_UF
+Super Hop		_TAP_D_TAP_UB / _TAP_D_TAP_UF
+Roll Forward		_F_+^LP_+^LK
+Roll Backward		_B_+^LP_+^LK
+Safe Fall		^LP_+^LK / ^2P (while falling)
+Zero Counter		_B_DB_D_+[^P/^K]
+		(during standing or crouching guard)
+Dodge		^LP_+^LK
+_!Dodge Attack		[^P/^K]
+Parry (High)		_TAP_F
+Parry (Low)		_TAP_B
+Parry (Air)		(_AIR)_TAP_F
+Power Charge		(hold) ^MP_+^MK
+Custom Combo		^HP_+^HK (_AIR also)

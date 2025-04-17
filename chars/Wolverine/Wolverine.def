@@ -1,0 +1,55 @@
+;====================<DEFINITION>====================
+
+[Info]
+name = "Wolverine"
+displayName = "Wolverine"
+versionDate = 10,27,2012
+mugenVersion = 1.0
+author = "Froz"
+pal.defaults = 4,5,6,1,2,3,7,8,9,10,11,12
+localCoord = 320,240
+
+[Files]
+cmd = Command.cmd
+cns = Constants.cns
+st = States/System.st
+st1 = States/Normal.st
+st2 = States/Special.st
+st3 = States/Special - Drill Claw.st
+st4 = States/Super.st
+st5 = States/Helpers.st
+st6 = Config.txt
+stCommon = common1.cns
+sprite = Sprite.sff
+anim = Animation.air
+sound = Sound.snd
+pal1 = Palettes/Default.act
+pal2 = Palettes/Froz_Stark.act
+pal3 = Palettes/MDD_WildOrange.act
+pal4 = Palettes/Goodaldo_MvC2Art.act
+pal5 = Palettes/MDD_Brown_and_Tan.act
+pal6 = Palettes/Girard_Myonlywolverinepalette.act
+pal7 = Palettes/Davismaximus_XForce.act
+pal8 = Palettes/Davismaximus_UMvC3-4.act
+pal9 = Palettes/Davismaximus_Firstclass.act
+pal10 = Palettes/MDD_Default.act
+pal11 = Palettes/CGU_Shady.act
+pal12 = Palettes/CGU_SF4.act
+pal13 = Palettes/CGU_Midnight.act
+pal14 = Palettes/CGU_Inverse.act
+pal15 = Palettes/CGU_Highlighter.act
+pal16 = Palettes/CGU_Canada.act
+
+[Palette Keymap]
+a = 1
+b = 2
+c = 3
+x = 4
+y = 5
+z = 6
+a2 = 7
+b2 = 8
+c2 = 9
+x2 = 10
+y2 = 11
+z2 = 12

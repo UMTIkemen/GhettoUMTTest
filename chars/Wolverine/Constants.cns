@@ -1,0 +1,160 @@
+;====================<VARIABLE LIST>====================
+
+;var(3)  : Jump Type (0 = Normal; 1 = Low Jump; 2 = Long Low Jump; 3 = Long Jump)
+;var(4)  : Chain Combo (0 = Off; 1 = On)
+
+;var(5)  : Cancel Flag
+;var(6)  : Able to Special Cancel
+;var(7)  : Able to Super Cancel
+;var(8)  : Able to Hyper Cancel
+;var(9)  : Counter Flag
+;var(10) : Button Detect (0 = Light; 1 = Medium; 2 = Heavy)
+;var(11) : Lv3 Super finish detection
+;var(13) : Hit Count
+
+;var(15) : Juggle Points
+;var(16) : Juggle Flag
+;var(17) : Ticks UnGuardable
+;var(18) : ProjContact (0 = No; 1 = Yes)
+;var(19) : Throw Escape
+;var(20) : Custom Combo Time
+;var(21) : Super Cancel Flag
+;var(22) : Hyper Cancel Flag
+
+;var(23) : Super Finish Type (900 = Custom Combo; 3000 = Beserker Barrage X; 3100 = Beserker Charge; 3200 = Fatal Claw; 3300 = Weapon X; 3400 = 1337; 3500 = Healing Factor X)
+
+;var(25) : Ticks to Apply EX FX
+;var(26) : Ticks Unable to Walk
+;var(30) : Hit Detection
+;var(31) : Hit Sound (0 = Light Punch; 1 = Medium Punch; 2 = Heavy Punch; 3 = Light Kick; 4 = Medium Kick; 5 = Heavy Kick; 6 = Projectile Hit; 800 = Grab)
+;var(32) : Guard Sound
+;var(33) : Hit Spark (8010 = Light; 8011 = Medium; 8012 = Heavy; 8013 = Special; 8014 = Super)
+;var(34) : Guard Spark (8000 = Normal; 8001 = Special)
+;var(35) : Spark xPos
+;var(36) : Spark yPos
+;var(38) : Throw (0 = Allowed; 1 = Not Allowed)
+;var(39) : Projectile Flag (0 = Off; 1 = On)
+
+;var(41) : KO sound
+;var(43) : Throws Allowed
+
+;var(48) : X Heal (Limit)
+;var(49) : X Heal (Add Life)
+
+;var(51) : Mashing Buttons during throws
+;var(52) : Mashing Buttons during throws Flag
+;var(53) : Throws Timer
+
+;var(55) : Drill Claw Detector
+
+;var(58) : Game Time
+
+;fvar(5) : Amount of Corner Push
+;fvar(10): Damage Dampener
+;fvar(11): Damage Dampener with Counter Multiplier Added
+
+;====================<CONSTANTS>====================
+[Data]
+life = 970
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+lieDown.time = 60
+airJuggle = 0
+sparkNo = s8010
+guard.sparkNo = s8000
+KO.echo = 0
+volume = 128
+IntPersistIndex = 0
+FloatPersistIndex = 0
+
+[Size]
+xScale = 0.8333
+yScale = 1
+ground.back = 15
+ground.front = 15
+air.back = 15
+air.front = 15
+height = 60
+attack.dist = 160
+proj.attack.dist = 90
+proj.doScale = 0
+head.pos = 2, -75
+mid.pos = 1, -48
+shadowOffset = 0
+draw.offset = 0,0
+
+[Velocity]
+walk.fwd = 3.40
+walk.back = -2.75
+run.fwd = 5.25, 0
+run.back = -6.8,-4.8
+jump.neu = 0, -10.2
+jump.fwd = 3.36
+jump.back = -3.87
+runJump.fwd = 5.04,-11.5
+runJump.back = -5.81,-11.5
+airjump.neu = 0,-6.5
+airjump.back = -2.8
+airjump.fwd = 2.8
+
+[Movement]
+airJump.num = 0
+airJump.height = 0
+yAccel = 0.5
+stand.friction = 0.85
+crouch.friction = 0.82
+stand.friction.threshold = 1.0
+crouch.friction.threshold = 1.0
+air.gethit.groundLevel = 25
+air.gethit.groundRecover.ground.threshold = -20
+air.gethit.groundRecover.groundLevel = 10
+air.gethit.airRecover.threshold = -1
+air.gethit.airRecover.yAccel = 0.35
+air.gethit.trip.groundLevel = 15
+down.bounce.offset = 0, 20
+down.bounce.yAccel = 0.32
+down.bounce.groundLevel = 12
+down.friction.threshold = 0.5
+
+[Quotes]
+;Wolverine WinQuotes
+victory1 = "I've scrapped with the best, pal, and you ain't it!"
+victory2 = "That'll learn ya... Punk."
+victory3 = "That's what happens when you scuffle with the ol' Canucklehead."
+victory4 = "There ain't nothin' that scares me in this whole friggin' world. Other than myself."
+victory5 = "Ya fight me, yer gonna get hurt. End of story."
+victory6 = "You should leave fightin' to a real man if you're afraid of getting hurt."
+victory7 = "Hazy memory and all, I never forget the real challenges. But sorry, bub -- you're already forgotten."
+victory8 = "Next time I won't even have to unsheathe my claws."
+victory9 = "Nice try, bub, but I'm still the best there is at what I do!"
+victory10 = "Thanks, bub. I needed the workout."
+victory11 = "That's the best you can do?"
+victory12 = "Yer gettin' better, kid, but yer not there yet!"
+victory13 = "You gotta fight harder than that, rookie!"
+victory14 = "I'm a cut above the rest, you're just cut."
+victory15 = "I'm still the best there is at what I do."
+victory16 = "Not bad, you almost made me break a sweat!"
+victory17 = "Some have what it takes, some don't. You're not even close!"
+victory18 = "Don't mess with me, bub."
+victory19 = "My healin' factor ain't necessary for this!"
+victory20 = "Now, let's get down to some slicin' and dicin'!"
+victory21 = "Now, my claws are gonna do the talkin'!"
+victory22 = "You shouldn't mess with the big boys!"
+victory23 = "You're outta your league, bub."
+victory24 = "Humanity ain't all it's cracked up to be, bub!"
+victory25 = "I ain't no runt! But I'll slice ya into one!"
+victory26 = "That's all you got? You're just a rookie!"
+victory27 = "Ya gotta beat the best to be the best!"
+victory28 = "You're lucky I didn't go berserk."
+victory29 = "You shouldn't mess with the big boys!"
+victory30 = "You're outta your league, bub."
+victory31 = "Back to the Danger Room for more training..."
+victory32 = "Come back when you've learned how to fight!"
+victory33 = "Don't worry; those scars will heal up in time."
+victory34 = "Next time I won't go so easy on you, rookie."
+victory35 = "Not bad for starters... Just not good enough!"
+victory36 = "Still the best there is at what I do!"
+victory37 = "Too rough for you? You still got both arms, bub!"
+victory38 = "You've got a lot to learn before you beat me, bub!"
