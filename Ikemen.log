@@ -1,0 +1,10 @@
+external/script/main.lua:714: <game end>
+stack traceback:
+	[G]: in function 'refresh'
+	external/script/main.lua:714: in function 'f_refresh'
+	.\external\script\start.lua:2246: in function 'f_selectScreen'
+	.\external\script\start.lua:1421: in function 'f'
+	external/script/main.lua:3070: in function 'loop'
+	external/script/main.lua:3190: in function 'loop'
+	external/script/main.lua:4157: in main chunk
+	[G]: ?
