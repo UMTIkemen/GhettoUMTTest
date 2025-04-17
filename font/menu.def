@@ -1,0 +1,12 @@
+﻿[FNT v2]
+fntversion = 2,00
+name = "Main Menu font"
+
+[Def]
+Type = truetype
+Size = 36,19
+Spacing = 1,1
+Offset = 0,0
+File = menu.ttf
+blend = 1
+

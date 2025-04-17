@@ -1,0 +1,543 @@
+;-------------------------------------------------------------------------------
+[Characters]
+;-------------------------------------------------------------------------------
+;============ 1ST ROW ============
+ slot = {
+Sion_kof, previous=d, next=w
+Hayate_XI, previous=d, next=w
+Shingo-KOF98, previous=d, next=w
+Krizalid_N, previous=d, next=w
+!cham, previous=d, next=w
+!lilith, previous=d, next=w
+}
+   slot = {
+sf3_ryu, previous=d, next=w
+sf3_ken, previous=d, next=w
+}
+   slot = {
+kamijo, previous=d, next=w
+kamijo_hood, previous=d, next=w
+kuroko_sNEW, previous=d, next=w
+misakaNEW, previous=d, next=w
+Accelerator, previous=d, next=w
+KakineOT15, previous=d, next=w
+KakineDM, previous=d, next=w
+}
+   slot = {
+kumagawa, previous=d, next=w
+gnh, previous=d, next=w
+okita, previous=d, next=w
+Last_Order, previous=d, next=w
+Kyon, previous=d, next=w
+Himegami_Aisa, previous=d, next=w
+S_Yuriko, previous=d, next=w
+}
+   slot= {
+Q, previous=d, next=w
+Q/Q_CvS2.def, previous=d, next=w
+honda_pots, previous=d, next=w
+Ryu, previous=d, next=w
+Ken, previous=d, next=w
+DivinePoison, previous=d, next=w
+DivineSkullo, previous=d, next=w
+Urien, previous=d, next=w
+Sakura3, previous=d, next=w
+Blanka, previous=d, next=w
+Dan, previous=d, next=w
+Gouken, previous=d, next=w
+Alex, previous=d, next=w
+}
+   slot= {
+Shingo, previous=d, next=w
+K, previous=d, next=w
+Elektrosoldat, previous=d, next=w
+Lei-Lei, previous=d, next=w
+Joe, previous=d, next=w
+Jubei, previous=d, next=w
+CvWSubZero, previous=d, next=w
+}
+   slot= {
+Suika_RP, previous=d, next=w
+Cirno_RP, previous=d, next=w
+Flandre_RP, previous=d, next=w
+Youmu_RP, previous=d, next=w
+Suwako_THIZ, previous=d, next=w
+Yuuka_THIZ, previous=d, next=w
+Aya_THIZ, previous=d, next=w
+Touhou_IZ/Miko_THIZ, previous=d, next=w
+Touhou_IZ/Nitori_THIZ.def, previous=d, next=w
+Yorigami_Jyoon&Shion, previous=d, next=w
+}
+;============ 2ND ROW ============
+   slot= {
+Wonder Woman, previous=d, next=w
+Dr.Doom, previous=d, next=w
+Wesker, previous=d, next=w
+Kirito_SE, previous=d, next=w
+Cloud, previous=d, next=w
+dio_inf, previous=d, next=w
+Dormammu, previous=d, next=w
+Rasetsumaru, previous=d, next=w
+Broly-Mugen10, previous=d, next=w
+Wolverine, previous=d, next=w
+Queen Bee, previous=d, next=w
+Yukina_SE, previous=d, next=w
+Scorpion, previous=d, next=w
+}
+   slot= {
+Bowser, previous=d, next=w
+Thief, previous=d, next=w
+Yang, previous=d, next=w
+Metaknight, previous=d, next=w
+DANoel, previous=d, next=w
+Faust, previous=d, next=w
+Zero, previous=d, next=w
+Terumi, previous=d, next=w
+Kim, previous=d, next=w
+}
+   slot = {
+Miyako, previous=d, next=w
+Ruby, previous=d, next=w
+Hyde, previous=d, next=w
+Adachi, previous=d, next=w
+Akatsuki, previous=d, next=w
+Mika, previous=d, next=w
+Yu, previous=d, next=w
+Kuroko, previous=d, next=w
+Susanoo, previous=d, next=w
+}
+   slot = {
+MvC-EoH_Gambit_DCL, previous=d, next=w
+MvC2_Zero, previous=d, next=w
+Spider-Man, previous=d, next=w
+Amingo, previous=d, next=w
+MvC2_Iron_Man, previous=d, next=w
+MvC2_Cable, previous=d, next=w
+MSH_VS_SF_Cyclops, previous=d, next=w
+mechgouki, previous=d, next=w
+michelle heart, previous=d, next=w
+MGMJEDAH, previous=d, next=w
+sg, previous=d, next=w
+}
+   slot = {
+unknownsoldier, previous=d, next=w
+Sasquatch, previous=d, next=w
+}
+   slot= {
+DragonClaw, previous=d, next=w
+EvilKen, previous=d, next=w
+}
+   slot = {
+SLAYER2, previous=d, next=w
+ky_slash, previous=d, next=w
+sol_b, previous=d, next=w
+ods, previous=d, next=w
+joh, previous=d, next=w
+testa, previous=d, next=w
+pot, previous=d, next=w
+}
+;============ 3RD ROW ============
+ slot = {
+Utsuho_K, previous=d, next=w
+Meiling_K, previous=d, next=w
+}
+naruto_u
+   slot = {
+jagyuta, previous=d, next=w
+Fear_Mace_Rosenkranz, previous=d, next=w
+Etomo_Shuko_2, previous=d, next=w
+Skylla Chimere, previous=d, next=w
+}
+Ella
+  slot = {
+Sanada_Yukimura, previous=d, next=w
+Date_Masamune, previous=d, next=w
+}
+   slot = {
+Diavolo/Shadow Diavolo.def, previous=d, next=w
+Jolyne, previous=d, next=w
+dio, previous=d, next=w
+jonathanASB, previous=d, next=w
+}
+;============ 4TH ROW ============
+   slot = {
+cvscommando, previous=d, next=w
+cvsvega, previous=d, next=w
+cvsguile, previous=d, next=w
+cvskarin/cvskarin_BEW.def, previous=d, next=w
+cvsgouki, previous=d, next=w
+cvsken, previous=d, next=w
+cvssagat, previous=d, next=w
+cvssakura_ex, previous=d, next=w
+cvsguy, previous=d, next=w
+cvszangief, previous=d, next=w
+}
+   slot = {
+cvsterry, previous=d, next=w
+cvskyo, previous=d, next=w
+cvsrock, previous=d, next=w
+cvsrugal, previous=d, next=w
+cvsg_athena, previous=d, next=w
+cvsshimo, previous=d, next=w
+cvsseriousmrkarate2, previous=d, next=w
+cvsgeese_ike, previous=d, next=w
+cvssilber, previous=d, next=w
+}
+TomokaMinato
+randomselect
+   slot = {
+JirenZ2, previous=d, next=w
+SSJ_GokuZ2, previous=d, next=w
+Normal_VegetaZ2, previous=d, next=w
+GohanZ2, previous=d, next=w
+C18Z2, previous=d, next=w
+}
+   slot = {
+ssjsongoku, previous=d, next=w
+piccolo, previous=d, next=w
+uub, previous=d, next=w
+cell, previous=d, next=w
+zarbon, previous=d, next=w
+cooler, previous=d, next=w
+}
+;============ 5TH ROW ============
+  slot = {
+Rila, previous=d, next=w
+0D_Sho, previous=d, next=w
+}
+  slot = {
+Muscle Power, previous=d, next=w
+sheen, previous=d, next=w
+}
+haggar
+  slot = {
+Strider Hiryu, previous=d, next=w
+Ryu3svk, previous=d, next=w
+Ken2, previous=d, next=w
+}
+;============ 6TH ROW ============
+thanos
+  slot = {
+Shuh, previous=d, next=w
+Rei, previous=d, next=w
+Kenshiro_C, previous=d, next=w
+Raoh, previous=d, next=w
+}
+N_Reimu
+  slot = {
+AKATSUKI-ABK, previous=d, next=w
+Adler_MKT/Adler_MKT_Usual.def, previous=d, next=w
+Sai_MKT, previous=d, next=w
+}
+IzanagI
+undyne
+;============ 7TH ROW ============
+MK1_CHAMELEON
+;============ 8TH ROW ============
+reika
+  slot = {
+SF2 Akuma, previous=d, next=w
+SF2 Evil Ryu, previous=d, next=w
+}
+KyoXIII(ikaruga)
+xCvsKimx
+randomselect
+;============ 9TH ROW ============
+Arcueid Brunestud 1.0
+Hibiki_Kohaku
+Vergil_G
+azrael
+  slot = {
+ange, previous=d, next=w
+dlanorAknox, previous=d, next=w
+}
+Ayane_Ikuse
+;============ 10TH ROW ============
+  slot = {
+Gumball, previous=d, next=w
+Darwin, previous=d, next=w
+}
+beavis/beavis10.def
+  slot = {
+Jaiden_SB, previous=d, next=w
+Nicole_SB, previous=d, next=w
+}
+pikachu
+randomselect
+kfm,order=0
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+
+
+;-------------------------------------------------------------------------------
+[ExtraStages]
+;-------------------------------------------------------------------------------
+ ;Examples:
+ ; stages/mybg.def, music=sound/song.mp3, music=sound/song2.mp3
+ ; stages/mybg.def, order=3
+ ;
+stages/cvs2_Training.def
+stages/Moon.def
+stages/CVS2_London_Day.def
+stages/Academy.def
+stages/KOF1994A-JS.def
+stages/Underground-Sewer.def
+stages/Cvs2k_pro-GeeseTower-F.def
+stages/PI_Shintaro.def
+stages/crossoverDG.def
+stages/Elevator.def
+stages/street2014.def
+stages/cloud2014.def
+stages/England2019.def
+stages/Guile_Revival2019.def
+stages/Space_Elevator2019.def
+stages/MUGEN-Yen-Wang-Stage.def
+stages/ffsp_MaiStage_day.def
+stages/Desert2019.def
+stages/KOF95A-RS.def
+stages/Dream_World.def
+;Burning_Osaka_CVS2.def
+stages/Yacht2014.def
+
+stages/fuuntg_Kousoku_Night.def
+
+stages/KOF97_NewFace_Stage.def
+
+;stages/TR-Sky.def
+
+;stages/lowres/2002holland1.def
+;stages/lowres/garden.def
+stages/lowres/svc_pgenni.def
+stages/lowres/svc_heaven.def
+stages/HountedCastle.def
+stages/SS2Genjuro1.1.def
+stages/AB_City.def
+stages/AB_Shipyard.def
+stages/AB_Yarlung2.def
+stages/McDonalds.def
+stages/Dengeki_Temple.def
+stages/MaximilianDood.def
+stages/MaryBeach.def
+;stages/
+
+stages/Witch_on_the_Holy_Night.def
+stages/CemeteryOnbashiraALT0.def
+stages/ayakashi_D0.def
+stages/outside.def
+stages/[MVC2]Airship_ALT1.def
+stages/XX'UNDERGROUND'CAVERN'XX.def
+stages/XX'CLOCK'XX.def
+stages/XX'FACTORY'XX.def
+stages/RWBY_SchneeTrainingRoom.def
+stages/TVC_Moonlight Temple.def
+stages/Ultimate_Aberdeen_China_FFS_Cheng.def
+stages/Ultimate_AoF3_Wyler_Mansion.def
+stages/Ultimate_Zues_WH2Jet.def
+stages/Tartarus rooftop.def
+stages\HitMan_ByakuransRoomfuture1.1.def
+stages\HitMan_Rooftop1.1.def
+stages\HitMan_StormBattle1.1.def
+stages/ww7_Tesse1.def
+stages/ww7_Fernandez1.def
+stages/FalseShepherd11.def
+stages/cyberbots-deepsix.def
+stages/maxroom1.1.def
+stages/MshVsSf-CodeRed.def
+stages/Central-X.def
+stages/XX'END'XX.def
+stages/ChaosDimension.def
+stages/Reu.def
+stages/GoldenHall.def
+stages/WW7-Marurun Stage.def
+stages/Gunner_JTT.def
+stages/Purgatory.def
+stages/interactive/SF2-Guile_Stage.def
+stages/interactive/WH-Neo-Geegus.def
+stages/interactive/MK2_Kahn-Arena.def
+stages/interactive/MK2_NewPool.DEF
+stages/interactive/MK3_Subway.def
+stages/interactive/WH2Jet_USA.def
+
+
+
+
+
+
+
+
+
+;---- Unused-----------
+;stages/KOFXIII_Esaka(Day).def
+;stages/haunted 1.1.def
+;stages/GGXRD_Area42_1.1.def
+;stages/AMUSEMENT PARK-A.def
+;stages/KOF-2002-UM-Clone Laboratory-1.def
+;stages/KOFXIII_Japan.def ;mp3
+;stages/lowres/svc_forest.def
+;stages/cvsgouki.def
+;stages/CvS2_Kinderdijk.def
+;stages/Cvs2k_pro-train-M.def
+;stages/Kofxi_Cambodia_Stage.def ; Fix BGM
+;stages/SF_Ryu_Rain.def
+;stages/SF2019_Karin.def
+;stages/Blazblue_Kagutsuchi_AM.def ; mp3
+;stages/valley_of_the_end.def ;mp3
+;stages/NeoWave_Harbor.def
+;stages/XX'AENSLAND'XX.def
+;stages/KOF-2002-um school japan.def ;mp3
+;stages/Blazblue_Hanging_Gardens_1.1.def ; MvC3 stage pack
+;stages/kof-97ol-Stadium_stage-640x480.def
+;morrigan stage
+;stages/new/BasculeBlazblue.def ; // phase 1
+;stages/new/BBbascule.def ; // phase 2
+;stages/new/D.O.A.5 Azuchi Night.def
+;stages/new/BBHeritageMuseum.def
+;stages/new/BlazBlue_RR_Blockaded_District_1.0.def
+;stages/new/GGXRD Rev2 - Jeon Ryok Residence.def
+;stages/new/GGXRD Rev2 - Ogre Valley.def
+;stages/new/GGXRD Revelator - Villa Vampir.def
+;stages/new/GGXRD_DragonicaFall.def
+;stages/new/GGXRD-Down_Town.def
+;stages/new/GGXRD-Neo_New_York.def
+;stages/new/KOFi_Factory.def
+;stages/new/KOFi_FactoryHi.def
+;stages/new/KOF-2002-UM-Clone Zero.def
+;stages/new/PLATINUM_WALLS 1.1.def
+;stages/new/KOF-XIV-Stage-Industrial-Area_480p.def
+;---- Unused-----------
+
+;-------------------------------------------------------------------------------
+[Options]
+ ;Here you set the maximum number of matches to fight before game ends in arcade
+ ;mode. The first number is the number of matches against characters with
+ ;order=1, followed by order=2 and order=3 respectively. For example, for 4,3,1
+ ;you will fight up to 4 randomly-picked characters who have order=1, followed
+ ;by 3 with order=2 and 1 with order=3.
+ ;IKEMEN feature: Max 30 orders mugen limitation is lifted.
+ ;IKEMEN feature: Characters can use individual maxmatches settings (see
+ ;'maxmatches' parameter in [Characters] section)
+
+ ;Maximum number of matches to fight before game ends in Arcade single mode.
+arcade.maxmatches = 6,1,1,0,0,0,0,0,0,0
+
+ ;Like arcade.maxmatches, but applies to Arcade team modes (sans 'Ratio').
+team.maxmatches = 4,1,1,0,0,0,0,0,0,0
+
+ ;Maximum number of matches to fight before game ends in Time Attack mode.
+timeattack.maxmatches = 6,1,1,0,0,0,0,0,0,0
+
+ ;IKEMEN feature: Similar to arcade.maxmatches, but applies to Survival mode.
+ ;Use -1 value to choose which order number should have unlimited matches.
+ ;By omitting -1 survival mode will end after particular amount of matches set
+ ;below (in such case you can actually "complete" the mode).
+survival.maxmatches = -1,0,0,0,0,0,0,0,0,0
+
+ ;IKEMEN feature: A 'Ratio' mode allows each team to select up to 3 characters
+ ;and distribute 4 "ratio levels" amongst them, affecting their life and damage
+ ;(ratio 2 is the default to which other ratios are compared, percentages are
+ ;adjustable in options screen).
+ ;Arcade ratio matches use 'ratiomatches' configuration instead of 'maxmatches'
+ ;settings. Each entry here, separated by commas, represents a single match and
+ ;consists of 2 assignments, separated by colon. Assignment on the left side of
+ ;colon refers to the number of characters you will face in this match (valid
+ ;numbers from 1 to 3, or a random selection range, consisting of one number,
+ ;followed by a dash and another number). Assignment written after colon refers
+ ;to character's order param, that can be used to limit which characters should
+ ;be randomly chosen for this match. For example 2-3:4 entry means a match
+ ;against team of 2 or 3 characters, chosen from characters with order=4.
+arcade.ratiomatches = 1-3:1, 3:1, 2:1, 2:1, 1:2, 3:1, 1-2:3
+
+ ;AI ramping
+ ;IKEMEN feature: AI ramping settings has been moved here from mugen.cfg
+ ;You can view AI ramping output for all battles from the last chosen mode via
+ ;debug/t_aiRamp.txt (useful reference also for vanilla mugen).
+
+ ;Arcade / Time Attack single mode AI ramping
+ ;For both parameters below, the first number corresponds to the number of
+ ;matches won, and the second number to the AI difficulty offset. The actual
+ ;difficulty is the sum of the AI difficulty level (set in the options menu) and
+ ;the value of the offset at a particular match.
+ ;  AIramp.start = start_match, start_diff
+ ;  AIramp.end   = end_match, end_diff
+ ;The difficulty offset function is a constant value of start_diff from the
+ ;first match until start_match matches have been won. From then the offset
+ ;value increases linearly from start_diff to end_diff. After end_diff matches
+ ;have been won, the offset value is end_diff.
+ ;  e_d            /----------
+ ;               /
+ ;  s_d _______/
+ ;     ^      ^     ^        ^
+ ;   1st_m   s_m   e_m     last_m
+ ;For example, if you have:
+ ;  AIramp.start = 2,0
+ ;  AIramp.end   = 4,2
+ ;For 6 matches at level 4, the difficulty will be (by match):
+ ;  4,4,4,5,6,6
+
+arcade.AIramp.start = 2, 0
+arcade.AIramp.end   = 4, 2
+
+ ;Arcade / Time Attack team modes AI ramping (sans 'Ratio')
+ ;For 4 matches at level 4 and default values, the difficulty will be:
+ ;  4,4,5,6
+
+team.AIramp.start = 1, 0
+team.AIramp.end   = 3, 2
+
+ ;Arcade / Time Attack 'Ratio' mode AI ramping
+ ;For 4 matches at level 4 and default values, the difficulty will be:
+ ;  4,4,5,6
+
+ratio.AIramp.start = 1, 0
+ratio.AIramp.end   = 3, 2
+
+ ;Survival Mode AI ramping
+ ;For 16 matches at level 4 and default values, the difficulty will be:
+ ;  1,1,1,2,2,3,3,4,4,4,5,5,6,6,7,7,8
+
+survival.AIramp.start = 0, -3
+survival.AIramp.end   = 16, 4
+
+;-------------------------------------------------------------------------------
+[StoryMode]
+ ;Story Mode arcs declaration. Assigned arcs are selectable via Story Mode
+ ;submenu ('menu.itemname.storymode' parameter in screenpack DEF file)
+ ;
+ ;Declaring arcs consists of setting up following parameters:
+ ; - name
+ ;   IKEMEN feature: Set to name that should be returned by GameMode trigger.
+ ;   This parameter also initiates new story arc declaration, so it has to be
+ ;   assigned before any other parameter used by the same arc. All arcs should
+ ;   have unique names.
+ ;
+ ; - displayname
+ ;   IKEMEN feature: Set to name that should be displayed in Story Mode submenu.
+ ;
+ ; - path
+ ;   IKEMEN feature: Path to file with lua extension (relative to game
+ ;   directory), containing story mode arc coded in Lua language.
+ ;   https://github.com/K4thos/Ikemen_GO/wiki/Miscellaneous-Info#arcs
+ ;
+ ; - unlock
+ ;   IKEMEN feature: Pure Lua code, executed exactly as is, each time upon
+ ;   loading main menu. If it evaluates to boolean 'true' the story arc will be
+ ;   selectable from story mode submenu, or hidden on 'false'. Default: true.
+ ;   https://github.com/K4thos/Ikemen_GO/wiki/Miscellaneous-Info#lua_unlock
+ ;
+ ;Examples:
+ ; name = arc1
+ ; displayname = Kung Fu Story Part I
+ ; path = data/story/arc1.lua
+ ; unlock = true
+ ;
+ ; name = arc2
+ ; displayname = Kung Fu Story Part II
+ ; path = data/story/arc2.lua
+ ; unlock = true
+ ;
+ ;Declare your Story Mode arcs below.
+

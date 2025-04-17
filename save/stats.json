@@ -1,0 +1,37 @@
+{
+  "modes": {
+    "training": {
+      "playtime": 0
+    },
+    "netplayversus": {
+      "playtime": 23722.54
+    },
+    "versus": {
+      "playtime": 1000.23
+    },
+    "arcade": {
+      "playtime": 93.82,
+      "clear": 0,
+      "clearcount": [],
+      "ranking": [
+        {
+          "score": 196100,
+          "time": 93.82,
+          "name": "",
+          "chars": [
+            "kenshiro_c"
+          ],
+          "tmode": 0,
+          "ailevel": 5,
+          "win": 0,
+          "lose": 1,
+          "consecutive": 0
+        }
+      ]
+    },
+    "freebattle": {
+      "playtime": 788.03
+    }
+  },
+  "playtime": 25604.62
+}

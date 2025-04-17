@@ -1,0 +1,10 @@
+[FNT v2]
+fntversion = 2,00
+name = "lbname"
+
+[Def]
+Type = bitmap
+Size = 14,27;23,29
+Spacing = -4,0
+Offset = 0,1
+File = name.sff
