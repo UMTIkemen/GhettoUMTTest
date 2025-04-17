@@ -1,0 +1,1552 @@
+;--------------------------------------------------------
+[Info]
+name = "Inner World Raining"
+displayname = "Inner World Raining"
+versiondate = 10,30,8930
+mugenversion = 1.2
+author = "Vogel"
+;--------------------------------------------------------
+[Camera]
+startx =0
+starty =0
+boundleft=-180
+boundright= 180
+boundhigh= -200
+boundlow =0
+tension = 400 ;250
+overdrawhigh = 100
+overdrawlow = 100
+cuthigh = 0
+cutlow = 0
+zoomin = 1.15
+startzoom = 1.3
+zoomout = .65;.3
+tensionhigh = 500
+tensionlow = -300
+
+;Ikemen nightly exclusive (just for future stage reference)
+ZoomInSpeed = 0.5
+ZoomOutSpeed = 0.5
+autocenter = 1
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -300      
+p1starty = 0            ;
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 300
+p2starty = 0
+p2facing = -1
+
+;--- Player 3 ---
+p3startx = -420          ;Starting x coordinates
+p3starty = 0            ;Starting y coordinates
+p3facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 4 ---
+p4startx = 420
+p4starty = 0
+p4facing = -1
+
+;--- Common ---
+ ;Don't change these values.
+
+
+leftbound  = -1800
+rightbound =  3000
+
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 60;Dist from left of screen that player can move to
+screenright = 60  ;Right edge
+; use 15 for low res
+; use 30 for high res
+; use 60 for HD res
+;--------------------------------------------------------
+[StageInfo]
+ ;"Ground" level where players stand at, measured in pixels from the
+ ;top of the screen.
+ ;Adjust this value to move the ground level up/down in the screen.
+ ;***
+zoffset = 650
+
+ ;Leave this at 1. It makes the players face each other
+autoturn = 1
+
+ ;Set the following to 1 to have the background reset itself between
+ ;rounds.
+resetBG = 0
+localcoord = 1280, 720
+
+
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+;--------------------------------------------------------
+[Shadow]
+intensity = 87
+color = 0,0,0
+yscale = -0.2
+fade.range = -400, -100
+
+
+
+
+
+
+
+
+;--------------------------------------------------------
+[Reflection]
+intensity = 100
+
+
+;--------------------------------------------------------
+[Music]
+;only the top one will work
+;if you are using this in a youtube video do not use "copyrighted (default)" the song is blocked in every country :(
+
+;Pick one delete the others
+bgmusic=stages/copyrighted (default).mp3
+bgmusic=stages/Not copyrighted.mp3
+
+bgmusic=sound/copyrighted (default).mp3
+bgmusic=sound/Not copyrighted.mp3
+
+bgmvolume = 100
+
+
+; Main background definition
+
+;Action code tutorial by vogel
+;[Begin Action 1]
+sprite |Placement x,y,ticks |Flip (H for horizontal/ V for vertical) |Transparency 0-256 |Size (1 default)|angle for rotating animation 0-360 ( the plus sign in fighter factory is the axle! move the sprite with "start=" )
+;0,0,  |0,0,0           |,H or V                                 |,0,0               |,1,1            |,0
+
+
+;____________________________________________________________________________________________________________________________________
+[BGdef]
+spr = Inner World.sff
+debugbg = 1
+
+
+
+[BG 0,sky gradient]
+type = normal
+spriteno = 13,1
+start = 150,470
+delta = 0,0.015
+tile = 0,1
+mask = 1
+
+
+
+[BG 0,cloud1]
+type = normal
+spriteno = 14,1
+start = 0,641
+delta = 0,0.015
+velocity = 0,0.0125
+tile = 0,1
+mask = 1
+
+[BG 0,cloud1.1]
+type = normal
+spriteno = 14,1
+start = 0,541
+delta = 0,0.015
+velocity = 0,0.01825
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud2]
+type = normal
+spriteno = 14,1
+scalestart = 1.125,1.125
+start = -20,441
+delta = 0,0.015
+velocity = 0,0.025
+tile = 0,1
+mask = 1
+
+[BG 0,cloud2.1]
+type = normal
+spriteno = 14,1
+scalestart = 1.1875,1.1875
+start = -20,331
+delta = 0,0.015
+velocity = 0,0.0175
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud3]
+type = normal
+spriteno = 14,1
+scalestart = 1.25,1.25
+start = -40,261
+delta = 0,0.015
+velocity = 0,0.05
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud3.1]
+type = normal
+spriteno = 14,1
+scalestart = 1.31,1.31
+start = -50,701
+delta = 0,0.015
+velocity = 0,0.0625
+tile = 0,1
+mask = 1
+
+
+
+[BG 0,cloud3.1]
+type = normal
+spriteno = 14,1
+scalestart = 1.375,1.375
+start = -60,0
+delta = 0,0.015
+velocity = 0,0.075
+tile = 0,1
+mask = 1
+
+[BG 0,cloud3.1]
+type = normal
+spriteno = 14,1
+scalestart = 1.44,1.44
+start = -70,261
+delta = 0,0.015
+velocity = 0,0.0875
+tile = 0,1
+mask = 1
+
+
+
+[BG 0,cloud4]
+type = normal
+spriteno = 14,1
+scalestart = 1.5,1.5
+start = -80,23
+delta = 0,0.015
+velocity = 0,0.1
+tile = 0,1
+mask = 1
+
+[BG 0,cloud4]
+type = normal
+spriteno = 14,1
+scalestart = 1.75,1.75
+start = -100,26152
+delta = 0,0.015
+velocity = 0,0.15
+tile = 0,1
+mask = 1
+
+[BG 0,cloud4.1]
+type = normal
+spriteno = 14,1
+scalestart = 2,2
+start = -120,25321
+delta = 0,0.015
+velocity = 0,0.2
+tile = 0,1
+mask = 1
+
+[BG 0,cloud4.2]
+type = normal
+spriteno = 14,1
+scalestart = 2.5,2.5
+start = -140,227
+delta = 0,0.015
+velocity = 0,0.25
+tile = 0,1
+mask = 1
+
+
+
+[BG 0,cloud4.2]
+type = normal
+spriteno = 14,1
+scalestart = 3,3
+start = -160,290
+delta = 0,0.015
+velocity = 0,0.3
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud4.3]
+type = normal
+spriteno = 14,1
+scalestart = 3.5,3.5
+start = -220,3135
+delta = 0,0.015
+velocity = 0,0.35
+tile = 0,1
+mask = 1
+
+[BG 0,cloud4.3]
+type = normal
+spriteno = 14,1
+scalestart = 3.75,3.75
+start = -250,6635
+delta = 0,0.015
+velocity = 0,0.375
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud5]
+type = normal
+spriteno = 14,1
+scalestart = 4,4
+start = -280,2341
+delta = 0,0.015
+velocity = 0,0.4
+tile = 0,1
+mask = 1
+
+[BG 0,cloud5.1]
+type = normal
+spriteno = 14,1
+scalestart = 4.5,4.5
+start = -360,123
+delta = 0,0.015
+velocity = 0,0.45
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud5.2]
+type = normal
+spriteno = 14,1
+scalestart = 5,5
+start = -420,2841
+delta = 0,0.015
+velocity = 0,0.5
+tile = 0,1
+mask = 1
+
+[BG 0,cloud5.2]
+type = normal
+spriteno = 14,1
+scalestart = 5.5,5.5
+start = -480,2341
+delta = 0,0.015
+velocity = 0,0.55
+tile = 0,1
+mask = 1
+
+[BG 0,cloud5.3]
+type = normal
+spriteno = 14,1
+scalestart = 6,6
+start = -515,1341
+delta = 0,0.015
+velocity = 0,0.6
+tile = 0,1
+mask = 1
+
+[BG 0,cloud5.3]
+type = normal
+spriteno = 14,1
+scalestart = 6.5,6.5
+start = -535,2389
+delta = 0,0.015
+velocity = 0,0.65
+tile = 0,1
+mask = 1
+
+[BG 0,cloud53]
+type = normal
+spriteno = 14,1
+scalestart = 7,7
+start = -550,341
+delta = 0,0.015
+velocity = 0,0.7
+tile = 0,1
+mask = 1
+
+[BG 0,cloud53]
+type = normal
+spriteno = 14,1
+scalestart = 7.5,7.5
+start = -625,1841
+delta = 0,0.015
+velocity = 0,0.75
+tile = 0,1
+mask = 1
+
+
+[BG 0,cloud6]
+type = normal
+spriteno = 14,1
+scalestart = 8,8
+start = -700,3156
+delta = 0,0.015
+velocity = 0,0.8
+tile = 0,1
+mask = 1
+
+[BG 0,cloud6]
+type = normal
+spriteno = 14,1
+scalestart = 8.5,8.5
+start = -800,9156
+delta = 0,0.015
+velocity = 0,0.85
+tile = 0,1
+mask = 1
+
+
+
+
+[BG 0,bg city scape 3]
+type = normal
+spriteno = 11,12
+start = 150,470
+delta = 0,0.015
+tile = 0,1
+mask = 1
+
+
+[BG 0,bg city scape 2]
+type = normal
+spriteno = 11,11
+start = 150,470
+delta = 0.003,0.015
+tile = 0,1
+mask = 1
+
+
+
+[BG 0,bg city scape 1]
+type = normal
+spriteno = 11,100
+start = 150,470
+delta = 0.007,0.015
+tile = 0,1
+mask = 1
+
+
+[BG 0,bg floor bg]
+type = normal
+spriteno = 12,0
+start = 150,470
+delta = 0,0.015
+tile = 0,10
+mask = 1
+
+
+[BG 0,building 8]
+type = normal
+spriteno = 9,0
+start = 150,470
+delta = 0.01,0.03
+tile = 10
+mask = 1
+
+[BG 0,building 5 1]
+type = normal
+spriteno = 9,0
+start = 0,641
+delta = 0.02,0.04
+mask = 1
+
+[BG 0,building 6]
+type = normal
+spriteno = 9,0
+start = 0,641
+delta = 0.01,0.03
+tile = 10
+mask = 1
+
+
+[BG 0,bg floor bg]
+type = normal
+spriteno = 12,0
+start = 300,570
+delta = 0.01,0.03
+tile = 0,10
+mask = 1
+
+
+[BG 0,building 7 1]
+type = normal
+spriteno = 10,0
+start = 0,651
+delta = 0.02,0.04
+mask = 1
+
+
+[BG 0,building 5 roof 3]
+type = parallax
+spriteno = 8,1
+start = 840,327
+delta = 0.04,0.07
+width = 254, 127
+scaledelta = 0, 0.017
+mask = 1
+
+
+[BG 0,building 5 roof 3]
+type = parallax
+spriteno = 8,1
+start = 586,327
+delta = 0.04,0.07
+width = 254, 127
+scaledelta = 0, 0.017
+mask = 1
+
+[BG 0,building 5 roof 2]
+type = parallax
+spriteno = 8,1
+start = 332,327
+delta = 0.04,0.07
+width = 254, 127
+scaledelta = 0, 0.017
+mask = 1
+
+
+
+[BG 0,building 5 roof 1]
+type = parallax
+spriteno = 8,1
+start = 78,327
+delta = 0.04,0.07
+width = 254, 127
+scaledelta = 0, 0.017
+mask = 1
+
+
+[BG 0,building 5]
+type = normal
+spriteno = 8,0
+start = 0,641
+delta = 0.04,0.07
+mask = 1
+tile = 7
+
+[BG 0,building ? IDFK TOO MANY 2]
+type = normal
+spriteno = 15,0
+start = 910,646
+delta = 0.09,0.13
+mask = 1
+
+[BG 0,building ? IDFK TOO MANY]
+type = normal
+spriteno = 15,0
+start = 0,646
+delta = 0.09,0.13
+mask = 1
+
+[BG 0,building ? IDFK TOO MANY roof 1]
+type = parallax
+spriteno = 15,1
+start = 216,280
+width = 978, 489
+delta = 0.09,0.13
+scaledelta = 0, 0.012
+mask = 1
+
+[BG 0,building ? IDFK TOO MANY roof 2]
+type = parallax
+spriteno = 15,1
+start = 1126,280
+width = 978, 489
+delta = 0.09,0.13
+scaledelta = 0, 0.012
+mask = 1
+
+[BG 0,building ? IDFK TOO MANY roof 3]
+type = parallax
+spriteno = 15,1
+start = 3082,280
+width = 978, 489
+delta = 0.09,0.13
+scaledelta = 0, 0.012
+mask = 1
+
+[BG 0,building ? IDFK TOO MANY roof 4]
+type = parallax
+spriteno = 15,1
+start = 4060,280
+width = 978, 489
+delta = 0.09,0.13
+scaledelta = 0, 0.012
+mask = 1
+
+[BG 0,building 11 2]
+type = normal
+spriteno = 16,0
+start = 280,641
+delta = 0.27,0.3
+mask = 1
+
+[BG 0,building 11]
+type = normal
+spriteno = 16,0
+start = 0,641
+delta = 0.27,0.3
+mask = 1
+
+[BG 0,building 11 roof 5]
+type = parallax
+spriteno = 16,1
+start = 1393,149
+delta = 0.27,0.3
+width = 1170, 585
+scaledelta = 0, 0.005
+mask = 1
+
+
+[BG 0,building 11 roof 4]
+type = parallax
+spriteno = 16,1
+start = 1113,149
+delta = 0.27,0.3
+width = 1170, 585
+scaledelta = 0, 0.005
+mask = 1
+
+[BG 0,building 11 roof 3]
+type = parallax
+spriteno = 16,1
+start = 883,149
+delta = 0.27,0.3
+width = 1170, 585
+scaledelta = 0, 0.005
+mask = 1
+
+[BG 0,building 11 roof 2]
+type = parallax
+spriteno = 16,1
+start = 553,149
+delta = 0.27,0.3
+width = 1170, 585
+scaledelta = 0, 0.005
+mask = 1
+
+
+[BG 0,building 11 roof]
+type = parallax
+spriteno = 16,1
+start = 273,149
+delta = 0.27,0.3
+width = 1170, 585
+scaledelta = 0, 0.005
+mask = 1
+
+[BG 0,building floor interior]
+type = normal
+spriteno = 2,1
+start = 0,641
+delta = 0.46,0.515
+tile = 1
+;mask = 1
+
+[BG 0,building 12 interior]
+type = normal
+spriteno = 17,21
+start = 0,641
+delta = 0.46,0.6
+tile = 1
+;mask = 1
+
+
+[BG 0,12 interior piece 1]
+type = normal
+spriteno = 1,0
+scalestart = -1,-1
+start = 0,-130
+delta = 0.46,0.6
+mask = 1
+
+[BG 0,12 interior piece 2]
+type = normal
+spriteno = 1,1
+scalestart = -1,-1
+start = 0,-140
+delta = 0.6,0.6
+mask = 1
+
+[BG 0,12 interior piece 3]
+type = normal
+spriteno = 1,2
+scalestart = -1,-1
+start = 0,-180
+delta = 0.8,0.76
+mask = 1
+
+[BG 0,12 interior piece 4]
+type = normal
+spriteno = 1,3
+scalestart = -1,-1
+start = 0,-220
+delta = 1,0.95
+tile = 1
+mask = 1
+
+[BG 0,12 interior piece 5]
+type = normal
+spriteno = 1,4
+scalestart = -1,-1
+start = 0,-280
+delta = 1.2,1.1
+tile = 1
+mask = 1
+
+
+[BG 0,building 12]
+type = parallax
+spriteno = 17,0
+start = 0,-190
+delta = 0.92,0.82
+mask = 1
+tile = 1
+xscale = 2,1
+scaledelta = 0, 0.002
+scalestart = 1,1
+
+[BG 0,building 12 2]
+type = parallax
+spriteno = 17,1
+start = 0,-190
+delta = 2.76,0.82
+mask = 1
+tile = 1
+xscale = 3,1
+scaledelta = 0, 0.002
+scalestart = 1,1
+
+[BG 0,building 11 reflection]
+type = normal
+spriteno = 16,0
+start = 0,641
+delta = 0.27,0.3
+mask = 1
+trans = add
+alpha = 10,220
+window = -50000000,-310,50000000,-70
+windowdelta = 0.46,0.515
+
+
+
+
+
+
+
+
+[BG 0,building 5 1]
+type = normal
+spriteno = 7,0
+start = 0,641
+delta = 0.02,0.04
+mask = 1
+
+[BG 0,building 4 roof3]
+type = parallax
+spriteno = 6,1
+start = 585,499
+delta = 0.02,0.07
+width = 244.5,489
+scaledelta = 0, -0.045
+mask = 1
+
+[BG 0,building 4 roof2]
+type = parallax
+spriteno = 6,1
+start = 340,499
+delta = 0.02,0.07
+width = 244.5,489
+scaledelta = 0, -0.045
+mask = 1
+
+
+[BG 0,building 4 roof1]
+type = parallax
+spriteno = 6,1
+start = 97.5,499
+delta = 0.02,0.07
+width = 244.5,489
+scaledelta = 0, -0.045
+mask = 1
+
+[BG 0,building 4 1]
+type = normal
+spriteno = 6,0
+start = 0,641
+delta = 0.04,0.07
+mask = 1
+
+[BG 0,building 4 2]
+type = normal
+spriteno = 6,0
+start = 485,641
+delta = 0.04,0.07
+mask = 1
+
+[BG 0,building 4 3]
+type = normal
+spriteno = 6,0
+start = 970,641
+delta = 0.04,0.07
+mask = 1
+
+
+
+[BG 0,building3 roof2]
+type = parallax
+spriteno = 5,1
+start = 601.5,518
+delta = 0.045,0.13
+width = 489,978
+scaledelta = 0, -0.03
+mask = 1
+
+[BG 0,building3 roof1]
+type = parallax
+spriteno = 5,1
+start = 112.5,518
+delta = 0.045,0.13
+width = 489,978
+scaledelta = 0, -0.03
+mask = 1
+
+[BG 0,building 3 2]
+type = normal
+spriteno = 5,0
+start = 900,646
+delta = 0.09,0.13
+mask = 1
+
+[BG 0,building 3 1]
+type = normal
+spriteno = 5,0
+start = 0,646
+delta = 0.09,0.13
+mask = 1
+
+[BG 0,building2 roof]
+type = normal
+spriteno = 3,2
+start = 0,641
+delta = 0.135,0.19
+mask = 1
+
+
+
+
+[BG 0,building2 side1]
+type = parallax
+spriteno = 3,1
+start = 234.5,548
+delta = 0.135,0.3
+width = 585, 1170
+scaledelta = 0, -0.02
+mask = 1
+
+[BG 0,building2 side2]
+type = parallax
+spriteno = 3,1
+start = 782.5,548
+delta = 0.135,0.3
+width = 585, 1170
+scaledelta = 0, -0.02
+mask = 1
+
+[BG 0,building2]
+type = normal
+spriteno = 3,0
+start = 0,641
+delta = 0.27,0.3
+mask = 1
+
+
+[BG 0,building floor interior]
+type = normal
+spriteno = 2,1
+start = 0,641
+delta = 0.46,0.515
+tile = 1
+;mask = 1
+
+
+;[BG 0,building2 reflection];i know this isnt correct but im too lazy to do all this shit. Looks good enough
+;type = normal
+;spriteno = 3,0
+;start = 0,641
+;delta = 0.27,0.3
+;mask = 1
+;trans = add
+;alpha = 70,200
+;window = -50000000,582,50000000,500000
+;windowdelta = 0.46,0.515
+
+
+;[BG 0,Zangetsu reflection]
+;type = anim
+;actionno = 1
+;start = 0,700
+;scalestart = 1,-1
+;delta = 0.527,0.56
+;mask = 1
+;trans = add
+;alpha = 70,200
+
+;[BG 0,Zangetsu Sword reflection]
+;type = normal
+;spriteno = 4,1
+;start = 0,531
+;scalestart = 1,-1
+;delta = 0.53,0.56
+;mask = 1
+;trans = add
+;alpha = 70,200
+
+
+[BG 0,interior piece 1]
+type = normal
+spriteno = 1,0
+start = 0,641
+delta = 0.46,0.515
+mask = 1
+
+[BG 0,interior piece 2]
+type = normal
+spriteno = 1,1
+start = 0,641
+delta = 0.6,0.6
+mask = 1
+
+[BG 0,interior piece 3]
+type = normal
+spriteno = 1,2
+start = 0,641
+delta = 0.8,0.76
+mask = 1
+
+[BG 0,interior piece 4]
+type = normal
+spriteno = 1,3
+start = 0,641
+delta = 1,0.95
+tile = 1
+mask = 1
+
+[BG 0,interior piece 5]
+type = normal
+spriteno = 1,4
+start = 0,641
+delta = 1.2,1.1
+tile = 1
+mask = 1
+
+
+[BG 0,rain 1]
+type = normal
+spriteno = 24,0
+start = 0,550
+delta = 0.43,0.82
+scalestart = 0.25,0.25
+mask = 1
+tile = 1,1
+trans = add
+alpha = 100,255
+scalestart = 1,1
+velocity = 12,3
+layerno = 1
+
+
+
+[BG 0,building floor 2]
+type = parallax
+spriteno = 0,2
+start = 0,641
+delta = 0.46,0.82
+mask = 1
+tile = 1
+xscale = 1,2
+scaledelta = 0, -0.006
+scalestart = 1,1
+
+[BG 0,building floor 2 rain drops]
+type = parallax
+actionno = 5
+start = 0,641
+delta = 0.46,0.82
+mask = 1
+trans = add
+tile = 1
+width = 1348, 2696
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 1
+
+[BG 0,building floor 2 rain drops]
+type = parallax
+actionno = 5
+start = 0,641
+delta = 0.46,0.82
+mask = 1
+trans = add
+alpha = 150,255
+tile = 1
+width = 1348, 2696
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 1
+
+[Begin Action 5] ;rain drops 1
+21,0, 0,0,4,,,1,1,
+21,1, 0,0,4,,,1,1,
+21,2, 0,0,4,,,1,1,
+21,3, 0,0,4,,,1,1,
+21,4, 0,0,4,,,1,1,
+21,5, 0,0,4,,,1,1,
+21,6, 0,0,4,,,1,1,
+21,7, 0,0,4,,,1,1,
+
+
+[BG 0,building floor 2 rain collection]
+type = parallax
+spriteno = 23,0
+start = 0,641
+delta = 0.46,0.82
+mask = 1
+;trans = add
+;alpha = 150,255
+tile = 1
+width = 1348, 2696
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 3
+
+[BG 0,building floor 2 rain collection]
+type = parallax
+spriteno = 23,0
+start = 0,641
+delta = 0.46,0.82
+mask = 1
+trans = add
+alpha = 30,225
+tile = 1
+width = 1348, 2696
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 3
+
+[BG 0,Zangetsu main]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = -50000000,-50000,664,500000
+windowdelta = 0.527,0.56
+
+[BG 0,Zangetsu illusion of animation 1] ;accidentally did more lines than i wanted to, but im glad.
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 655,-50000,668,500000
+windowdelta = 0.527,0.56
+sin.y = 0.25, 100
+
+[BG 0,Zangetsu illusion of animation 2]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 663,-50000,670,500000
+windowdelta = 0.527,0.56
+sin.y = 0.5, 100
+
+[BG 0,Zangetsu illusion of animation 3]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 666,-50000,672,500000
+windowdelta = 0.527,0.56
+sin.y = 0.75, 100
+
+[BG 0,Zangetsu illusion of animation 4]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 668,-50000,674,500000
+windowdelta = 0.527,0.56
+sin.y = 1, 100
+
+[BG 0,Zangetsu illusion of animation 5]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 670,-50000,676,500000
+windowdelta = 0.527,0.56
+sin.y = 1.25, 100
+
+[BG 0,Zangetsu illusion of animation 6]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 672,-50000,678,500000
+windowdelta = 0.527,0.56
+sin.y = 1.5, 100
+
+[BG 0,Zangetsu illusion of animation 7]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 674,-50000,680,500000
+windowdelta = 0.527,0.56
+sin.y = 1.75, 100
+
+[BG 0,Zangetsu illusion of animation 8]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 676,-50000,682,500000
+windowdelta = 0.527,0.56
+sin.y = 2, 100
+
+[BG 0,Zangetsu illusion of animation 9]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 678,-50000,684,500000
+windowdelta = 0.527,0.56
+sin.y = 2.25, 100
+
+[BG 0,Zangetsu illusion of animation 10]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 680,-50000,686,500000
+windowdelta = 0.527,0.56
+sin.y = 2.5, 100
+
+[BG 0,Zangetsu illusion of animation 11]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+windowdelta = 0.527,0.56
+mask = 1
+window = 682,-50000,688,500000
+sin.y = 2.75, 100
+
+[BG 0,Zangetsu illusion of animation 12]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 684,-50000,690,500000
+windowdelta = 0.527,0.56
+sin.y = 3, 100
+
+[BG 0,Zangetsu illusion of animation 13]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 686,-50000,692,500000
+windowdelta = 0.527,0.56
+sin.y = 3.25, 100
+
+[BG 0,Zangetsu illusion of animation 14]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 688,-50000,694,500000
+windowdelta = 0.527,0.56
+sin.y = 3.50, 100
+
+[BG 0,Zangetsu illusion of animation 15]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 690,-50000,696,500000
+windowdelta = 0.527,0.56
+sin.y = 3.75, 100
+
+[BG 0,Zangetsu illusion of animation 16]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 692,-50000,698,500000
+windowdelta = 0.527,0.56
+sin.y = 4, 100
+
+[BG 0,Zangetsu illusion of animation 17]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 694,-50000,700,500000
+windowdelta = 0.527,0.56
+sin.y = 4.25, 100
+
+[BG 0,Zangetsu illusion of animation 18]
+type = anim
+actionno = 1
+start = 0,480
+delta = 0.527,0.56
+mask = 1
+window = 696,-50000,702,500000
+windowdelta = 0.527,0.56
+sin.y = 4.5, 100
+
+
+[Begin Action 1] ;zangetsu idle shrink
+4,0, 0,0,3,,,1,0.998,
+4,0, 0,0,3,,,1,0.996,
+4,0, 0,0,3,,,1,0.994,
+4,0, 0,0,3,,,1,0.992,
+4,0, 0,0,3,,,1,0.990,
+4,0, 0,0,3,,,1,0.988,
+4,0, 0,0,3,,,1,0.986,
+4,0, 0,0,3,,,1,0.984,
+4,0, 0,0,3,,,1,0.982,
+4,0, 0,0,3,,,1,0.980,
+4,0, 0,0,3,,,1,0.978,
+4,0, 0,0,3,,,1,0.976,
+4,0, 0,0,3,,,1,0.974,
+4,0, 0,0,3,,,1,0.972,
+4,0, 0,0,3,,,1,0.970,
+4,0, 0,0,3,,,1,0.968,
+4,0, 0,0,3,,,1,0.966,
+4,0, 0,0,3,,,1,0.964,
+4,0, 0,0,3,,,1,0.962,
+4,0, 0,0,3,,,1,0.960,
+4,0, 0,0,3,,,1,0.962,
+4,0, 0,0,3,,,1,0.964,
+4,0, 0,0,3,,,1,0.966,
+4,0, 0,0,3,,,1,0.968,
+4,0, 0,0,3,,,1,0.970,
+4,0, 0,0,3,,,1,0.972,
+4,0, 0,0,3,,,1,0.974,
+4,0, 0,0,3,,,1,0.976,
+4,0, 0,0,3,,,1,0.978,
+4,0, 0,0,3,,,1,0.980,
+4,0, 0,0,3,,,1,0.982,
+4,0, 0,0,3,,,1,0.984,
+4,0, 0,0,3,,,1,0.986,
+4,0, 0,0,3,,,1,0.988,
+4,0, 0,0,3,,,1,0.990,
+4,0, 0,0,3,,,1,0.992,
+4,0, 0,0,3,,,1,0.994,
+4,0, 0,0,3,,,1,0.996,
+4,0, 0,0,3,,,1,0.998,
+4,0, 0,0,3,,,1,1,
+
+
+;[BG 0,Zangetsu]
+;type = normal
+;spriteno = 4,100
+;start = 0,641
+;delta = 0.51,0.53
+;mask = 1
+
+[BG 0,Zangetsu Sword main]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = -50000000,-50000,655,500000
+windowdelta = 0.53,0.56
+
+[BG 0,Zangetsu Sword cloth 1]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 655,-50000,660,500000
+windowdelta = 0.53,0.56
+sin.y = 1, 90
+
+
+[BG 0,Zangetsu Sword cloth 2]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 660,-50000,665,500000
+windowdelta = 0.53,0.56
+sin.y = 1.5, 90
+
+[BG 0,Zangetsu Sword cloth 3]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 665,-50000,670,500000
+windowdelta = 0.53,0.56
+sin.y = 2, 90
+
+[BG 0,Zangetsu Sword cloth 4]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 670,-50000,675,500000
+windowdelta = 0.53,0.56
+sin.y = 2.5, 90
+
+[BG 0,Zangetsu Sword cloth 5]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 675,-50000,680,500000
+windowdelta = 0.53,0.56
+sin.y = 3, 90
+
+
+[BG 0,Zangetsu Sword cloth 6]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 680,-50000,685,500000
+windowdelta = 0.53,0.56
+sin.y = 3.5, 90
+
+[BG 0,Zangetsu Sword cloth 7]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 685,-50000,690,500000
+windowdelta = 0.53,0.56
+sin.y = 4, 90
+
+[BG 0,Zangetsu Sword cloth 8]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 690,-50000,695,500000
+windowdelta = 0.53,0.56
+sin.y = 4.5, 90
+
+
+[BG 0,Zangetsu Sword cloth 8]
+type = normal
+spriteno = 4,1
+start = 0,641
+delta = 0.53,0.56
+mask = 1
+window = 695,-50000,700,500000
+windowdelta = 0.53,0.56
+sin.y = 5, 90
+
+[BG 0,building floor 1]
+type = parallax
+spriteno = 0,1
+start = 0,641
+delta = 0.92,0.82
+mask = 1
+tile = 1
+xscale = 1,3
+scaledelta = 0, -0.006
+scalestart = 1,1
+
+;[BG 0,building floor 1];this is to make sure character reflection only appears over the glass. Some characters will clip through it
+;type = parallax
+;spriteno = 0,1
+;start = 0,641
+;delta = 0.92,0.82
+;mask = 1
+;tile = 1
+;xscale = 1,3
+;scaledelta = 0, -0.006
+;scalestart = 1,1
+;layerno = 1
+;window = -50000,655,500000,500000
+;Use this down below for some shadowy ness from another bulding
+;trans = addalpha
+;alpha = 127.5,255
+
+[BG 0,building floor 1 rain drops]
+type = parallax
+actionno = 6
+start = 0,641
+delta = 0.92,0.82
+mask = 1
+trans = add
+tile = 1
+width = 2696, 8088
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 3
+
+[BG 0,building floor 1 rain drops]
+type = parallax
+actionno = 6
+start = 0,641
+delta = 0.92,0.82
+mask = 1
+trans = add
+alpha = 150,255
+tile = 1
+width = 2696, 8088
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 3
+
+[Begin Action 6] ;rain drops 2
+22,0, 0,0,4,,,1,1,
+22,1, 0,0,4,,,1,1,
+22,2, 0,0,4,,,1,1,
+22,3, 0,0,4,,,1,1,
+22,4, 0,0,4,,,1,1,
+22,5, 0,0,4,,,1,1,
+22,6, 0,0,4,,,1,1,
+22,7, 0,0,4,,,1,1,
+
+
+[BG 0,building floor 1 rain collection]
+type = parallax
+spriteno = 23,1
+start = 0,621
+delta = 0.92,0.82
+mask = 1
+;trans = add
+;alpha = 150,255
+tile = 1
+width = 2696, 8088
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 6
+layerno=1
+
+[BG 0,building floor 1 rain collection]
+type = parallax
+spriteno = 23,1
+start = 0,621
+delta = 0.92,0.82
+mask = 1
+trans = add
+alpha = 30,225
+tile = 1
+width = 2696, 8088
+scaledelta = 0, -0.006
+scalestart = 1,1
+velocity = 6
+layerno = 1
+
+[BG 0,building floor 1 mist]
+type = normal
+spriteno = 23,1
+start = 0,550
+delta = 0.92,0.82
+mask = 1
+tile = 1
+scalestart = 1,1
+velocity = 6
+layerno = 1
+
+
+
+
+[BG 0,building2 reflection];i know this isnt correct but im too lazy to do all this shit. Looks good enough
+type = normal
+spriteno = 3,0
+start = 0,641
+delta = 0.27,0.3
+mask = 1
+trans = add
+alpha = 10,220
+window = -50000000,582,50000000,650
+windowdelta = 0.46,0.515
+
+;[BG 0,building2 side1 reflection]
+;type = parallax
+;spriteno = 3,1
+;start = 468,674
+;delta = 0.270,0.3
+;width = 1170, 583
+;scaledelta = 0, 0.02
+;trans = add
+;alpha = 10,230
+;mask = 1
+
+
+[BG 0,Zangetsu reflection]
+type = anim
+actionno = 1
+start = 0,700
+scalestart = 1,-1
+delta = 0.527,0.56
+mask = 1
+trans = add
+alpha = 70,200
+
+[BG 0,Zangetsu Sword reflection]
+type = normal
+spriteno = 4,1
+start = 0,531
+scalestart = 1,-1
+delta = 0.53,0.56
+mask = 1
+trans = add
+alpha = 70,200
+
+[BG 0,darkening overlay]
+type = normal
+spriteno = 20,0
+start = 0,641
+delta = 0,0
+tile = 1,1
+layerno=1
+trans = addalpha
+alpha = 150,150
+

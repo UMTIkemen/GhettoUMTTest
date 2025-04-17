@@ -1,0 +1,141 @@
+; Definition of KFM's stage
+; *** denotes values you should change/check for each stage.
+; The term "background" is used to mean both backgrounds and foregrounds.
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "JUS_KillerDesert"
+displayname = "The Killer Desert/A" ;Name to display
+versiondate = 09,30,2009    ;Version date of stage (MM,DD,YYYY or X.XX)
+mugenversion = 1.1          ;Version of M.U.G.E.N stage works on (X.XX)
+author = "OldGamer"         ;Stage author name
+
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+boundleft = -360
+boundright = 448
+boundhigh = -300
+boundlow=-27
+verticalfollow= 0.5
+tension=60
+floortension=40
+
+;;--- * v1.1 (zoom) *---
+;;cuthigh=30
+cutlow=0;10
+;;---
+overdrawhigh=5
+overdrawlow=5
+;;---
+tensionhigh=85 ;;t_hi
+tensionlow=25
+startzoom=1
+zoomout=0.90 ;;c_zoomout
+zoomin= 1.00 ;;c_zoomin
+;;--- * v1.1 (zoom) *---
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+ ;Player 1 starting coordinates.
+ ;p1startx is typically -70 and p2startx is 70.
+ ;p1starty should be 0.
+p1startx = -70          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2facing = -1
+
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -1000 ;Left bound (x-movement)
+rightbound =  1000 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 15    ;Dist from left of screen that player can move to
+screenright = 15   ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 200
+autoturn = 1
+resetBG = 1
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 64
+color = 0,0,0
+yscale = .1
+fade.range = -400,-100
+
+;--------------------------------------------------------
+[Reflection]
+intensity = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/JUS_KillerDesert.mp3
+bgmvolume = 100
+
+
+;-------------------------------------
+; Main background definition
+[BGdef]
+spr = JUS_KillerDesert.sff
+debugbg = 0
+
+;-------------------------------------
+; IKEMEN GO ONLY, preview animation used in the Select screen
+[Begin Action 9000]
+9000,1, 0,0,-1
+
+;-------------------------------------
+
+;----------
+[BG Wall] ;Desrt clouds
+type  = normal
+spriteno = 0,0
+start = 0, -240
+tile = 1,0
+delta = .3,1
+velocity = -.7,0
+mask = 1
+
+;----------
+[BG Pillar Top] ;desert hills
+type  = normal
+spriteno = 0,1
+start = 0, -240
+delta = .4,1
+tile = 1,0
+mask = 1
+
+;----------
+[BG Pillar Top] ;desert robot
+type  = normal
+spriteno = 0,2
+start = -250, -240
+delta = .5,1
+mask = 1
+
+;----------
+[BG Pillar Top] ;desert floor
+type  = normal
+spriteno = 0,3
+start = 0, -240
+delta = 1,1
+tile = 1,0
+mask = 1
+

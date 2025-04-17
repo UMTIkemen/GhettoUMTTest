@@ -1,0 +1,719 @@
+;AOF3 - Wyler Mansion
+;Sprite Ripped by Electro.
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "MansionKL2024"
+displayname = "Wyler Mansion/A" ;Name to display
+versiondate = 09,30,2009    ;Version date of stage (MM,DD,YYYY or X.XX)
+mugenversion = 1.0          ;Version of M.U.G.E.N stage works on (X.XX)
+author = "KenJou_Lirt"         ;Stage author name
+
+;--------------------------------------------------------
+[Camera]
+startx=0
+starty=0
+boundleft= -180
+boundright= 180
+boundhigh= -130
+boundlow=0
+verticalfollow=1
+tension=50
+floortension=150
+
+	;;--- * v1.1 (zoom) *---
+	;;cuthigh=30
+	cutlow=10
+	;;---
+	overdrawhigh=5
+	overdrawlow=5
+	;;---
+	tensionhigh=85 ;;t_hi
+	tensionlow=25
+	startzoom=1
+	zoomout=0.85 ;;c_zo
+	zoomin=1 ;;c_zi
+	;;--- * v1.1 (zoom) *---
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+ ;Player 1 starting coordinates.
+ ;p1startx is typically -70 and p2startx is 70.
+ ;p1starty should be 0.
+p1startx = -70          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2facing = -1
+
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -1000 ;Left bound (x-movement)
+rightbound =  1000 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 15    ;Dist from left of screen that player can move to
+screenright = 15   ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+ ;"Ground" level where players stand at, measured in pixels from the
+ ;top of the screen.
+ ;Adjust this value to move the ground level up/down in the screen.
+ ;***
+zoffset = 220
+
+ ;Leave this at 1. It makes the players face each other
+autoturn = 1
+
+ ;Set the following to 1 to have the background reset itself between
+ ;rounds.
+resetBG = 1
+
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 196
+color = 0,0,0
+yscale = 0.15
+fade.range = -100,0
+
+;--------------------------------------------------------
+[Reflection]
+ ;Intensity of reflection (from 0 to 256). Set to 0 to have no
+ ;reflection. Defaults to 0.
+intensity = 0
+
+;--------------------------------------------------------
+[Music]
+ ;Put a filename for a MOD, MP3 or MIDI here, or just leave it
+ ;blank if you don't want music. If an invalid filename is
+ ;given, then no music will play. To play CD audio, put
+ ;the track number followed by ".da". Using a track number of
+ ;0 will play a random audio track. For example, to play
+ ;track 3 from a music CD, use:
+ ;  bgmusic = 3.da
+bgmusic = sound/MansionKL2024.mp3
+
+;bgmloopstart = <sample number>
+;bgmloopend = <sample number>
+
+ ;Adjust the volume. 100 is for 100%.
+bgmvolume = 400
+
+;========================================================
+;--------------------------------------------------------
+; Background definition
+; ***
+;-------------------------------------
+; [BG x]
+; type = ?       "Normal"/"Parallax"  (def: "normal")
+; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
+; start = ?, ?   Starting location (integer)  (def: 0, 0)
+; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
+; trans = ?      Transparency settings: "none"/"add"/"add1"/"sub"" (def: "none")
+; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
+; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
+; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
+;                        >1 - tile that number of times  (def: 0, 0) - only for Normal BG
+; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
+;  Parallax-only:
+; xscale = ?, ?    Top xscale, bottom xscale (float)
+; width = ?, ?     Top width, bottom width (int)  (use either this or above, but not both)
+; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
+; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
+;-------------------------------------
+
+;-------------------------------------
+; Main background definition
+[BGdef]
+ ;Filename of sprite data
+spr = MansionKL2024.sff
+
+ ;Set to 1 if you want to clear the screen to magenta before
+ ;drawing layer 0 (the default background). Good for spotting "holes"
+ ;in your background.
+ ;Remember to turn this off when you are done debugging the background,
+ ;because it slows down performance.
+debugbg = 0
+
+;----------------
+;sky
+[BG 1]
+type  = normal
+spriteno = 0, 0
+start = 0, -50
+delta = .1, .1
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .1
+
+;----------------
+;trees backs
+[BG 1]
+type  = normal
+spriteno = 0, 1
+start = 0, 155
+delta = .4, .4
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .5
+
+;----------------
+;trees1
+;[BG 1]
+;type  = anim
+;actionno = 1
+;id=10
+;start = -170, 70
+;delta = .6, .6
+;mask = 1
+;velocity = 0, 0
+;tile = 0, 0
+;tilespacing = 0, 0
+;zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,0
+id=1
+start = -170, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,1
+id=2
+start = -170, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,2
+id=3
+start = -170, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,3
+id=4
+start = -170, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,4
+id=5
+start = -170, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+;----------------
+;trees2
+;[BG 1]
+;type  = anim
+;actionno = 2
+;id=9
+;start = 100, 110
+;delta = .5, .55
+;mask = 1
+;velocity = 0, 0
+;tile = 0, 0
+;tilespacing = 0, 0
+;zoomdelta = .57
+
+[BG 1]
+type  = normal
+spriteno = 5,0
+id=1
+start = 100, 110
+delta = .5, .55
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .57
+
+[BG 1]
+type  = normal
+spriteno = 5,1
+id=2
+start = 100, 110
+delta = .5, .55
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .57
+
+[BG 1]
+type  = normal
+spriteno = 5,2
+id=3
+start = 100, 110
+delta = .5, .55
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .57
+
+[BG 1]
+type  = normal
+spriteno = 5,3
+id=4
+start = 100, 110
+delta = .5, .55
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .57
+
+[BG 1]
+type  = normal
+spriteno = 5,4
+id=5
+start = 100, 110
+delta = .5, .55
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .57
+
+;----------------
+;trees3
+;[BG 1]
+;type  = anim
+;actionno = 1
+;id=10
+;start = 230, 70
+;delta = .6, .6
+;mask = 1
+;velocity = 0, 0
+;tile = 0, 0
+;tilespacing = 0, 0
+;zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,0
+id=1
+start = 230, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,1
+id=2
+start = 230, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,2
+id=3
+start = 230, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,3
+id=4
+start = 230, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+[BG 1]
+type  = normal
+spriteno = 4,4
+id=5
+start = 230, 70
+delta = .6, .6
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .6
+
+;----------
+;plant2 reflect
+[BG 1]
+type  = normal
+spriteno = 1, 4
+start = -10, -140
+delta = .68, .75;.83
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+trans = add
+alpha = 150, 150
+
+;----------
+;plant3
+[BG 1]
+type  = normal
+spriteno = 1, 5
+start = 10, -140
+delta = .68, .75;.83
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+trans = add
+alpha = 150, 150
+
+;----------
+;wall
+[BG 1]
+type  = normal
+spriteno = 1, 1
+start = 0, -140
+delta = .65, .75
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;------------
+;Windows Lights
+[BG 1]
+type  = normal
+spriteno = 7, 0
+start = 0, -140
+delta = .65, .75
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+trans = add
+alpha = 250, 256
+
+;------------
+;Lamps Lights 1
+[BG 1]
+type  = anim
+actionno = 3
+start = -175, -45
+delta = .65, .75
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;------------
+;Lamps Lights 2
+[BG 1]
+type  = anim
+actionno = 3
+start = 175, -45
+delta = .65, .75
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;----------
+;Floor
+[BG 0]
+type  = parallax
+spriteno = 1, 0
+layerno = 0
+start = 0, 190
+delta = .65, .75
+mask  = 1
+tile  = 0, 0
+xscale = 1, 1.95
+yscalestart = 100
+;yscaledelta = 1.2
+
+;----------
+;plant1
+[BG 1]
+type  = normal
+spriteno = 1, 2
+start = 0, -140
+delta = .64, .75
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;----------
+;plant2
+[BG 1]
+type  = normal
+spriteno = 1, 4
+start = 0, -140
+delta = .68, .75;.83
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;----------
+;plant3
+[BG 1]
+type  = normal
+spriteno = 1, 5
+start = 0, -140
+delta = .68, .75;.83
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;----------
+;statue
+[BG 1]
+type  = normal
+spriteno = 1, 3
+start = 0, -140
+delta = .75, .75;.85
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+
+;----------
+;Books
+[BG 1]
+type  = normal
+spriteno = 1, 6
+start = -188, -140
+delta = .65, .75;.95
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+scaledelta=0.002,0
+
+[BG 1]
+type  = normal
+spriteno = 6, 0
+start = 0, 0
+delta = .0, .0
+mask = 1
+velocity = 0, 0
+tile = 0, 0
+tilespacing = 0, 0
+zoomdelta = .0
+trans = add
+layerno = 1
+
+[Begin Action 1]
+2,0, 0,0, 5
+2,1, 0,0, 5
+2,2, 0,0, 5
+2,3, 0,0, 5
+2,4, 0,0, 5
+
+[Begin Action 2]
+3,0, 0,0, 5
+3,1, 0,0, 5
+3,2, 0,0, 5
+3,3, 0,0, 5
+3,4, 0,0, 5
+3,5, 0,0, 5
+3,6, 0,0, 5
+3,7, 0,0, 5
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=1
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=4,460
+[bgctrl 0]
+	type=siny
+	time=0
+	value=-4,400
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=2
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=5,560
+[bgctrl 0]
+	type=siny
+	time=0
+	value=0,500
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=3
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=6,660
+[bgctrl 0]
+	type=siny
+	time=0
+	value=1,600
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=4
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=7,760
+[bgctrl 0]
+	type=siny
+	time=0
+	value=2,700
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=5
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=8,860
+[bgctrl 0]
+	type=siny
+	time=0
+	value=3,800
+
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=9
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=4,160
+[bgctrl 0]
+	type=siny
+	time=0
+	value=1,100
+
+[BGCtrlDef Pos1]
+looptime=2600
+ctrlID=10
+
+[bgctrl 0]
+	type=sinx
+	time=0
+	value=5,160
+[bgctrl 0]
+	type=siny
+	time=0
+	value=2,100
+
+
+[Begin Action 3]
+8,0, 0,0, 10, , A
+8,0, 0,0, 5, , AS250D256
+8,0, 0,0, 5, , AS245D256
+8,0, 0,0, 5, , AS240D256
+8,0, 0,0, 5, , AS235D256
+8,0, 0,0, 5, , AS230D256
+8,0, 0,0, 5, , AS225D256
+8,0, 0,0, 5, , AS220D256
+8,0, 0,0, 5, , AS215D256
+8,0, 0,0, 5, , AS210D256
+8,0, 0,0, 5, , AS205D256
+8,0, 0,0, 5, , AS200D256
+8,0, 0,0, 5, , AS195D256
+8,0, 0,0, 5, , AS190D256
+8,0, 0,0, 5, , AS185D256
+8,0, 0,0, 5, , AS180D256
+8,0, 0,0, 5, , AS175D256
+8,0, 0,0, 5, , AS170D256
+8,0, 0,0, 5, , AS165D256
+8,0, 0,0, 5, , AS160D256
+8,0, 0,0, 5, , AS155D256
+8,0, 0,0, 5, , AS150D256
+8,0, 0,0, 5, , AS155D256
+8,0, 0,0, 5, , AS160D256
+8,0, 0,0, 5, , AS165D256
+8,0, 0,0, 5, , AS170D256
+8,0, 0,0, 5, , AS175D256
+8,0, 0,0, 5, , AS180D256
+8,0, 0,0, 5, , AS185D256
+8,0, 0,0, 5, , AS190D256
+8,0, 0,0, 5, , AS200D256
+8,0, 0,0, 5, , AS205D256
+8,0, 0,0, 5, , AS210D256
+8,0, 0,0, 5, , AS215D256
+8,0, 0,0, 5, , AS220D256
+8,0, 0,0, 5, , AS225D256
+8,0, 0,0, 5, , AS230D256
+8,0, 0,0, 5, , AS235D256
+8,0, 0,0, 5, , AS240D256
+8,0, 0,0, 5, , AS245D256
+8,0, 0,0, 5, , AS250D256
+8,0, 0,0, 5, , AS255D256

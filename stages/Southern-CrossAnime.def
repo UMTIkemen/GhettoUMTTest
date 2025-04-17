@@ -1,0 +1,135 @@
+[Info]
+name ="Southern-Cross Anime"
+;No se quien sea el autor original. pero creditos
+;Edit = "Senketsu Pharaoh"
+
+[Camera]
+startx =0
+starty =0
+boundleft  = -160
+boundright = 160
+boundhigh  = -544
+boundlow   = 0
+tension = 50
+verticalfollow = .83
+floortension = 106
+
+[PlayerInfo]
+p1startx =-70
+p1starty =0
+p1startz =0
+p1facing =1
+
+p2startx =70
+p2starty =0
+p2startz =0
+p2facing =-1
+
+leftbound =-1000
+rightbound =1000
+topbound =0
+botbound =0
+
+
+[Scaling]
+topz =0
+botz =50
+topscale =1
+botscale =1.2
+
+
+[Bound]
+screenleft  =15
+screenright =15
+
+[StageInfo]
+zoffset = 222　　　  　　　　;地面
+autoturn = 2                 ;影の長さ
+resetBG = 0
+hires = 1
+
+[Shadow]                     ;影
+color = 100,100,100
+yscale = .27;.27
+reflect = 0
+
+
+[Reflection]
+;intensity = 128
+
+
+[Music]
+bgmusic  = sound/Nozomi Aoki Zetsubou no Buchi.mp3
+bgvolume = 255
+
+;----------------------------------------------------------------------
+[BGdef]
+spr = Southern-CrossAnime.sff
+debugbg = 0
+
+[BG 夕日]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start =  0, -184
+delta = 1.46, .86
+trans = none
+mask = 1
+
+[BG 街]
+type = normal
+spriteno = 0, 1
+layerno = 0
+start =  5, -184
+delta = 1.80, .94
+trans = none
+mask = 1
+
+[BG 地面]
+type = normal
+spriteno = 0, 2
+layerno = 0
+start =  0, -184
+delta = 2 , 2
+trans = none
+mask = 1
+
+
+[BG 旗]
+type = anim
+layerno = 0
+actionno = 2
+start =  0, -184
+delta = 2 , 2
+trans = None 
+mask = 0
+
+
+[BG 煙]
+type = anim
+layerno = 0
+actionno = 3
+start =  -640, 195
+delta = 2 , 2
+trans = None 
+mask = 0
+
+[bg Capa Negra]
+type = normal
+spriteno = 1000,0
+start = 20,240
+mask = 1
+layerno = 1
+tile  = 1,1
+trans = sub
+
+
+[Begin Action 2]
+2,0, 0,0, 10
+2,1, 0,0, 10
+2,2, 0,0, 10
+
+[Begin Action 3]
+3,0, 0,0, 10 ,,AS29D248
+3,1, 0,0, 10 ,,AS29D248
+3,2, 0,0, 10 ,,AS29D248

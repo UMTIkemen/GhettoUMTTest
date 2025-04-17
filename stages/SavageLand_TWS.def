@@ -1,0 +1,1014 @@
+
+
+
+
+;         Savage Land para M.U.G.E.N 2001.04.14 por PosserT:
+;                      www.possert.hpg.com.br
+;                        possert@bol.com.br
+;      
+;                      23 de mar o de 2002.
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "Savage Land"
+displayname = "Savage Land - TWS/A"
+mugenversion = 1.1									;Version of M.U.G.E.N stage works on (X.XX)
+author = "PosserT"; TWS version Modified by Beterhans
+;--------------------------------------------------------
+[Camera]
+ ;Camera starting position: Usually 0 for both
+ ;***
+startx = 0
+starty = 0
+boundleft = -223
+boundright = 223
+boundhigh		= -82
+boundlow		= -35; -Number camera goes up and scenes goes down
+
+verticalfollow	= 0.9
+floortension	= 105		; Player Pos y above ground, Camera start to follow, Ryu normal jump at 240p is -105
+
+tension			= 100
+tensionhigh		= 106;232		;Y Pos camera start to go up (Player Normal Jump high point ScreenPos y)
+tensionlow		= 28;38		;Y Pos Camera start to zoom out (Unkown)
+startzoom		= 1.10
+zoomin			= 0.95
+zoomout			= 1.05
+overdrawhigh	= 40
+overdrawlow		= 40
+
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+ ;Player 1 starting coordinates.
+ ;p1startx is typically -70 and p2startx is 70.
+ ;p1starty and p1startz should be 0.
+p1startx = -70          ;Starting x coordinates
+p1starty = 0          ;Starting y coordinates
+p1startz = 0            ;Starting z coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -10000 ;Left bound (x-movement)
+rightbound =  10000 ;Right bound
+topbound  =  0     ;Top bound (z-movement)
+botbound  =  0     ;Bottom bound
+
+;--------------------------------------------------------
+[Scaling]
+ ;No need to change these values
+topz     = 0       ;Top z-coordinate for scaling
+botz     = 50      ;Bottom z-coordinate for scaling
+topscale = 1       ;Scale to use at top
+botscale = 1.2     ;Scale to use at bottom
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 20    ;Dist from left of screen that player can move to
+screenright = 20   ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 160
+autoturn = 1
+resetBG = 0
+localcoord = 320,180
+
+;--------------------------------------------------------
+[Shadow]
+ ;This is the shadow color given in r,g,b. Valid values for each
+ ;range from 0 (lightest) to 255 (darkest).
+ ;Defaults to 92,92,92 if omitted.
+color = 100,100,100
+
+ ;This is the scale factor of the shadow. Use a big scale factor
+ ;to make the shadow longer. You can use a NEGATIVE scale factor
+ ;to make the shadow fall INTO the screen.
+ ;Defaults to 0.4 if omitted.
+yscale = 0.08
+
+ ;Set to 1 to draw "reflection" shadows. Defaults to 0.
+reflect = 0
+
+;--------------------------------------------------------
+[Music]
+ ;Put a filename for a MOD, MP3 or MIDI here, or just leave it
+ ;blank if you don't want music. If an invalid filename is
+ ;given, then no music will play. To play CD audio, put
+ ;the track number followed by ".da". Using a track number of
+ ;0 will play a random audio track. For example, to play
+ ;track 3 from a music CD, use:
+ ;  bgmusic = 3.da
+bgmusic = sound/SavageLand_TWS.mp3
+ ;Adjust the volume. 0 is normal, negative for softer, and
+ ;positive for louder (only for mp3, mods and CDA)
+bgmvolume = 100
+bgmloopstart	= 429711
+bgmloopend		= 2973408
+
+;========================================================
+;--------------------------------------------------------
+; Background definition
+; ***
+;-------------------------------------
+; [BG x]
+; type = ?       "Normal"/"Parallax"/"Height"  (def: "normal")
+; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
+; start = ?, ?   Starting location (integer)  (def: 0, 0)
+; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
+; trans = ?      Transparency settings: "none"/"add"/"sub"/"avg" (def: "none")
+; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
+; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
+; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
+;                        >1 - tile that number of times  (def: 0, 0)
+; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
+;  Parallax-only:
+; xscale = ?, ?    Top xscale, bottom xscale (float) (if used, then no tiling)
+; width = ?, ?     Top width, bottom width (int)  (if used, then tiles;
+;                             use either this or above, but not both)
+; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
+; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
+;-------------------------------------
+
+;-------------------------------------
+; Main background definition
+[BGdef]
+ ;Filename of sprite data
+spr = SavageLand.sff
+
+ ;Set to 1 if you want to clear the screen to magenta before
+ ;drawing layer 0 (the default background). Good for spotting "holes"
+ ;in your background.
+ ;Remember to turn this off when you are done debugging the background,
+ ;because it slows down performance.
+debugbg = 0
+
+;----------
+; Start each background element with the following:
+; Make sure it's "[BG n]", where n is anything you like (it's only used to
+; report errors.) For example, you could use:  [BG TheFloor]
+; Specify as many as you like. This is an example of a normal background:
+
+
+
+
+
+[BG Fundo]
+type = normal  
+spriteno = 2, 0
+layerno = 0
+start = 1140,117;-1058,163 
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -0.51
+ID = 101
+
+
+
+
+
+[BG Briga] 
+type  = anim
+actionno = 1
+layerno = 0                
+start = 963,-14
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120  
+velocity = -0.51
+ID = 101
+
+
+[Begin Action 1]
+3,0,-1,-3, 10
+3,3,-1,-3, 14
+3,4,-1,-3, 8
+3,2,-1,-3, 12
+3,3,-1,-3, 14
+3,1,-1,-3, 12
+3,0,-1,-3, 10
+3,3,-1,-3, 14
+3,4,-1,-3, 8
+3,0,-1,-3, 10
+3,2,-1,-3, 12
+3,2,-1,-3, 12
+3,0,-1,-3, 10
+3,2,-1,-3, 12
+3,0,-1,-3, 10
+3,2,-1,-3, 12
+3,0,-1,-3, 24
+3,3,-1,-3, 14
+3,0,-1,-3, 10
+3,3,-1,-3, 14
+3,4,-1,-3, 8
+3,0,-1,-3, 10
+3,3,-1,-3, 14
+3,4,-1,-3, 8
+
+
+
+
+[BG Remendo] 
+type  = normal 
+spriteno = 100, 0
+layerno = 0                
+start = 945,62
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120  
+velocity = -0.51
+ID = 101
+
+[BG Dino3] 
+type = anim
+actionno = 22
+layerno = 0
+start = 8000,16
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -3.1
+tile = 3,0
+tilespacing = 60,0
+
+
+
+[Begin Action 22] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+
+[BG Dino] 
+type = anim
+actionno = 20
+layerno = 0
+start = 8480,22
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -3.3
+tile = 3,0
+tilespacing = 60,0
+
+
+
+[Begin Action 20] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+[BG Dino2] 
+type = anim
+actionno = 21
+layerno = 0
+start = 7500,29
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -2.9
+tile = 3,0
+tilespacing = 60,0
+
+
+
+[Begin Action 21] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+[BG Dino5] 
+type = anim
+actionno = 25
+layerno = 0
+start = 10100,16
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -3.65
+
+
+
+[Begin Action 25] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+
+
+[BG Dino7] 
+type = anim
+actionno = 27
+layerno = 0
+start = 10020,22
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -3.65
+
+
+
+[Begin Action 27] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+
+
+
+
+
+[BG Dino6] 
+type = anim
+actionno = 26
+layerno = 0
+start = 8610,22
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -3.05
+
+
+
+[Begin Action 26] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+
+
+[BG Dino4] 
+type = anim
+actionno = 24
+layerno = 0
+start = 10050,29
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -3.65
+
+
+
+[Begin Action 24] 
+15,0,0,0,6
+15,1,0,0,6
+15,2,0,0,6
+15,3,0,0,6
+15,4,0,0,6
+15,5,0,0,6
+
+
+
+
+
+[BG Tiranossauro] 
+type = anim
+actionno = 33
+layerno = 0
+start = 7300,-36
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -2.4
+
+
+
+[Begin Action 33] 
+16,0,0,0,18
+16,1,0,0,6
+16,2,0,0,6
+16,3,0,0,6
+16,4,0,0,6
+16,5,0,0,6
+16,6,0,0,6
+16,7,0,0,18
+16,8,0,0,6
+16,9,0,0,6
+16,10,0,0,6
+16,11,0,0,6
+16,12,0,0,6
+16,13,0,0,6
+
+
+
+[BG Meio] 
+type = normal
+spriteno = 1, 0
+layerno = 0
+start = 1260,199;-1249,245         
+
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120 
+velocity = -0.58
+ID = 102
+
+
+
+[BG Fuma a] 
+type  = anim
+actionno = 3
+layerno = 0                
+start = 450,124
+delta = 0.6,0.6
+mask = 1
+velocity = -0.58
+sin.y = 3, 120  
+ID = 102
+
+[Begin Action 3]
+5,0,0,0, 6.5
+5,1,0,0, 6.5
+5,2,0,0, 6.5
+
+
+
+
+
+[BG Bolhas] 
+type  = anim
+actionno = 4
+layerno = 0                
+start = 857,-30
+delta = 0.6,0.6
+mask = 1
+velocity = -0.58
+sin.y = 3, 120  
+ID = 102
+
+[Begin Action 4]
+6,0,0,0, 14
+6,1,0,0, 14
+6,2,0,0, 14
+6,3,0,0, 14
+6,4,0,0, 14
+6,5,0,0, 6
+6,6,0,0, 6
+6,7,0,0, 6
+6,8,0,0, 6
+6,9,0,0, 14
+6,10,0,0, 14
+6,11,0,0, 14
+6,12,0,0, 6
+6,13,0,0, 6
+6,14,0,0, 12
+6,15,0,0, 12
+6,16,0,0, 60
+
+
+
+
+
+[BG Remendodasbolhas] 
+type  = normal 
+spriteno = 100, 2
+layerno = 0                
+start = 844,-76
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120  
+velocity = -0.58
+ID = 102
+
+
+[BG Remendodasbolhas2] 
+type  = normal 
+spriteno = 100, 3
+layerno = 0                
+start = 880,89
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120  
+velocity = -0.58
+ID = 102
+
+
+
+[BG Remendoda rvore] 
+type  = normal 
+spriteno = 100, 4
+layerno = 0                
+start = 1258,-42
+delta = 0.6,0.6
+mask = 1
+sin.y = 3, 120  
+velocity = -0.58
+ID = 102
+
+
+
+
+
+
+
+
+
+
+
+[BG Planta] 
+type  = anim
+actionno = 2
+layerno = 0                
+start = 880,-46
+delta = 0.6,0.6
+mask = 1
+velocity = -0.58
+sin.y = 3, 120  
+ID = 102
+
+[Begin Action 2]
+4,0,0,0, 4
+4,1,0,0, 4
+4,0,0,0, 4
+4,1,0,0, 4
+4,0,0,0, 4
+4,1,0,0, 4
+4,0,0,0, 4
+4,1,0,0, 4
+4,0,0,0, 150
+
+
+
+
+
+
+;[BG Fundofim]
+;type = anim
+;actionno = 5
+;layerno = 0
+;start = -1058,117
+;delta = 0.6,0.6
+;mask = 1
+
+;[Begin Action 5] 
+;70,7,0,0, 4312       
+;2,0,0,0, -1
+
+
+
+
+
+;[BG Fundofimpiscante]
+;type = anim
+;actionno = 18
+;layerno = 0
+;start = -281,149
+;delta = 0.6,0.6
+;mask = 1
+
+;[Begin Action 18] 
+;92,0,0,0,4312
+;11,0,0,0, 60       
+;9,0,0,0, 60
+;9,1,0,0, 60
+;loopstart
+;11,0,0,0, 60      
+;9,0,0,0, 60
+;9,1,0,0, 60
+
+
+
+;[BG Fundofimpiscante2]
+;type = anim
+;actionno = 19
+;layerno = 0
+;start = -89,149
+;delta = 0.6,0.6
+;mask = 1
+
+;[Begin Action 19] 
+;84,9,0,0,4312
+;11,1,0,0, 60       
+;10,0,0,0, 60
+;10,1,0,0, 60
+;loopstart
+;11,1,0,0, 60      
+;10,0,0,0, 60
+;10,1,0,0, 60
+
+
+
+
+
+
+
+;[BG Meiofim] 
+;type = anim
+;actionno = 6  
+;layerno = 0
+;start =  -281,80;-1249,245         
+;delta = 0.6,0.6
+;mask = 1
+
+ 
+;[Begin Action 6] 
+;71,7,0,0, 4312;4323
+;;8,0,6,0,10
+;8,0,5,0,3
+;8,0,4,0,3
+;8,0,3,0,3
+;8,0,2,0,3
+;8,0,1,0,3
+;8,0,0,0,45
+;loopstart
+;8,0,0,0,-1
+
+
+
+
+;[BG Meiofim2] 
+;type = anim
+;actionno = 10  
+;layerno = 0
+;start = -89,132
+;delta = 0.6,0.6
+;mask = 1
+
+ 
+;[Begin Action 10] 
+;73,5,0,0, 4312;4323
+;;8,1,6,0,10
+;8,1,5,0,3
+;8,1,4,0,3
+;8,1,3,0,3
+;8,1,2,0,3
+;8,1,1,0,3
+;8,1,0,0,45
+;loopstart
+;8,1,0,0,-1
+
+
+
+
+
+
+;[BG Meiofimpiscante] 
+;type = anim
+;actionno = 7  
+;layerno = 0
+;start = -89,132
+;delta = 0.6,0.6
+;mask = 1
+
+ 
+;[Begin Action 7] 
+;79,4,0,0, 4312;4323
+;;7,0,6,0, 20
+;7,0,5,0, 6
+;7,0,4,0, 6
+;7,0,3,0, 6
+;7,0,2,0, 6
+;7,0,1,0, 6
+;7,0,0,0,90
+;loopstart
+;64,8,0,0,60
+;7,0,0,0, 120
+
+
+;[BG Meiofimpiscante2] 
+;type = anim
+;actionno = 8  
+;layerno = 0
+;start = -281,80
+;delta = 0.6,0.6
+;mask = 1
+
+ 
+;[Begin Action 8] 
+;84,9,0,0, 4312;4323
+;;7,1,6,0, 20
+;7,1,5,0, 6
+;7,1,4,0, 6
+;7,1,3,0, 6
+;7,1,2,0, 6
+;7,1,1,0, 6
+;7,1,0,0,90
+;loopstart
+;93,9,0,0,60
+;7,1,0,0, 120
+
+
+
+
+;[BG Remendofimpiscante] 
+;type = anim
+;actionno = 9  
+;layerno = 0
+;start = -310,74
+;delta = 0.6,0.6
+;mask = 1
+
+ 
+;[Begin Action 9] 
+;87,2,0,0, 4312
+;;100,1,6,0, 20
+;100,1,5,0, 6
+;100,1,4,0, 6
+;100,1,3,0, 6
+;100,1,2,0, 6
+;100,1,1,0, 6
+;100,1,0,0,90
+;100,1,0,0, -1
+
+
+
+
+
+
+
+[BG Plock] 
+type = anim
+actionno = 16  
+layerno = 0
+start = -180,159
+delta = 1,1
+mask = 1
+tile = 3,0
+tilespacing = 220,0
+
+[Begin Action 16] 
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+91,21,0,0,240
+12,0,-140,0,8
+12,1,-140,0,8
+12,2,-140,0,8
+12,3,-140,0,8
+12,4,-140,0,8
+12,5,-140,0,8
+91,21,0,0,300
+12,0,40,0,8
+12,1,40,0,8
+12,2,40,0,8
+12,3,40,0,8
+12,4,40,0,8
+12,5,40,0,8
+91,21,0,0,240
+12,0,-70,0,8
+12,1,-70,0,8
+12,2,-70,0,8
+12,3,-70,0,8
+12,4,-70,0,8
+12,5,-70,0,8
+91,21,0,0,240
+12,0,40,0,8
+12,1,40,0,8
+12,2,40,0,8
+12,3,40,0,8
+12,4,40,0,8
+12,5,40,0,8
+91,21,0,0,240
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+91,21,0,0,240
+12,0,-140,0,8
+12,1,-140,0,8
+12,2,-140,0,8
+12,3,-140,0,8
+12,4,-140,0,8
+12,5,-140,0,8
+91,21,0,0,300
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+91,21,0,0,240
+12,0,-140,0,8
+12,1,-140,0,8
+12,2,-140,0,8
+12,3,-140,0,8
+12,4,-140,0,8
+12,5,-140,0,8
+91,21,0,0,300
+12,0,40,0,8
+12,1,40,0,8
+12,2,40,0,8
+12,3,40,0,8
+12,4,40,0,8
+12,5,40,0,8
+91,21,0,0,240
+12,0,-70,0,8
+12,1,-70,0,8
+12,2,-70,0,8
+12,3,-70,0,8
+12,4,-70,0,8
+12,5,-70,0,8
+91,21,0,0,240
+12,0,40,0,8
+12,1,40,0,8
+12,2,40,0,8
+12,3,40,0,8
+12,4,40,0,8
+12,5,40,0,8
+91,21,0,0,240
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+91,21,0,0,240
+12,0,-140,0,8
+12,1,-140,0,8
+12,2,-140,0,8
+12,3,-140,0,8
+12,4,-140,0,8
+12,5,-140,0,8
+91,21,0,0,-1
+
+
+
+
+[BG Floor] 
+type  = normal 
+spriteno = 0, 0
+layerno = 0                
+start = 0,194
+delta = 1,1
+scalestart = 1.3, 1
+mask = 1
+
+
+
+[BG Plock2] 
+type = anim
+actionno = 17  
+layerno = 1
+start = -210,193
+delta = 1,1
+mask = 1
+tile = 3,0
+tilespacing = 220,0
+
+[Begin Action 17] 
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+94,21,0,0,240
+12,0,-80,0,8
+12,1,-80,0,8
+12,2,-80,0,8
+12,3,-80,0,8
+12,4,-80,0,8
+12,5,-80,0,8
+94,21,0,0,300
+12,0,-120,0,8
+12,1,-120,0,8
+12,2,-120,0,8
+12,3,-120,0,8
+12,4,-120,0,8
+12,5,-120,0,8
+94,21,0,0,240
+12,0,90,0,8
+12,1,90,0,8
+12,2,90,0,8
+12,3,90,0,8
+12,4,90,0,8
+12,5,90,0,8
+94,21,0,0,240
+12,0,-80,0,8
+12,1,-80,0,8
+12,2,-80,0,8
+12,3,-80,0,8
+12,4,-80,0,8
+12,5,-80,0,8
+94,21,0,0,300
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+94,21,0,0,240
+12,0,-120,0,8
+12,1,-120,0,8
+12,2,-120,0,8
+12,3,-120,0,8
+12,4,-120,0,8
+12,5,-120,0,8
+94,21,0,0,240
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+94,21,0,0,240
+12,0,-80,0,8
+12,1,-80,0,8
+12,2,-80,0,8
+12,3,-80,0,8
+12,4,-80,0,8
+12,5,-80,0,8
+94,21,0,0,300
+12,0,-120,0,8
+12,1,-120,0,8
+12,2,-120,0,8
+12,3,-120,0,8
+12,4,-120,0,8
+12,5,-120,0,8
+94,21,0,0,240
+12,0,90,0,8
+12,1,90,0,8
+12,2,90,0,8
+12,3,90,0,8
+12,4,90,0,8
+12,5,90,0,8
+94,21,0,0,240
+12,0,-80,0,8
+12,1,-80,0,8
+12,2,-80,0,8
+12,3,-80,0,8
+12,4,-80,0,8
+12,5,-80,0,8
+94,21,0,0,300
+12,0,0,0,8
+12,1,0,0,8
+12,2,0,0,8
+12,3,0,0,8
+12,4,0,0,8
+12,5,0,0,8
+94,21,0,0,240
+12,0,-120,0,8
+12,1,-120,0,8
+12,2,-120,0,8
+12,3,-120,0,8
+12,4,-120,0,8
+12,5,-120,0,8
+94,21,0,0,-1
+
+
+
+
+
+[BGCtrlDef Stop]
+looptime = -1
+ctrlID = 101, 102
+
+[BGCtrl Stop1]
+type = VelAdd
+time = 4000,4000,-1
+ctrlID = 101
+x = 0.51
+
+[BGCtrl Stop2]
+type = VelAdd
+time = 4000,4000,-1
+ctrlID = 102
+x = 0.58
+

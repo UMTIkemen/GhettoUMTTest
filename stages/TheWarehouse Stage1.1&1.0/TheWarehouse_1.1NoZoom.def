@@ -1,0 +1,431 @@
+;
+;------------------------------------------------------------------------------------------------
+; Sprites rips by: MatreroG, The Pixel Mafia, Azraezel/Dan, The Mad Soldier & SpriteFX
+; Code and sprites edits by: MatreroG
+; Original BGM: Taito Digital Sound Archives Vol2 - Track 149.mp3
+; Date: mar/01/2025 - Released: mar/15/2025 
+;
+; Other info: The main layer of this stage was ripped from the "Extreme Skater" mobile game.
+; The rest of the sprites come from several different arcade games. And all of those assets are
+; combined into a custom-built storage/warehouse room.
+; 
+; Tested in MUGEN 1.1
+;
+; Any donation will be well received here:
+; >> https://www.paypal.me/MatreroG
+; Visit my YouTube channel:
+; >> https://www.youtube.com/c/MatreroG
+;================================================================================================
+
+[Info]
+ ;Name of the stage.
+name = "TheWarehouse_1.1NoZoom"
+author = "MatreroG"
+displayname = "The Warehouse"
+
+[Camera]
+startx = 0
+starty = 0
+
+boundleft = -333
+boundright = 333
+
+boundhigh = -330
+boundlow = 2
+
+verticalfollow = .7
+floortension = 35
+tension = 50
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70          
+p1starty = 0           
+p1startz = 0            
+p1facing = 1            
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+;--------------------------------------------------------
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1       
+botscale = 1.2     
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 20    
+screenright = 20  
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 205
+autoturn = 1
+resetBG = 0
+hires = 0
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 135
+color = 0,0,0
+yscale = .12
+fade.range = -400,-100
+
+;--------------------------------------------------------
+[Reflection]
+intensity = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/TheWarehouse.mp3
+bgvolume = 255
+
+;========================================================
+;-------------------------------------
+; Main background definition
+[BGdef]
+spr = TheWarehouse.sff
+debugbg = 0
+
+;-------------------------------------
+;back
+
+[BG WAREHOUSE1]
+type        = normal
+spriteno    = 0,0
+layerno     = 0
+start       = 0,0
+delta       = 0.67,0.63
+trans       = none
+
+[BG WAREHOUSE2]
+type        = normal
+spriteno    = 0,1
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.67,0.63
+trans       = none
+
+[BG WAREHOUSE2 LIGHTGLOW1]
+type        = normal
+spriteno    = 4,2
+mask        = 1
+layerno     = 0
+start       = -209,9
+delta       = 0.67,0.63
+trans       = addalpha
+alpha       = 45,256
+
+[BG WAREHOUSE2 LIGHTGLOW2]
+type        = normal
+spriteno    = 4,2
+mask        = 1
+layerno     = 0
+start       = 0,9
+delta       = 0.67,0.63
+trans       = addalpha
+alpha       = 45,256
+
+[BG WAREHOUSE2 LIGHTGLOW3]
+type        = normal
+spriteno    = 4,2
+mask        = 1
+layerno     = 0
+start       = 208,9
+delta       = 0.67,0.63
+trans       = addalpha
+alpha       = 45,256
+
+[BG BOXES1R]
+type        = normal
+spriteno    = 0,2
+mask        = 1
+layerno     = 0
+start       = -165,85
+delta       = 0.7,0.7
+trans       = none
+
+[BG BOXES1L]
+type        = normal
+spriteno    = 0,3
+mask        = 1
+layerno     = 0
+start       = 130,85
+delta       = 0.7,0.7
+trans       = none
+
+[BG BOXES2L]
+type        = normal
+spriteno    = 0,4
+mask        = 1
+layerno     = 0
+start       = -160,50
+delta       = 0.8,0.8
+trans       = none
+
+[BG BOXES2R]
+type        = normal
+spriteno    = 0,5
+mask        = 1
+layerno     = 0
+start       = 130,70
+delta       = 0.8,0.8
+trans       = none
+
+[BG FORKLIFT1]
+type        = normal
+spriteno    = 0,7
+mask        = 1
+layerno     = 0
+start       = 0,32
+delta       = 0.86,0.86
+trans       = none
+
+[BG FORKLIFT2]
+type        = normal
+spriteno    = 0,8
+mask        = 1
+layerno     = 0
+start       = 0,32
+delta       = 0.86,0.86
+trans       = none
+
+[BG DAYLIGHT1]
+type        = normal
+spriteno    = 2,0
+mask        = 1
+layerno     = 0
+start       = 0,30
+delta       = 0.84,0.82
+trans       = addalpha
+alpha       = 85,256
+
+[BG DAYLIGHT2]
+type        = normal
+spriteno    = 2,1
+mask        = 1
+layerno     = 0
+start       = 0,30
+delta       = 0.84,0.82
+trans       = addalpha
+alpha       = 85,256
+
+[BG GIRDER]
+type        = normal
+spriteno    = 0,9
+mask        = 1
+layerno     = 0
+start       = 0,30
+delta       = 0.88,0.87
+trans       = none
+
+[BG GIRDER LIGHT1]
+type        = normal
+spriteno    = 0,11
+mask        = 1
+layerno     = 0
+start       = -313,-165
+delta       = 0.88,0.87
+trans       = none
+
+[BG GIRDER LIGHTGLOW1]
+type        = normal
+spriteno    = 4,0
+mask        = 1
+layerno     = 0
+start       = -314,-103
+delta       = 0.88,0.87
+trans       = addalpha
+alpha       = 115,256
+
+[BG GIRDER LIGHT2]
+type        = normal
+spriteno    = 0,11
+mask        = 1
+layerno     = 0
+start       = -1,-165
+delta       = 0.88,0.87
+trans       = none
+
+[BG GIRDER LIGHTGLOW2]
+type        = normal
+spriteno    = 4,0
+mask        = 1
+layerno     = 0
+start       = -2,-103
+delta       = 0.88,0.87
+trans       = addalpha
+alpha       = 115,256
+
+[BG GIRDER LIGHT3]
+type        = normal
+spriteno    = 0,11
+mask        = 1
+layerno     = 0
+start       = 311,-165
+delta       = 0.88,0.87
+trans       = none
+
+[BG GIRDER LIGHTGLOW3]
+type        = anim
+spriteno    = 4,0
+actionno    = 1
+mask        = 1
+layerno     = 0
+start       = 311,-103
+delta       = 0.88,0.87
+trans       = addalpha
+alpha       = 115,256
+
+[Begin Action 1]
+4,0,0,0,135
+4,1,0,0,2
+4,0,0,0,3
+4,1,0,0,2
+4,0,0,0,3
+4,1,0,0,2
+4,0,0,0,3
+4,1,0,0,2
+4,0,0,0,3
+4,1,0,0,2
+4,0,0,0,65
+4,1,0,0,2
+4,0,0,0,3
+4,1,0,0,2
+
+[BG COLUMNS]
+type        = normal
+spriteno    = 0,6
+mask        = 1
+layerno     = 0
+start       = 0,30
+delta       = 0.895,0.89
+trans       = none
+
+[BG SECCAM]
+type        = anim
+spriteno    = 3,0
+actionno    = 2
+mask        = 1
+layerno     = 0
+start       = 124,20
+delta       = 0.895,0.89
+trans       = none
+
+[Begin Action 2]
+3,0,0,0,95
+3,1,0,0,15
+3,2,0,0,15
+3,3,0,0,15
+3,4,0,0,15
+3,5,0,0,15
+3,6,0,0,95
+3,5,0,0,15
+3,4,0,0,15
+3,3,0,0,15
+3,2,0,0,15
+3,1,0,0,15
+
+[BG PULLEYHOOK]
+type        = normal
+spriteno    = 0,10
+mask        = 1
+layerno     = 0
+start       = 0,30
+delta       = 0.895,0.89
+trans       = none
+sin.x       = 7,275,0 
+
+[BG FLOOR]
+type        = parallax
+spriteno    = 1,0
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.88,1
+xscale      = 1,1.38
+trans       = none
+
+[BG FENCE]
+type        = normal
+spriteno    = 1,1
+mask        = 1
+layerno     = 0
+delta       = 0.92,1
+trans       = none
+
+[BG STUFF1]
+type        = normal
+spriteno    = 5,0
+mask        = 1
+layerno     = 0
+start       = -342,137
+delta       = 0.927,1
+trans       = none
+
+[BG STUFF2]
+type        = normal
+spriteno    = 5,1
+mask        = 1
+layerno     = 0
+start       = 6,161
+delta       = 0.933,1
+trans       = none
+
+[BG STUFF3]
+type        = normal
+spriteno    = 5,2
+mask        = 1
+layerno     = 0
+start       = 380,150
+delta       = 0.925,1
+trans       = none
+
+[BG FRONTL1]
+type        = normal
+spriteno    = 5,3
+mask        = 1
+layerno     = 0
+start       = -340,185
+delta       = 1.21,1
+trans       = none
+
+[BG FRONTL2]
+type        = normal
+spriteno    = 5,3
+mask        = 1
+layerno     = 1
+start       = -340,185
+delta       = 1.21,1
+trans       = add1
+
+[BG FRONTR1]
+type        = normal
+spriteno    = 5,4
+mask        = 1
+layerno     = 0
+start       = 455,196
+delta       = 1.21,1
+trans       = none
+
+[BG FRONTR2]
+type        = normal
+spriteno    = 5,4
+mask        = 1
+layerno     = 1
+start       = 455,196
+delta       = 1.21,1
+trans       = add1

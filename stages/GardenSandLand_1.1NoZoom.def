@@ -1,0 +1,356 @@
+;
+;------------------------------------------------------------------------------------------------
+; Original concept, sketch and sprites by: MysticG 
+; Code, additional sprites, arrangements and edits by: MatreroG
+; Original BGM: Damián Sánchez (Empire of Sand) - Ancient Secrets.mp3
+; Date: jan/02/2024 - Released: jan/12/2024 
+;
+; Other info: Stage made in collaboration with MysticG for one of his personal games projects.
+; 
+; Tested in MUGEN 1.1
+;
+; Any donation will be well received here:
+; >> https://www.paypal.me/MatreroG
+; >> https://www.buymeacoffee.com/matrerog
+; Visit my YouTube channel:
+; >> https://www.youtube.com/c/MatreroG
+; Visit MysticG YouTube channel:
+; >> https://www.youtube.com/@tolgayavuz4270
+;================================================================================================
+
+[Info]
+ ;Name of the stage.
+name = "GardenSandLand_1.1NoZoom"
+author = "MysticG & MatreroG"
+displayname = "Garden Sand Land/A"
+
+[Camera]
+startx = 0
+starty = 0
+
+boundleft = -398
+boundright = 398
+
+boundhigh = -340
+boundlow = 0
+
+verticalfollow = .7
+floortension = 35
+tension = 50
+
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70          
+p1starty = 0           
+p1startz = 0            
+p1facing = 1            
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+;--------------------------------------------------------
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1       
+botscale = 1.2     
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 20    
+screenright = 20  
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 210
+autoturn = 1
+resetBG = 0
+hires = 0
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 135
+color = 0,0,0
+yscale = .15
+fade.range = -400,-100
+
+;--------------------------------------------------------
+[Reflection]
+intensity = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/GardenSandLand.mp3
+bgvolume = 255
+
+;========================================================
+;-------------------------------------
+; Main background definition
+[BGdef]
+spr = GardenSandLand.sff
+debugbg = 0
+
+;-------------------------------------
+;back
+
+[BG SKY]
+type        = normal
+spriteno    = 0,0
+layerno     = 0
+start       = 0,0
+delta       = 0.4,0.7
+trans       = none
+
+[BG CLOUDS1]
+type        = normal
+spriteno    = 6,0
+mask        = 1
+layerno     = 0
+start       = 0,10
+delta       = 0.42,0.72
+trans       = none
+velocity    = -0.1,0
+tile        = 1,0
+tilespacing = 25,0
+
+[BG CLOUDS2]
+type        = normal
+spriteno    = 6,1
+mask        = 1
+layerno     = 0
+start       = 0,-50
+delta       = 0.42,0.72
+trans       = none
+velocity    = -0.2,0
+tile        = 1,0
+tilespacing = 55,0
+
+[BG CLOUDS3]
+type        = normal
+spriteno    = 6,2
+mask        = 1
+layerno     = 0
+start       = 0,-110
+delta       = 0.42,0.72
+trans       = none
+velocity    = -0.3,0
+tile        = 1,0
+tilespacing = 110,0
+
+[BG MOONLIGHT]
+type        = normal
+spriteno    = 0,4
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.4,0.7
+trans       = addalpha
+alpha       = 95,256
+
+[BG PYRAMIDS]
+type        = normal
+spriteno    = 0,1
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.58,0.85
+trans       = none
+
+[BG PYRAMIDS SHINE]
+type        = anim
+spriteno    = 2,0
+actionno    = 1
+mask        = 1
+layerno     = 0
+start       = -128,31
+delta       = 0.58,0.85
+trans       = none
+
+[Begin Action 1]
+2,0,0,0,5
+2,1,0,0,2
+2,2,0,0,2
+2,1,0,0,2
+
+[BG BUILDIND]
+type        = normal
+spriteno    = 0,5
+mask        = 1
+layerno     = 0
+start       = -13,0
+delta       = 0.65,0.88
+trans       = none
+
+[BG FLOWERS]
+type        = normal
+spriteno    = 0,2
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.72,0.95
+trans       = none
+tile        = 1,0
+
+[BG DUNES]
+type        = normal
+spriteno    = 0,3
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.883,1
+trans       = none
+
+[BG LAMPS1]
+type        = anim
+spriteno    = 3,0
+actionno    = 2
+mask        = 1
+layerno     = 0
+start       = 3,74
+delta       = 0.883,1
+trans       = none
+
+[BG LAMPS2]
+type        = anim
+spriteno    = 3,0
+actionno    = 2
+mask        = 1
+layerno     = 0
+start       = -220,74
+delta       = 0.883,1
+trans       = none
+
+[BG LAMPS3]
+type        = anim
+spriteno    = 3,0
+actionno    = 2
+mask        = 1
+layerno     = 0
+start       = 175,74
+delta       = 0.883,1
+trans       = none
+
+[BG LAMPS4]
+type        = anim
+spriteno    = 3,0
+actionno    = 2
+mask        = 1
+layerno     = 0
+start       = -396,71
+delta       = 0.883,1
+trans       = none
+
+[BG LAMPS5]
+type        = anim
+spriteno    = 3,0
+actionno    = 2
+mask        = 1
+layerno     = 0
+start       = 348,69
+delta       = 0.883,1
+trans       = none
+
+[Begin Action 2]
+3,0,0,0,5
+3,1,0,0,5
+3,2,0,0,5
+3,3,0,0,5
+3,4,0,0,5
+
+[BG LAMPS GLOW1]
+type        = anim
+spriteno    = 7,0
+actionno    = 3
+mask        = 1
+layerno     = 0
+start       = -10,70
+delta       = 0.883,1
+trans       = addalpha
+alpha       = 95,256
+
+[BG LAMPS GLOW2]
+type        = anim
+spriteno    = 7,0
+actionno    = 3
+mask        = 1
+layerno     = 0
+start       = -233,70
+delta       = 0.883,1
+trans       = addalpha
+alpha       = 95,256
+
+[BG LAMPS GLOW3]
+type        = anim
+spriteno    = 7,0
+actionno    = 3
+mask        = 1
+layerno     = 0
+start       = 163,70
+delta       = 0.883,1
+trans       = addalpha
+alpha       = 95,256
+
+[BG LAMPS GLOW4]
+type        = anim
+spriteno    = 7,0
+actionno    = 3
+mask        = 1
+layerno     = 0
+start       = -407,66
+delta       = 0.883,1
+trans       = addalpha
+alpha       = 95,256
+
+[BG LAMPS GLOW5]
+type        = anim
+spriteno    = 7,0
+actionno    = 3
+mask        = 1
+layerno     = 0
+start       = 336,64
+delta       = 0.883,1
+trans       = addalpha
+alpha       = 95,256
+
+[Begin Action 3]
+7,0,0,0,3
+7,1,0,0,3
+
+[BG FLOOR]
+type        = parallax
+spriteno    = 1,0
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.885,1
+xscale      = 1,1.4
+trans       = none
+
+[BG FLOOR FRONTL]
+type        = normal
+spriteno    = 5,0
+mask        = 1
+layerno     = 1
+start       = -85,196
+delta       = 1.12,1
+trans       = none
+
+[BG FLOOR FRONTR]
+type        = normal
+spriteno    = 5,1
+mask        = 1
+layerno     = 1
+start       = 240,196
+delta       = 1.12,1
+trans       = none

@@ -1,0 +1,180 @@
+
+
+;--------------------------------------------------------
+[Info]
+name           = "FH_Karnov"
+displayname    = "FH_Karnov"
+versiondate    = 12.02.24
+mugenversion    =  1.1  ;(must be always added to stages with 1.1 specific features enabled ie zoom added)
+author           = "Vegaz Parelli/Lightflare"
+
+;--------------------------------------------------------
+[Camera]
+startx = 0
+starty = 0
+boundleft = -100
+boundright = 100
+boundhigh = -160
+boundlow    = -4
+tension    = 90
+tensionhigh  = 180               (adjust height accordingly to stage sprite max scroll height)
+tensionlow   = 60
+;verticalfollow    = .95        (Deprecated: Only use if stage is for Winmugen/1.0 only and no 1.1 specific features in use ie zoom)
+;floortension    = 200       (Deprecated: Only use if stage is for Winmugen/1.0 only and no 1.1 specific features in use ie zoom)
+overdrawhigh    = 120       (required for 1.1 compatibility)
+overdrawlow    = 120       (required for 1.1 compatibility)
+cuthigh    = 0                  (required for 1.1 compatibility)
+cutlow       = 0                   (required for 1.1 compatibility)
+startzoom    = 1                  (should always be set to 1: higher/lower values can cause character specific errors)
+zoomin       = 1                  (should always be set to 1: higher/lower values can cause character specific errors)
+zoomout    = .85                (set to optional value according to new stage sprite bound values)
+
+;--------------------------------------------------------
+[PlayerInfo]
+p1startx    = -70
+p1starty    = 0
+p1facing    = 1
+p2startx    = 70
+p2starty    = 0
+p2facing    = -1
+p3startx    = -140
+p3starty    = 0
+p3facing    = 1
+p4startx    = 140
+p4starty    = 0
+p4facing    = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+;--------------------------------------------------------
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1      
+botscale = 1.2  
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 15   
+screenright = 15   
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 215
+autoturn = 1
+resetBG = 0
+localcoord    = 320,240
+xscale       = 1
+yscale       = 1
+
+[Shadow]
+color = 128,128,128
+yscale = .3
+reflect = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/FH_KarnovX.mp3
+bgmvolume = 255
+
+;========================================================
+
+[BGdef]
+spr = stages/FH_KarnovX.sff
+debugbg = 0
+
+[BG sky top]
+type 		= normal
+spriteno 	= 0,3
+start 		= 0, 240
+delta 		= .2,1
+scalestart	= 1.2,1
+mask 		= 0
+
+
+[BG sky back]
+type 		= normal
+spriteno 	= 0,2
+start 		= 0, 240
+delta 		= .2,1
+scalestart	= 1.2,1
+mask 		= 0
+
+[BG sky]
+type 		= anim
+actionno 	= 1
+start 		= 0, 240
+delta 		= .2,1
+scalestart	= 1.2,1
+mask 		= 0
+
+[BG camel]
+type 		= anim
+actionno 	= 2
+start 		= 0, 240
+delta 		= .55,1
+velocity	= -.01,0
+scalestart	= 1.2,1
+mask 		= 1
+
+[BG dunes]
+type 		= normal
+spriteno 	= 0,1
+start 		= 0, 240
+delta 		= .6,1
+tile		= 1,0
+scalestart	= 1.2,1
+mask 		= 1
+
+[BG fire]
+type 		= anim
+actionno 	= 3
+start 		= 0, 240
+delta 		= .6,1
+scalestart	= 1.2,1
+mask 		= 1
+
+[BG floor]
+type 		= parallax
+spriteno 	= 0,0
+start 		= 0, 240
+delta 		= .6500,1
+xscale		= 1,2
+scalestart	= 1.2,1
+mask 		= 0
+
+[begin action 1]
+1,0, 0,0, 5
+1,1, 0,0, 5
+1,2, 0,0, 5
+1,3, 0,0, 5
+1,4, 0,0, 5
+1,5, 0,0, 5
+1,6, 0,0, 5
+1,7, 0,0, 5
+1,8, 0,0, 5
+1,9, 0,0, 5
+1,10, 0,0, 5
+1,11, 0,0, 5
+1,12, 0,0, 5
+1,13, 0,0, 5
+1,14, 0,0, 5
+1,15, 0,0, 5
+1,16, 0,0, 5
+1,17, 0,0, 5
+1,18, 0,0, 5
+1,19, 0,0, 5
+
+[begin action 2]
+2,0, 0,0, 64
+2,1, 0,0, 64
+2,2, 0,0, 64
+
+[begin action 3]
+3,0, 0,0, 10
+3,1, 0,0, 10
+3,2, 0,0, 10
+3,3, 0,0, 10

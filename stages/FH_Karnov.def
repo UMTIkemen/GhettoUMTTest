@@ -1,0 +1,199 @@
+
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "Karnov"
+
+;--------------------------------------------------------
+[Camera]
+
+startx = 0
+starty = 0
+boundleft = -133
+boundright = 133
+boundhigh = -86
+boundlow = -10
+verticalfollow = .7
+floortension = 100
+tension = 90
+startzoom 	= 1,1
+zoomin 		= 1.2
+zoomout 	= .9
+;--------------------------------------------------------
+[PlayerInfo]
+p1startx = -70         
+p1starty = 0            
+p1startz = 0            
+p1facing = 1       
+  
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+;--------------------------------------------------------
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1      
+botscale = 1.2  
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 15   
+screenright = 15   
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 225
+autoturn = 1
+resetBG = 0
+
+[Shadow]
+color = 128,128,128
+yscale = .3
+reflect = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/FH_Karnov.mp3
+bgmvolume = 255
+
+;========================================================
+
+[BGdef]
+spr = stages/FH_Karnov.sff
+debugbg = 0
+
+[BG clouds]
+type 		= parallax
+spriteno 	= 0,6
+start 		= 0, 240
+delta 		= .4,.76
+velocity	= .1,0
+width		= 1344,672
+tile		= 1,0
+zoomdelta	= .3
+mask 		= 0
+
+[BG city back]
+type 		= normal
+spriteno 	= 0,5
+start 		= 0, 240
+delta 		= .45,.82
+tile		= 1,0
+zoomdelta	= .4
+mask 		= 0
+
+[BG city front]
+type 		= normal
+spriteno 	= 0,4
+start 		= 0, 240
+delta 		= .5,.9
+tile		= 1,0
+zoomdelta	= .5
+mask 		= 0
+
+[BG pillars right]
+type 		= normal
+spriteno 	= 0,3
+start 		= 182, 240
+delta 		= .730000,1
+scaledelta 	= -.0035
+scalestart	= 1.45,1
+mask 		= 1
+
+[BG pillars left]
+type 		= normal
+spriteno 	= 0,2
+start 		= -182, 240
+delta 		= .730000,1
+scaledelta 	= .0035
+scalestart	= 1.45,1
+mask 		= 1
+
+[BG pillars center]
+type 		= normal
+spriteno 	= 0,1
+start 		= 0, 240
+delta 		= .730000,1
+mask 		= 1
+
+[BG floor]
+type 		= parallax
+spriteno 	= 0,0
+start 		= 0, 240
+delta 		= .730000,1
+xscale		= 1,1.5
+mask 		= 1
+
+[BG Karnov left side]
+type 		= normal
+spriteno 	= 0,9
+start 		= 123, 240
+delta 		= .8542553191489362,1
+scaledelta 	= -.0015
+scalestart	= 1.05,1
+mask 		= 1
+
+[BG Karnov right side]
+type 		= normal
+spriteno 	= 0,10
+start 		= 123, 240
+delta 		= .8542553191489362,1
+scaledelta 	= .0005
+scalestart	= .95,1
+mask 		= 1
+
+[BG statue left side]
+type 		= anim
+actionno 	= 1
+start 		= -113, 240
+delta 		= .8387234042553191,1
+scaledelta 	= -.0015
+scalestart	= .95,1
+mask 		= 1
+
+[begin action 1]
+1,0, 0,0, 10
+1,1, 0,0, 10
+1,2, 0,0, 10
+
+
+[BG statue right side]
+type 		= anim
+actionno 	= 2
+start 		= -113, 240
+delta 		= .8387234042553191,1
+scaledelta 	= .0025
+scalestart	= 1.05,1
+mask 		= 1
+
+[begin action 2]
+2,0, 0,0, 10
+2,1, 0,0, 10
+2,2, 0,0, 10
+
+[BG chest left side]
+type 		= normal
+spriteno 	= 0,7
+start 		= -135, 240
+delta 		= .8542553191489362,1
+scaledelta 	= -.0015
+scalestart	= .95,1
+mask 		= 1
+
+[BG chest right side]
+type 		= normal
+spriteno 	= 0,8
+start 		= -135, 240
+delta 		= .8542553191489362,1
+scaledelta 	= .0025
+scalestart	= 1.05,1
+mask 		= 1

@@ -1,0 +1,519 @@
+;Chaos Dimension, Shuma-Gorath's stage from Marvel Super Heroes
+;by Phantom.of.the.Server
+
+[Info]
+name = "The Chaos Dimension/A"
+author = "Phantom.of.the.Server"
+versiondate = 2022
+mugenversion = 1.0
+
+[Music]
+bgmusic = sound/ChaosDimension.ogg
+bgmvolume = 255
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -872
+boundright = 872
+boundhigh = -320
+boundlow = 0
+verticalfollow = 1
+floortension = 88
+tension = 60
+overdrawhigh = 0
+overdrawlow = 0
+cuthigh = 44
+cutlow = 16
+startzoom = 1
+zoomout = 1
+zoomin = 1
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2facing = -1
+
+p3startx = -115
+p3starty = 0
+p3facing = 1
+
+p4startx = 115
+p4starty = 0
+p4facing = -1
+
+leftbound = -2000
+rightbound = 2000
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 216
+autoturn = 1
+resetBG = 0
+localcoord = 320, 240
+xscale = 1
+yscale = 1
+
+[Shadow]
+intensity = 112
+color = 0, 0, 0
+yscale = 0.25
+fade.range = -240, 0
+
+
+;=====<MAIN BG DEFINITION>=====
+[BGdef]
+spr = ChaosDimension.sff
+debugbg = 0
+
+[BG Sky]
+type = normal
+spriteno = 0, 2
+layerno = 0
+start = 0, 0
+delta = 0.30275, 0.6667
+mask = 1
+
+[BG Sky Glow]
+type = anim
+actionno = 1
+layerno = 0
+start = 0, 0
+delta = 0.30275, 0.6667
+
+[BG Star 1]
+type = anim
+actionno = 2
+layerno = 0
+start = 0, 0
+delta = 0.30275, 0.6667
+
+[BG Star 2]
+type = anim
+actionno = 3
+layerno = 0
+start = 0, 0
+delta = 0.30275, 0.6667
+
+[BG Horizon]
+type = normal
+spriteno = 0, 1
+layerno = 0
+start = 0, 0
+delta = 0.51834, 0.8333
+mask = 1
+
+[BG Main]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start = 0, 0
+delta = 1, 1
+mask = 1
+
+[BG Geyser 1]
+type = anim
+actionno = 20
+layerno = 0
+start = 0, 0
+delta = 1, 1
+ID = 21
+
+[BG Geyser 2]
+type = anim
+actionno = 20
+layerno = 0
+start = 0, 0
+delta = 1, 1
+ID = 22
+
+[BG Geyser 3]
+type = anim
+actionno = 20
+layerno = 0
+start = 0, 0
+delta = 1, 1
+ID = 23
+
+[BG Bones]
+type = normal
+spriteno = 0, 3
+layerno = 0
+start = 0, 0
+delta = 1, 1
+mask = 1
+
+[BG Bones]
+type = normal
+spriteno = 0, 4
+layerno = 0
+start = 0, 0
+delta = 1, 1
+mask = 1
+
+[BG Dust 1]
+type = anim
+actionno = 10
+layerno = 1
+start = 0, 0
+delta = 1, 1
+tile = 1, 0
+tilespacing = 480, 0
+ID = 10
+
+[BG Dust 2]
+type = anim
+actionno = 10
+layerno = 1
+start = 0, 0
+delta = 1, 1
+tile = 1, 0
+tilespacing = 480, 0
+ID = 11
+
+
+;=====<BGCTRL>=====
+;--- Dust 1 ---
+[BGctrldef 10]
+ctrlID = 10
+looptime = 600
+
+[BGctrl 10, Pos]
+type = posset
+time = 0
+x = 0
+y = 0
+
+[BGctrl 10, Vel]
+type = velset
+time = 0
+x = -3
+y = 0
+
+[BGctrl 10, Anim]
+type = anim
+time = 60
+value = 10
+
+[BGctrl 10, Anim]
+type = anim
+time = 120
+value = 10
+
+[BGctrl 10, Anim]
+type = anim
+time = 240
+value = 10
+
+[BGctrl 10, Anim]
+type = anim
+time = 480
+value = 10
+
+
+;--- Dust 2 ---
+[BGctrldef 11]
+ctrlID = 11
+looptime = 600
+
+[BGctrl 11, Pos]
+type = posset
+time = 0
+x = 240
+y = 0
+
+[BGctrl 11, Vel]
+type = velset
+time = 0
+x = -3
+y = 0
+
+[BGctrl 11, Anim]
+type = anim
+time = 180
+value = 10
+
+[BGctrl 11, Anim]
+type = anim
+time = 240
+value = 10
+
+[BGctrl 11, Anim]
+type = anim
+time = 360
+value = 10
+
+[BGctrl 11, Anim]
+type = anim
+time = 540
+value = 10
+
+
+;--- Geyser 1 ---
+[BGctrldef 21]
+ctrlID = 21
+looptime = 360
+
+[BGctrl 21, Anim]
+type = anim
+time = 0
+value = 20
+
+[BGctrl 21, Pos]
+type = posset
+time = 0
+x = -971
+y = -9
+
+[BGctrl 21, Anim]
+type = anim
+time = 60
+value = 20
+
+[BGctrl 21, Pos]
+type = posset
+time = 60
+x = -795
+y = -4
+
+[BGctrl 21, Anim]
+type = anim
+time = 120
+value = 20
+
+[BGctrl 21, Pos]
+type = posset
+time = 120
+x = -72
+y = 0
+
+[BGctrl 21, Anim]
+type = anim
+time = 180
+value = 20
+
+[BGctrl 21, Pos]
+type = posset
+time = 180
+x = -7
+y = 1
+
+[BGctrl 21, Anim]
+type = anim
+time = 240
+value = 20
+
+[BGctrl 21, Pos]
+type = posset
+time = 240
+x = 532
+y = -22
+
+[BGctrl 21, Anim]
+type = anim
+time = 300
+value = 20
+
+[BGctrl 21, Pos]
+type = posset
+time = 300
+x = 788
+y = -5
+
+
+;--- Geyser 2 ---
+[BGctrldef 22]
+ctrlID = 22
+looptime = 420
+
+[BGctrl 22, Anim]
+type = anim
+time = 0
+value = 20
+
+[BGctrl 22, Pos]
+type = posset
+time = 0
+x = -898
+y = -6
+
+[BGctrl 22, Anim]
+type = anim
+time = 70
+value = 20
+
+[BGctrl 22, Pos]
+type = posset
+time = 70
+x = -741
+y = 0
+
+[BGctrl 22, Anim]
+type = anim
+time = 140
+value = 20
+
+[BGctrl 22, Pos]
+type = posset
+time = 140
+x = -29
+y = 1
+
+[BGctrl 22, Anim]
+type = anim
+time = 210
+value = 20
+
+[BGctrl 22, Pos]
+type = posset
+time = 210
+x = 360
+y = -2
+
+[BGctrl 22, Anim]
+type = anim
+time = 280
+value = 20
+
+[BGctrl 22, Pos]
+type = posset
+time = 280
+x = 606
+y = -3
+
+[BGctrl 22, Anim]
+type = anim
+time = 350
+value = 20
+
+[BGctrl 22, Pos]
+type = posset
+time = 350
+x = 890
+y = 0
+
+
+;--- Geyser 3 ---
+[BGctrldef 23]
+ctrlID = 23
+looptime = 480
+
+[BGctrl 23, Anim]
+type = anim
+time = 0
+value = 20
+
+[BGctrl 23, Pos]
+type = posset
+time = 0
+x = -839
+y = -5
+
+[BGctrl 23, Anim]
+type = anim
+time = 80
+value = 20
+
+[BGctrl 23, Pos]
+type = posset
+time = 80
+x = -708
+y = 2
+
+[BGctrl 23, Anim]
+type = anim
+time = 160
+value = 20
+
+[BGctrl 23, Pos]
+type = posset
+time = 160
+x = -50
+y = 1
+
+[BGctrl 23, Anim]
+type = anim
+time = 240
+value = 20
+
+[BGctrl 23, Pos]
+type = posset
+time = 240
+x = 418
+y = 2
+
+[BGctrl 23, Anim]
+type = anim
+time = 320
+value = 20
+
+[BGctrl 23, Pos]
+type = posset
+time = 320
+x = 697
+y = -8
+
+[BGctrl 23, Anim]
+type = anim
+time = 400
+value = 20
+
+[BGctrl 23, Pos]
+type = posset
+time = 400
+x = 945
+y = -1
+
+
+;=====<ANIMATIONS>=====
+[Begin Action 0]
+-1,-1, 0,0, 1
+
+[Begin Action 1]
+1,0, 0,0, 2,
+-1,-1, 0,0, 2,
+1,1, 0,0, 2,
+
+[Begin Action 2]
+2,0, 0,0, 3, 
+2,1, 0,0, 3, 
+2,2, 0,0, 3, 
+
+[Begin Action 3]
+3,0, 0,0, 2, 
+3,1, 0,0, 2,
+
+[Begin Action 10]
+10,0, 0,0, 4, , AS128D128
+10,1, 0,0, 4, , AS128D128
+10,2, 0,0, 4, , AS128D128
+10,3, 0,0, 4, , AS128D128
+10,4, 0,0, 4, , AS128D128
+10,5, 0,0, 4, , AS128D128
+10,6, 0,0, 4, , AS128D128
+10,7, 0,0, 4, , AS128D128
+10,8, 0,0, 4, , AS128D128
+10,9, 0,0, 4, , AS128D128
+10,10, 0,0, 8, , AS128D128
+-1,-1, 0,0, -1
+
+[Begin Action 20]
+20,0, 0,0, 4, , AS128D128
+20,1, 0,0, 4, , AS128D128
+20,2, 0,0, 4, , AS128D128
+20,3, 0,0, 4, , AS128D128
+20,4, 0,0, 4, , AS128D128
+20,5, 0,0, 4, , AS128D128
+20,6, 0,0, 4, , AS128D128
+20,7, 0,0, 4, , AS128D128
+20,8, 0,0, 4, , AS128D128
+20,9, 0,0, 4, , AS128D128
+20,20, 0,0, 8, , AS128D128
+-1,-1, 0,0, -1

@@ -1,0 +1,630 @@
+;
+;--------------------------------------------------------------------------------------
+; Sprites rips by: MatreroG, LucianoBullock, AFruitaday, SpriteFX & DoB
+; Code and sprites edits by: MatreroG
+; Original BGM: Unknown - Unknown Theme (MatreroG Mechanic mix).mp3
+; Date: sep/11/2024 - Released: sep/17/2024 
+;
+; Other info: Another stage with an Asian vibe and a dark atmosphere of old machinery
+; and metal gears. The concept came from some sprites I ripped from the arcade game
+; "Samurai Shodown 64".
+; 
+; Tested in MUGEN 1.1
+;
+; Any donation will be well received here:
+; >> https://www.paypal.me/MatreroG
+; Visit my YouTube channel:
+; >> https://www.youtube.com/c/MatreroG
+;======================================================================================
+
+[Info]
+ ;Name of the stage.
+name = "AncientGears_1.1NoZoom"
+author = "MatreroG"
+displayname = "Ancient Gears/A"
+
+[Camera]
+startx = 0
+starty = 0
+
+boundleft = -310
+boundright = 310
+
+boundhigh = -220
+boundlow = 0
+
+verticalfollow = .7
+floortension = 35
+tension = 50
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70          
+p1starty = 0           
+p1startz = 0            
+p1facing = 1            
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+;--- Common ---
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+;--------------------------------------------------------
+[Scaling]
+topz     = 0       
+botz     = 50      
+topscale = 1       
+botscale = 1.2     
+
+;--------------------------------------------------------
+[Bound]
+screenleft = 20    
+screenright = 20  
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 212
+autoturn = 1
+resetBG = 0
+hires = 0
+
+;--------------------------------------------------------
+[Shadow]
+intensity = 120
+color = 0,0,0
+yscale = .13
+fade.range = -400,-100
+
+;--------------------------------------------------------
+[Reflection]
+intensity = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/AncientGears.mp3
+bgvolume = 255
+
+;========================================================
+;-------------------------------------
+; Main background definition
+[BGdef]
+spr = AncientGears.sff
+debugbg = 0
+
+;-------------------------------------
+;back
+
+[BG MECHANICS1]
+type        = anim
+spriteno    = 0,0
+actionno    = 1
+layerno     = 0
+start       = 1,0
+delta       = 0.6,0.76
+trans       = none
+
+[BG MECHANICS2]
+type        = anim
+spriteno    = 0,0
+actionno    = 1
+layerno     = 0
+start       = 1,275
+delta       = 0.6,0.76
+trans       = none
+
+[Begin Action 1]
+0,0,0,0,8
+0,1,0,0,8
+0,2,0,0,8
+0,3,0,0,8
+
+[BG MECHANICS3]
+type        = anim
+spriteno    = 0,0
+actionno    = 2
+layerno     = 0
+start       = 0,0
+delta       = 0.6,0.76
+trans       = none
+
+[BG MECHANICS4]
+type        = anim
+spriteno    = 0,0
+actionno    = 2
+layerno     = 0
+start       = 0,275
+delta       = 0.6,0.76
+trans       = none
+
+[Begin Action 2]
+0,2,0,0,8,H
+0,3,0,0,8,H
+0,0,0,0,8,H
+0,1,0,0,8,H
+
+[BG CHAINL1]
+type        = normal
+spriteno    = 1,5
+mask        = 1
+layerno     = 0
+start       = -210,0
+delta       = 0.68,0.8
+trans       = none
+velocity    = 0,-0.5
+tile        = 0,1
+
+[BG CHAINL2]
+type        = normal
+spriteno    = 1,5
+mask        = 1
+layerno     = 0
+start       = -170,0
+delta       = 0.68,0.8
+trans       = none
+velocity    = 0,0.5
+tile        = 0,1
+
+[BG CHAINL3]
+type        = normal
+spriteno    = 1,6
+mask        = 1
+layerno     = 0
+start       = 185,0
+delta       = 0.68,0.8
+trans       = none
+velocity    = 0,0.25
+tile        = 0,1
+
+[BG HEADL]
+type        = normal
+spriteno    = 4,0
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.735,0.85
+trans       = none
+scaledelta  = -0.00125
+scalestart  = 1.05,1
+
+[BG HEADR]
+type        = normal
+spriteno    = 4,1
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.735,0.85
+trans       = none
+scaledelta  = 0.00125
+scalestart  = 1.05,1
+
+[BG DRAGONL]
+type        = normal
+spriteno    = 1,3
+mask        = 1
+layerno     = 0
+start       = -317,30
+delta       = 0.74,0.85
+trans       = none
+
+[BG DRAGONR]
+type        = normal
+spriteno    = 1,4
+mask        = 1
+layerno     = 0
+start       = 325,30
+delta       = 0.74,0.85
+trans       = none
+
+[BG GEARS1]
+type        = anim
+spriteno    = 2,0
+actionno    = 3
+layerno     = 0
+start       = 0,0
+delta       = 0.77,0.9
+trans       = none
+
+[Begin Action 3]
+2,0,0,0,8
+2,1,0,0,8
+2,2,0,0,8
+2,3,0,0,8
+
+[BG GEARS2]
+type        = anim
+spriteno    = 3,0
+actionno    = 4
+layerno     = 0
+start       = -324,5
+delta       = 0.77,0.9
+trans       = none
+
+[BG GEARS3]
+type        = anim
+spriteno    = 3,0
+actionno    = 4
+layerno     = 0
+start       = 600,15
+delta       = 0.77,0.9
+trans       = none
+
+[Begin Action 4]
+3,0,0,0,8
+3,1,0,0,8
+3,2,0,0,8
+3,3,0,0,8
+
+[BG FLOOR]
+type        = parallax
+spriteno    = 1,0
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.83,1
+xscale      = 1,1.36
+trans       = none
+
+[BG CEILING & COLUMNS]
+type        = normal
+spriteno    = 1,1
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.86,1
+trans       = none
+
+[BG CANDLES1]
+type        = anim
+spriteno    = 5,0
+actionno    = 5
+mask        = 1
+layerno     = 0
+start       = -201,88
+delta       = 0.86,1
+trans       = none
+
+[BG CANDLES2]
+type        = anim
+spriteno    = 5,0
+actionno    = 5
+mask        = 1
+layerno     = 0
+start       = 110,88
+delta       = 0.86,1
+trans       = none
+
+[Begin Action 5]
+5,0,0,0,5
+5,1,0,0,5
+5,2,0,0,5
+5,3,0,0,5
+
+[BG CANDLES3]
+type        = anim
+spriteno    = 6,0
+actionno    = 6
+mask        = 1
+layerno     = 0
+start       = -130,88
+delta       = 0.86,1
+trans       = none
+
+[BG CANDLES4]
+type        = anim
+spriteno    = 6,0
+actionno    = 6
+mask        = 1
+layerno     = 0
+start       = 182,88
+delta       = 0.86,1
+trans       = none
+
+[Begin Action 6]
+6,0,0,0,6
+6,1,0,0,6
+6,2,0,0,6
+6,3,0,0,6
+
+[BG FENCE]
+type        = normal
+spriteno    = 1,2
+mask        = 1
+layerno     = 0
+start       = 0,0
+delta       = 0.866,1
+trans       = none
+
+[BG CANDLE BASE1]
+type        = normal
+spriteno    = 8,0
+mask        = 1
+layerno     = 0
+start       = -405,128
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES5]
+type        = anim
+spriteno    = 5,0
+actionno    = 5
+mask        = 1
+layerno     = 0
+start       = -407,104
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES GLOW5]
+type        = anim
+spriteno    = 7,0
+actionno    = 7
+mask        = 1
+layerno     = 0
+start       = -455,55
+delta       = 0.89,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLE BASE2]
+type        = normal
+spriteno    = 8,1
+mask        = 1
+layerno     = 0
+start       = -270,128
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES6]
+type        = anim
+spriteno    = 6,0
+actionno    = 6
+mask        = 1
+layerno     = 0
+start       = -269,104
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES GLOW6]
+type        = anim
+spriteno    = 7,0
+actionno    = 8
+mask        = 1
+layerno     = 0
+start       = -325,55
+delta       = 0.89,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLE BASE3]
+type        = normal
+spriteno    = 8,2
+mask        = 1
+layerno     = 0
+start       = -71,128
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES7]
+type        = anim
+spriteno    = 5,0
+actionno    = 5
+mask        = 1
+layerno     = 0
+start       = -73,104
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES GLOW7]
+type        = anim
+spriteno    = 7,0
+actionno    = 7
+mask        = 1
+layerno     = 0
+start       = -120,55
+delta       = 0.89,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLE BASE4]
+type        = normal
+spriteno    = 8,0
+mask        = 1
+layerno     = 0
+start       = 45,128
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES8]
+type        = anim
+spriteno    = 6,0
+actionno    = 6
+mask        = 1
+layerno     = 0
+start       = 46,104
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES GLOW8]
+type        = anim
+spriteno    = 7,0
+actionno    = 8
+mask        = 1
+layerno     = 0
+start       = -2,55
+delta       = 0.89,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLE BASE5]
+type        = normal
+spriteno    = 8,1
+mask        = 1
+layerno     = 0
+start       = 249,128
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES9]
+type        = anim
+spriteno    = 5,0
+actionno    = 5
+mask        = 1
+layerno     = 0
+start       = 247,104
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES GLOW9]
+type        = anim
+spriteno    = 7,0
+actionno    = 7
+mask        = 1
+layerno     = 0
+start       = 200,55
+delta       = 0.89,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLE BASE6]
+type        = normal
+spriteno    = 8,1
+mask        = 1
+layerno     = 0
+start       = 387,128
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES10]
+type        = anim
+spriteno    = 6,0
+actionno    = 6
+mask        = 1
+layerno     = 0
+start       = 388,104
+delta       = 0.89,1
+trans       = none
+
+[BG CANDLES GLOW10]
+type        = anim
+spriteno    = 7,0
+actionno    = 8
+mask        = 1
+layerno     = 0
+start       = 340,55
+delta       = 0.89,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLES GLOW1]
+type        = anim
+spriteno    = 7,0
+actionno    = 7
+mask        = 1
+layerno     = 0
+start       = -245,35
+delta       = 0.86,1
+trans       = addalpha
+alpha       = 65,256
+
+[BG CANDLES GLOW2]
+type        = anim
+spriteno    = 7,0
+actionno    = 7
+mask        = 1
+layerno     = 0
+start       = 55,35
+delta       = 0.86,1
+trans       = addalpha
+alpha       = 55,256
+
+[Begin Action 7]
+7,0,0,0,3
+7,1,0,0,3
+
+[BG CANDLES GLOW3]
+type        = anim
+spriteno    = 7,0
+actionno    = 8
+mask        = 1
+layerno     = 0
+start       = -177,35
+delta       = 0.86,1
+trans       = addalpha
+alpha       = 55,256
+
+[BG CANDLES GLOW4]
+type        = anim
+spriteno    = 7,0
+actionno    = 8
+mask        = 1
+layerno     = 0
+start       = 135,35
+delta       = 0.86,1
+trans       = addalpha
+alpha       = 65,256
+
+[Begin Action 8]
+7,1,0,0,3
+7,0,0,0,3
+
+[BG LAMP GLOW1]
+type        = anim
+spriteno    = 7,0
+actionno    = 9
+mask        = 1
+layerno     = 0
+start       = -150,-40
+delta       = 0.86,1
+trans       = addalpha
+alpha       = 75,256
+
+[BG LAMP GLOW1]
+type        = anim
+spriteno    = 7,0
+actionno    = 9
+mask        = 1
+layerno     = 0
+start       = 25,-40
+delta       = 0.86,1
+trans       = addalpha
+alpha       = 75,256
+
+[Begin Action 9]
+7,1,0,0,2
+7,0,0,0,2
+
+[BG BROKEN BELL1]
+type        = normal
+spriteno    = 9,0
+mask        = 1
+layerno     = 0
+start       = 380,175
+delta       = 1.2,1
+trans       = none
+
+[BG BROKEN BELL2]
+type        = normal
+spriteno    = 9,0
+mask        = 1
+layerno     = 1
+start       = 380,175
+delta       = 1.2,1
+trans       = addalpha
+alpha       = 125,95
+
+[BG ENV1]
+type        = normal
+spriteno    = 10,2
+mask        = 1
+layerno     = 0
+start       = 0,0
+trans       = addalpha
+alpha       = 125,225
+tile        = 1,1

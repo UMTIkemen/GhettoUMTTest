@@ -1,0 +1,387 @@
+[Info]
+name = "KOF'99 EVO - Clocktower Bridge Rain"
+;Author = "MadkaT"
+;Web = "www.madkatmedia.tk"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -137
+boundright = 137
+boundhigh = 0
+boundlow = 0
+verticalfollow = .2
+floortension = 0
+tension = 50
+
+[PlayerInfo]
+p1startx = -70
+p1starty = 0
+p1startz = 0
+p1facing = 1
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000
+rightbound =  1000
+topbound  =  0
+botbound  =  0
+
+[Scaling]
+topz     = 0
+botz     = 50
+topscale = 1
+botscale = 1.2
+
+[Bound]
+screenleft = 15
+screenright = 15
+
+[StageInfo]
+zoffset = 225
+autoturn = 1
+resetBG = 1
+
+[Shadow]
+intensity = 96
+color = 0,0,0
+yscale = .3
+fade.range = 0,0
+
+[Reflection]
+intensity = 0
+
+[Music]
+bgmusic = Sound/Garou Mark of The Wolves - Spread the Wings 'Rock Howard' (Arranged).MP3
+bgvolume = 260
+
+[BGdef]
+spr = Stages/KOF99EVO_ClockTower_Rain.sff
+debugbg = 0
+
+[BG 00]
+type  = anim
+actionno = 11
+start = 0, 152
+delta = .48, 1
+
+[BG 00B]
+type  = anim
+actionno = 11
+start = 0, 304
+delta = .48, 1
+
+[BG 01]
+type  = anim
+actionno = 12
+start = -100, 176
+delta = .48, 1
+
+[BG 02]
+type  = anim
+actionno = 13
+start = 100, 176
+delta = .48, 1
+
+[BG 02B]
+type  = anim
+actionno = 13
+start = 150, 120
+delta = .48, 1
+
+[BG 12]
+type  = normal
+spriteno = 7, 5
+start = 5, 13
+
+[BG 13]
+type  = normal
+spriteno = 7, 9
+start = 5, 50
+
+[BG 13A]
+type  = normal
+spriteno = 7, 9
+start = 30, 100
+
+[BG 13B]
+type  = normal
+spriteno = 7, 9
+start = 5, 190
+
+[BG 62]
+type  = anim
+actionno = 1           
+start = 31, 92
+
+[BG 6]
+type  = anim
+actionno = 2
+start = 1, 36
+mask = 1
+
+[BG 5]
+type  = normal
+spriteno = 5, 1            
+start = 19, 187
+mask = 1
+
+[BG 9]
+type  = normal
+spriteno = 7, 2
+start = -130, 190
+mask = 1
+
+[BG yutest]
+type  = normal
+spriteno = 11, 0
+start = -50, 0
+velocity = 0, 3
+tile = 4,1
+tilespacing = -10, 0
+trans = add
+
+[BG 6];Lluvia
+type  = normal
+spriteno = 14, 0
+start = 0, 0
+delta = .8, 1
+trans = add
+tile  = 1, 1
+velocity = 0, 10
+
+[BG 8]
+type  = normal
+spriteno = 7, 0             
+start = 159, 295
+mask = 1
+
+[BG A1]
+type  = normal
+spriteno = 9, 0
+start = -217, 187
+mask = 1
+
+[BG A2]
+type  = normal
+spriteno = 9, 1
+start = -27, 180
+mask = 1
+
+[BG A2]
+type  = normal
+spriteno = 9, 2
+start = -137, 180
+mask = 1
+
+[BG 6];Lluvia
+type  = normal
+spriteno = 14, 1
+start = 13, 74
+delta = .8, 1
+trans = add
+tile  = 1, 1
+velocity = 0, 12
+
+[BG 10]
+type  = normal
+spriteno = 7, 3
+start = 30, 240
+mask = 1
+
+[BG 11]
+type  = normal
+spriteno = 7, 4              
+start = 159, 295
+mask = 1
+
+[BG 4]
+type  = normal
+spriteno = 3, 4            
+start = 8, 211
+mask = 1
+
+[BG 66AB]
+type  = anim
+actionno = 17
+start = -10, 200
+
+[BG 6AB]
+type  = anim
+actionno = 16
+start = 230, 212
+
+[BG 6BB]
+type  = anim
+actionno = 16
+start = -10, 212
+
+[BG 6CB]
+type  = anim
+actionno = 16
+start = -250, 212
+
+[BG 6AA]
+type  = anim
+actionno = 16
+start = 230, 226
+
+[BG 6BA]
+type  = anim
+actionno = 16
+start = -10, 226
+
+[BG 6CA]
+type  = anim
+actionno = 16
+start = -250, 226
+
+[BG 6A]
+type  = anim
+actionno = 16
+start = 240, 240
+
+[BG 6B]
+type  = anim
+actionno = 16
+start = 0, 240
+
+[BG 6C]
+type  = anim
+actionno = 16
+start = -240, 240
+
+[BG 7]
+type  = normal
+spriteno = 5, 0             
+start = 80, 205
+mask = 1
+
+[BG 1]
+type  = normal
+spriteno = 3, 1             
+start = 226, 197
+mask = 1
+
+[BG 2]
+type  = normal
+spriteno = 3, 2              
+start = 28, 216
+mask = 1
+
+[BG 3]
+type  = normal
+spriteno = 3, 3              
+start = -170, 205
+mask = 1
+
+[BG 6];Lluvia
+type  = normal
+spriteno = 10, 0
+layerno = 1                
+start = 500, -4
+delta = .8, 1
+trans = add
+tile  = 1, 1
+velocity = 0, 14
+
+[Begin Action 1]
+4,0, 0,0, 6
+4,1, 0,0, 6
+4,2, 0,0, 6
+4,3, 0,0, 6
+4,4, 0,0, 6
+4,5, 0,0, 6
+4,6, 0,0, 6
+4,7, 0,0, 6
+4,8, 0,0, 6
+4,9, 0,0, 6
+4,10, 0,0, 6
+4,11, 0,0, 6
+4,12, 0,0, 6
+4,13, 0,0, 6
+4,14, 0,0, 6
+4,15, 0,0, 6
+4,16, 0,0, 6
+4,17, 0,0, 6
+4,18, 0,0, 6
+4,19, 0,0, 6
+4,20, 0,0, 6
+4,21, 0,0, 6
+4,22, 0,0, 6
+4,23, 0,0, 6
+4,24, 0,0, 6
+4,25, 0,0, 6
+4,26, 0,0, 6
+4,27, 0,0, 6
+4,28, 0,0, 6
+4,29, 0,0, 6
+4,30, 0,0, 6
+4,31, 0,0, 6
+
+[Begin Action 2]
+6,0, 0,0, 8
+6,2, 0,0, 8
+6,3, 0,0, 8
+6,4, 0,0, 8
+6,5, 0,0, 8
+6,6, 0,0, 8
+6,5, 0,0, 8
+6,4, 0,0, 8
+6,3, 0,0, 8
+6,2, 0,0, 8
+
+[Begin action 11]
+1,1,0,0,2
+1,0,0,0,596
+1,1,0,0,2
+1,0,0,0,1
+1,1,0,0,2
+1,0,0,0,1
+
+[Begin action 12]
+1,4,0,0,1, H
+1,5,0,0,1, H
+1,6,0,0,1, H
+1,7,0,0,1, H
+-1,-1,0,0,600
+
+[Begin action 13]
+1,4,0,0,1
+1,5,0,0,1
+1,6,0,0,1
+1,7,0,0,1
+-1,-1,0,0,600
+
+[Begin Action 14]
+11,0, 0,0, 2
+11,1, 0,0, 2
+11,2, 0,0, 2
+11,3, 0,0, 2
+11,4, 0,0, 2
+11,5, 0,0, 2
+11,6, 0,0, 2
+11,7, 0,0, 2
+
+[Begin Action 16]
+13,0, 0,0, 3,,A
+13,1, 0,0, 3,,A
+13,2, 0,0, 3,,A
+13,3, 0,0, 3,,A
+13,4, 0,0, 3,,A
+13,5, 0,0, 3,,A
+13,6, 0,0, 3,,A
+13,7, 0,0, 3,,A
+
+[Begin Action 17]
+13,10, 0,0, 3,, A
+13,11, 0,0, 3,, A
+13,12, 0,0, 3,, A
+13,13, 0,0, 3,, A
+13,14, 0,0, 3,, A
+13,15, 0,0, 3,, A
+13,16, 0,0, 3,, A
+13,17, 0,0, 3,, A

@@ -1,0 +1,843 @@
+;MELTYBLOOD ActCadenza より　「不思議な不気味な猫の王国」ステージ(Great Cats Village) / Ver 1.5a
+;D4専用
+;Author : TENE
+
+[Info]
+name = "MBAC_Great Cats Village"
+mugen 1.1 version = "Manuz"
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -82
+boundright = 90
+boundhigh = -172
+boundlow = -8
+verticalfollow = .4
+tension = 81
+zoomin = 1
+zoomout = .75 
+
+[PlayerInfo]
+
+p1startx = -60          
+p1starty = 0            
+p1startz = 0            
+p1facing = 1            
+
+p2startx = 60
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000 
+rightbound =  1000 
+topbound  =  0     
+botbound  =  0     
+
+[Scaling]
+topz     = 0       
+botz     = 50     
+topscale = 1       
+botscale = 1.2     
+
+[Bound]
+screenleft = 15    
+screenright = 15   
+
+[StageInfo]
+zoffset = 210
+autoturn = 1
+resetBG = 0
+hires = 1
+
+[Shadow]
+color = 32,32,32
+yscale = .35
+reflect = 0
+
+[Music]
+bgmusic  = sound\MBAC_Great_Cats_Village.mp3
+bgmloopstart	= 178691
+bgmloopend		= 2632628
+bgmvolume		= 100
+
+[BGdef]
+spr = mbac_neco_D4_1.1.sff
+debugbg = 0
+
+;後景
+[BG 01]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 01]
+type = normal
+spriteno = 0, 1
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 02]
+type = normal
+spriteno = 0, 2
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 03]
+type = normal
+spriteno = 0, 3
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 04]
+type = normal
+spriteno = 0, 4
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 05]
+type = normal
+spriteno = 0, 5
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 06]
+type = normal
+spriteno = 0, 6
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 07]
+type = normal
+spriteno = 0, 7
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 08]
+type = normal
+spriteno = 0, 8
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 09]
+type = normal
+spriteno = 0, 9
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 10]
+type = normal
+spriteno = 0, 10
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 11]
+type = normal
+spriteno = 0, 11
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 12]
+type = normal
+spriteno = 0, 12
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 13]
+type = normal
+spriteno = 0, 13
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 14]
+type = normal
+spriteno = 0, 14
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+[BG 15]
+type = normal
+spriteno = 0, 15
+layerno = 0
+start = -592,-416
+delta = 1.6,1.6
+trans = None
+mask = 0
+tile = 0, 0
+
+;不透明度
+[BG 01]
+type = normal
+spriteno = 4, 0
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = None
+mask = 1
+tile = 0, 0
+
+;前景アルファ加算1
+[BG 01_00]
+type = normal
+spriteno = 1, 0
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_01]
+type = normal
+spriteno = 1, 1
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_02]
+type = normal
+spriteno = 1, 2
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_03]
+type = normal
+spriteno = 1, 3
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_04]
+type = normal
+spriteno = 1, 4
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_05]
+type = normal
+spriteno = 1, 5
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_06]
+type = normal
+spriteno = 1, 6
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_07]
+type = normal
+spriteno = 1, 7
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_08]
+type = normal
+spriteno = 1, 8
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_09]
+type = normal
+spriteno = 1, 9
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_10]
+type = normal
+spriteno = 1, 10
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_11]
+type = normal
+spriteno = 1, 11
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 01_12]
+type = normal
+spriteno = 1, 12
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+;前景アルファ減算1
+[BG 03_00]
+type = normal
+spriteno = 3, 0
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_01]
+type = normal
+spriteno = 3, 1
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_02]
+type = normal
+spriteno = 3, 2
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_03]
+type = normal
+spriteno = 3, 3
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_04]
+type = normal
+spriteno = 3, 4
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_05]
+type = normal
+spriteno = 3, 5
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_06]
+type = normal
+spriteno = 3, 6
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_07]
+type = normal
+spriteno = 3, 7
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_08]
+type = normal
+spriteno = 3, 8
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_09]
+type = normal
+spriteno = 3, 9
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_10]
+type = normal
+spriteno = 3, 10
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_11]
+type = normal
+spriteno = 3, 11
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_12]
+type = normal
+spriteno = 3, 12
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_13]
+type = normal
+spriteno = 3, 13
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_14]
+type = normal
+spriteno = 3, 14
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_15]
+type = normal
+spriteno = 3, 15
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 03_16]
+type = normal
+spriteno = 3, 16
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+;前景アルファ加算2
+[BG 01_00]
+type = normal
+spriteno = 1, 0
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_01]
+type = normal
+spriteno = 1, 1
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_02]
+type = normal
+spriteno = 1, 2
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_03]
+type = normal
+spriteno = 1, 3
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_04]
+type = normal
+spriteno = 1, 4
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_05]
+type = normal
+spriteno = 1, 5
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_06]
+type = normal
+spriteno = 1, 6
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_07]
+type = normal
+spriteno = 1, 7
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_08]
+type = normal
+spriteno = 1, 8
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_09]
+type = normal
+spriteno = 1, 9
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_10]
+type = normal
+spriteno = 1, 10
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_11]
+type = normal
+spriteno = 1, 11
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+[BG 01_12]
+type = normal
+spriteno = 1, 12
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Sub
+mask = 1
+tile = 0, 0
+
+;前景アルファ減算2
+[BG 02_00]
+type = normal
+spriteno = 2, 0
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_01]
+type = normal
+spriteno = 2, 1
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_02]
+type = normal
+spriteno = 2, 2
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_03]
+type = normal
+spriteno = 2, 3
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_04]
+type = normal
+spriteno = 2, 4
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_05]
+type = normal
+spriteno = 2, 5
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_06]
+type = normal
+spriteno = 2, 6
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_07]
+type = normal
+spriteno = 2, 7
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_08]
+type = normal
+spriteno = 2, 8
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_09]
+type = normal
+spriteno = 2, 9
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_10]
+type = normal
+spriteno = 2, 10
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_11]
+type = normal
+spriteno = 2, 11
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_12]
+type = normal
+spriteno = 2, 12
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_13]
+type = normal
+spriteno = 2, 13
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_14]
+type = normal
+spriteno = 2, 14
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_15]
+type = normal
+spriteno = 2, 15
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0
+
+[BG 02_16]
+type = normal
+spriteno = 2, 16
+layerno = 0
+start = -592,-416
+delta = 2,2
+trans = Add
+mask = 1
+tile = 0, 0

@@ -1,0 +1,310 @@
+[Info]
+name ="Southern Cross/A"
+;No se quien sea el autor original. pero creditos
+;Edit = "Senketsu Pharaoh"
+;version alterna de noche
+
+round1def = stages/Southern-Cross Night.def
+round2def = stages/SouthernCross-Arranged.def
+round3def = stages/Southern-CrossAnime.def
+round4def = stages/Southern-Cross Fire.def
+round5def = stages/Southern-Cross Fire.def
+round6def = stages/Southern-Cross Fire.def
+round7def = stages/Southern-Cross Fire.def
+
+[Camera]
+startx =0
+starty =0
+boundleft  = -160
+boundright = 160
+boundhigh  = -544
+boundlow   = 0
+tension = 50
+verticalfollow = .83
+floortension = 106
+
+[PlayerInfo]
+p1startx =-70
+p1starty =0
+p1startz =0
+p1facing =1
+
+p2startx =70
+p2starty =0
+p2startz =0
+p2facing =-1
+
+leftbound =-1000
+rightbound =1000
+topbound =0
+botbound =0
+
+
+[Scaling]
+topz =0
+botz =50
+topscale =1
+botscale =1.2
+
+
+[Bound]
+screenleft  =15
+screenright =15
+
+[StageInfo]
+zoffset = 222　　　  　　　　;地面
+autoturn = 2                 ;影の長さ
+resetBG = 0
+hires = 1
+
+[Shadow]                     ;影
+color = 100,100,100
+yscale = .27;.27
+reflect = 0
+
+
+[Reflection]
+;intensity = 128
+
+
+[Music]
+bgmusic  = sound/Hokuto no Ken Fist of the North Star PS2 Southern Cross.mp3
+bgvolume = 255
+
+;----------------------------------------------------------------------
+[BGdef]
+spr = Southern-Cross Night.sff
+debugbg = 0
+
+[BG 夕日]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start =  0, -184
+delta = 1.46, .86
+trans = none
+mask = 1
+
+
+
+[BG Rayo]
+type  = anim
+actionno = 4
+layerno = 0
+start = 50, 50
+delta = 1.46, .86
+
+
+
+[BG Rayo]
+type  = anim
+actionno = 444
+layerno = 0
+start = 200, 50
+delta = 1.46, .86
+
+
+[BG Rayo]
+type  = anim
+actionno = 44
+layerno = 0
+start = 400, 80
+delta = 1.46, .86
+
+
+[BG lightning1]
+type = anim
+actionno = 1
+start = 0, -210
+delta = 1.80, .95
+
+[BG 街]
+type = normal
+spriteno = 0, 1
+layerno = 0
+start =  5, -184
+delta = 1.80, .94
+trans = none
+mask = 1
+
+
+
+[BG Red Sun]
+type  = anim     
+actionno = 5                       
+start = 0, -100        
+delta = 1.9, 1.8 
+
+[BG To the shadows, out of sight]
+type = normal
+spriteno = 6777,0
+start = 0,-184
+delta = 1.80, .94
+trans		= addalpha
+alpha		= 246,256
+tile = 1,0
+velocity = 1.5,0
+mask = 1
+
+[BG 地面]
+type = anim ;normal
+actionno = 2111
+;spriteno = 0, 2
+layerno = 0
+start =  0, -184
+delta = 2 , 2
+mask = 1
+
+
+[BG 旗]
+type = anim
+layerno = 0
+actionno = 2
+start =  0, -184
+delta = 2 , 2
+trans = None 
+mask = 0
+
+
+[BG 煙]
+type = anim
+layerno = 0
+actionno = 3
+start =  -640, 195
+delta = 2 , 2
+trans = None 
+mask = 0
+
+[bg Capa Negra]
+type = normal
+spriteno = 1000,0
+start = 20,240
+mask = 1
+layerno = 1
+tile  = 1,1
+trans = sub
+
+
+[begin action 5]
+5,0,0,0,3,,AS205D256
+5,1,0,0,3,,AS205D256
+5,2,0,0,3,,AS205D256
+5,3,0,0,3,,AS205D256
+5,4,0,0,3,,AS205D256
+5,5,0,0,3,,AS205D256
+5,6,0,0,3,,AS205D256
+5,7,0,0,3,,AS205D256
+5,8,0,0,3,,AS205D256
+5,9,0,0,3,,AS205D256
+5,10,0,0,3,,AS205D256
+5,11,0,0,3,,AS205D256
+5,12,0,0,3,,AS205D256
+5,13,0,0,3,,AS205D256
+5,14,0,0,3,,AS205D256
+5,15,0,0,3,,AS205D256
+5,16,0,0,3,,AS205D256
+5,17,0,0,3,,AS205D256
+5,18,0,0,3,,AS205D256
+5,19,0,0,3,,AS205D256
+
+[Begin Action 2]
+2,0, 0,0, 10
+2,1, 0,0, 10
+2,2, 0,0, 10
+
+[Begin Action 3]
+3,0, 0,0, 10 ,,AS29D248
+3,1, 0,0, 10 ,,AS29D248
+3,2, 0,0, 10 ,,AS29D248
+
+
+[Begin action 4]
+-1,-1,0,0,200
+7,1, 0,0, 5, , A
+7,2, 0,0, 5, , A
+7,3, 0,0, 5, , A
+7,4, 0,0, 5, , A
+7,5, 0,0, 5, , A
+7,6, 0,0, 5, , A
+7,7, 0,0, 5, , A
+7,1, 0,0, 5, , A
+7,2, 0,0, 5, , A
+7,3, 0,0, 5, , A
+7,4, 0,0, 5, , A
+7,5, 0,0, 5, , A
+7,6, 0,0, 5, , A
+7,7, 0,0, 5, , A
+
+[Begin action 44]
+-1,-1,0,0,500
+7,1, 0,0, 5, , A
+7,2, 0,0, 5, , A
+7,3, 0,0, 5, , A
+7,4, 0,0, 5, , A
+7,5, 0,0, 5, , A
+7,6, 0,0, 5, , A
+7,7, 0,0, 5, , A
+7,1, 0,0, 5, , A
+7,2, 0,0, 5, , A
+7,3, 0,0, 5, , A
+7,4, 0,0, 5, , A
+7,5, 0,0, 5, , A
+7,6, 0,0, 5, , A
+7,7, 0,0, 5, , A
+
+
+[Begin action 444]
+-1,-1,0,0,300
+7,1, 0,0, 5, , A
+7,2, 0,0, 5, , A
+7,3, 0,0, 5, , A
+7,4, 0,0, 5, , A
+7,5, 0,0, 5, , A
+7,6, 0,0, 5, , A
+7,7, 0,0, 5, , A
+7,1, 0,0, 5, , A
+7,2, 0,0, 5, , A
+7,3, 0,0, 5, , A
+7,4, 0,0, 5, , A
+7,5, 0,0, 5, , A
+7,6, 0,0, 5, , A
+7,7, 0,0, 5, , A
+
+
+[Begin action 2111]
+0,2,0,0,300
+0,3,0,0,1
+0,2,0,0,12
+0,3,0,0,1
+0,2,0,0,200
+0,3,0,0,1
+0,2,0,0,4
+0,3,0,0,1
+0,2,0,0,7
+0,3,0,0,8
+0,2,0,0,4
+0,3,0,0,1
+
+[Begin Action 1]
+1,35,0,0,50,,A
+1,0,0,0,4,,A
+1,1,0,0,4,,A
+1,2,0,0,4,,A
+1,3,0,0,4,,A
+1,35,0,0,300,,A
+1,4,0,0,4,,A
+1,5,0,0,4,,A
+1,6,0,0,4,,A
+1,7,0,0,4,,A
+1,35,0,0,300,,A
+1,8,0,0,4,,A
+1,9,0,0,4,,A
+1,10,0,0,4,,A
+1,11,0,0,4,,A
+1,35,0,0,300,,A
+1,12,0,0,4,,A
+1,13,0,0,4,,A
+1,14,0,0,4,,A
+1,15,0,0,4,,A
+1,35,0,0,200,,A
+

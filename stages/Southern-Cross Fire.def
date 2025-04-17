@@ -1,0 +1,501 @@
+[Info]
+name ="Southern Cross In Fire"
+;No se quien sea el autor original. pero creditos
+;Edit = "Senketsu Pharaoh"
+
+;Una version alternativa :)
+
+[Camera]
+startx =0
+starty =0
+boundleft  = -160
+boundright = 160
+boundhigh  = -544
+boundlow   = 0
+tension = 50
+verticalfollow = .83
+floortension = 106
+
+[PlayerInfo]
+p1startx =-70
+p1starty =0
+p1startz =0
+p1facing =1
+
+p2startx =70
+p2starty =0
+p2startz =0
+p2facing =-1
+
+leftbound =-1000
+rightbound =1000
+topbound =0
+botbound =0
+
+
+[Scaling]
+topz =0
+botz =50
+topscale =1
+botscale =1.2
+
+
+[Bound]
+screenleft  =15
+screenright =15
+
+[StageInfo]
+zoffset = 222　　　  　　　　;地面
+autoturn = 2                 ;影の長さ
+resetBG = 0
+hires = 1
+
+[Shadow]                     ;影
+color = 100,100,100
+yscale = .27;.27
+reflect = 0
+
+
+[Reflection]
+;intensity = 128
+
+
+[Music]
+bgmusic  = sound/Kill La Kill Gamagori s Theme Epic Rock Cover Remix Little V.mp3
+bgvolume = 255
+
+;----------------------------------------------------------------------
+[BGdef]
+spr = Southern-Cross Fire.sff
+debugbg = 0
+
+[BG 夕日]
+type = normal
+spriteno = 0, 0
+layerno = 0
+start =  0, -184
+delta = 1.46, .86
+trans = none
+mask = 1
+TILE = 1,0
+[BG 街]
+type = normal
+spriteno = 0, 1
+layerno = 0
+start =  5, -184
+delta = 1.80, .94
+trans = none
+mask = 1
+[BG Burn Front]
+type  = anim
+actionno = 5
+delta = 1.9 ,1
+start = -220,3
+mask = 1
+[BG Burn Front]
+type  = anim
+actionno = 5
+delta = 1.9,1
+start = 130,3
+mask = 1
+[BG Burn Front]
+type  = anim
+actionno = 5
+delta = 1.9,1
+start = -360,3
+mask = 1
+[BG Burn Front]
+type  = anim
+actionno = 5
+delta = 1.9,1
+start = 400,3
+mask = 1
+[BG Burn Front]
+type  = anim
+actionno = 5
+delta = 1.9,1
+start = 700,3
+mask = 1
+[BG 地面]
+type = normal
+spriteno = 0, 2
+layerno = 0
+start =  0, -184
+delta = 2 , 2
+trans = none
+mask = 1
+
+[BG fog]
+type = normal
+spriteno = 88,0
+start = 0,270
+delta = 2,1
+trans = SUB
+mask = 1
+tile = 1,0
+velocity = 0.9,0
+
+[BG 旗]
+type = anim
+layerno = 0
+actionno = 2
+start =  0, -184
+delta = 2 , 2
+trans = None 
+mask = 0
+
+
+[BG 煙]
+type = anim
+layerno = 0
+actionno = 3
+start =  -640, 195
+delta = 2 , 2
+trans = None 
+mask = 0
+
+[bg Capa Negra]
+type = normal
+spriteno = 1000,0
+start = 20,240
+mask = 1
+layerno = 1
+tile  = 1,1
+trans = sub
+
+
+;------------------
+[BG FLAMES]
+type  = anim
+actionno = 77
+start = -500,380
+delta = 2,1
+mask = 1
+LAYERNO = 1
+[BG FLAMES]
+type  = anim
+actionno = 77
+start = -50,380
+delta = 2,1
+mask = 1
+LAYERNO = 1
+[BG FLAMES]
+type  = anim
+actionno = 77
+start = 450,380
+delta = 2,1
+mask = 1
+LAYERNO = 1
+;-------------------------------
+[BG FLAME]
+type = anim
+actionno = 4
+delta = 1,0.8
+start		= -280,120
+mask = 1
+layerno = 1
+[BG FLAME]
+type = anim
+actionno = 4
+delta = 1,0.8
+start		= -280,-200
+mask = 1
+layerno = 1
+[BG FLAME]
+type = anim
+actionno = 4
+delta = 1,0.8
+start		= -280,-500
+mask = 1
+layerno = 1
+;---------
+[BG final tint]
+type = anim
+actionno = 10
+start =  0, 250
+delta = 0,1
+layerno = 1
+mask = 1	
+
+[BG Orange Capa]
+type  		= normal
+spriteno 	= 7777,0
+start 		= 0,240
+delta 		= 0,0
+tile        =  1,1
+layerno 	= 1
+Trans 		= addalpha
+Alpha 		= 40, 250 
+
+[Begin Action 2]
+2,0, 0,0, 10
+2,1, 0,0, 10
+2,2, 0,0, 10
+
+[Begin Action 3]
+3,0, 0,0, 10 ,,AS29D248
+3,1, 0,0, 10 ,,AS29D248
+3,2, 0,0, 10 ,,AS29D248
+
+[begin action 4]
+5,10,0,0,3,,A
+5,11,0,0,3,,A
+5,12,0,0,3,,A
+5,13,0,0,3,,A
+5,14,0,0,3,,A
+5,15,0,0,3,,A
+5,16,0,0,3,,A
+5,17,0,0,3,,A
+5,18,0,0,3,,A
+5,19,0,0,3,,A
+5,20,0,0,3,,A
+5,21,0,0,3,,A
+5,22,0,0,3,,A
+5,23,0,0,3,,A
+5,24,0,0,3,,A
+5,25,0,0,3,,A
+5,26,0,0,3,,A
+5,27,0,0,3,,A
+5,28,0,0,3,,A
+5,29,0,0,3,,A
+
+[Begin Action 5]
+5,0, 0,0, 2,,A
+5,1, 0,0, 2,,A
+5,2, 0,0, 2,,A
+5,3, 0,0, 2,,A
+5,4, 0,0, 2,,A
+5,5, 0,0, 2,,A
+5,6, 0,0, 2,,A
+5,7, 0,0, 2,,A
+5,8, 0,0, 2,,A
+5,9, 0,0, 2,,A
+
+[Begin Action 77]
+77,0, 0,0, 2,,add
+77,1, 0,0, 2,,add
+77,2, 0,0, 2,,add
+77,3, 0,0, 2,,add
+77,4, 0,0, 2,,add
+77,5, 0,0, 2,,add
+77,6, 0,0, 2,,add
+77,7, 0,0, 2,,add
+77,8, 0,0, 2,,add
+77,9, 0,0, 2,,add
+77,10, 0,0, 2,,add
+77,11, 0,0, 2,,add
+77,12, 0,0, 2,,add
+77,13, 0,0, 2,,add
+77,14, 0,0, 2,,add
+77,15, 0,0, 2,,add
+77,16, 0,0, 2,,add
+77,17, 0,0, 2,,add
+77,18, 0,0, 2,,add
+77,19, 0,0, 2,,add
+77,20, 0,0, 2,,add
+77,21, 0,0, 2,,add
+77,22, 0,0, 2,,add
+77,23, 0,0, 2,,add
+77,24, 0,0, 2,,add
+77,25, 0,0, 2,,add
+77,26, 0,0, 2,,add
+77,27, 0,0, 2,,add
+77,28, 0,0, 2,,add
+77,29, 0,0, 2,,add
+77,30, 0,0, 2,,add
+77,31, 0,0, 2,,add
+77,32, 0,0, 2,,add
+77,33, 0,0, 2,,add
+77,34, 0,0, 2,,add
+77,35, 0,0, 2,,add
+77,36, 0,0, 2,,add
+77,37, 0,0, 2,,add
+77,38, 0,0, 2,,add
+77,39, 0,0, 2,,add
+77,40, 0,0, 2,,add
+77,41, 0,0, 2,,add
+77,42, 0,0, 2,,add
+77,43, 0,0, 2,,add
+77,44, 0,0, 2,,add
+77,45, 0,0, 2,,add
+77,46, 0,0, 2,,add
+77,47, 0,0, 2,,add
+77,48, 0,0, 2,,add
+77,49, 0,0, 2,,add
+77,50, 0,0, 2,,add
+77,51, 0,0, 2,,add
+77,52, 0,0, 2,,add
+77,53, 0,0, 2,,add
+77,54, 0,0, 2,,add
+77,55, 0,0, 2,,add
+77,56, 0,0, 2,,add
+77,57, 0,0, 2,,add
+77,58, 0,0, 2,,add
+77,59, 0,0, 2,,add
+77,60, 0,0, 2,,add
+77,61, 0,0, 2,,add
+77,62, 0,0, 2,,add
+77,63, 0,0, 2,,add
+77,64, 0,0, 2,,add
+77,65, 0,0, 2,,add
+77,66, 0,0, 2,,add
+77,67, 0,0, 2,,add
+77,68, 0,0, 2,,add
+77,69, 0,0, 2,,add
+77,70, 0,0, 2,,add
+77,71, 0,0, 2,,add
+77,72, 0,0, 2,,add
+77,73, 0,0, 2,,add
+77,74, 0,0, 2,,add
+77,75, 0,0, 2,,add
+77,76, 0,0, 2,,add
+77,77, 0,0, 2,,add
+77,78, 0,0, 2,,add
+77,79, 0,0, 2,,add
+77,80, 0,0, 2,,add
+77,81, 0,0, 2,,add
+77,82, 0,0, 2,,add
+77,83, 0,0, 2,,add
+77,84, 0,0, 2,,add
+77,85, 0,0, 2,,add
+77,86, 0,0, 2,,add
+77,87, 0,0, 2,,add
+77,88, 0,0, 2,,add
+77,89, 0,0, 2,,add
+77,90, 0,0, 2,,add
+77,91, 0,0, 2,,add
+77,92, 0,0, 2,,add
+77,93, 0,0, 2,,add
+77,94, 0,0, 2,,add
+77,95, 0,0, 2,,add
+77,96, 0,0, 2,,add
+77,97, 0,0, 2,,add
+77,98, 0,0, 2,,add
+77,99, 0,0, 2,,add
+77,100, 0,0, 2,,add
+77,101, 0,0, 2,,add
+77,102, 0,0, 2,,add
+77,103, 0,0, 2,,add
+77,104, 0,0, 2,,add
+77,105, 0,0, 2,,add
+77,106, 0,0, 2,,add
+77,107, 0,0, 2,,add
+77,108, 0,0, 2,,add
+77,109, 0,0, 2,,add
+77,110, 0,0, 2,,add
+77,111, 0,0, 2,,add
+77,112, 0,0, 2,,add
+77,113, 0,0, 2,,add
+77,114, 0,0, 2,,add
+77,115, 0,0, 2,,add
+77,116, 0,0, 2,,add
+77,117, 0,0, 2,,add
+77,118, 0,0, 2,,add
+77,119, 0,0, 2,,add
+77,120, 0,0, 2,,add
+77,121, 0,0, 2,,add
+77,122, 0,0, 2,,add
+77,123, 0,0, 2,,add
+77,124, 0,0, 2,,add
+77,125, 0,0, 2,,add
+77,126, 0,0, 2,,add
+77,127, 0,0, 2,,add
+77,128, 0,0, 2,,add
+77,129, 0,0, 2,,add
+77,130, 0,0, 2,,add
+77,131, 0,0, 2,,add
+77,132, 0,0, 2,,add
+77,133, 0,0, 2,,add
+77,134, 0,0, 2,,add
+77,135, 0,0, 2,,add
+77,136, 0,0, 2,,add
+77,137, 0,0, 2,,add
+77,138, 0,0, 2,,add
+77,139, 0,0, 2,,add
+77,140, 0,0, 2,,add
+77,141, 0,0, 2,,add
+77,142, 0,0, 2,,add
+77,143, 0,0, 2,,add
+77,144, 0,0, 2,,add
+77,145, 0,0, 2,,add
+77,146, 0,0, 2,,add
+77,147, 0,0, 2,,add
+77,148, 0,0, 2,,add
+77,149, 0,0, 2,,add
+77,150, 0,0, 2,,add
+77,151, 0,0, 2,,add
+77,152, 0,0, 2,,add
+77,153, 0,0, 2,,add
+77,154, 0,0, 2,,add
+77,155, 0,0, 2,,add
+77,156, 0,0, 2,,add
+77,157, 0,0, 2,,add
+77,158, 0,0, 2,,add
+77,159, 0,0, 2,,add
+77,160, 0,0, 2,,add
+77,161, 0,0, 2,,add
+77,162, 0,0, 2,,add
+77,163, 0,0, 2,,add
+77,164, 0,0, 2,,add
+77,165, 0,0, 2,,add
+77,166, 0,0, 2,,add
+77,167, 0,0, 2,,add
+77,168, 0,0, 2,,add
+77,169, 0,0, 2,,add
+77,170, 0,0, 2,,add
+77,171, 0,0, 2,,add
+77,172, 0,0, 2,,add
+77,173, 0,0, 2,,add
+77,174, 0,0, 2,,add
+77,175, 0,0, 2,,add
+77,176, 0,0, 2,,add
+77,177, 0,0, 2,,add
+77,178, 0,0, 2,,add
+77,179, 0,0, 2,,add
+77,180, 0,0, 2,,add
+77,181, 0,0, 2,,add
+77,182, 0,0, 2,,add
+77,183, 0,0, 2,,add
+77,184, 0,0, 2,,add
+77,185, 0,0, 2,,add
+77,186, 0,0, 2,,add
+77,187, 0,0, 2,,add
+77,188, 0,0, 2,,add
+77,189, 0,0, 2,,add
+77,190, 0,0, 2,,add
+77,191, 0,0, 2,,add
+77,192, 0,0, 2,,add
+77,193, 0,0, 2,,add
+77,194, 0,0, 2,,add
+77,195, 0,0, 2,,add
+77,196, 0,0, 2,,add
+77,197, 0,0, 2,,add
+77,198, 0,0, 2,,add
+77,199, 0,0, 2,,add
+77,200, 0,0, 2,,add
+77,201, 0,0, 2,,add
+
+[Begin action 10]
+99,5,0,0,1,,AS170D256
+99,5,0,0,1,,AS180D256
+99,5,0,0,1,,AS190D256
+99,5,0,0,1,,AS200D256
+99,5,0,0,1,,AS210D256
+99,5,0,0,1,,AS220D256
+99,5,0,0,1,,AS230D256
+99,5,0,0,1,,AS256D256
+99,5,0,0,1,,AS256D256
+99,5,0,0,1,,AS256D256
+99,5,0,0,1,,AS230D256
+99,5,0,0,1,,AS230D256
+99,5,0,0,1,,AS210D256
+99,5,0,0,1,,AS210D256
+99,5,0,0,1,,AS200D256
+99,5,0,0,1,,AS190D256
+99,5,0,0,1,,AS180D256
+99,5,0,0,1,,AS170D256
+99,5,0,0,1,,AS160D256
+99,5,0,0,1,,AS150D256
+loopstart	
+99,5,0,0,1,,AS130D256	
+99,5,0,0,1,,AS180D256
