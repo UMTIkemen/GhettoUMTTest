@@ -1,0 +1,42 @@
+;download:https://pan.baidu.com/s/1nvQIe05
+;============================================================
+[Info]
+name = "SpiritlandLords"
+displayname = "Spiritland Lord"
+versiondate = 01 04 2018
+mugenversion = 06,14,2003
+author = "��������"
+pal.defaults = 1,2,3,4,5,6,7,8,9,10,11,12
+;localcoord = 400,225
+;============================================================
+[Files]
+sprite =SpiritlandLord.sff
+anim = SpiritlandLord.air
+sound = SpiritlandLord.snd
+cmd = SpiritlandLord.cmd
+cns = SpiritlandLord.cns
+stcommon = SpiritlandLordC.cns
+st = SpiritlandLord.cns
+st1=SpiritlandLordK.cns
+st2 =SpiritlandLordA.cns
+st3 =SpiritlandLordH.cns
+st4 =SpiritlandLordS.cns
+st5 =SpiritlandLordSS.cns
+st6 =SpiritlandLordSSS.cns
+st7 =SpiritlandLordA1.cns
+pal1 = SpiritlandLord01.act
+pal2 = SpiritlandLord02.act
+pal3 = SpiritlandLord03.act
+pal4 = SpiritlandLord04.act
+pal5 = SpiritlandLord05.act
+pal6 = SpiritlandLord06.act
+pal7 = SpiritlandLord01.act
+pal8 = SpiritlandLord02.act
+pal9 = SpiritlandLord03.act
+pal10 = SpiritlandLord04.act
+pal11 = SpiritlandLord05.act
+pal12 = SpiritlandLord07.act
+;============================================================
+[Arcade]
+;intro.storyboard = 
+;ending.storyboard = 

@@ -1,0 +1,87 @@
+;======================================================================
+;======================================================================
+; Configure states file
+;======================================================================
+;======================================================================
+
+;----------------------------------------------------------------------
+; System Direction
+;----------------------------------------------------------------------
+
+[Statedef 50000]
+type = A
+movetype = I
+physics = N
+anim = 99990
+ctrl = 0
+
+[State 50000, VarSet]
+type = VarSet
+trigger1 = 1
+var(0) = 1			;防御力補正(根性値)の有無 | Use defencemulset
+				;0 - なし | Disable
+				;1 - あり | Enable
+
+[State 50000, VarSet]
+type = VarSet
+trigger1 = 1
+var(1) = 0		;攻撃力補正(逆根性値)の有無 | Use attackmulset with Enemy,Life
+				;0 - なし | Disable
+				;1 - あり | Enable
+
+[State 50000, VarSet]
+type = VarSet
+trigger1 = 1
+var(2) = 0			;RFゲージ無制限化(デバッグ専用) | Infinity Reinforce Gauge(DEBUG ONLY!)
+				;0 - なし | Disable
+				;1 - あり | Enable
+
+[State 50000, VarSet]
+type = VarSet
+trigger1 = 1
+var(50) = 0			;ゲージのX座標修正 | Pos X of Reinforce Gauge
+				;+n - 前へ | Forward
+				;-n - 後へ | Back
+
+[State 50000, VarSet]
+type = VarSet
+trigger1 = 1
+var(51) = 0			;ゲージのY座標修正 | Pos Y of Reinforce Gauge
+				;+n - 下へ | Down
+				;-n - 上へ | up
+
+[State 50000, VarSet]
+type = VarSet
+trigger1 = 1
+var(52) = 0			;初期モード | Default Mode
+				;0 - ノーマル 　| NORMAL
+				;1 - EX         | EX
+
+[State 50000, ParentVarSet]
+type = ParentVarSet
+trigger1 = Time = 1
+var(40) = (var(2)*100)+(var(1)*10)+(var(0))
+ignorehitpause = 1
+
+[State 50000, ParentVarSet]
+type = ParentVarSet
+trigger1 = Time = 1
+var(23) = var(50)
+ignorehitpause = 1
+
+[State 50000, ParentVarSet]
+type = ParentVarSet
+trigger1 = Time = 1
+var(24) = var(51)
+ignorehitpause = 1
+
+[State 50000, ParentVarSet]
+type = ParentVarSet
+trigger1 = Time = 1
+trigger1 = Root,RoundsExisted = 0
+var(28) = var(52)
+ignorehitpause = 1
+
+[State 50000, DestroySelf]
+type = DestroySelf
+trigger1 = Time = 2

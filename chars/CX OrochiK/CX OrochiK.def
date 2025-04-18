@@ -1,0 +1,37 @@
+;***************************************************************************;
+;******************* Created in Fighter Factory Ultimate *******************;
+;*******************      http://www.virtualltek.com     *******************;
+;***************************************************************************;
+
+[Info]
+name = "CX OrochiK"
+displayname = "CX Orochi K"
+versiondate = 06,2,2008
+mugenversion = 06,14,2003
+author = "����"
+pal.defaults = 4,5,6,1,2,3
+
+[Files]
+sprite = air\sprite.sff
+anim = air\animation.air
+sound = snd\sound.snd
+cmd = command.cmd
+cns = cns\constant.cns
+stcommon = cns\commonfile.cns
+st = cns\constant.cns
+st1 = cns\Config.txt
+st2 = cns\CX-OrochiK-A.cns
+st3 = cns\CX-OrochiK-B.cns
+st4 = cns\CX-OrochiK-2.cns
+st5 = cns\CX-OrochiK-3.cns
+st6 = cns\kill.cns
+pal1 = act\1.act
+pal2 = act\1.act
+pal3 = act\1.act
+pal4 = act\1.act
+pal5 = act\1.act
+pal6 = act\6.act
+
+[Arcade]
+intro.storyboard = 
+ending.storyboard = 

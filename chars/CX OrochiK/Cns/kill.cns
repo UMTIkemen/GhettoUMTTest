@@ -1,0 +1,419 @@
+;【吸收起手】
+[Statedef 6666]
+type     = S
+movetype = A
+physics  = N
+sprpriority = 3
+anim = 6666
+velset = 0,0
+CTRL = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem =1
+anim =7128
+ID = 7128
+pos = 5,-70
+postype = p1
+bindtime = 1
+removetime = -2
+scale = .4,.4
+sprpriority = 5
+ownpal = 1
+supermove = 99999999999999999
+pausemove = 99999999999999999
+
+[State 2000,]
+type = PlaySnd
+trigger1 = animelem =1
+value = s555,5
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 6667
+ignorehitpause = 1
+
+
+;【吸收瞬移】
+[Statedef 6667]
+type     = S
+movetype = A
+physics  = N
+sprpriority = 3
+anim = 6667
+velset = 0,0
+CTRL = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = animelem =1
+anim =7128
+ID = 7128
+pos = 5,-70
+postype = p1
+bindtime = 1
+removetime = -2
+scale = .4,.4
+sprpriority = 5
+ownpal = 1
+supermove = 99999999999999999
+pausemove = 99999999999999999
+
+[State 0, Explod]
+type = Explod
+trigger1 = movehit
+anim =8005
+ID = 8005
+pos = 5,-70
+postype = p2
+bindtime = 1
+removetime = -2
+scale = 1,1
+sprpriority = 5
+ownpal = 1
+supermove = 99999999999999999
+pausemove = 99999999999999999
+
+[State 2000,]
+type = PlaySnd
+trigger1 = animelem =1
+value = s555,5
+
+[State 0,坐标锁定至P2]
+type = Posadd
+trigger1 = time = 0
+x = Ceil(P2BodyDist x)+10
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+ignorehitpause = 1
+
+[State 0,HitDef]
+type = HitDef
+Trigger1 = Time = 0
+attr = S,NT
+hitflag = MADFP
+sparkno = s8005
+sparkxy = -50,-70
+numhits = 0
+sprpriority = 1
+hitsound = s1,20
+p1stateno = 6668
+p2stateno = 6700
+fall = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 0
+ctrl = 1
+ignorehitpause = 1
+
+;【吸收撃中】
+[Statedef 6668]
+type     = S
+movetype = A
+physics  = N
+sprpriority = 3
+anim = 6668
+velset = 0,0
+CTRL = 0
+
+[State 0, PosSet]
+type = Posadd
+trigger1 = frontedgedist <= 70
+x = -80
+
+[State 0, TargetBind]
+type = TargetBind
+trigger1 = Animelem = 1
+trigger2 = Animelem = 2
+trigger3 = Animelem = 3
+pos = 45,0
+ignorehitpause = 1
+
+[State 0, TargetBind]
+type = TargetBind
+trigger1 = time = 7
+pos = 65,-10
+ignorehitpause = 1
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = time = 200
+value = 6702
+ignorehitpause = 1
+
+[State 0, Explod];光圈啊
+type = Explod
+trigger1 = time = 7
+anim = 4703
+ID = 4703
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+bindtime = 1
+removeongethit = 0
+sprpriority = -15
+ownpal = 1
+ignorehitpause = 1
+supermovetime = 9999
+pausemovetime = 9999
+scale = .8,.5
+
+[State 0, Explod];光效
+type = Explod
+trigger1 = time = 90
+anim = 4704
+ID = 4704
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+bindtime = 1
+removeongethit = 0
+removetime = -1
+sprpriority = 15
+ownpal = 1
+ignorehitpause = 1
+supermovetime = 9999
+pausemovetime = 9999
+scale = .8,.5
+
+[State 0, BGPalFX]
+type = BGPalFX
+trigger1 = Animelem = 3
+trigger2 = time =215
+time = 10
+add = 0,0,0
+mul = 100,100,100
+;sinadd = 0,0,0,10
+invertall = 0
+color = 0
+
+[State 0, AllPalFX]
+type = AllPalFX
+trigger1 = Animelem = 3
+trigger2 = time =215
+time = 10
+add = 0,0,0
+mul = 256,256,256
+;sinadd = 0,0,0,10
+invertall = 1
+;color = 256
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 0
+value = S133,12
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 85
+trigger2 = time = 105
+value = S111,2
+
+[State 0,屏幕抖动]
+type = EnvShake
+trigger1 = time = 80
+ignorehitpause = 1
+persistent = 0
+time = 145
+ampl = -10
+freq = 100
+phase = 90
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time = 90
+value = S133,13
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = Animelem = 3
+trigger2 = time =215
+value = S570,3
+
+[State 0, PlaySnd]
+type = RemoveExplod
+trigger1 = animtime = 0
+id = 4704
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 0
+ctrl = 1
+ignorehitpause = 1
+
+;P2代入状态---------------------------------------------------------------------
+[Statedef 6700]
+type    = L
+movetype= H
+physics = N
+velset = 0,0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 0, DestroySelf]
+type = DestroySelf
+trigger1 = 1
+ignorehitpause = 1
+
+[State 0, HELL]
+type = ChangeAnim2
+Trigger1 = Time = 0
+value = 6700
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Animtime = 0
+value = 6701
+ignorehitpause = 1
+
+;P2代入状态
+[Statedef 6701]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = -10
+
+[State 0,ChangeAnim2]
+type = ChangeAnim2
+Trigger1 = Time = 0
+value = 6701
+
+;P2（被吸收）
+[Statedef 6702]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = -10
+
+[State 0,ChangeAnim2]
+type = ChangeAnim2
+Trigger1 = Time = 0
+value = 6702
+
+[State 0, LifeAdd]
+type = LifeAdd
+trigger1 = 1
+value = -1234567
+kill = 1
+ignorehitpause = 1
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = !Alive
+trigger1 = Animtime = 19
+value = 5150
+ignorehitpause =  1
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = time >=5
+flag = nokoslow
+flag = noshadow
+
+;被吸收标记
+[Statedef 6800]
+type     = A
+movetype = H
+physics  = N
+sprpriority = -99
+anim = 999
+
+[State 0, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+;胜利姿势-----------------------------------------------------------------------
+[Statedef 6669]
+type = S
+ctrl = 0
+anim = 6669
+velset = 0,0
+
+[State 181,AssertSpecial]
+type=AssertSpecial
+trigger1= Time=[0,600]
+flag=RoundNotOver
+
+[State 181,EnvColor]
+type=BGPalFX
+trigger1= 1
+mul=1-((time-240)),1-((time-240)),1-((time-240))
+time= 2
+invertall=0
+ignorehitpause=1
+
+[State 181,EnvColor2]
+type=PalFX
+trigger1=1
+mul=1-((time-240)*2),1-((time-240)*2),1-((time-240)*2)
+time= 2
+invertall=0
+ignorehitpause=1
+
+[State 181,BGPalFx]
+type=BGPalFX
+trigger1=anim=6669&&!(time%12)
+time=-1
+add=210,0,0
+mul=210,0,0
+sinadd=255,200,255,-12
+invertall=0
+color=256
+ignorehitpause=1
+
+[State 184,Temblor]
+type=Envshake
+trigger1=Time=0||Time=18||Time=32||Time=46||Time=59||Time=72
+trigger2=Time=87||Time=99||Time=120||Time=135||Time=150||Time=165
+trigger3=Time=180||Time=195||Time=210||Time=225
+freq=70
+ampl=5
+Time=400
+
+[State 184,TemblorSnd]
+type=playsnd
+trigger1=Time=0||Time=30||Time=55||Time=75||Time=90||Time=120
+trigger2=Time=135||Time=150||Time=165||Time=180||Time=195||Time=210||Time=225
+trigger3=Time=250||Time=275||Time=290||Time=320||Time=345||Time=370||Time=395
+trigger4=Time=425||Time=455||Time=480||Time=500
+value=0,53
+channel=1
+
+[State 181, 2]
+type = PlaySnd
+trigger1 = animelem = 4
+value = S570, 5
+
+[State 183, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = animtime = 0
+value = 0
+ctrl = 1
+ignorehitpause = 1
+
+
+;-------------------------------------------------------------------------------

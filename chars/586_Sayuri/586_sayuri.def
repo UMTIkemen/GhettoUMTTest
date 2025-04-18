@@ -1,0 +1,35 @@
+[Info]
+name		= "Sayuri Kurata"
+displayname	= "Sayuri Kurata"
+versiondate	= 11,12,2008
+mugenversion	= 11,22,2000
+author		= "586"
+pal.defaults	= 1,2,3,4,5,6
+
+[Files]
+cmd		= 586_sayuri.cmd
+cns		= 586_sayuri.cns
+st		= 586_sayuri_basics.st
+st2		= 586_sayuri_always.st
+st3		= 586_sayuri_effect.st
+st4		= 586_sayuri_damage.st
+st5		= 586_sayuri_spmove.st
+st6		= 586_sayuri_helper.st
+st7		= 586_sayuri_extacy.st
+st8		= config.txt
+stcommon	= 586_sayuri_common.st 
+anim		= 586_sayuri.air
+sprite		= 586_sayuri.sff
+sound		= 586_sayurivoiced.snd
+pal1		= 586_sayuri_01.act
+pal2		= 586_sayuri_02.act
+pal3		= 586_sayuri_03.act
+pal4		= 586_sayuri_04.act
+pal5		= 586_sayuri_05.act
+pal6		= 586_sayuri_06.act
+pal7		= 586_sayuri_07.act
+pal8		= 586_sayuri_08.act
+pal9		= 586_sayuri_09.act
+pal10		= 586_sayuri_10.act
+pal11		= 586_sayuri_11.act
+pal12		= 586_sayuri_12.act
