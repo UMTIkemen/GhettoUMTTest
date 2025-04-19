@@ -9,7 +9,7 @@ versiondate  = 08,27,2015  ;Version date of character (MM-DD-YYYY)
 mugenversion = 04,14,2002  ;Version of M.U.G.E.N character works on
 author = "tabibito"        ;Character author name
 pal.defaults = 1,2,3,4,5,6 ;Default palettes in order of preference
-localcoord = localcoord = 320,240
+localcoord = 320,240
 ; Files for the player
 [Files]
 cmd     = oresama.cmd      ;Command set
