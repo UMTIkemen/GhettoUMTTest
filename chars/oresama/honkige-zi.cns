@@ -138,8 +138,25 @@ scale = 0.5,0.5
 専用ゲージ赤
 [State 1000, 2]
 type = Explod
+trigger1 = parent,var(6) = 0
 trigger1 = time = 0
 anim = 6803
+id = 2501
+pos = 10,220
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.0005*parent,var(10),0.5
+
+専用ゲージ黄
+[State 1000, 2]
+type = Explod
+trigger1 = parent,var(6) = 1
+trigger1 = time = 0
+anim = 6806
 id = 2501
 pos = 10,220
 bindtime = -1
@@ -220,6 +237,7 @@ var(5) = 0
 
 [State -2]
 type = ParentVarAdd
+trigger1 = parent,var(5) = 0
 trigger1 = parent,var(10) < 1000
 trigger1 = parent,Life < P2Life
 trigger1 = time = 0
@@ -313,8 +331,25 @@ supermovetime = -1
 専用ゲージ赤
 [State 1000, 2]
 type = Explod
+trigger1 = parent,var(6) = 0
 trigger1 = time = 0
 anim = 6803
+id = 2501
+pos = 310,220
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+scale = -0.0005*parent,var(10),0.5
+pausemovetime = -1
+supermovetime = -1
+
+専用ゲージ黄
+[State 1000, 2]
+type = Explod
+trigger1 = parent,var(6) = 1
+trigger1 = time = 0
+anim = 6806
 id = 2501
 pos = 310,220
 bindtime = -1

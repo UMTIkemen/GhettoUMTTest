@@ -42,6 +42,20 @@ sprpriority = 0
 ;trigger2 = Anim = 5 && AnimTime = 0 ;Turn anim over
 ;value = 0
 
+[State 8900, shadow]
+type = AfterImage
+trigger1 = var(27) = 1
+time = -1
+trans = add
+length   = 5
+timegap  = 2;3
+framegap = 1;1
+PalBright   = 2,1,2
+PalContrast = 220,220,0
+PalAdd = 0,0,0
+PalMul = .8,.8,.8
+ignorehitpause = 1
+
 [State 0, 1]
 type = ChangeAnim
 trigger1 = Anim != 0 && Anim != 5
@@ -448,7 +462,7 @@ value = 1
 
 [State 52, 0]
 type = VarSet
-trigger1 = AnimTime = 0
+trigger1 = Time = 0
 V = 51
 value = 0
 
@@ -471,7 +485,7 @@ ctrl = 1
 ;---------------------------------------------------------------------------
 ; RUN_FWD
 [Statedef 100]
-type    = A
+type    = S
 physics = N
 ctrl = 0
 anim = 100
@@ -582,7 +596,7 @@ ctrl = 1
 ;---------------------------------------------------------------------------
 ; RUN_BACK
 [Statedef 105]
-type    = A
+type    = S
 physics = N
 ctrl = 0
 anim = 105
@@ -1260,6 +1274,7 @@ type = S
 ctrl = 0
 anim = 170
 velset = 0,0
+
 
 [State 170, 1]
 type = NotHitBy
@@ -2216,8 +2231,19 @@ physics = N
 
 [State 5120, 2];
 type = PlaySnd
+triggerall = var(21) = 1
 trigger1 = time = 0
 value = S12, 0+random%2
+lowpriority = 4
+channel = 0
+ignorehitpause=1
+
+
+[State 5120, 2];
+type = PlaySnd
+triggerall = var(21) = 2
+trigger1 = time = 0
+value = S12, 2+random%2
 lowpriority = 4
 channel = 0
 ignorehitpause=1
@@ -2278,6 +2304,46 @@ movetype= H
 physics = N
 sprpriority = -3
 
+;[State 10000, lose]
+;type = Changestate
+;triggerall = Time = 50
+;trigger1 = var(21) = 2
+;trigger1 = var(31) = 0
+;value = 5151
+
+[State 10000, lose]
+type = ChangeAnim
+triggerall = Time = 50
+trigger1 = var(21) = 2
+trigger1 = var(31) = 0
+value = 171
+
+
+[State 190, 1]
+Type = VarSet
+triggerall = Time = 51
+trigger1 = var(21) = 2
+trigger1 = var(31) = 0
+var(31) = 1
+
+[State 210 , SE]
+type = PlaySnd
+triggerall = Time = 50
+trigger1 = var(21) = 2
+trigger1 = var(31) = 0
+value = 15, 0+random%3
+channel = 0
+ignorehitpause = 1
+
+[State 181, 1]
+type = AssertSpecial
+trigger1 = Time >= 50
+trigger1 = time <250
+trigger1 = var(21) = 2
+trigger1 = var(31) = 0
+flag = roundnotover
+
+
 [State 5150, 1] ;Normal anim
 type = ChangeAnim
 triggerall = Time = 0
@@ -2327,6 +2393,38 @@ value = SCA
 time = 1
 
 ;---------------------------------------------------------------------------
+; —§‚¿ã‚ª‚é
+[Statedef 5151]
+type = S
+ctrl = 0
+anim = 171
+velset = 0,0
+
+[State 190, 1]
+Type = VarSet
+Trigger1 = Time = 0
+var(31) = 1
+
+[State 210 , SE]
+type = PlaySnd
+triggerall = var(21) = 2
+trigger1 = Time = 0
+value = 15, 0+random%3
+channel = 0
+ignorehitpause = 1
+
+[State 181, 1]
+type = AssertSpecial
+trigger1 = time <250
+flag = roundnotover
+
+[State 181, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+;---------------------------------------------------------------------------
 ; HIT_FALLRECOVER (still falling)
 [Statedef 5200]
 type    = A
@@ -2362,7 +2460,7 @@ anim = 5200
 type = PlaySnd
 trigger1 = time = 0
 value = S13, 0+random%2
-channel = 0
+channel = 1
 ignorehitpause=1
 
 [State 5210, 2]
@@ -2427,7 +2525,7 @@ ctrl = 0
 type = PlaySnd
 trigger1 = time = 0
 value = S13, 0+random%2
-channel = 0
+channel = 1
 ignorehitpause=1
 
 [State 5210, 2]
@@ -2546,7 +2644,7 @@ ctrl = 1
 [Statedef 5500]
 type = S
 ctrl = 0
-anim = 180
+anim = 5300
 velset = 0,0
 
 [State 5500, 1] ;Use continue animation if available

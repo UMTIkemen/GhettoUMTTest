@@ -158,6 +158,16 @@ command = ~D, DB, B, D, DB, B,  c
 time = 30
 
 [Command]
+name = "honnki2"
+command = ~D, DF, F, D, DF, F,  c
+time = 30
+
+[Command]
+name = "gateofbabi"
+command = ~F, DF, D, DB, B,  c
+time = 30
+
+[Command]
 name = "meihunomon yoko"
 command = ~D, DF, F, a
 time = 20
@@ -213,6 +223,21 @@ command = ~D, DB, B, c
 time = 20
 
 [Command]
+name = "sakuryaku"
+command = ~B,D, DB, c
+time = 20
+
+[Command]
+name = "pwadd"
+command = ~D, DB, B, z
+time = 20
+
+[Command]
+name = "lifeadd"
+command = ~D, DF, F, z
+time = 20
+
+[Command]
 name = "ounozaihou2"
 command = ~D, D, z
 time = 20
@@ -236,6 +261,11 @@ time = 15
 name = "ga-kyan"
 command = F, b+c
 time = 8
+
+[Command]
+name = "babi2"
+command = ~D, D, z
+time = 15
 
 ;-| Special Motions |------------------------------------------------------
 [Command]
@@ -289,6 +319,11 @@ command = F, F, b
 [Command]
 name = "back_b"
 command = /$B,b
+time = 1
+
+[Command]
+name = "front_c"
+command = /$F,c
 time = 1
 
 ;-| Double Tap |-----------------------------------------------------------
@@ -366,9 +401,29 @@ command = /b
 time = 1
 
 [Command]
+name = "holdz"
+command = /z
+time = 1
+
+[Command]
 name = "down_start"
 command = /$Ds
 time = 1
+
+
+
+[Command]
+name = "migi"
+command = F
+time = 1
+
+
+[Command]
+name = "hidari"
+command = B
+time = 1
+
+
 
 
 ;-| Single Button |---------------------------------------------------------
@@ -528,13 +583,18 @@ var(1) = 1
 
 
 ;---------------------------------------------------------------------------
-;エア
+;honki
 [State -1, Light Kung Fu Palm]
 type = ChangeState
-value = 3300
+value = 3700
 triggerall = statetype != A
-triggerall = command = "enumaerisyu"
+triggerall = command = "honnki2"
 triggerall = power >= 3000
+triggerall = var(5) = 1
+triggerall = var(6) = 0
+triggerall = var(21) = 1
+triggerall = var(58) = 1
+triggerall = enemy,Life <= enemy,LifeMax / 2
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -543,11 +603,123 @@ trigger4 = var(6) = 1
 trigger4 = (stateno = [1000,1105])
 trigger4 = time >21
 trigger5 = var(6) = 1
-trigger5 = stateno = 1600
+trigger5 = stateno = 1601
 trigger5 = time >20
 trigger6 = var(6) = 1
-trigger6 = (stateno = [1500,1860])
+trigger6 = (stateno = [1500,1862])
 trigger6 = movecontact
+
+;---------------------------------------------------------------------------
+;honkiCCC
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 3700
+triggerall = statetype != A
+triggerall = command = "honnki2"
+triggerall = power >= 3000
+triggerall = var(21) = 2
+triggerall = var(58) = 1
+triggerall = enemy,Life <= enemy,LifeMax / 2
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+trigger3 = stateno = 2000
+trigger3 = time >= 21
+trigger4 = stateno = 2010
+trigger4 = time >= 27
+trigger5 = (stateno = [2071,2090])
+trigger5 = movecontact
+trigger6 = var(21) = 2
+trigger6 = (stateno = [1500,1510])
+trigger6 = movecontact
+
+;---------------------------------------------------------------------------
+;王の財宝Ⅱ
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 1102
+triggerall = var(6) = 1
+triggerall = statetype != A
+triggerall = command = "ounozaihou2"
+trigger1 = ctrl
+trigger2 = (stateno = [200,499])
+trigger2 = movecontact
+trigger3 = stateno = [900,901]
+trigger3 = time >2
+trigger4 = (stateno = [100,101])
+trigger5 = (stateno = [1000,1100])
+trigger5 = time >21
+trigger6 = var(6) = 1
+trigger6 = (stateno = [1500,1862])
+trigger6 = movecontact
+trigger7 = var(6) = 1
+trigger7 = stateno = 1601
+trigger7 = time >30
+trigger8 = var(6) = 1
+trigger8 = (stateno = [1900,1970])
+trigger8 = time >18
+
+;---------------------------------------------------------------------------
+;エア
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 3300
+triggerall = statetype != A
+triggerall = command = "enumaerisyu"
+triggerall = power >= 3000
+;triggerall = var(21) = 1
+trigger1 = ctrl
+trigger2 = (stateno = [200,499])
+trigger2 = movecontact
+trigger3 = (stateno = [100,101])
+trigger4 = var(6) = 1
+trigger4 = (stateno = [1000,1105])
+trigger4 = time >21
+trigger5 = var(6) = 1
+trigger5 = stateno = 1601
+trigger5 = time >30
+trigger6 = var(6) = 1
+trigger6 = (stateno = [1500,1862])
+trigger6 = movecontact
+trigger7 = (stateno = [330,450])
+trigger7 = movecontact
+trigger8 = stateno = 2000
+trigger8 = time >= 21
+trigger9 = stateno = 2010
+trigger9 = time >= 27
+trigger10 = (stateno = [2071,2090])
+trigger10 = movecontact
+trigger11 = var(21) = 2
+trigger11 = (stateno = [1500,1510])
+trigger11 = movecontact
+trigger12 = var(6) = 1
+trigger12 = (stateno = [1900,1970])
+trigger12 = time >18
+
+
+;---------------------------------------------------------------------------
+;CCC王の財宝
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2100
+triggerall = statetype != A
+triggerall = command = "gateofbabi"
+triggerall = power >= 2000
+triggerall = var(21) = 2
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+trigger3 = stateno = 2000
+trigger3 = time >= 21
+trigger4 = stateno = 2010
+trigger4 = time >= 27
+trigger5 = stateno = 2071
+trigger5 = movecontact
+trigger6 = (stateno = [2071,2090])
+trigger6 = movecontact
+trigger7 = var(21) = 2
+trigger7 = (stateno = [1500,1510])
+trigger7 = movecontact
 
 ;---------------------------------------------------------------------------
 天の鎖・エルキドゥ
@@ -557,6 +729,7 @@ value = 3200
 triggerall = statetype != A
 triggerall = command = "tennokusari"
 triggerall = power >= 2000
+;triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -565,11 +738,25 @@ trigger4 = var(6) = 1
 trigger4 = (stateno = [1000,1105])
 trigger4 = time >21
 trigger5 = var(6) = 1
-trigger5 = stateno = 1600
-trigger5 = time >20
+trigger5 = stateno = 1601
+trigger5 = time >30
 trigger6 = var(6) = 1
-trigger6 = (stateno = [1500,1860])
+trigger6 = (stateno = [1500,1862])
 trigger6 = movecontact
+trigger7 = (stateno = [330,450])
+trigger7 = movecontact
+trigger8 = stateno = 2000
+trigger8 = time >= 21
+trigger9 = stateno = 2010
+trigger9 = time >= 27
+trigger10 = (stateno = [2071,2090])
+trigger10 = movecontact
+trigger11 = var(21) = 2
+trigger11 = (stateno = [1500,1510])
+trigger11 = movecontact
+trigger12 = var(6) = 1
+trigger12 = (stateno = [1900,1970])
+trigger12 = time >18
 
 ;---------------------------------------------------------------------------
 天の鎖・エルキドゥ（ゲージ足りない用
@@ -580,6 +767,7 @@ triggerall = statetype != A
 triggerall = command = "tennokusari"
 triggerall = power <= 1999
 triggerall = NumHelper(1410) < 2
+;triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = stateno = 200
 trigger2 = movecontact
@@ -588,6 +776,8 @@ trigger3 = movecontact
 trigger4 = stateno = [900,901]
 trigger4 = time >2
 trigger5 = (stateno = [100,101])
+trigger6 = (stateno = [330,450])
+trigger6 = movecontact
 
 ;---------------------------------------------------------------------------
 天の鎖・導
@@ -597,12 +787,15 @@ value = 1400
 triggerall = statetype != A
 triggerall = command = "tennokusari baku"
 triggerall = NumHelper(1410) < 2
+;triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
 trigger3 = stateno = 900
 trigger3 = time >2
 trigger4 = (stateno = [100,101])
+trigger5 = (stateno = [330,450])
+trigger5 = movecontact
 
 ;---------------------------------------------------------------------------
 ;天の鎖・乱
@@ -611,12 +804,17 @@ type = ChangeState
 value = 1500
 triggerall = statetype != A
 triggerall = command = "tennokusari in"
+;triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
 trigger3 = stateno = [900,901]
 trigger3 = time >2
 trigger4 = (stateno = [100,101])
+trigger5 = (stateno = [330,450])
+trigger5 = movecontact
+trigger6 = stateno = 2071
+trigger6 = movecontact
 
 ;---------------------------------------------------------------------------
 ;王の財宝
@@ -626,6 +824,7 @@ value = 3000
 triggerall = statetype != A
 triggerall = command = "ounozaihou"
 triggerall = power >= 1000
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -634,11 +833,14 @@ trigger4 = var(6) = 1
 trigger4 = (stateno = [1000,1105])
 trigger4 = time >21
 trigger5 = var(6) = 1
-trigger5 = stateno = 1600
-trigger5 = time >20
+trigger5 = stateno = 1601
+trigger5 = time >30
 trigger6 = var(6) = 1
-trigger6 = (stateno = [1500,1860])
+trigger6 = (stateno = [1500,1862])
 trigger6 = movecontact
+trigger7 = var(6) = 1
+trigger7 = (stateno = [1900,1970])
+trigger7 = time >18
 
 ;---------------------------------------------------------------------------
 ;王の財宝（ゲージ足りない用
@@ -648,6 +850,7 @@ value = 1100
 triggerall = statetype != A
 triggerall = command = "ounozaihou"
 triggerall = power <= 999
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -663,11 +866,12 @@ value = 3100
 triggerall = statetype = A
 triggerall = command = "ounozaihou"
 triggerall = power >= 1000
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [600,699])
 trigger2 = movecontact
 trigger3 = var(6) = 1
-trigger3 = (stateno = [1200,1300])
+trigger3 = (stateno = [1200,1971]);1300
 trigger3 = time >15
 
 ;---------------------------------------------------------------------------
@@ -678,6 +882,7 @@ value = 1300
 triggerall = statetype = A
 triggerall = command = "ounozaihou"
 triggerall = power <= 999
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [600,699])
 trigger2 = movecontact
@@ -689,6 +894,7 @@ type = ChangeState
 value = 1000
 triggerall = statetype != A
 triggerall = command = "meihunomon yoko"
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -703,6 +909,7 @@ type = ChangeState
 value = 1100
 triggerall = statetype != A
 triggerall = command = "meihunomon tate"
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -711,11 +918,39 @@ trigger3 = time >2
 trigger4 = (stateno = [100,101])
 
 ;---------------------------------------------------------------------------
+;本気・王の策略(空中)
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 1971
+triggerall = command = "sakuryaku"
+triggerall = var(21) = 1
+triggerall = var(6) = 1
+trigger1 = statetype = A
+trigger1 = ctrl
+trigger2 = (stateno = [600,699])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;王の策略(空中)
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 1951
+triggerall = command = "sakuryaku"
+triggerall = var(21) = 1
+triggerall = NumHelper(1901) > 0
+triggerall = var(6) = 0
+trigger1 = statetype = A
+trigger1 = ctrl
+trigger2 = (stateno = [600,699])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
 ;冥府の門(空中)・横
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 1200
 triggerall = command = "meihunomon yoko"
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = ctrl
 trigger2 = (stateno = [600,699])
@@ -727,6 +962,7 @@ trigger2 = movecontact
 type = ChangeState
 value = 1300
 triggerall = command = "meihunomon tate"
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = ctrl
 trigger2 = (stateno = [600,699])
@@ -740,6 +976,7 @@ value = 1600
 triggerall = statetype != A
 triggerall = command = "koorinonaihu"
 triggerall = NumHelper(1610) < 1
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -754,6 +991,7 @@ type = ChangeState
 value = 1700
 triggerall = statetype != A
 triggerall = command = "karadoborugu"
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -762,12 +1000,29 @@ trigger3 = time >2
 trigger4 = (stateno = [100,101])
 
 ;---------------------------------------------------------------------------
+;王の策略
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 1900
+triggerall = statetype != A
+triggerall = command = "sakuryaku"
+triggerall = var(21) = 1
+trigger1 = ctrl
+trigger2 = (stateno = [200,499])
+trigger2 = movecontact
+trigger3 = stateno = [900,901]
+trigger3 = time >2
+trigger4 = (stateno = [100,101])
+
+
+;---------------------------------------------------------------------------
 ;鎌
 [State -1, Light Kung Fu Palm]
 type = ChangeState
 value = 1800
 triggerall = statetype != A
 triggerall = command = "kama"
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -783,6 +1038,7 @@ value = 3400
 triggerall = statetype != A
 triggerall = command = "onoc"
 triggerall = power >= 1000
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -791,11 +1047,14 @@ trigger4 = var(6) = 1
 trigger4 = (stateno = [1000,1105])
 trigger4 = time >21
 trigger5 = var(6) = 1
-trigger5 = stateno = 1600
-trigger5 = time >20
+trigger5 = stateno = 1601
+trigger5 = time >30
 trigger6 = var(6) = 1
-trigger6 = (stateno = [1500,1860])
+trigger6 = (stateno = [1500,1862])
 trigger6 = movecontact
+trigger7 = var(6) = 1
+trigger7 = (stateno = [1900,1970])
+trigger7 = time >18
 
 ;---------------------------------------------------------------------------
 ;嵐を払う（ゲージ足りない用
@@ -805,6 +1064,7 @@ value = 1860
 triggerall = statetype != A
 triggerall = command = "onoc"
 triggerall = power <= 999
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -819,6 +1079,7 @@ type = ChangeState
 value = 1850
 triggerall = statetype != A
 triggerall = command = "onoa"
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -833,6 +1094,7 @@ type = ChangeState
 value = 1860
 triggerall = statetype != A
 triggerall = command = "onob"
+triggerall = var(21) = 1
 trigger1 = ctrl
 trigger2 = (stateno = [200,499])
 trigger2 = movecontact
@@ -840,26 +1102,214 @@ trigger3 = stateno = [900,901]
 trigger3 = time >2
 trigger4 = (stateno = [100,101])
 
+;---------------------------------------------------------------------------
+;風を放つ
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2020
+triggerall = command = "ounozaihou"
+triggerall = var(21) = 2
+triggerall = power >= 1000
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+trigger3 = stateno = 2000
+trigger3 = time >= 21
+trigger4 = stateno = 2010
+trigger4 = time >= 27
+trigger5 = stateno = 2071
+trigger5 = movecontact
+trigger6 = (stateno = [2071,2090])
+trigger6 = movecontact
+trigger7 = var(21) = 2
+trigger7 = (stateno = [1500,1510])
+trigger7 = movecontact
 
 ;---------------------------------------------------------------------------
-;王の財宝Ⅱ
-;[State -1, Light Kung Fu Palm]
-;type = ChangeState
-;value = 11000
-;triggerall = var(6) = 1
-;triggerall = statetype != A
-;triggerall = command = "ounozaihou2"
-;trigger1 = ctrl
-;trigger2 = (stateno = [200,499])
-;trigger2 = movecontact
-;trigger3 = stateno = [900,901]
-;trigger3 = time >2
-;trigger4 = (stateno = [100,101])
-;trigger5 = (stateno = [1000,1100])
-;trigger5 = time >21
-;trigger6 = var(6) = 1
-;trigger6 = (stateno = [1700,1862])
-;trigger6 = movecontact
+;風を払う（ゲージ足りない用）
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2010
+triggerall = command = "ounozaihou"
+triggerall = var(21) = 2
+triggerall = NumHelper(2001) < 1
+triggerall = power <= 999
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+
+;---------------------------------------------------------------------------
+;空気撃ち
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2000
+triggerall = command = "meihunomon yoko"
+triggerall = var(21) = 2
+triggerall = NumHelper(2001) < 1
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+
+;---------------------------------------------------------------------------
+;空気撃ち
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2010
+triggerall = command = "meihunomon tate"
+triggerall = var(21) = 2
+triggerall = NumHelper(2001) < 1
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+
+;---------------------------------------------------------------------------
+;石油
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2030
+triggerall = command = "onoa"
+triggerall = var(21) = 2
+triggerall = NumHelper(2031) < 1
+triggerall = power >= 500
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;加護
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2040
+triggerall = command = "onob"
+triggerall = var(21) = 2
+triggerall = NumHelper(2041) < 1
+triggerall = power >= 500
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+
+;---------------------------------------------------------------------------
+;キシャル
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2050
+triggerall = command = "onoc"
+triggerall = var(21) = 2
+triggerall = NumHelper(2051) < 1
+triggerall = power >= 1000
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+trigger3 = stateno = 2071
+trigger3 = movecontact
+trigger4 = (stateno = [2071,2090])
+trigger4 = movecontact
+trigger5 = var(21) = 2
+trigger5 = (stateno = [1500,1510])
+trigger5 = movecontact
+
+
+;---------------------------------------------------------------------------
+;当身
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2060
+triggerall = command = "koorinonaihu"
+triggerall = var(21) = 2
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;アタック空中
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2070
+triggerall = command = "kama"
+triggerall = var(21) = 2
+trigger1= statetype = A
+trigger1 = ctrl
+trigger2 = (stateno = [630,650])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;ブレイク
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2080
+triggerall = command = "karadoborugu"
+triggerall = var(21) = 2
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;ono
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2090
+triggerall = command = "kama"
+triggerall = var(21) = 2
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;麒麟のマント
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2220
+triggerall = command = "lifeadd"
+triggerall = var(21) = 2
+triggerall = var(22) >= 500
+triggerall = var(23) = 0
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;破戒の警策
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2210
+triggerall = command = "pwadd"
+triggerall = var(21) = 2
+triggerall = var(22) >= 100
+triggerall = var(23) = 0
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;破邪刀
+[State -1, Light Kung Fu Palm]
+type = ChangeState
+value = 2200
+triggerall = command = "z"
+triggerall = var(21) = 2
+triggerall = var(22) >= 200
+triggerall = var(23) = 0
+trigger1= statetype != A
+trigger1 = ctrl
+trigger2 = (stateno = [330,450])
+trigger2 = movecontact
+
 
 ;===========================================================================
 
@@ -938,6 +1388,7 @@ type = ChangeState
 value = 290
 triggerall = command = "back_b"
 triggerall = command != "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger1 = var(1)
@@ -962,6 +1413,7 @@ type = ChangeState
 value = 200
 triggerall = command = "a"
 triggerall = command != "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = stateno = [900,901]
@@ -979,6 +1431,7 @@ type = ChangeState
 value = 210
 triggerall = command = "b"
 triggerall = command != "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = stateno = [900,901]
@@ -999,6 +1452,7 @@ type = ChangeState
 value = 220
 triggerall = command = "c"
 triggerall = command != "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger1 = var(1)
@@ -1019,6 +1473,7 @@ type = ChangeState
 value = 400
 triggerall = command = "a"
 triggerall = command = "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = C
 trigger1 = ctrl
 trigger1 = var(1)
@@ -1031,7 +1486,6 @@ trigger5 = var(6) = 1
 trigger5 = stateno = 400
 trigger5 = movecontact
 
-
 ;---------------------------------------------------------------------------
 ;Crouching Strong Kick
 ;しゃがみ中
@@ -1040,6 +1494,7 @@ type = ChangeState
 value = 410
 triggerall = command = "b"
 triggerall = command = "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = C
 trigger1 = ctrl
 trigger1 = var(1)
@@ -1063,21 +1518,20 @@ type = ChangeState
 value = 420
 triggerall = command = "c"
 triggerall = command = "holddown"
+triggerall = var(21) = 1
 trigger1 = statetype = C
 trigger1 = ctrl
 trigger1 = var(1)
 trigger2 = stateno = 410
 trigger2 = movecontact
-trigger3 = stateno = 225
-trigger3 = movecontact
-trigger4 = stateno = [900,901]
-trigger4 = time >2
-trigger5 = (stateno = [100,101])
-trigger6 = var(6) = 1
-trigger6 = (stateno = [200,210])
+trigger3 = stateno = [900,901]
+trigger3 = time >2
+trigger4 = (stateno = [100,101])
+trigger5 = var(6) = 1
+trigger5 = stateno = 210
+trigger5 = movecontact
+trigger6 = stateno = 300
 trigger6 = movecontact
-trigger7 = stateno = 300
-trigger7 = movecontact
 
 ;---------------------------------------------------------------------------
 ;空中弱攻撃
@@ -1085,6 +1539,7 @@ trigger7 = movecontact
 type = ChangeState
 value = 600
 triggerall = command = "a"
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = ctrl
 
@@ -1094,6 +1549,7 @@ trigger1 = ctrl
 type = ChangeState
 value = 610
 triggerall = command = "b"
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = ctrl
 
@@ -1103,8 +1559,160 @@ trigger1 = ctrl
 type = ChangeState
 value = 620
 triggerall = command = "c"
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = ctrl
+
+;---------------------------------------------------------------------------
+;Standing Strong Kick
+;ccc6c
+[State -1, Standing Strong Kick]
+type = ChangeState
+value = 360
+triggerall = command = "front_c"
+triggerall = command != "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [100,101])
+trigger3 = stateno = 350
+trigger3 = movecontact
+
+;---------------------------------------------------------------------------
+;Stand Light Kick
+;ccc立ち弱
+[State -1, Stand Light Kick]
+type = ChangeState
+value = 330
+triggerall = command = "a"
+triggerall = command != "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = stateno = 330
+trigger2 = movecontact
+trigger3 = stateno = 430
+trigger3 = movecontact
+trigger4 = (stateno = [100,101])
+
+;---------------------------------------------------------------------------
+;Standing Strong Kick
+;ccc立ち中
+[State -1, Standing Strong Kick]
+type = ChangeState
+value = 340
+triggerall = command = "b"
+triggerall = command != "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = (stateno = [100,101])
+trigger3 = stateno = 330
+trigger3 = movecontact
+trigger4 = stateno = 430
+trigger4 = movecontact
+
+;---------------------------------------------------------------------------
+;Stand Strong Punch
+;ccc立ち強
+[State -1, Stand Strong Punch]
+type = ChangeState
+value = 350
+triggerall = command = "c"
+triggerall = command != "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = S
+trigger1 = ctrl
+trigger2 = stateno = [330,340]
+trigger2 = movecontact
+trigger3 = stateno = [430,440]
+trigger3 = movecontact
+
+;---------------------------------------------------------------------------
+;Crouching Light Kick
+;cccしゃがみ弱
+[State -1, Crouching Light Kick]
+type = ChangeState
+value = 430
+triggerall = command = "a"
+triggerall = command = "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = C
+trigger1 = ctrl
+trigger2 = (stateno = [100,101])
+trigger3 = stateno = 330
+trigger3 = movecontact
+trigger4 = stateno = 430
+trigger4 = movecontact
+
+;---------------------------------------------------------------------------
+;Crouching Strong Kick
+;cccしゃがみ中
+[State -1, Crouching Strong Kick]
+type = ChangeState
+value = 440
+triggerall = command = "b"
+triggerall = command = "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = C
+trigger1 = ctrl
+trigger2 = (stateno = [100,101])
+trigger3 = stateno = 330
+trigger3 = movecontact
+trigger4 = stateno = 430
+trigger4 = movecontact
+trigger5 = stateno = 340
+trigger5 = movecontact
+
+;---------------------------------------------------------------------------
+;Crouching Strong Kick
+;cccしゃがみ強
+[State -1, Crouching Strong Kick]
+type = ChangeState
+value = 450
+triggerall = command = "c"
+triggerall = command = "holddown"
+triggerall = var(21) = 2
+trigger1 = statetype = C
+trigger1 = ctrl
+trigger2 = (stateno = [100,101])
+trigger3 = (stateno = [330,440])
+trigger3 = movecontact
+
+
+;---------------------------------------------------------------------------
+;ccc空中弱攻撃
+[State -1, Jump Light Kick]
+type = ChangeState
+value = 630
+triggerall = command = "a"
+triggerall = var(21) = 2
+trigger1 = statetype = A
+trigger1 = ctrl
+
+;---------------------------------------------------------------------------
+;ccc空中中攻撃
+[State -1, Jump Strong Kick]
+type = ChangeState
+value = 640
+triggerall = command = "b"
+triggerall = var(21) = 2
+trigger1 = statetype = A
+trigger1 = ctrl
+trigger2 = stateno = 630
+trigger2 = movecontact
+
+;---------------------------------------------------------------------------
+;ccc空中強攻撃
+[State -1, Jump Strong Kick]
+type = ChangeState
+value = 650
+triggerall = command = "c"
+triggerall = var(21) = 2
+trigger1 = statetype = A
+trigger1 = ctrl
+trigger2 = stateno = 640
+trigger2 = movecontact
 
 ;---------------------------------------------------------------------------
 ;Stand Strong Punch
@@ -1122,13 +1730,17 @@ trigger1 = stateno = [140,155]
 type = ChangeState
 value = 900
 triggerall = var(13) = 0
+triggerall = var(21) = 1
 triggerall = power >= 1000
 triggerall = command = "z"
 triggerall = statetype != A
 trigger1 = ctrl
-trigger2 = (stateno = [200,1862])
+trigger2 = (stateno = [200,1970]);1862
 trigger2 = stateno != 800
+trigger2 = stateno != 900
 trigger2 = stateno != 910
+trigger2 = stateno != 920
+trigger2 = stateno != 1102
 
 ;---------------------------------------------------------------------------
 [State -1, 本気]
@@ -1137,6 +1749,7 @@ value = 920
 triggerall = var(5) = 1
 triggerall = var(6) = 0
 triggerall = command = "x"
+triggerall = var(21) = 1
 trigger1 = statetype = S
 trigger1 = ctrl
 trigger2 = (stateno = [200,320])
@@ -1150,6 +1763,8 @@ trigger5 = time >20
 trigger6 = (stateno = [1200,1862])
 trigger6 = movecontact
 trigger7 = (stateno = [100,101])
+trigger8 = (stateno = [1900,1950])
+trigger8 = time >18
 
 ;---------------------------------------------------------------------------
 [State -1, 空中本気]
@@ -1158,6 +1773,7 @@ value = 930
 triggerall = var(5) = 1
 triggerall = var(6) = 0
 triggerall = command = "x"
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = ctrl
 trigger2 = (stateno = [600,699])
@@ -1166,12 +1782,15 @@ trigger3 = (stateno = [6001,6007])
 trigger3 = movecontact
 trigger4 = (stateno = [1200,1300])
 trigger4 = time >15
+trigger5 = stateno = 1951
+trigger5 = time >18
 
 ;---------------------------------------------------------------------------
 [State -1, 本気バースト]
 type = ChangeState
 value = 3600
 TriggerAll = var(59)=0
+triggerall = var(21) = 1
 triggerall = var(5) = 1
 triggerall = var(6) = 0
 triggerall = command = "x"
@@ -1185,6 +1804,7 @@ trigger1 = statetype != L
 type = ChangeState
 value = 3610
 TriggerAll = var(59)=0
+triggerall = var(21) = 1
 triggerall = var(5) = 1
 triggerall = var(6) = 0
 triggerall = command = "x"
@@ -1201,6 +1821,7 @@ TriggerAll = var(59)=0
 triggerall = PalNo= 12
 triggerall = command = "x"
 triggerall = Alive = 1
+triggerall = var(21) = 1
 trigger1 = statetype != A
 trigger1 = movetype = H && time != 0
 trigger1 = statetype != L
@@ -1213,6 +1834,7 @@ TriggerAll = var(59)=0
 triggerall = PalNo= 12
 triggerall = command = "x"
 triggerall = Alive = 1
+triggerall = var(21) = 1
 trigger1 = statetype = A
 trigger1 = movetype = H && time != 0
 trigger1 = statetype != L
@@ -1246,6 +1868,18 @@ trigger1 = ctrl
 type = ChangeState
 value = 196
 triggerall = var(6) = 0
+triggerall = var(21) = 1
+triggerall = command = "start"
+trigger1 = statetype = C
+trigger1 = ctrl
+
+;---------------------------------------------------------------------------
+;AUOキャストオフ
+;慢心
+[State -1, Taunt]
+type = ChangeState
+value = 197
+triggerall = var(21) = 2
 triggerall = command = "start"
 trigger1 = statetype = C
 trigger1 = ctrl

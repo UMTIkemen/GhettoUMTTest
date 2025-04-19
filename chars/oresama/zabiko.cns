@@ -1,0 +1,788 @@
+;---------------------------------------------------------------------------
+;◆ザビ子・登場◆
+[Statedef 8001]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8045
+sprpriority = -3
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = AnimElem = 1
+value = 110, 11
+
+[State 220, 1]
+type = Explod
+trigger1 = AnimElem = 1
+anim = 8046
+id = 8046
+pos = 0,0
+bindtime = -1
+postype = p1
+persistent = 0
+sprpriority = -2
+ownpal = 0
+scale = 1,1
+
+[State 200, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 8000
+
+
+
+;---------------------------------------------------------------------------
+;◆ザビ子・立ち◆
+[Statedef 8000]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8000
+sprpriority = -3
+
+[State 10000, lose]
+type = Changestate
+trigger1 = win
+;trigger1 = parent,Anim = 181
+value = 8020
+
+[State 220, 7]
+type = ChangeState
+trigger1 = parent,StateNo = 197
+trigger1 = parent,animelemtime(15) = 0
+value = 8060
+
+[State 220, 7]
+type = ChangeState
+trigger1 = parent,StateNo = 195
+trigger1 = parent,animelemtime(1) = 0
+value = 8061
+
+[State 10000, lose]
+type = Changestate
+trigger1 = Lose
+trigger1 = parent,var(24) = 0
+trigger1 = parent,Anim = 171
+;trigger1 = parent,StateNo = 5151
+trigger2 = LoseTime
+trigger2 = parent,StateNo = 170
+trigger3 = Lose
+trigger3 = parent,var(24) = 1
+trigger3 = parent,StateNo = 5150
+value = 8025
+
+[State -2]
+type = RemoveExplod
+trigger1 = StateNo != 8000
+ID = 7200
+
+[State 10000, 6]
+type = ChangeState
+trigger1 = Facing = 1
+trigger1 = parent,Pos X < Pos X
+trigger2 = Facing = -1
+trigger2 = parent,Pos X > Pos X
+value = 8005
+
+[State 10000, 6]
+type = ChangeState
+trigger1 = Pos X > 140
+trigger2 = Pos X < -140
+value = 8010
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(32) = 1
+value = 8030
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(34) = 1
+value = 8040
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(33) = 1
+value = 8050
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 200, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 8000
+
+;---------------------------------------------------------------------------
+;◆ザビ子・振り向き◆
+[Statedef 8005]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8005
+sprpriority = -3
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(32) = 1
+value = 8030
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(34) = 1
+value = 8040
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(33) = 1
+value = 8050
+
+[State 10000, 6]
+type = Turn
+trigger1 = Time = 0
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 200, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 8000
+
+;---------------------------------------------------------------------------
+;◆ザビ子・前進◆
+[Statedef 8010]
+type    = S
+movetype= I
+physics = N
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8010
+sprpriority = -3
+
+[State 220, 7]
+type = ChangeState
+trigger1 = parent,StateNo = 197
+trigger1 = parent,animelemtime(15) = 0
+value = 8060
+
+[State 220, 7]
+type = ChangeState
+trigger1 = parent,StateNo = 195
+trigger1 = parent,animelemtime(1) = 0
+value = 8061
+
+[State 10000, lose]
+type = Changestate
+trigger1 = Lose
+trigger1 = parent,var(24) = 0
+trigger1 = parent,Anim = 171
+;trigger1 = parent,StateNo = 5151
+trigger2 = LoseTime
+trigger2 = parent,StateNo = 170
+trigger3 = Lose
+trigger3 = parent,var(24) = 1
+trigger3 = parent,StateNo = 5150
+value = 8025
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(32) = 1
+value = 8030
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(34) = 1
+value = 8040
+
+[State 200, 4]
+type = ChangeState
+trigger1 = parent,var(33) = 1
+value = 8050
+
+[State 10000, 6]
+type = ChangeState
+triggerall = time = 0
+trigger1 = Facing = 1
+trigger1 = parent,Pos X < Pos X
+trigger2 = Facing = -1
+trigger2 = parent,Pos X > Pos X
+value = 8005
+
+[State 20, 1]
+type = VelSet
+trigger1 = time = 0
+x = 1
+
+[State 10000, 6]
+type = ChangeState
+trigger1 = AnimTime = 0
+trigger1 = Pos X != [-120,120]
+value = 8010
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 200, 4]
+type = ChangeState
+trigger1 = Pos X = [-50,50]
+value = 8000
+
+
+;---------------------------------------------------------------------------
+;◆ザビ子・勝ち◆
+[Statedef 8020]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8000
+sprpriority = -3
+
+[State 180, 1]
+type = ChangeState
+trigger1 = parent,anim = 181
+;trigger1 = Time = 0
+value = 8021
+
+[State 180, 1]
+type = ChangeState
+trigger1 = parent,anim = 182
+;trigger1 = Time = 0
+value = 8022
+
+;---------------------------------------------------------------------------
+;◆ザビ子・勝ち1◆
+[Statedef 8021]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8020
+sprpriority = -3
+
+[State 20, 1]
+type = VelSet
+trigger1 = time = 0
+x = 0
+
+;---------------------------------------------------------------------------
+;◆ザビ子・勝ち2◆
+[Statedef 8022]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8021
+sprpriority = -3
+
+[State 20, 1]
+type = VelSet
+trigger1 = time = 0
+x = 0
+
+;---------------------------------------------------------------------------
+;◆ザビ子・負け◆
+[Statedef 8025]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8000
+sprpriority = -3
+
+[State 180, 1]
+type = ChangeState
+Trigger1 = Time = 0
+trigger1 = parent,var(24) = 0
+value = 8026
+
+[State 180, 1]
+type = ChangeState
+Trigger1 = Time = 0
+trigger1 = parent,var(24) = 1
+value = 8027
+
+;---------------------------------------------------------------------------
+;◆ザビ子・負け1◆
+[Statedef 8026]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8025
+sprpriority = -3
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(24) = 1
+
+
+;---------------------------------------------------------------------------
+;◆ザビ子・負け2◆
+[Statedef 8027]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+velset = 0,0
+anim = 8026
+sprpriority = -3
+
+[State 20, 1]
+type = VelSet
+trigger1 = time = 0
+x = 0
+
+
+;---------------------------------------------------------------------------
+;◆破邪刀◆
+
+[Statedef 8030]
+type    = S
+movetype= A
+physics = S
+juggle  = 1
+ctrl = 0
+anim = 8030
+sprpriority = -3
+
+[state 50000]
+type = Turn
+trigger1 = ceil(p2dist x) < 0
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(23) = 1
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(32) = 0
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = time = 0
+var(22) = -200
+
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 110, 12
+
+
+[State 200, Proj]
+type = Helper
+trigger1 = AnimElemTime(4) = 40
+helpertype = normal
+name = "Weapon1"
+ID = 2001
+pos = 0,-50
+postype = p2
+stateno = 8031
+keyctrl = 0
+sprpriority = 0
+size.xscale = 2.0
+size.yscale = 2.0
+facing = -1
+ownpal = 0
+
+[State 220, 1]
+type = Explod
+trigger1 = AnimElem = 4
+anim = 8031
+id = 8031
+pos = 20,-65
+bindtime = -1
+postype = p1
+persistent = 0
+sprpriority = -2
+ownpal = 0
+scale = 0.5,0.5
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 220, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 8000
+
+;---------------------------------------------------------------------------
+;弾
+
+[Statedef 8031]
+type = A
+movetype = A
+physics = N
+velset = 0,0
+anim = 8032
+sprpriority = 4
+ctrl = 0
+
+[State 180, win_]
+type = AssertSpecial
+trigger1 = time >= 0
+flag = NoShadow
+
+[State 210, Hit]
+type = HitDef
+trigger1 = Time = 0
+attr = A,SP
+damage = 50, 10
+animtype = hard
+guardflag = MA
+hitflag = MAF
+pausetime = 0, 50
+sparkno = s7060
+guard.sparkno = S7100
+sparkxy = 30, -20
+hitsound = s105,29
+guardsound = s105, 3
+ground.type = High
+ground.slidetime = 17
+ground.hittime  = 25
+ground.velocity = -2,0
+airguard.velocity = -2,-2
+air.velocity = -3,-2
+air.hittime = 30
+air.fall = 1
+air.juggle = 999
+fall.recovertime = 30
+envshake.time = 15
+envshake.freq = 50
+envshake.ampl = 3
+envshake.phase = 3
+id = StateNo
+
+
+[State 240, 斬撃ヒットエフェ（中）]
+type = Helper
+trigger1 = movehit
+trigger1 = p2movetype = H
+id = 10024
+stateno = 10024
+postype = p2
+pos = 5,-60
+pausemovetime = 999
+supermovetime = 999
+ownpal = 0
+persistent = 0
+ignorehitpause = 1
+
+[State 210, Destroy]
+type = DestroySelf
+trigger1 = AnimTime = 0
+
+;---------------------------------------------------------------------------
+;◆破戒の警策◆
+
+[Statedef 8040]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+anim = 8030
+sprpriority = -3
+
+[state 50000]
+type = PowerAdd
+trigger1 = AnimElemTime(4) = 30
+value = 300
+
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(23) = 1
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(34) = 0
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = time = 0
+var(22) = -100
+
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 110, 13
+
+[State 200, Proj]
+type = Helper
+trigger1 = AnimElemTime(4) = 30
+helpertype = normal
+name = "Weapon1"
+ID = 8041
+pos = 0,0
+postype = p1
+stateno = 8041
+keyctrl = 0
+sprpriority = 0
+size.xscale = 1.0
+size.yscale = 1.0
+ownpal = 0
+
+[State 220, 1]
+type = Explod
+trigger1 = AnimElem = 3
+anim = 8031
+id = 8031
+pos = 20,-65
+bindtime = -1
+postype = p1
+persistent = 0
+sprpriority = -2
+ownpal = 0
+scale = 0.5,0.5
+
+[state Palfx]
+type = Palfx
+trigger1 = AnimElemTime(4) = 30
+sinadd = 50,0,150, 48
+time = 24
+invertall = 0
+persistent = 0
+ignorehitpause = 1
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 220, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 8000
+
+
+;---------------------------------------------------------------------------
+;弾
+
+[Statedef 8041]
+type    = S
+movetype= I
+physics = S
+velset = 0,0
+anim = 2181
+sprpriority = 3
+ctrl = 0
+
+[State 2040, bind]
+Type = BindToRoot
+Trigger1 = 1 ;常時
+facing = 1
+pos = 0, 30
+
+[State 180, win_]
+type = AssertSpecial
+trigger1 = time >= 0
+flag = NoShadow
+
+[State 210, Destroy]
+type = DestroySelf
+trigger1 = AnimTime = 0
+
+;---------------------------------------------------------------------------
+;◆麒麟のマント◆
+
+[Statedef 8050]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+anim = 8040
+sprpriority = -3
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 110, 14
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(23) = 1
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 0
+var(33) = 0
+
+[State 1000, 2]
+type = ParentVarAdd
+trigger1 = time = 0
+var(22) = -500
+
+[State 220, 1]
+type = Explod
+trigger1 = AnimElem = 1
+anim = 8041
+id = 8041
+pos = 0,-45
+bindtime = -1
+postype = p1
+persistent = 0
+sprpriority = -4
+ownpal = 0
+scale = 1,1
+
+[State 220, 1]
+type = Explod
+trigger1 = AnimElem = 1
+anim = 8042
+id = 8042
+pos = 0,5
+bindtime = -1
+postype = p1
+persistent = 0
+reMoveTime = 150
+sprpriority = -2
+ownpal = 1
+scale = 1,1
+
+[State 200, Proj]
+type = Helper
+trigger1 = AnimElemTime(5) = 0
+helpertype = normal
+name = "Weapon1"
+ID = 8051
+pos = 0,0
+postype = p1
+stateno = 8051
+keyctrl = 0
+sprpriority = 0
+size.xscale = 1.0
+size.yscale = 1.0
+ownpal = 0
+
+[state Palfx]
+type = Palfx
+trigger1 = AnimElemTime(5) = 0
+sinadd = 0,150,0, 48
+time = 24
+invertall = 0
+persistent = 0
+ignorehitpause = 1
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 220, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 8000
+
+;---------------------------------------------------------------------------
+;弾
+
+[Statedef 8051]
+type    = S
+movetype= I
+physics = S
+velset = 0,0
+anim = 2181
+sprpriority = 3
+ctrl = 0
+
+[State 2040, bind]
+Type = BindToRoot
+Trigger1 = 1 ;常時
+facing = 1
+pos = 0, 30
+
+[State 180, win_]
+type = AssertSpecial
+trigger1 = time >= 0
+flag = NoShadow
+
+[State 210, Destroy]
+type = DestroySelf
+trigger1 = AnimTime = 0
+
+
+
+;---------------------------------------------------------------------------
+;◆AUOキャストオフ反応◆
+
+[Statedef 8060]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+anim = 8050
+sprpriority = 1
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 220, 7]
+type = ChangeState
+trigger1 = parent,StateNo != 197
+value = 8000
+
+;---------------------------------------------------------------------------
+;◆挑発反応◆
+
+[Statedef 8061]
+type    = S
+movetype= I
+physics = S
+juggle  = 1
+ctrl = 0
+anim = 8020
+sprpriority = -3
+
+[State a, Posset]
+type = PosSet
+trigger1 = parent,StateNo = 3710
+y = 999
+
+[State 220, 7]
+type = ChangeState
+trigger1 = parent,StateNo != 195
+value = 8000

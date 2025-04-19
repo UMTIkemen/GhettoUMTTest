@@ -616,6 +616,463 @@ Trigger1 = Time = 65
 
 
 
+;---------------------------------------------------------------------------
+; ＥＸ必殺技エフェクト	赤3
+[StateDef 6025]
+Type = A
+Physics = N
+Anim = 10005
+SprPriority = 4
+VelSet = 0,0
+
+[State -1]
+Type = NotHitBy
+Trigger1 = 1
+Value = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time = 1
+
+[State -1]
+Type = Trans
+Trigger1 = 1
+Trans = Add
+
+[State -1]
+Type = PalFx
+Trigger1 = 1
+Time = 1
+Add = 0,-150,-150
+IgnoreHitPause = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = VarSet
+Trigger1 = Time = 11
+FV  = 1
+Value = 1.0
+
+[State -1]
+Type = VarAdd
+Trigger1 = Time = [12,35]
+FV  = 1
+Value = 0.01
+
+[State -1]
+Type = VarSet
+Trigger1 = Time = 11
+FV  = 2
+Value = 1.0
+
+[State -1]
+Type = VarAdd
+Trigger1 = Time = [12,35]
+FV  = 2
+Value = 0.075
+
+[State -1]
+Type = AngleDraw
+Trigger1 = 1
+Scale = 0.0+FVar(1),0.0+FVar(1)
+
+[State -1]
+Type = VarSet
+Trigger1 = Time = 30
+V = 6
+Value = 0
+
+[State -1]
+Type = VarAdd
+Trigger1 = Time = [0,10]
+Trigger2 = Time >= 30
+V = 6
+Value = 26
+
+[State -1]
+Type = PlaySnd
+Trigger1 = Time = 0
+Value = s3000, 0
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6022
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6023
+Pos = 0,0
+PosType  = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo  = 6026
+ID = 6024
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo  = 6026
+ID = 6021
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo  = 6026
+ID = 6022
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+TriggerAll = Parent,Var(0)%10 = 0
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6021
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+TriggerAll = Parent,Var(0)%10 = 0
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6022
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+TriggerAll = Parent,Var(0)%10 = 0
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6023
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+TriggerAll = Parent,Var(0)%10 = 0
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6024
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6023
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Helper
+Trigger1 = Time = 0
+StateNo = 6026
+ID = 6024
+Pos = 0,0
+PosType = P1
+Ownpal = 0
+Keyctrl = 0
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime = 9999
+PauseMoveTime = 9999
+
+[State -1]
+Type = Explod
+Trigger1 = Time = 11
+ID = 10000
+Anim = 10005
+Ownpal = 0
+Scale = 0.0+FVar(2),0.0+FVar(2)
+SprPriority = 5
+RemoveTime = 25
+RemoveOnGetHit = 1
+IgnoreHitPause = 1
+Persistent = 0
+SuperMoveTime  = 9999
+PauseMoveTime  = 9999
+
+[State -1]
+Type = ModifyExplod
+Trigger1 = Time = [12,35]
+ID = 10000
+Scale = 0.0+FVar(2),0.0+FVar(2)
+IgnoreHitPause = 1
+Persistent = 1
+SuperMoveTime  = 9999
+PauseMoveTime  = 9999
+
+[State -1]
+Type = VarAdd
+Trigger1 = Time >= 23
+FV  = 4
+Value = 0.0175
+
+
+
+
+[State -1]
+Type = BGPalFX
+Trigger1 = Time = [1,29]
+Add = 0-Var(6),0-Var(6),0-Var(6)
+Time = 1
+
+[State -1]
+Type = BGPalFX
+Trigger1 = Time = [30,35]
+Add = Ceil(-255+Var(6)*1.5),Ceil(-255+Var(6)*1.5),Ceil(-255+Var(6)*1.5)
+Time = 1
+
+[State -1]
+Type = AssertSpecial
+Trigger1 = Time <= 35
+Flag = Noshadow
+IgnoreHitPause = 1
+SuperMoveTime  = 9999
+PauseMoveTime  = 9999
+
+[State -1]
+Type = AssertSpecial
+Trigger1 = Time >= 36
+Flag = Noshadow
+Flag2 = Invisible
+IgnoreHitPause = 1
+SuperMoveTime  = 9999
+PauseMoveTime  = 9999
+
+[State -1]
+Type = DestroySelf
+Trigger1 = Time = 50
+
+;---------------------------------------------------------------------------
+; ＥＸ必殺技エフェクト	赤4
+[StateDef 6026]
+Type = A
+Physics = N
+Anim = 10130
+SprPriority = 4
+VelSet = 0,0
+
+[State -1]
+Type = NotHitBy
+Trigger1 = 1
+Value = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time = 1
+
+[State -1]
+Type = Trans
+Trigger1 = 1
+Trans = AddAlpha
+Alpha = 255,255
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6021)
+Trigger1 = Time = 0
+V = 2
+Range = 0,6
+
+[State -1]
+Type = VarAdd
+Trigger1 = IsHelper(6021)
+Trigger1 = Time = [1,11]
+FV = 2
+Value = 2.4
+
+[State -1]
+Type = AngleDraw
+Trigger1 = IsHelper(6021)
+Trigger1 = 1
+Scale = 0.30+Var(2)/10,30.0-FVar(2)
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6022)
+Trigger1 = Time = 0
+V = 2
+Range = 0,6
+
+[State -1]
+Type = VarAdd
+Trigger1 = IsHelper(6022)
+Trigger1 = Time = [1,11]
+FV = 2
+Value = 2.1
+
+[State -1]
+Type = AngleDraw
+Trigger1 = IsHelper(6022)
+Trigger1 = 1
+Scale = 0.30+Var(2)/10,27.0-FVar(2)
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6023)
+Trigger1 = Time = 0
+V = 2
+Range = 0,6
+
+[State -1]
+Type = VarAdd
+Trigger1 = IsHelper(6023)
+Trigger1 = Time = [1,11]
+FV = 2
+Value = 3.0
+
+[State -1]
+Type = AngleDraw
+Trigger1 = IsHelper(6023)
+Trigger1 = 1
+Scale = 0.35-Var(2)/10,36.0-FVar(2)
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6024)
+Trigger1 = Time = 0
+V = 2
+Range = 0,6
+
+[State -1]
+Type = VarAdd
+Trigger1 = IsHelper(6024)
+Trigger1 = Time = [1,11]
+FV = 2
+Value = 2.7
+
+[State -1]
+Type = AngleDraw
+Trigger1 = IsHelper(6024)
+Trigger1 = 1
+Scale = 0.35-Var(2)/10,33.0-FVar(2)
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6021)
+Trigger1 = Time = 0
+V = 43
+Range = 0,89
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6022)
+Trigger1 = Time = 0
+V = 43
+Range = 90,179
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6023)
+Trigger1 = Time = 0
+V = 43
+Range = 180,269
+
+[State -1]
+Type = VarRandom
+Trigger1 = IsHelper(6024)
+Trigger1 = Time = 0
+V = 43
+Range = 270,359
+
+[State -1]
+Type = VarRandom
+Trigger1 = Time = 1
+V = 44
+Range = -2,2
+
+[State -1]
+Type = AngleSet
+Trigger1 = Time = 0
+Value = Var(43)
+
+[State -1]
+Type = AngleAdd
+Trigger1 = Time >= 1
+Value = -Var(44)
+
+[State -1]
+Type = AssertSpecial
+Trigger1 = 1
+Flag = Noshadow
+IgnoreHitPause = 1
+SuperMoveTime  = 9999
+PauseMoveTime  = 9999
+
+[State -1]
+Type = DestroySelf
+Trigger1 = Time = 11
 
 
 
@@ -633,7 +1090,6 @@ Trigger1 = Time = 65
 
 
 [Statedef -3]
-
 ;ハイジャンプ
 [State 41]
 type = AfterImage
@@ -649,6 +1105,7 @@ palcontrast = 80,80,128
 palpostbright = 0,0,0
 paladd = 10,10,25
 palmul = 1,1,1
+ignorehitpause = 1
 
 [State 40, 垂直ハイジャンプ砂煙]
 type = Explod
@@ -684,6 +1141,7 @@ trigger1 = stateno = 50
 trigger1 = time = 2
 trigger2 = movetype = H
 trigger3 = MoveType = A
+trigger4 = (stateno = [120,155])
 v = 12
 value = 0
 
@@ -708,6 +1166,8 @@ trigger1 = command = "holdback"
 x = -1.0
 
 
+
+
 ;This controller plays a sound everytime KFM lands from a jump, or
 ;from his back-dash.
 [State -3, Landing Sound]
@@ -725,51 +1185,67 @@ value = 40, 0
 type = RemoveExplod
 trigger1 = StateNo != 210
 ID = 211
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 220
 ID = 221
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 225
 ID = 226
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 300
 ID = 301
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 410
 ID = 411
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 420
 ID = 421
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 425
-ID = 226
+ID = 2260
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 620
 ID = 621
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 320
 ID = 321
+ignorehitpause= 1
 
 [State -2]
 type = RemoveExplod
 trigger1 = StateNo != 1701
 ID = 1712
+ignorehitpause= 1
+
+[State -2]
+type = RemoveExplod
+trigger1 = StateNo != 2070
+ID = 2202
+ignorehitpause= 1
 
 [state ];自分以外がメタ世界展開中か判定～解除
 type=Varset
@@ -1063,9 +1539,10 @@ value = -1000
 
 [State -2]
 type = Helper
-triggerall = NumHelper(2500) < 1
-triggerall = TeamSide = 1
-trigger1 = time = 0
+trigger1 = NumHelper(2500) < 1
+trigger1 = TeamSide = 1
+trigger1 = Var(21) = 1
+trigger1 = time >= 2
 helpertype = normal
 name = "honkige-zi"
 ID = 2500
@@ -1073,16 +1550,17 @@ pos = 0,0
 postype = p1
 stateno = 2500
 keyctrl = 0
-ownpal = 1
+ownpal = 0
 sprpriority = -1
 size.xscale = 0.5
 size.yscale = 0.5
 
 [State -2]
 type = Helper
-triggerall = NumHelper(2500) < 1
-triggerall = TeamSide = 2
-trigger1 = time = 0
+trigger1 = NumHelper(2500) < 1
+trigger1 = TeamSide = 2
+trigger1 = Var(21) = 1
+trigger1 = time >= 2
 helpertype = normal
 name = "honkige-zi"
 ID = 2500
@@ -1090,11 +1568,150 @@ pos = 0,0
 postype = p1
 stateno = 2501
 keyctrl = 0
-ownpal = 1
+ownpal = 0
 sprpriority = -1
 size.xscale = 0.5
 size.yscale = 0.5
 
+
+[State -2]
+type = Helper
+trigger1 = NumHelper(2505) < 1
+trigger1 = TeamSide = 1
+trigger1 = Var(21) = 2
+trigger1 = time >= 2
+helpertype = normal
+name = "zabikoge-zi"
+ID = 2505
+pos = 0,0
+postype = p1
+stateno = 2505
+keyctrl = 0
+ownpal = 0
+sprpriority = -1
+size.xscale = 0.5
+size.yscale = 0.5
+
+[State -2]
+type = Helper
+trigger1 = NumHelper(2505) < 1
+trigger1 = TeamSide = 2
+trigger1 = Var(21) = 2
+trigger1 = time >= 2
+helpertype = normal
+name = "zabikoge-zi"
+ID = 2505
+pos = 0,0
+postype = p1
+stateno = 2506
+keyctrl = 0
+ownpal = 0
+sprpriority = -1
+size.xscale = 0.5
+size.yscale = 0.5
+
+
+[State -2]
+type = Helper
+trigger1 = NumHelper(2510) < 1
+trigger1 = Var(21) = 2
+trigger1 = time >= 2
+helpertype = normal
+name = "zabiko"
+ID = 2510
+pos = -40,-10
+postype = p1
+stateno = 8001
+keyctrl = 0
+ownpal = 1
+sprpriority = -3
+size.xscale = 1
+size.yscale = 1
+size.shadowoffset = -8
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState != 0
+trigger1 = RoundState != 1
+Trigger1 = Var(20) = 0
+Trigger1 = Var(21) = 0
+var(21) = 1
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState != 0
+trigger1 = RoundState != 1
+Trigger1 = Var(20) = 1
+Trigger1 = Var(21) = 0
+var(21) = 2
+
+
+[State -2]
+Type = AttackMulSet
+Trigger1 = Var(25) = 0
+Value = 1
+ignorehitpause=1
+
+[State -2]
+Type = AttackMulSet
+Trigger1 = Var(25) = 1
+Value = 1.5
+ignorehitpause=1
+
+[State -1]
+type = PowerAdd
+trigger1 = var(26) = 1
+value = 2
+ignorehitpause=1
+
+[State 803, DefenceMulSet]
+Type = DefenceMulSet
+trigger1 = var(27) = 0
+trigger1 = var(21) = 2
+value = 1
+ignorehitpause= 1
+
+[State 803, DefenceMulSet]
+Type = DefenceMulSet
+trigger1 = var(27) = 1
+trigger1 = var(21) = 2
+value = 0.5
+ignorehitpause= 1
+
+[State 740, nothitby]
+Type = NotHitBy
+trigger1 = var(27) = 1
+Value = ,AP
+Time = 2
+
+[State 52, 1]
+type = AfterImage
+trigger1 = var(12) = 0
+trigger1 = var(27) = 0
+trigger1 = stateno != 50
+time = 0
+ignorehitpause = 1
+
+[State 740, nothitby]
+type = VarSet
+trigger1 = win
+trigger2 = lose
+var(25) = 0
+ignorehitpause= 1
+
+[State 740, nothitby]
+type = VarSet
+trigger1 = win
+trigger2 = lose
+var(26) = 0
+ignorehitpause= 1
+
+[State 740, nothitby]
+type = VarSet
+trigger1 = win
+trigger2 = lose
+var(27) = 0
+ignorehitpause= 1
 
 [State 181, 1]
 type = AssertSpecial
@@ -1180,11 +1797,43 @@ v = 13
 value = 0
 ignorehitpause = 1
 
+;5c2cリセット
+[State -2]
+type = Varset
+trigger1 = enemy,movetype != H
+v = 36
+value = 0
+ignorehitpause = 1
+
+;鎖補正リセット
+[State -2]
+type = Varset
+trigger1 = enemy,movetype != H
+v = 18
+value = 0
+ignorehitpause = 1
+
+;嵐を払う補正リセット
+[State -2]
+type = Varset
+trigger1 = enemy,movetype != H
+v = 35
+value = 0
+ignorehitpause = 1
+
 ;斧1リセット
 [State -2]
 type = Varset
 trigger1 = enemy,movetype != H
 v = 14
+value = 0
+ignorehitpause = 1
+
+;凍結リセット
+[State -2]
+type = Varset
+trigger1 = enemy,movetype != H
+v = 37
 value = 0
 ignorehitpause = 1
 
@@ -1212,30 +1861,41 @@ v = 17
 value = 0
 ignorehitpause = 1
 
-[State -1]
-type = PowerAdd
-trigger1 = var(6) = 1
-value = 2
+;[State -1]
+;type = PowerAdd
+;trigger1 = var(6) = 1
+;value = 2
+;ignorehitpause= 1
 
 [State -1]
 type = PowerAdd
 trigger1 = PalNo= 12
 value = 10
+ignorehitpause= 1
 
 [State -1]
 type = VarSet
 trigger1 = PalNo= 12
 var(6) = 1
+ignorehitpause= 1
 
 [State -1]
 type = VarSet
 trigger1 = PalNo= 12
 var(10) = 1000
+ignorehitpause= 1
 
 [State -1]
 type = VarSet
 trigger1 = PalNo= 12
 var(5) = 1
+ignorehitpause= 1
+
+[State -1]
+type = VarSet
+trigger1 = PalNo= 12
+var(22) = 1000
+ignorehitpause= 1
 
 [State 8900, shadow]
 type = AfterImage
@@ -1271,15 +1931,37 @@ Value = 0
 type = RemoveExplod
 trigger1 = stateno != 1700
 ID = 1710
+ignorehitpause= 1
 
 
 [State -2, 3];息が・・・
 type = PlaySnd
 trigger1 = Alive = 0
+triggerall = var(21) = 1
 trigger1 = Var(4) = 1
 value = S14, 0+random%2
 lowpriority = 1
 volume = 250
+
+[State -2, 3];息が・・・
+type = PlaySnd
+triggerall = var(21) = 2
+triggerall = var(24) = 0
+trigger1 = Alive = 0
+trigger1 = Var(4) = 1
+value = S14, 2
+lowpriority = 1
+
+
+[State -2, 3];息が・・・
+type = PlaySnd
+triggerall = var(21) = 2
+triggerall = var(24) = 1
+trigger1 = Alive = 0
+trigger1 = Var(4) = 1
+value = S14, 3
+lowpriority = 1
+
 
 [State -2,0];１回だけ鳴らすように
 type = Varadd
@@ -1292,4 +1974,76 @@ trigger1 = Alive = 1
 v = 4
 value = 0
 
+
+[State -2, 3]
+type = AssertSpecial
+trigger1 = Var(28) = 1
+flag = nomusic
+flag2 = nobardisplay
+
+[State 190, 1]
+Type = VarSet
+;Trigger1 = Time = 0
+trigger1 = StateNo = 170
+var(31) = 1
+
+
+[State -2]
+type = Helper
+trigger1 = NumHelper(26001) < 1
+trigger1 = Var(23) = 1
+helpertype = normal
+name = "kaihuku"
+ID = 26001
+pos = 0,0
+postype = p1
+stateno = 2510
+keyctrl = 0
+ownpal = 0
+sprpriority = -1
+size.xscale = 0.5
+size.yscale = 0.5
+
+[State -2]
+type = LifeAdd
+trigger1 = Alive = 1
+trigger1 = helper(2510),StateNo = 8050
+trigger1 = helper(2510),AnimElem = 5
+value = 300
+absolute = 1
+
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState = 0
+var(22) = 1000
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState = 0
+var(32) = 0
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState = 0
+var(33) = 0
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState = 0
+var(34) = 0
+
+[State 190, 1]
+Type = VarSet
+trigger1 = RoundState = 0
+var(23) = 0
+
+[State -2]
+type = PalFX
+trigger1 = NumHelper(18100) > 0
+trigger1 = Pos X-helper(18100),Pos X = [-21,21]
+trigger1 = Pos Y-helper(18100),Pos Y = [-21,121]
+time = 5
+add = 50,00,256
+sinadd = 64,32,5,4
 

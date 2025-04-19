@@ -1,0 +1,209 @@
+;---------------------------------------------------------------------------
+; ザビ子ゲージへるぱー
+; CNS difficulty: easy
+[Statedef 2505]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= I                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 6850                    ;Change animation (Def: no change)
+
+
+[State 1000, 2]
+type = Explod
+trigger1 = 1
+trigger1 = parent,var(23) = 0
+anim = 6851
+id = 6851
+pos = 28,40
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.4,0.4
+
+[State 1000, 2]
+type = Explod
+trigger1 = 1
+trigger1 = parent,var(23) = 1
+anim = 6852
+id = 6852
+pos = 28,40
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.4,0.4
+
+[State 1000, 2]
+type = Explod
+trigger1 = 1
+anim = 6853
+id = 6853
+pos = 26,57
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.5,0.5
+
+
+
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6854
+id = 6854
+pos = 70,59
+bindtime = -1
+postype = left
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.0010*parent,var(22),1.0
+
+
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6855
+id = 6555
+pos = 70,59
+bindtime = -1
+supermove = 1
+postype = left
+ownpal = 1
+sprpriority = 99999999
+pausemovetime = -1
+supermovetime = -1
+scale = 1.0,1.0
+
+[State 200, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 2505
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; ザビ子ゲージへるぱー2p
+; CNS difficulty: easy
+[Statedef 2506]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= I                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 6850                      ;Change animation (Def: no change)
+
+
+
+[State 1000, 2]
+type = Explod
+trigger1 = 1
+trigger1 = parent,var(23) = 0
+anim = 6851
+id = 6851
+pos = -100,40
+bindtime = -1
+postype = right
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.4,0.4
+
+[State 1000, 2]
+type = Explod
+trigger1 = 1
+trigger1 = parent,var(23) = 1
+anim = 6852
+id = 6852
+pos = -100,40
+bindtime = -1
+postype = right
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.4,0.4
+
+[State 1000, 2]
+type = Explod
+trigger1 = 1
+anim = 6853
+id = 6853
+pos = -65,57
+bindtime = -1
+postype = right
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.5,0.5
+
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6854
+id = 6854
+pos = -140,59
+bindtime = -1
+postype = right
+ownpal = 1
+sprpriority = 99999999999999999
+pausemovetime = -1
+supermovetime = -1
+scale = 0.0010*parent,var(22),1.0
+
+[State 1000, 2]
+type = Explod
+trigger1 = time = 0
+anim = 6855
+id = 6555
+pos = -140,59
+bindtime = -1
+supermove = 1
+postype = right
+ownpal = 1
+sprpriority = 99999999
+pausemovetime = -1
+supermovetime = -1
+scale = 1.0,1.0
+
+[State 200, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 2506
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+; ザビ子制限回復
+; CNS difficulty: easy
+[Statedef 2510]
+type    = S                      ;State-type: S-stand, C-crouch, A-air, L-liedown
+movetype= I                      ;Move-type: A-attack, I-idle, H-gethit
+physics = S                      ;Physics: S-stand, C-crouch, A-air
+velset = 0,0                     ;Set velocity (x,y) (Def: no change)
+ctrl = 0                         ;Set ctrl (Def: no change)
+anim = 6856                    ;Change animation (Def: no change)
+
+
+[State 190, 1]
+Type = ParentVarSet
+Trigger1 = Time = 300
+var(23) = 0
+
+
+[State 210, Destroy]
+type = DestroySelf
+trigger1 = Time = 301
