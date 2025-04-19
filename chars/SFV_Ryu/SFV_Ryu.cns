@@ -1,11 +1,11 @@
 [Data]
 life = 1000			
-power = 900
-attack = 100
+power = 1900
+attack = 120
 defence = 100
 fall.defence_up = 50
-liedown.time = 60
-airjuggle = 15
+liedown.time = 24
+airjuggle = 20
 sparkno = -1			
 guard.sparkno = -1	
 KO.echo = 0				

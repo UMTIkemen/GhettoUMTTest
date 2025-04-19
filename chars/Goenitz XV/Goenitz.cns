@@ -2034,7 +2034,7 @@ Physics = S
 Anim = 250
 Velset = 0
 Ctrl = 0
-Juggle  = 100
+Juggle  = 8
 facep2 = 1
 
 [State 181,]

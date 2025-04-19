@@ -1,0 +1,937 @@
+[Statedef -2]
+
+[state -2, debug]
+type = DisplayToClipboard
+trigger1 = 1
+text = "hit = %d c = %d time = %d damage = %f"
+params = var(0),var(1),var(45),fvar(0)
+ignorehitpause = 1
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;ヒットスパーク表示
+;---------------------------------------------------------------------------
+[State -2, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoAirGuard
+
+[state -2, var]
+type = varset
+trigger1 = var(43) < 0
+trigger1 = movecontact = 1
+var(43) = hitpausetime
+ignorehitpause = 1
+
+[State -2, Finish]
+type = ScreenBound
+triggerall = (Life <= 0) || (!Alive) || (Lose)
+trigger1 = (StateNo = 5150) && (RoundState = 4)
+value = 0
+MoveCamera = 0,0
+IgnoreHitPause = 1
+
+[State -2, Hit Detection]
+type = varset
+trigger1 = movecontact = 1 && var(30) < 0
+var(30) = hitpausetime
+ignorehitpause = 1
+
+[State -2, Sparks]
+type = helper
+triggerall = StateNo != 1301 && StateNo != 1331
+triggerall = movecontact = 1 && var(30) = hitpausetime
+trigger1 = movehit = 1 && numenemy
+trigger1 = var(33) = 8010 || var(33) = 8011 || var(33) = 8012 || var(33) = 8013 || var(33) = 8014 || var(33) = 8001
+trigger2 = moveguarded = 1 && numenemy
+trigger2 = var(34) = 8000 || var(34) = 8001
+trigger3 = MoveHit = 1 && NumEnemy
+trigger3 = var(33) = 8015 || var(33) = 8016 || var(33) = 8017
+stateno = ifelse(moveguarded, var(34), var(33))
+ID = 8000
+name = "Spark"
+postype = p1
+pos = ifElse(P2Dist x < 0, 0, ifElse(P2Dist x < var(35), ceil(P2Dist x), var(35))), var(36)
+facing = -1
+ownpal = 1
+pausemovetime = 65535
+supermovetime = 65535
+ignorehitpause = 1
+
+[State -2, Counter FX]
+type = helper
+trigger1 = movehit = 1 && var(30) = hitpausetime
+trigger1 = numenemy && var(9)
+trigger1 = !(hitdefattr = SCA, AT) && (stateno != [1200, 1299]) && (stateno != [3400, 3499])
+helpertype = normal
+stateno = 8290
+ID = 8290
+name = "Counter FX"
+postype = p1
+pos = ifelse(p2dist x < 0, 0, ifelse(p2dist x < var(35), ceil(p2dist x), var(35))), var(36)
+facing = -1
+ownpal = 1
+pausemovetime = 255
+supermovetime = 255
+ignorehitpause = 1
+[State -2, Counter Flag]
+type = varset
+trigger1 = numenemy
+var(9) = (enemynear, movetype = A)
+ignorehitpause = 1
+
+[State -2, Hit Detection]
+type = varset
+trigger1 = 1
+var(30) = -1
+
+[State -2, Hit Detection]
+type = varrangeset
+trigger1 = movetype = I
+trigger2 = movetype = H && time
+first = 30
+last = 36
+value = -1
+ignorehitpause = 1
+
+[State -2, snd]
+type = playsnd
+triggerall = !winko
+triggerall = var(43) = hitpausetime
+triggerall = movecontact = 1
+trigger1 = movehit = 1
+value = 0,var(53)
+ignorehitpause = 1
+[State -2, snd]
+type = playsnd
+triggerall = var(43) = hitpausetime
+triggerall = movecontact = 1
+trigger1 = moveguarded = 1
+value = 0,var(54)
+ignorehitpause = 1
+
+[state -2, var]
+type = varrangeset
+trigger1 = movetype=I 
+trigger2 = movetype=H && time=1
+first = 50
+last = 54
+value = -1
+ignorehitpause = 1
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;var
+;---------------------------------------------------------------------------
+;hit判定
+[state -2, var]
+type = varset
+trigger1 = var(43) = hitpausetime
+trigger1 = movecontact
+var(0) = 1+(moveguarded!=0)+(movereversed!=0)*2
+ignorehitpause = 1
+[state -2, var]
+type = varset
+trigger1 = movetype = I 
+trigger2 = movetype != I && time=1
+var(0) = 0
+
+;カウンターヒット判定
+[state -2, var]
+type = varset
+trigger1 = roundstate = 2
+trigger1 = numenemy
+trigger1 = !var(3)
+trigger1 = enemynear,movetype = A
+var(3) = 1
+ignorehitpause = 1
+[state -2, var]
+type = varset
+trigger1 = var(43) = -1
+trigger1 = roundstate = 2
+trigger1 = var(3)
+trigger1 = enemynear,movetype != A
+var(3) = 0
+ignorehitpause = 1
+
+;ジャンプ判定
+[state -2, var]
+type = varset
+trigger1 = roundstate = 2
+trigger1 = statetype != A
+trigger1 = var(4) && stateno!=40
+var(4) = 0
+ignorehitpause = 1
+
+;ジャンプ判定2
+[state -2, var]
+type = varset
+trigger1 = roundstate = 2
+trigger1 = statetype != A
+trigger1 = var(5) && stateno!=40
+var(5) = 0
+ignorehitpause = 1
+
+;空中ダッシュ使用フラグ
+[state -2, var]
+type = varset
+trigger1 = roundstate = 2
+trigger1 = statetype != A
+trigger1 = var(8)
+var(8) = 0
+ignorehitpause = 1
+
+;浮遊使用フラグ
+[state -2, var]
+type = varset
+trigger1 = roundstate = 2
+trigger1 = statetype != A
+trigger1 = var(9)
+var(9) = 0
+
+;セーガ使用フラグ
+[State -2, var]
+type = varset
+trigger1 = !numhelper(1005)
+trigger1 = !numhelper(3005)
+trigger1 = var(11)
+var(11) = 0
+
+;EX演出用
+[State -2, var]
+type = varset
+trigger1 = movetype != A
+trigger1 = stateno != [1000,1999]
+var(18) = 0
+
+;ステート内hit数カウント
+[state -2, var]
+type = varset
+trigger1 = time = 1
+var(42) = 0
+ignorehitpause = 1
+[state -2, var]
+type = varadd
+trigger1 = var(43) = hitpausetime
+trigger1 = movecontact = 1
+var(42) = 1
+ignorehitpause = 1
+
+;pausetime
+[state -2, var]
+type = varset
+trigger1 = 1
+var(43) = -1
+
+;イントロ用
+[State -2, var]
+type = varset
+trigger1 = win
+trigger1 = !enemynear,alive
+trigger1 = p2stateno != 5150
+var(56) = ceil(enemynear,pos x)
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;補正
+;---------------------------------------------------------------------------
+
+;コンボ補正OFF
+[state -2, var]
+type = varset
+trigger1 = !var(40)
+trigger2 = var(44) = 1
+trigger2 = time = 1
+var(44) = 0
+ignorehitpause = 1
+
+;コンボ補正始動State
+[state -2, var]
+type = varset
+triggerall = var(44) != 2
+trigger1 = stateno = 200
+trigger2 = stateno = 210
+trigger3 = stateno = 220
+trigger4 = stateno = 230
+trigger5 = stateno = 240
+trigger6 = stateno = 250
+trigger7 = stateno = 400
+trigger8 = stateno = 410
+trigger9 = stateno = 420
+trigger10 = stateno = 430
+trigger11 = stateno = 440
+trigger12 = stateno = 450
+trigger13 = stateno = 600
+trigger14 = stateno = 610
+trigger15 = stateno = 620
+trigger16 = stateno = 630
+trigger17 = stateno = 640
+trigger18 = stateno = 650
+trigger19 = stateno = 3000
+trigger20 = stateno = 3100
+trigger21 = stateno = 3200
+trigger22 = stateno = 3300
+var(44) = 1
+ignorehitpause = 1
+
+;コンボ補正ON
+[state -2, var]
+type = varset
+trigger1 = var(40) > 0
+trigger1 = var(44) = 1
+var(44) = 2
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;Hit数
+[state -2, var]
+type = varset
+trigger1 = numenemy
+trigger1 = enemynear,movetype != H
+var(40) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varadd
+trigger1 = movehit = 1
+trigger2 = projhit = 1
+var(40) = 1
+;ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+trigger1 = stateno = 200
+trigger2 = stateno = 230
+trigger3 = stateno = 400
+trigger4 = stateno = 430
+trigger5 = stateno = 600
+trigger6 = stateno = 630
+fvar(0) = fvar(0)*.94
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+trigger1 = stateno = 210
+trigger2 = stateno = 240
+trigger3 = stateno = 410
+trigger4 = stateno = 440
+trigger5 = stateno = 610
+trigger6 = stateno = 640
+fvar(0) = fvar(0)*.82
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+trigger1 = stateno = 220
+trigger2 = stateno = 250
+trigger3 = stateno = 420
+trigger4 = stateno = 450
+trigger5 = stateno = 620
+trigger6 = stateno = 650
+fvar(0) = fvar(0)*.88
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+triggerall = fvar(0) < 1
+triggerall = time = 1
+trigger1 = stateno = [1000,1999]
+fvar(0) = ifelse((fvar(0)*.75)>.6,(fvar(0)*.75),.6)
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+triggerall = fvar(0) < 1
+triggerall = time = 1
+trigger1 = stateno = [3000,3999]
+trigger1 = prevstateno != [3000,3999]
+fvar(0) = ifelse((fvar(0)*1.3)<.94,.94,(fvar(0)*1.3))
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+trigger1 = stateno = [3000,3999]
+trigger1 = prevstateno = [3000,3999]
+fvar(0) = ifelse((fvar(0)*.85)<.8,(fvar(0)*.85),.8)
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = !var(20)
+triggerall = var(44) = 2
+trigger1 = fvar(0) < .28
+fvar(0) = .28
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(20)
+trigger2 = !var(44)
+trigger3 = fvar(0) > 1
+fvar(0) = 1
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = fvar(0) < 0
+fvar(0) = 0
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = var(20)
+trigger1 = stateno = [3000,3999]
+trigger1 = fvar(1) < 1
+fvar(0) = fvar(1)
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 1
+fvar(1) = .92
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 2
+fvar(1) = .84
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 3
+fvar(1) = .76
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 4
+fvar(1) = .68
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 5
+fvar(1) = .60
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 6
+fvar(1) = .52
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 7
+fvar(1) = .44
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 8
+fvar(1) = .36
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 9
+fvar(1) = .30
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 10
+fvar(1) = .24
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 11
+fvar(1) = .18
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) = 12
+fvar(1) = .12
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = var(40) >= 13
+fvar(1) = .06
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+triggerall = prevstateno=200 || prevstateno=230 || prevstateno=400 || prevstateno=430 || prevstateno=600 || prevstateno=630
+trigger1 = stateno = 200
+trigger2 = stateno = 230
+trigger3 = stateno = 400
+trigger4 = stateno = 430
+trigger5 = stateno = 600
+trigger6 = stateno = 630
+fvar(2) = fvar(2)*.96
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+triggerall = prevstateno=210 || prevstateno=240 || prevstateno=410 || prevstateno=440 || prevstateno=610 || prevstateno=640
+trigger1 = stateno = 210
+trigger2 = stateno = 240
+trigger3 = stateno = 410
+trigger4 = stateno = 440
+trigger5 = stateno = 610
+trigger6 = stateno = 640
+fvar(2) = fvar(2)*.8
+ignorehitpause = 1
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+triggerall = time = 1
+triggerall = prevstateno=220 || prevstateno=250 || prevstateno=420 || prevstateno=450 || prevstateno=620 || prevstateno=650
+trigger1 = stateno = 220
+trigger2 = stateno = 250
+trigger3 = stateno = 420
+trigger4 = stateno = 450
+trigger5 = stateno = 620
+trigger6 = stateno = 650
+fvar(2) = fvar(2)*.88
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+triggerall = var(20)
+triggerall = var(44) = 2
+trigger1 = fvar(2) < 1
+fvar(1) = fvar(1)*fvar(2)
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = !var(20)
+trigger1 = !var(44)
+trigger2 = fvar(1) > 1
+fvar(1) = 1
+ignorehitpause = 1
+[state -2, var]
+type = varset
+trigger1 = !var(20)
+trigger1 = !var(44)
+trigger2 = fvar(2) > 1
+fvar(2) = 1
+ignorehitpause = 1
+
+[state -2, var]
+type = varset
+trigger1 = fvar(1) < 0
+fvar(1) = 0
+ignorehitpause = 1
+[state -2, var]
+type = varset
+trigger1 = fvar(2) < 0
+fvar(2) = 0
+ignorehitpause = 1
+;===========================================================================
+;---------------------------------------------------------------------------
+;オリコン管理
+;---------------------------------------------------------------------------
+
+[State -2, var]
+type = varadd
+trigger1 = var(21)
+var(21) = -1
+ignorehitpause = 1
+[State -2, var]
+type = varset
+trigger1 = !var(20)
+var(21) = 0
+ignorehitpause = 1
+[State -2, var]
+type = varset
+trigger1 = var(20)
+trigger1 = !var(21)
+trigger2 = movetype = H
+trigger2 = stateno != [120,159]
+trigger3 = stateno = 700
+trigger4 = stateno = [3000,3999]
+var(20) = 0
+ignorehitpause = 1
+
+[State -2, Excel PalFX]
+type = palfx
+trigger1 = var(21) > 60
+time = 2
+add = 32 + ceil(sin(var(21) / 16.0 * pi) * 32), 32 + ceil(sin(var(21) / 16.0 * pi) * 32), 32 + ceil(sin(var(21) / 16.0 * pi) * 32)
+ignorehitpause = 1
+
+[State -2, Excel PalFX]
+type = palfx
+trigger1 = (var(21) = [1, 60])
+time = 2
+add = 64 + ceil(sin(var(21) / 8.0 * pi) * 64), 64 + ceil(sin(var(21) / 8.0 * pi) * 64), 64 + ceil(sin(var(21) / 8.0 * pi) * 64)
+ignorehitpause = 1
+
+[State -2, Excel Timer]
+type = helper
+trigger1 = !numhelper(8405) && var(21) > 0
+helpertype = normal
+stateno = 8405
+ID = 8405
+name = "Excel Timer"
+postype = p1
+ownpal = 1
+pausemovetime = 2147483647
+supermovetime = 2147483647
+ignorehitpause = 1
+
+
+;===========================================================================
+;===========================================================================
+[Statedef -3]
+;===========================================================================
+;---------------------------------------------------------------------------
+;ノックバック関連
+;---------------------------------------------------------------------------
+[state -3, var]
+type = varset
+triggerall = movecontact = 1
+trigger1 = stateno = 200
+trigger2 = stateno = 230
+trigger3 = stateno = 400
+trigger4 = stateno = 430
+var(45) = 8
+ignorehitpause = 1
+[state -3, var]
+type = varset
+triggerall = movecontact = 1
+trigger1 = stateno = 210
+trigger2 = stateno = 240
+trigger3 = stateno = 410
+trigger4 = stateno = 440
+var(45) = 8
+ignorehitpause = 1
+[state -3, var]
+type = varset
+triggerall = movecontact = 1
+trigger1 = stateno = 220
+trigger2 = stateno = 420
+var(45) = 4
+ignorehitpause = 1
+[state -3, var]
+type = varset
+triggerall = movecontact = 1
+trigger1 = stateno = 450
+var(45) = 6
+ignorehitpause = 1
+[State -3, pos]
+type = posadd
+trigger1 = stateno = 200 || stateno = 230 || stateno = 400 || stateno = 430
+trigger1 = !var(20)
+trigger1 = var(45)
+trigger1 = numtarget
+trigger1 = target,statetype = A
+trigger1 = target,backedgebodydist <= 10
+x = -6*const(size.xscale)
+[State -3, pos]
+type = posadd
+trigger1 = stateno = 210 || stateno = 240 || stateno = 410 || stateno = 440
+trigger1 = !var(20)
+trigger1 = var(45)
+trigger1 = numtarget
+trigger1 = target,statetype = A
+trigger1 = target,backedgebodydist <= 10
+x = -(8-(var(45)<3)*4)*const(size.xscale)
+[State -3, pos]
+type = posadd
+trigger1 = stateno = 220 || stateno = 420
+trigger1 = !var(20)
+trigger1 = var(45)
+trigger1 = numtarget
+trigger1 = target,statetype = A
+trigger1 = target,backedgebodydist <= 10
+x = -8*const(size.xscale)
+[State -3, pos]
+type = posadd
+trigger1 = stateno = 450
+trigger1 = !var(20)
+trigger1 = var(45)
+trigger1 = numtarget
+trigger1 = target,statetype = A
+trigger1 = target,backedgebodydist <= 10
+x = -(10-(var(45)<4)*4)*const(size.xscale)
+
+[state -3, var]
+type = varadd
+trigger1 = var(45)
+var(45) = -1
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;ブロッキング関連
+;---------------------------------------------------------------------------
+
+[state -3, helper]
+type = helper
+triggerall = roundstate = 2
+triggerall = !numhelper(4350)
+triggerall = (movetype=I && ctrl) || (stateno=[4300,4320]) || (stateno=[120,132]) || (stateno=[21,22]) || stateno=5120
+triggerall = command!="rfwd" && command!="rback" && command!="rup" && command!="rdown"
+trigger1 = (statetype=S || statetype=C || stateno=5120)
+trigger1 = command="fwd" || command="down"
+trigger2 = statetype = A
+trigger2 = !var(4) && !var(5) && !var(13) && (stateno!=[100,105])
+trigger2 = command="fwd"
+helpertype = normal
+name = "bro helper"
+stateno = 4350
+id = 4350
+pausemovetime = 999999
+supermovetime = 999999
+ignorehitpause = 1
+
+
+[State -3, end]
+type = changestate
+trigger1 = stateno != [4300,4320]
+trigger1 = numhelper(4350)
+trigger1 = helper(4350),stateno = 4351
+value = ifelse((helper(4350),anim=4370),4320, ifelse((helper(4350),anim=4360),4310,4300))
+ignorehitpause = 1
+[state -3, htr]
+type = hitoverride
+trigger1 = stateno != [4300,4320]
+trigger1 = numhelper(4350)
+trigger1 = !(helper(4350),var(0)) && helper(4350),anim=4350
+attr = SA,AP
+stateno = 4300
+slot = 0
+time = 1
+[state -3, htr]
+type = hitoverride
+trigger1 = stateno != [4300,4320]
+trigger1 = numhelper(4350)
+trigger1 = !helper(4350),var(0) && helper(4350),anim=4360
+attr = C,AP
+stateno = 4310
+slot = 1
+time = 1
+[state -3, htr]
+type = null;hitoverride
+trigger1 = stateno != [4300,4320]
+trigger1 = numhelper(4350)
+trigger1 = !helper(4350),var(0) && helper(4350),anim=4370
+attr = SCA,AP
+stateno = 4320
+slot = 1
+time = 1
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;EX関連
+;---------------------------------------------------------------------------
+[state -3, pal]
+type = palfx
+trigger1 = !(gametime % 2) && var(18)
+trigger1 = (stateno=[1000,1999])
+time = 1
+color = 0
+mul = 256, 224, 0
+add = 128, 128, 128
+ignorehitpause = 1
+[state -3, snd]
+type = playsnd
+triggerall = var(18)
+triggerall = time = 1
+trigger1 = stateno = 1050
+trigger2 = stateno = 1150
+trigger3 = stateno = 1250
+trigger4 = stateno = 1350
+value = 0,21
+ignorehitpause = 1
+
+;===========================================================================
+;---------------------------------------------------------------------------
+
+;被ダメ時ボイス
+[state -3, snd]
+type = playsnd
+triggerall = GetHitVar(animtype) > 0
+triggerall = random < 400
+triggerall = time = 1
+triggerall = alive
+trigger1 = stateno = 5000
+trigger2 = stateno = 5020
+trigger3 = stateno = 5070
+trigger4 = stateno = 5080
+trigger5 = stateno = 5100
+value = 2,0+(GetHitVar(animtype)>1)
+channel = 0
+
+;被ダメ時音声中断
+[state -3, snd]
+type = stopsnd
+trigger1 = movetype != I
+trigger1 = time = 1
+channel = 2
+
+;===========================================================================
+;---------------------------------------------------------------------------
+
+[State -3, Movement Afterimage]
+type = afterimage
+triggerall = time = 1 && !var(20)
+trigger1 = stateno = 50 && (var(3) = 2 || var(3) = 3)
+trigger2 = (stateno = [701, 720])
+time = 2
+timegap = 1
+framegap = 4
+length = 9
+palbright = 0, 0, 0
+palcontrast = 128, 128, 128
+palpostbright = 0, 0, 0
+paladd = 0, 0, 0
+palmul = 0.9, 0.9, 0.9
+trans = add1
+
+[State -3, lv1supershadow]
+type=afterimage
+trigger1= (stateno=[3000,3399]) && movetype = A && time = 1
+time=2
+timegap=1
+framegap=10
+length=30
+paladd=0,0,0
+palmul=.75,.75,.75
+palcontrast=128,128,128
+palpostbright=0,0,0
+trans=add1
+
+[State -3, lv2supershadow]
+type=afterimage
+trigger1= (stateno=[3400,3599]) && movetype = A && time = 1
+time=2
+timegap=1
+framegap=10
+length=30
+paladd=0,0,0
+palmul=.75,.75,.75
+palcontrast=32,32,160
+palpostbright=0,0,0
+trans=add1
+
+[State -3, lv3supershadow]
+type=afterimage
+trigger1= (stateno=[3600,3999]) && movetype = A && time = 1
+time=2
+timegap=1
+framegap=10
+length=30
+paladd=0,0,0
+palmul=.75,.75,.75
+palcontrast=160,32,32
+palpostbright=0,0,0
+trans=add1
+
+[State -3, supershadowtime]
+type = AfterImageTime
+trigger1 = (stateno=[3000,4999]) && AnimElemTime(1) >= 0
+trigger2 = (stateno=[2000,2999]) && AnimElemTime(1) >= 0
+trigger3 = (stateno=[701,720]) && AnimElemTime(1) >= 0
+trigger4 = var(20)
+time = 2
+
+[State -3, Prevent Crossup]
+type=width
+trigger1= 1
+edge=8,0
+ignorehitpause=1
+
+[State -3, CC Finish]
+type = helper
+triggerall = winKO && var(20)
+triggerall = roundstate = 3 && !numhelper(8600)
+trigger1 = movehit = [1, 4]
+trigger2 = StateNo = 810 && (AnimElemTime(6) = [0, 1])
+trigger3 = StateNo = 820 && (AnimElemTime(6) = [0, 1])
+trigger4 = numhelper(1005)
+trigger4 = (helper(1005), stateno = [1005, 1007]) && (helper(1005), var(18))
+trigger5 = numhelper(1055)
+trigger5 = (helper(1055), stateno = [1055, 1057]) && (helper(1055), var(18))
+helpertype = normal
+stateno = 8600
+ID = 8600 + 0 * (var(23) := 900)
+name = "Super Finish"
+postype = left
+pos = 160, -120
+ownpal = 1
+pausemovetime = 255
+supermovetime = 255
+ignorehitpause = 1
+
+[State -3, Super Finish]
+type = helper
+triggerall = winKO
+triggerall = roundstate = 3 && !numhelper(8600)
+trigger1 = MoveHit = 1 && (StateNo = [3000,4999])
+trigger1 = var(23) := stateno
+trigger2 = StateNo = [3000,3199]
+trigger2 = var(23) := 3000
+trigger3 = StateNo = 3200
+trigger3 = var(23) := 3200
+trigger4 = StateNo = 3300
+trigger4 = var(23) := 3300
+trigger5 = StateNo = [3400,3499]
+trigger5 = var(23) := 3400
+trigger6 = StateNo = [3500,3599]
+trigger6 = var(23) := 3500
+trigger7 = StateNo = [3600,3699]
+trigger7 = var(23) := 3600
+stateno = 8600
+ID = 8600
+name = "Super Finish"
+postype = left
+pos = 160, -120
+ownpal = 1
+pausemovetime = 255
+supermovetime = 255
+ignorehitpause = 1

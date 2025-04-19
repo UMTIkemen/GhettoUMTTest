@@ -1,0 +1,44 @@
+
+[Info]
+Name         = "Jedah Dohma"
+DisplayName  = "Jedah"
+VersionDate  = 07,09,2009
+MugenVersion = 1.0
+Author       = "Izumo"
+;Editor      = "gui0007"
+Pal.Defaults = 1,2,3,4,5,6,7,8,9,10,11,12
+
+
+
+[Files]
+Cmd      = Jedah.cmd
+Cns      = Jedah.cns
+St       = Jedah.cns
+St1      = Jedah_sp.cns
+St2      = Jedah_sc.cns
+St3	 = Jedah-2.cns
+St4	 = Jedah_common.cns
+st5        = helpers.cns
+StCommon = common1.cns
+Sprite   = Jedah.sff
+Anim     = Jedah.air
+Sound    = Jedah.snd
+
+Pal1    = Palettes/darkstalkers3.act
+Pal2    = Palettes/Red.act
+Pal3    = Palettes/Golden.act
+Pal4    = Palettes/darkstalkers3.act
+Pal5    = Palettes/Dark.act
+Pal6    = Palettes/Blue.act
+Pal7    = Palettes/BrownSins.act
+Pal8    = Palettes/OliveTreachery.act
+Pal9    = Palettes/CrimsonHorror.act
+Pal10    = Palettes/PurpleRequiem.act
+Pal11    = Palettes/Rikuo.act
+Pal12    = Palettes/LastMoment.act
+
+;[Arcade]
+;Intro.Storyboard  = 
+;Ending.Storyboard = 
+
+
