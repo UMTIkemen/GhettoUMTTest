@@ -1688,24 +1688,24 @@ trigger1 = ctrl
 
 ;---------------------------------------------------------------------------
 ;Roll
-[State -1, Roll]
-type = ChangeState
-value = 701
-triggerall = var(59) = 0
-triggerall = command = "Roll"
-triggerall = command = "holdback"
-triggerall = statetype != A
-trigger1 = ctrl
+;[State -1, Roll]
+;type = ChangeState
+;value = 701
+;triggerall = var(59) = 0
+;triggerall = command = "Roll"
+;triggerall = command = "holdback"
+;triggerall = statetype != A
+;trigger1 = ctrl
 
 ;---------------------------------------------------------------------------
 ;Roll
-[State -1, Roll]
-type = ChangeState
-value = 700
-triggerall = var(59) = 0
-triggerall = command = "Roll"
-triggerall = statetype != A
-trigger1 = ctrl
+;[State -1, Roll]
+;type = ChangeState
+;value = 700
+;triggerall = var(59) = 0
+;triggerall = command = "Roll"
+;triggerall = statetype != A
+;trigger1 = ctrl
 
 ;===========================================================================
 ;---------------------------------------------------------------------------

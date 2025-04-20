@@ -15687,7 +15687,7 @@ lowpriority = -1
 [State 0, NotHitBy]
 type = NotHitBy
 trigger1 = time <= 10
-value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+value = SCA,SP,AP,
 time = 9
 
 [State 0, VarSet]
@@ -19691,7 +19691,7 @@ type = HitDef
 trigger1 = timemod = 10, 1
 attr = S, HP
 animtype  = Hard
-damage    = 21, 16
+damage    = 12, 16
 priority  = 7, Hit
 hitflag = MAFD
 guardflag = MA
@@ -19724,7 +19724,7 @@ type = HitDef
 trigger1 = timemod = 10, 5
 attr = S, HP
 animtype  = Hard
-damage    = 21, 16
+damage    = 12, 16
 priority  = 7, Hit
 hitflag = MAFD
 guardflag = MA
@@ -21233,7 +21233,7 @@ type = HitDef
 trigger1 = time = 0
 attr = S, HA
 animtype  = Hard
-damage    = 178, 28
+damage    = 210, 28
 priority  = 7, Hit
 hitflag = MAFD
 guardflag = MA

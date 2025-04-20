@@ -5296,6 +5296,13 @@ triggerall = prevstateno < 200
 trigger1 = time = 0
 x = 0
 
+;------- i-frames ------
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = time <= 10
+value = SCA,SP,AP,
+time = 9
+
 ;------ juggle points -------
 [State 1220, juggle]
 type = varadd

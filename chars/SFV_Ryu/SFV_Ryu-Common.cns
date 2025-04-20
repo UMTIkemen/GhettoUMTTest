@@ -766,7 +766,7 @@ x = -15*const(size.xscale)
 [State 105, pos]
 type = posadd
 trigger1 = time =3
-x = -9*const(size.xscale)
+x = -14*const(size.xscale)
 
 [State 105, pos]
 type = posadd
@@ -796,12 +796,12 @@ x = -12*const(size.xscale)
 [State 105, pos]
 type = posadd
 trigger1 = time =9
-x = -10*const(size.xscale)
+x = -17*const(size.xscale)
 
 [State 105, pos]
 type = posadd
 trigger1 = time =10
-x = -7*const(size.xscale)
+x = -40*const(size.xscale)
 
 [State 105, pos]
 type = posadd

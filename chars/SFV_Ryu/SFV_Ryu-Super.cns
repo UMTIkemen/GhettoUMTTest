@@ -262,7 +262,7 @@ persistent = 0
 [State 7010, vel]
 type = velset
 trigger1 = time = 1
-x = 9.5 * const(size.xscale)
+x = 19 * const(size.xscale)
 
 [State 7010, projectile detection]
 type = parentvarset
@@ -6923,7 +6923,7 @@ persistent = 0
 [State 7510, vel]
 type = velset
 trigger1 = time = 1
-x = 9.5 * const(size.xscale)
+x = 17 * const(size.xscale)
 
 [State 7510, projectile detection]
 type = parentvarset

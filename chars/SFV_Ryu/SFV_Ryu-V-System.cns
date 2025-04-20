@@ -53,7 +53,7 @@ fvar(30) = 0
 [State 4000, juggle]
 type = varadd
 trigger1 = movehit = 1 && p2statetype = a
-v = 13
+v = 20
 value = ifelse(var(10), 0, 1)
 ignorehitpause = 1
 persistent = 0
@@ -68,7 +68,7 @@ var(25) = 1
 [State 4000, increment combo count]
 type = varadd
 trigger1 = movehit = 1
-v = 40
+v = 45
 value = 1
 ignorehitpause = 1
 persistent = 0
@@ -169,7 +169,7 @@ fvar(30) = 0
 [State 4005, juggle]
 type = varadd
 trigger1 = movehit = 1 && p2statetype = a
-v = 13
+v = 25
 value = ifelse(var(10), 0, 1)
 ignorehitpause = 1
 persistent = 0
@@ -407,7 +407,7 @@ var(9) = 10
 [State 4100, juggle]
 type = varadd
 trigger1 = movehit = 1 && p2statetype = a
-v = 13
+v = 25
 value = 0
 ignorehitpause = 1
 persistent = 0
