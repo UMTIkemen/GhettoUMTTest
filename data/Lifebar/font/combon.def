@@ -1,0 +1,15 @@
+﻿[FNT v2]
+; FNT v2 version number.  Don't change this.
+fntversion = 2,00
+; Name of this font.
+name = "Coalition"
+
+[Def]
+Type = Bitmap
+Size = 0,52
+Spacing = 0,0
+Offset = 0,0
+File = combon.sff
+
+; Note: All units are in pixels.
+; Text rendered with truetype fonts may be ASCII or UTF-8
