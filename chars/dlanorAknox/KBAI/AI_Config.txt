@@ -1,0 +1,1063 @@
+;==============================================================================
+[Statedef 9999]
+anim=9999
+ctrl=0
+[State 9999]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+[State 9999]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1
+
+;==============================================================================
+;	AI各種設定
+;==============================================================================
+
+[State , AIレベル設定]
+type = varset
+trigger1 = isHelper
+Trigger1 = IsHelper(9876 + Root,ID)
+;------------------------------------------------------------------------------
+var(59) = 5			;@ AI Level(0-7) Default:5
+;------------------------------------------------------------------------------
+; 	0：AIOFF　1-2：EASY  3-4：NORMAL  5-6：HARD  7：KNOX
+;	Lv7は超反応　11P、12Pは強制的にLv7になります
+										IgNoreHitPause = 1
+
+
+[State , AI常時起動設定]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(59) = 0
+V = 59
+;------------------------------------------------------------------------------
+Value = 1			;@ Always AI(0-1) Default:1
+;------------------------------------------------------------------------------
+; 	0：OFF（人操作用）  1：ON（操作不可）
+;	CPUとして使う場合はON推薦
+										IgNoreHitPause = 1
+
+
+[State , 対AI用学習使用スイッチ]
+type = parentvarset
+trigger1 = isHelper
+Trigger1 = IsHelper(9876 + Root,ID)
+;------------------------------------------------------------------------------
+var(58) = 0			;@(0-1) Default:0
+;------------------------------------------------------------------------------
+;	0：OFF  1：ON
+;	AILv5以上で適用　人操作で相手する場合はOFFの方がいいかも
+										IgNoreHitPause = 1
+
+
+[State , コーネリア/ガートルード使用方針]
+type = parentvarset
+trigger1 = isHelper
+Trigger1 = IsHelper(9876 + Root,ID)
+Trigger1 = Root,Palno = [1,10]
+;------------------------------------------------------------------------------
+var(55) = 1			;@(0-1) Default:1
+;------------------------------------------------------------------------------
+;	0：OFF  1：ON
+;	1P～6P…コーネリア（泉以外）を使用するかどうか
+;	7P～10P…ガートルード・シュロース（5ゲージ版）を使用するかどうか（AILv5以上）
+										IgNoreHitPause = 1
+
+
+[State , ゲージ回復/消費制御スイッチ]
+type = parentvarset
+trigger1 = isHelper
+Trigger1 = IsHelper(9876 + Root,ID)
+;------------------------------------------------------------------------------
+var(56) = 1			;@(0-1) Default:1
+;------------------------------------------------------------------------------
+;	0：OFF（本体デフォルト）  1：ON（AIデフォルト）
+;	ONにするとイントロや勝利演出中にパートナーゲージとメタゲージが上昇/消費されなくなります
+										IgNoreHitPause = 1
+
+
+;==============================================================================
+;	↑ここまで　以下触るの禁止
+;==============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[State 9999, 間違いで本体が来たら立ちへ復帰]
+Type = SelfState
+Trigger1 = !IsHelper
+Value = 0
+Ctrl = 1
+
+[State 9999, 本体と同じ向き]
+Type = Turn
+TriggerAll = IsHelper
+Trigger1 = Facing != Root,Facing
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 9999, Var(59)下限]
+Type = VarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+Trigger1 = Var(59) < 1
+V = 59
+Value = 1
+
+[State 9999, Var(59)上限]
+Type = VarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+Trigger1 = Var(59) > 7
+V = 59
+Value = 7
+
+[State 9999, Var(59)]
+Type = VarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+Trigger1 = Parent,Palno >=11
+Trigger1 = Var(59) != 7
+V = 59
+Value = 7
+
+;==============================================================================
+;	AI起動用ヘルパー
+;==============================================================================
+[State 9999,AI2];プレイヤー判定
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+TriggerAll = Root,Var(59) = 0
+trigger1=command="up"&&root,command="up"
+trigger2=command="down"&&root,command="down"
+trigger3=command="back"&&root,command="back"
+trigger4=command="fwd"&&root,command="fwd"
+trigger5=command="a"&&root,command="a"
+trigger6=command="b"&&root,command="b"
+trigger7=command="c"&&root,command="c"
+trigger8=command="x"&&root,command="x"
+trigger9=command="y"&&root,command="y"
+trigger10=command="z"&&root,command="z"
+trigger11=command="start"&&root,command="start"
+var(59)=-1
+
+[State 9999,AI3];立ったら消失
+Type = DestroySelf
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(59) = 0
+trigger2=command="up"&&root,command="up"
+trigger3=command="down"&&root,command="down"
+trigger4=command="back"&&root,command="back"
+trigger5=command="fwd"&&root,command="fwd"
+trigger6=command="a"&&root,command="a"
+trigger7=command="b"&&root,command="b"
+trigger8=command="c"&&root,command="c"
+trigger9=command="x"&&root,command="x"
+trigger10=command="y"&&root,command="y"
+trigger11=command="z"&&root,command="z"
+trigger12=command="start"&&root,command="start"
+var(59)=1
+
+[State 9999, AIレベル代入]
+Type = ParentVarSet
+TriggerAll = IsHelper
+TriggerAll = IsHelper(9876 + Root,ID)
+TriggerAll = Parent,ID = Root,ID
+Trigger1 = Root,Var(59) > 0
+V = 59
+Value = Var(59)
+
+[State 9999,デストロイヤー]
+Type = DestroySelf
+Trigger1 = RoundState>=2
+IgnoreHitPause = 1
+
+;===========================================================================
+; ステージ端検出ヘルパー右側
+;===========================================================================
+[Statedef 111111]
+type=A
+movetype=I
+physics=N
+ctrl=0
+anim=9999
+sprpriority=0
+velset=10, 0
+
+[State 111111, AssertSpecial]
+type = assertspecial
+trigger1 = 1
+flag = invisible
+flag2= noshadow
+
+[State 9741, Safety]
+type=selfstate
+trigger1=!ishelper
+value=0
+
+[State 111111,NotHitBy]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 111111,ScreenBound]
+type=ScreenBound
+trigger1=1
+value=0
+movecamera=0,0
+
+[State 111111,判定用飛び道具射出]
+type=Projectile
+trigger1=time=0
+projID=111110
+projanim=9999
+velocity=10, 0
+projpriority=4
+projsprpriority=2
+projstagebound=0
+projedgebound=9999
+offset=0, 0
+postype=right
+supermovetime=123456789
+pausemovetime=123456789
+projremovetime=-1
+
+[State 111111, AssertSpecial]
+type = assertspecial
+trigger1 = 1
+flag = invisible
+flag2= noshadow
+
+[State 111111];飛び道具が消えたら停止。
+type = velset
+trigger1=ishelper
+trigger1=!(root,numprojID(111110))
+x = 0
+y = 0
+
+[State 111111]
+Type=Turn
+TriggerAll=IsHelper
+Trigger1=Facing=1
+IgnoreHitPause=1
+
+[State 111111, デバッグ]
+Type = DisplayToClipboard
+Trigger1 = 1
+Text = "anim=%d, V0=%d, V50=%d, V51=%d, V52=%d \n"
+Params = (Root,animtime),Var(0),Var(50),Var(51),var(52)
+Persistent = 1
+IgNoreHitPause = 1
+
+;---------------------------------------------------------------------------
+;var(0) - 立ち下段被ガード学習
+;var(50) - 対AI用ガード崩し学習
+;var(51) - ガード崩し学習その1
+;var(52) - ガード崩し学習その2
+;===========================================================================
+; 立ち下段被ガード学習
+;===========================================================================
+[State 111111, 屈中ガード判定]
+type = varset
+TriggerAll = Root,var(59)>4 && var(0)=0 && Root,NumEnemy=1
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,Var(57)),stateno=[120,155]
+Trigger1 = Root,stateno=410 && Root,Moveguarded
+v = 0
+value = 1
+ignorehitpause=1
+
+[State 111111, 屈中ガード判定リセット]
+type = varset
+TriggerAll = Root,var(59)>0 && var(0)=1
+TriggerAll = Root,Movetype!=H
+Trigger1 = Root,Prevstateno=410 && Root,stateno!=220
+Trigger2 = (stateno=[1000,1002])||(stateno=[1030,1031])
+Trigger3 = Root,stateno!=410 && Root,Movetype!=A
+v = 0
+value = 0
+ignorehitpause=1
+
+[State 111111, ガード判定リセット]
+type = varset
+TriggerAll = Root,var(59)>0 && var(0)=1
+Trigger1 = Root,stateno=220 && Root,animtime=-23 && (Root,P2bodydist X=[-5,127])
+Trigger1 = (PlayerID(Root,var(57)),stateno=[5000,5050]) || (PlayerID(Root,Var(57)),Movetype=H && (PlayerID(Root,Var(57)),stateno!=[120,155]))
+v = 0
+value = 0
+ignorehitpause=1
+
+[State 111111, 立ち強被ガード判定]
+type = varset
+TriggerAll = Root,var(59)>0 && var(0)=1
+Trigger1 = Root,stateno=221
+Trigger2 = Root,stateno=220 && Root,animtime=-23 && (Root,P2bodydist X=[-5,127])
+Trigger2 = (PlayerID(Root,var(57)),stateno=[120,155])
+Trigger3 = Root,Movetype=H
+v = 0
+value = -1
+ignorehitpause=1
+
+;===========================================================================
+; 対AI用ガード崩し学習
+;===========================================================================
+[State 111111, 立ち強ガード判定]
+type = varset
+TriggerAll = Root,var(59)>4 && Root,var(58)=1 && var(50)=0 && Root,NumEnemy=1
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,Var(57)),stateno=[120,155]
+Trigger1 = (Root,stateno=220 && Root,Moveguarded)||Root,stateno=221
+v = 50
+value = 1
+ignorehitpause=1
+
+[State 111111, 立ち強ガード判定リセット]
+type = varset
+TriggerAll = Root,var(59)>0 && Root,var(58)=1
+TriggerAll = var(50)=1
+Trigger1 = (Root,Prevstateno=[220,221]) && (Root,stateno!=[1400,1430])
+Trigger2 = (Root,stateno=[1200,1201]) || Root,stateno=705
+Trigger3 = (Root,stateno!=[220,221]) && Root,Movetype!=A
+v = 50
+value = 0
+ignorehitpause=1
+
+[State 111111, 対AI用ガード崩し学習1]
+type = null
+TriggerAll = Root,var(59)>4 && Root,var(58)=1
+TriggerAll = var(50)=1 && var(51)=0 && (Root,stateno=[1400,1402]) && Root,animtime=-27 && (Root,P2bodydist X=[-5,75])
+Trigger1 = (PlayerID(Root,var(57)),stateno!=[120,155])&&(PlayerID(Root,var(57)),stateno!=[5000,5050]) && var(51):=1 ;ベーアディゲン封印
+Trigger2 = (PlayerID(Root,var(57)),stateno=[120,155]) && var(51):=1
+Trigger3 = (PlayerID(Root,var(57)),stateno=[5000,5050]) && var(51):=2 ;繰り返し
+ignorehitpause=1
+
+[State 111111, 分岐1]
+type = null
+TriggerAll = Root,var(59)>4 && Root,var(58)=1
+TriggerAll = var(50)=1 && var(51)!=0 && (Root,stateno=[1400,1430])
+Trigger1 = var(51)=1 && var(50):=-1 ;ベーアディゲン・ロートシュリッセル封印
+Trigger2 = var(51)=2 && var(50):=2 ;繰り返し
+ignorehitpause=1
+
+[State 111111, 立ち強ガード判定2]
+type = varset
+TriggerAll = Root,var(59)>4 && Root,var(58)=1 && var(50)=2
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,Var(57)),stateno=[120,155]
+Trigger1 = (Root,stateno=220 && Root,Moveguarded)||Root,stateno=221
+v = 50
+value = 3
+ignorehitpause=1
+
+[State 111111, 立ち強ガード判定リセット2]
+type = varset
+TriggerAll = Root,var(59)>0 && Root,var(58)=1
+TriggerAll = var(50)=3
+Trigger1 = (Root,Prevstateno=[220,221]) && (Root,stateno!=[1400,1430])
+Trigger2 = (Root,stateno=[1200,1201]) || Root,stateno=705
+Trigger3 = (Root,stateno!=[220,221]) && Root,Movetype!=A
+v = 50
+value = 2
+ignorehitpause=1
+
+[State 111111, 対AI用ガード崩し学習2]
+type = null
+TriggerAll = Root,var(59)>4 && Root,var(58)=1
+TriggerAll = var(50)=3 && var(52)=0 && (Root,stateno=[1400,1402]) && Root,animtime=-27 && (Root,P2bodydist X=[-5,75])
+Trigger1 = (PlayerID(Root,var(57)),stateno!=[120,155])&&(PlayerID(Root,var(57)),stateno!=[5000,5050]) && var(52):=1 ;ベーアディゲン封印
+Trigger2 = (PlayerID(Root,var(57)),stateno=[5000,5050]) && var(52):=2 ;ロートシュリッセル解除
+Trigger3 = (PlayerID(Root,var(57)),stateno=[120,155]) && var(52):=3 ;一度だけロートシュリッセル可能
+ignorehitpause=1
+
+[State 111111, 分岐1]
+type = null
+TriggerAll = Root,var(59)>4 && Root,var(58)=1
+TriggerAll = var(50)=3 && var(52)!=0 && (Root,stateno=[1400,1430])
+Trigger1 = var(52)=1 && var(50):=-1 ;ベーアディゲン・ロートシュリッセル封印
+Trigger2 = var(52)=2 && var(50):=4 ;ロートシュリッセル解除
+Trigger3 = var(52)=3 && var(50):=5 ;一度だけロートシュリッセル可能
+ignorehitpause=1
+
+[State 111111, ガード崩し失敗/終了]
+type = varset
+TriggerAll = Root,var(59)>0 && Root,var(58)=1
+Trigger1 = (var(50)=1||var(50)=3) && Root,Movetype=H
+Trigger2 = var(50)=5 && Root,stateno=1430
+v = 50
+value = -1
+ignorehitpause=1
+
+;===========================================================================
+; ステージ端検出ヘルパー左側
+;===========================================================================
+[Statedef 111112]
+type=A
+movetype=I
+physics=N
+ctrl=0
+anim=9999
+sprpriority=0
+velset=10, 0
+
+[State 111112, AssertSpecial]
+type = assertspecial
+trigger1 = 1
+flag = invisible
+flag2= noshadow
+
+[State 9741, Safety]
+type=selfstate
+trigger1=!ishelper
+value=0
+
+[State 111112,NotHitBy]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 111112,ScreenBound]
+type=ScreenBound
+trigger1=1
+value=0
+movecamera=0,0
+
+[State 111112,判定用飛び道具射出]
+type=Projectile
+trigger1=time=0
+projID=111120
+projanim=9999
+velocity=10, 0
+projpriority=4
+projsprpriority=2
+projstagebound=0
+projedgebound=99999
+offset=0, 0
+postype=left
+supermovetime=123456789
+pausemovetime=123456789
+projremovetime=-1
+
+[State 111112, AssertSpecial]
+type = assertspecial
+trigger1 = 1
+flag = invisible
+flag2= noshadow
+
+[State 111112];飛び道具が消えたら停止。
+type = velset
+trigger1=ishelper
+trigger1=!(root,numprojID(111120))
+x = 0
+y = 0
+
+[State 111112]
+Type=Turn
+TriggerAll=IsHelper
+Trigger1=Facing=-1
+IgnoreHitPause=1
+
+[State 111112, デバッグ]
+Type = DisplayToClipboard
+Trigger1 = 1
+Text = "V49=%d, V50=%d, V51=%d, V52=%d, V53=%d \n"
+Params = Var(49),Var(50),Var(51),var(52),var(53)
+Persistent = 1
+IgNoreHitPause = 1
+
+;---------------------------------------------------------------------------
+;var(49)～(51) - 相手打撃無効state判定（仮組み）
+;var(52)～(53) - 相手投げ無効state判定（仮組み）
+;var(54)～(56) - 立ち下段ガード学習
+;var(57)～(59) - しゃがみ中段ガード学習
+;===========================================================================
+; 相手攻撃無効state判定
+;===========================================================================
+[State 111112, 相手打撃無効state判定1]
+type = varset
+TriggerAll = Root,var(59)>4 && (var(49)=0||var(49)=2) && Root,NumEnemy=1
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,var(57)),Movetype=I
+TriggerAll = PlayerID(Root,var(57)),StateNo>=200
+TriggerAll = PlayerID(Root,var(57)),Ctrl=0
+Trigger1 = Root,StateNo=200 && Root,AnimTime=-8 && Root,MoveContact=0
+Trigger1 = PlayerID(Root,var(57)),statetype!=C && Root,var(47)=0
+Trigger1 = Root,P2bodydist X-(Root,fvar(26)*5)=[-5,40]
+Trigger2 = Root,StateNo=400 && Root,AnimTime=-9 && Root,MoveContact=0
+Trigger2 = Root,P2bodydist X-(Root,fvar(26)*7)=[-5,35]
+Trigger3 = Root,StateNo=211 && Root,AnimTime=-14 && Root,var(47)=0 && Root,MoveContact=0
+Trigger3 = PlayerID(Root,var(57)),statetype!=C && Root,var(47)=0
+Trigger3 = Root,P2Dist X=[-5,50]
+Trigger4 = Root,StateNo=410 && Root,AnimTime=-18 && Root,MoveContact=0
+Trigger4 = Root,P2bodydist X-(Root,fvar(26)*9)=[0,80]
+v = 49
+value = ifelse(var(49)=0,1,3)
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手打撃無効state判定2]
+type = varset
+TriggerAll = Root,var(59)>4
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,var(57)),Movetype=I
+TriggerAll = PlayerID(Root,var(57)),StateNo>=200
+TriggerAll = PlayerID(Root,var(57)),Ctrl=0
+Trigger1 = var(49)=1
+v = 50
+value = PlayerID(Root,var(57)),stateno
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手打撃無効state判定3]
+type = varset
+TriggerAll = Root,var(59)>4 && var(49)=1
+Trigger1 = var(50)!=0 && Root,Movetype!=A
+v = 49
+value = 2
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手打撃無効state判定2]
+type = varset
+TriggerAll = Root,var(59)>4
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,var(57)),Movetype=I
+TriggerAll = PlayerID(Root,var(57)),StateNo>=200
+TriggerAll = PlayerID(Root,var(57)),Ctrl=0
+Trigger1 = var(49)=3
+Trigger1 = PlayerID(Root,var(57)),stateno!=[var(50)-2,var(50)+4]
+v = 51
+value = PlayerID(Root,var(57)),stateno
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手打撃無効state判定3]
+type = varset
+TriggerAll = Root,var(59)>4 && var(49)=3
+Trigger1 = var(51)!=0
+v = 49
+value = -1
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手投げ無効state判定1]
+type = varset
+TriggerAll = Root,var(59)>4 && var(52)=0 && Root,NumEnemy=1
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,var(57)),Movetype=I
+TriggerAll = PlayerID(Root,var(57)),StateNo>=200
+TriggerAll = PlayerID(Root,var(57)),Ctrl=0
+Trigger1 = (Root,StateNo=1031||Root,StateNo=1000) && Root,AnimTime=-31 && Root,MoveContact=0
+Trigger1 = Root,P2bodydist X=[-5,30]
+Trigger2 = Root,StateNo=800 && Root,AnimTime=-29 && Root,MoveContact=0
+Trigger2 = Root,P2bodydist X=[-6,15]
+v = 52
+value = 1
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手投げ無効state判定2]
+type = varset
+TriggerAll = Root,var(59)>4
+TriggerAll = PlayerID(Root,var(57)),statetype!=A
+TriggerAll = PlayerID(Root,var(57)),statetype!=L
+TriggerAll = PlayerID(Root,var(57)),Movetype=I
+TriggerAll = PlayerID(Root,var(57)),StateNo>=200
+TriggerAll = PlayerID(Root,var(57)),Ctrl=0
+Trigger1 = var(52)=1
+v = 53
+value = PlayerID(Root,var(57)),stateno
+ignorehitpause=1
+;---------------------------------------------------------------------------
+[State 111112, 相手投げ無効state判定3]
+type = varset
+TriggerAll = Root,var(59)>4 && var(52)=1
+Trigger1 = var(53)!=0
+v = 52
+value = -1
+ignorehitpause=1
+
+;===========================================================================
+; ガード学習ヘルパー（併用）
+;===========================================================================
+[State 111112,Reset]
+type = VarRangeSet
+TriggerAll = Root,var(59)>0
+TriggerAll = Root,TeamMode = Turns
+Trigger1 = Root,RoundState = 0
+value = 0
+first = 54
+last = 59
+;---------------------------------------------------------------------------
+[State 111112, 立ち下段学習その１]
+type = VarSet
+TriggerAll = Root,var(59)>3
+TriggerAll = Root,PrevstateNo=120 || Root,PrevStateNo=130 || (Root,PrevStateNo=[150,151])
+TriggerAll = Root,Statetype=S
+TriggerAll = Var(54)=0
+Trigger1 = Root,StateNo=[5000,5099]
+v = 54
+value = PlayerID(Root,Var(57)),StateNo
+;---------------------------------------------------------------------------
+[State 111112, 立ち下段学習その２]
+type = VarSet
+TriggerAll = Root,var(59)>4
+TriggerAll = Root,PrevstateNo=120 || Root,PrevStateNo=130 || (Root,PrevStateNo=[150,151])
+TriggerAll = Root,Statetype=S
+TriggerAll = Var(54)!=0 && Var(55)=0
+TriggerAll = Var(54)!=PlayerID(Root,Var(57)),StateNo
+Trigger1 = Root,StateNo=[5000,5099]
+v = 55
+value = PlayerID(Root,Var(57)),StateNo
+;---------------------------------------------------------------------------
+[State 111112, 立ち下段学習その３]
+type = VarSet
+TriggerAll = Root,var(59)>5
+TriggerAll = Root,PrevstateNo=120 || Root,PrevStateNo=130 || (Root,PrevStateNo=[150,151])
+TriggerAll = Root,Statetype = S
+TriggerAll = Var(54)!=0 && Var(55)!=0 && Var(56)=0
+TriggerAll = (Var(54)!=PlayerID(Root,Var(57)),StateNo) && (Var(55)!=PlayerID(Root,Var(57)),StateNo)
+Trigger1 = Root,StateNo = [5000,5099]
+v = 56
+value = PlayerID(Root,Var(57)),StateNo
+;---------------------------------------------------------------------------
+[State 111112, しゃがみ中段学習その１]
+type = VarSet
+TriggerAll = Root,var(59)>3
+TriggerAll = Root,PrevStateNo=131 || (Root,PrevStateNo=[152,153])
+TriggerAll = Var(57)=0 && Var(58)=0 && Var(59)=0
+Trigger1 = Root,StateNo=[5000,5099]
+v = 57
+value = PlayerID(Root,Var(57)),StateNo
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+[State 111112, しゃがみ中段学習その２]
+type = VarSet
+TriggerAll = Root,var(59)>4
+TriggerAll = Root,PrevStateNo=131 || (Root,PrevStateNo=[152,153])
+TriggerAll = Var(57)!=0 && Var(58)=0 && Var(59)=0
+TriggerAll = Var(57)!=PlayerID(Root,Var(57)),StateNo
+Trigger1 = Root,StateNo=[5000,5099]
+v = 58
+value = PlayerID(Root,Var(57)),StateNo
+ignorehitpause = 1
+;---------------------------------------------------------------------------
+[State 111112, しゃがみ中段学習その３]
+type = VarSet
+TriggerAll = Root,var(59)>5
+TriggerAll = Root,PrevStateNo=131 || (Root,PrevStateNo=[152,153])
+TriggerAll = Var(57)!=0 && Var(58)!=0 && Var(59)=0
+TriggerAll = Var(57)!=PlayerID(Root,Var(57)),StateNo
+TriggerAll = Var(58)!=PlayerID(Root,Var(57)),StateNo
+Trigger1 = Root,StateNo=[5000,5099]
+v = 59
+value = PlayerID(Root,Var(57)),StateNo
+ignorehitpause = 1
+
+;===========================================================================
+; 対めくり補助ヘルパー
+;===========================================================================
+[Statedef 2666660]
+ctrl = 0
+Anim = 9999
+
+[State 2666660, AssertSpecial]
+Type = AssertSpecial
+Trigger1 = 1
+flag = Invisible
+flag2 = Noshadow
+ignorehitpause=1
+[State 2666660, NotHitBy]
+Type = NotHitBy
+Value = SCA
+Trigger1 = 1
+IgnoreHitPause = 1
+
+[State 2666660, Turn];振り向き
+Type = turn
+Trigger1 = Facing != root,Facing ;本体と異なる向きなら
+
+[State 2666660, Posset in Root];座標Xを本体にあわせる
+Type = Posset
+Trigger1 = 1
+X = Root,Pos X
+
+[State 2666660, Posadd 100];座標+100（本体から+100へずらす）
+Type = Posadd
+Trigger1 = 1
+X = 100
+[State 2666660, Front GuardDist varset];前側のInGuardDistを代入
+Type = Varset
+var(40) = InGuardDist
+Trigger1 = 1
+
+[State 2666660, Posadd -200];座標-200（本体から-100へずらす）
+Type = Posadd
+Trigger1 = 1
+X = -200
+[State 2666662, Back GuardDist varset];後ろ側のInGuardDistを代入
+Type = Varset
+var(41) = InGuardDist
+Trigger1 = 1
+
+[State 2666660, Posadd 100];座標+100（本体と同座標にもどす）
+Type = Posadd
+Trigger1 = 1
+X = 100
+
+[State 2666660, デバッグ]
+Type = DisplayToClipboard
+Trigger1 = 1
+Text = "V40=%d, V41=%d, V51=%d \n"
+Params = Var(40),Var(41),var(51)
+Persistent = 1
+IgNoreHitPause = 1
+
+;===========================================================================
+; 飛び道具探知ヘルパー
+;---------------------------------------------------------------------------
+;Var(0)~Var(50) = ヘルパーリダイレクト用
+;Var(54) = ガード補助用
+;Var(55) = StateNo = 300020と300022ループカウント用
+;Var(56) = StateNo = 300021ループカウント用
+;Var(57) = リダイレクト変数のうちの暫定最高値
+;Var(58) = 相手の飛び道具PlayerID
+;===========================================================================
+[Statedef 300020]
+Ctrl = 0
+Anim = 9999
+
+[State 300020, 間違いで本体が来たら立ちへ復帰]
+Type = SelfState
+Trigger1 = !IsHelper
+Value = 0
+Ctrl = 1
+
+[State 300020, 1フレーム進行して探索再開]
+Type = ChangeState
+Trigger1 = Time
+Value = 300020
+
+[State 300020, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 300020, 不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 300020, 本体と同じ向き]
+Type = Turn
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+TriggerAll = Root,Facing != PlayerID(Root,Var(57)),Facing
+Trigger1 = Facing != Root,Facing
+
+[State 300020, 本体の後ろを向く]
+Type = Turn
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+TriggerAll = Root,Facing = PlayerID(Root,Var(57)),Facing
+Trigger1 = Facing = Root,Facing
+
+[State 300020, 本体と相手の中間に配置]
+Type = BindToRoot
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+TriggerAll = Root,Facing != PlayerID(Root,Var(57)),Facing
+Trigger1 = Root,Facing * (PlayerID(Root,Var(57)),Pos X - Root,Pos X) > 0
+Pos = (PlayerID(Root,Var(57)),Pos X + Root,Pos X) / 2.0,9999
+
+[State 300020, 本体の背後に配置]
+Type = BindToRoot
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+TriggerAll = Root,Facing != PlayerID(Root,Var(57)),Facing
+Trigger1 = Root,Facing * (PlayerID(Root,Var(57)),Pos X - Root,Pos X) <= 0
+Pos = -80 - Root,Const(Size.Ground.Back),9999
+
+[State 300020, 本体の前方に配置]
+Type = BindToRoot
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+TriggerAll = Root,Facing = PlayerID(Root,Var(57)),Facing
+Trigger1 = Root,Facing * (PlayerID(Root,Var(57)),Pos X - Root,Pos X) > 0
+Pos = 80 + Root,Const(Size.Ground.Front),9999
+
+[State 300020, 本体と相手の中間に配置]
+Type = BindToRoot
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+TriggerAll = Root,Facing = PlayerID(Root,Var(57)),Facing
+Trigger1 = Root,Facing * (PlayerID(Root,Var(57)),Pos X - Root,Pos X) <= 0
+Pos = (PlayerID(Root,Var(57)),Pos X + Root,Pos X) / 2.0,9999
+
+[State 300020, InGuardDist検出]
+Type = VarSet
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+Trigger1 = InGuardDist
+Trigger2 = Root,InGuardDist
+Trigger3 = PlayerID(Root,Var(57)),MoveType = A
+Trigger3 = P2Dist X > PlayerID(Root,Var(57)),Const(Size.Attack.Dist)
+Trigger3 = PlayerID(Root,Var(57)),StateNo >= 200
+Trigger3 = PlayerID(Root,Var(57)),Ctrl = 0
+Trigger4 = Var(54) := 0
+V = 54
+Value = 1
+
+[State 300020, ID用変数の最高値記録]
+Type = VarSet
+TriggerAll = NumHelper(300022)
+Trigger1 = Var(57) < Var(Var(55))
+V = 57
+Value = Var(Var(55))
+
+[State 300020, 開始値を最高値に合わせる]
+Type = VarSet
+TriggerAll = Var(51) = 0
+Trigger1 = Var(56) = 0
+V = Var(55)
+Value = Var(57) + 1
+
+[State 300020, 飛び道具検出]
+Type = ChangeState
+TriggerAll = PlayerIDExist(Var(Var(55)))
+Trigger1 = PlayerID(Var(Var(55))),IsHelper
+Trigger1 = TeamSide != PlayerID(Var(Var(55))),TeamSide
+Trigger1 = Abs(PlayerID(Var(Var(55))),ScreenPos X) < 320
+Trigger1 = Abs(PlayerID(Var(Var(55))),ScreenPos Y) < 240
+Trigger1 = PlayerID(Var(Var(55))),MoveType = A
+Trigger1 = PlayerID(Var(Var(55))),HitDefAttr = SCA,AA,AP,AT
+Value = 300021
+
+[State 300020, 10回繰り返して当たりがこなかったら予測用ヘルパー呼ぶ]
+Type = Helper
+TriggerAll = Var(51) = 0
+TriggerAll = Var(56) > 10
+Trigger1 = Var(56) := -1 || 1
+Trigger1 = NumHelper(300022) = 0
+Name = "ID_Check"
+ID = 300022
+Pos = 9999,9999
+StateNo = 300022
+SuperMoveTime = 2147483647
+PauseMoveTime = 2147483647
+
+[State 300020, 変数に予測用ヘルパーのIDを代入]
+Type = VarSet
+TriggerAll = NumHelper(300022)
+Trigger1 = Var(56) = -1
+V = Var(55)
+Value = Helper(300022),ID
+
+[State 300020, 飛び道具巡回探索]
+Type = ChangeState
+TriggerAll = Var(51) = 0
+Trigger1 = Var(56) != -1
+Trigger1 = Var(Var(55)) := Var(Var(55)) + 1 || 1
+Trigger1 = Var(56) := Var(56) + 1 || 1
+Trigger2 = Var(56) = -1
+Trigger2 = Var(55) < 50
+Trigger2 = Var(55) := Var(55) + 1 || 1
+Value = 300020
+
+[State 300020, 格納Varシフトカウンタ初期化]
+Type = VarSet
+Trigger1 = 1
+V = 55
+Value = 0
+
+[State 300020, ループカウンタ初期化]
+Type = VarSet
+Trigger1 = 1
+V = 56
+Value = 0
+
+;---------------------------------------------------------------------------
+[Statedef 300021]
+Ctrl = 0
+
+[State 300021, 無敵]
+Type = NotHitBy
+Trigger1 = IsHelper
+Value = SCA,AA,AP,AT
+Time = 1
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 300021, 不可視化]
+Type = AssertSpecial
+Trigger1 = IsHelper
+Flag = NoShadow
+Flag2 = Invisible
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 300021, 本体と同じ向き]
+Type = Turn
+TriggerAll = IsHelper
+TriggerAll = PlayerIDExist(Var(Var(55)))
+TriggerAll = Root,Facing != PlayerID(Var(Var(55))),Facing
+Trigger1 = Facing != Root,Facing
+
+[State 300021, 本体の後ろを向く]
+Type = Turn
+TriggerAll = IsHelper
+TriggerAll = PlayerIDExist(Var(Var(55)))
+TriggerAll = Root,Facing = PlayerID(Var(Var(55))),Facing
+Trigger1 = Facing = Root,Facing
+
+[State 300021, 本体と相手の中間に配置]
+Type = BindToRoot
+TriggerAll = IsHelper
+TriggerAll = PlayerIDExist(Var(Var(55)))
+TriggerAll = Root,Facing != PlayerID(Var(Var(55))),Facing
+Trigger1 = Root,Facing * (PlayerID(Var(Var(55))),Pos X - Root,Pos X) > Root,Const(Size.Ground.Front)
+Pos = (PlayerID(Var(Var(55))),Pos X + Root,Pos X) / 2.0,9999
+
+[State 300021, 本体の背後に配置]
+Type = BindToRoot
+TriggerAll = IsHelper
+TriggerAll = PlayerIDExist(Var(Var(55)))
+TriggerAll = Root,Facing != PlayerID(Var(Var(55))),Facing
+Trigger1 = Root,Facing * (PlayerID(Var(Var(55))),Pos X - Root,Pos X) <= Root,Const(Size.Ground.Front)
+Pos = -80 - Root,Const(Size.Ground.Back),9999
+
+[State 300021, 本体の前方に配置]
+Type = BindToRoot
+TriggerAll = IsHelper
+TriggerAll = PlayerIDExist(Var(Var(55)))
+TriggerAll = Root,Facing = PlayerID(Var(Var(55))),Facing
+Trigger1 = Root,Facing * (PlayerID(Var(Var(55))),Pos X - Root,Pos X) > Root,Const(Size.Ground.Front)
+Pos = 80 + Root,Const(Size.Ground.Front),9999
+
+[State 300021, 本体と相手の中間に配置]
+Type = BindToRoot
+TriggerAll = IsHelper
+TriggerAll = PlayerIDExist(Var(Var(55)))
+TriggerAll = Root,Facing = PlayerID(Var(Var(55))),Facing
+Trigger1 = Root,Facing * (PlayerID(Var(Var(55))),Pos X - Root,Pos X) <= Root,Const(Size.Ground.Front)
+Pos = (PlayerID(Var(Var(55))),Pos X + Root,Pos X) / 2.0,9999
+
+[State 300021, InGuardDist検出]
+Type = VarSet
+TriggerAll = IsHelper && PlayerIDExist(Root,var(57))
+Trigger1 = InGuardDist
+Trigger2 = Root,InGuardDist
+Trigger3 = PlayerID(Root,Var(57)),MoveType = A
+Trigger3 = P2Dist X > PlayerID(Root,Var(57)),Const(Size.Attack.Dist)
+Trigger3 = PlayerID(Root,Var(57)),StateNo >= 200
+Trigger3 = PlayerID(Root,Var(57)),Ctrl = 0
+Trigger4 = PlayerIDExist(Var(Var(55)))
+Trigger4 = PlayerID(Root,Var(57)),StateNo >= 200
+Trigger4 = PlayerID(Root,Var(57)),Ctrl = 0
+Trigger5 = Var(54) := 0
+V = 54
+Value = 1
+
+[State 300021, デバッグ]
+Type = DisplayToClipboard
+Trigger1 = 1
+Text = "Var(55) = %d,Var(56) = %d,Var(57) = %d,Var(58) = %d \n"
+Params = Var(55),Var(56),Var(57),Var(58)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 300021, デバッグ]
+Type = AppendToClipboard
+Trigger1 = 1
+Text = "Var(0) = %d,Var(1) = %d,Var(2) = %d,Var(3) = %d,Var(4) = %d"
+Params = Var(0),Var(1),Var(2),Var(3),Var(4)
+Persistent = 1
+IgNoreHitPause = 1
+
+[State 300021, 該当する飛び道具が無い場合は常に初期化]
+Type = VarSet
+Trigger1 = 1
+V = 58
+Value = 0
+
+[State 300021, 飛び道具検出]
+Type = VarSet
+Trigger1 = PlayerIDExist(Var(Var(55)))
+Trigger1 = PlayerID(Var(Var(55))),IsHelper
+Trigger1 = TeamSide != PlayerID(Var(Var(55))),TeamSide
+Trigger1 = Abs(PlayerID(Var(Var(55))),ScreenPos X) < 320
+Trigger1 = Abs(PlayerID(Var(Var(55))),ScreenPos Y) < 240
+Trigger1 = PlayerID(Var(Var(55))),MoveType = A
+Trigger1 = PlayerID(Var(Var(55))),HitDefAttr = SCA,AA,AP,AT
+V = 58
+Value = PlayerID(Var(Var(55))),ID
+
+[State 300021, 飛び道具が無くなったので探索再開]
+Type = ChangeState
+Trigger1 = Var(58) = 0
+Value = 300020
+
+;---------------------------------------------------------------------------
+[Statedef 300022]
+Ctrl = 0
+
+[State 300022]
+Type = DestroySelf
+Trigger1 = IsHelper
+
+

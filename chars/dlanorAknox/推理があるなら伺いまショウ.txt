@@ -1,0 +1,232 @@
+
+シロト作ドラノールへの「メタ返し」「メタ再反論」対応方法
+
+彼女のメタ宣言処理はゆ～とはる氏作の右代宮縁寿をベースに作成・処理を統一しています。
+対応していない場合は「メタ返し」「メタ再反論」にて背景演出と共にゲージを減らす飛び道具を射出します。
+対応している場合は原作と同様、カットインとボイス、ゲージ現象が発生します。
+
+１．まず対応するキャラのairファイルに下記のアニメ番号をコピペしてください。
+
+[Begin Action 19864]
+7000, 1, -650, 0, 1
+7000, 1, -611, 0, 1
+7000, 1, -572, 0, 1
+7000, 1, -533, 0, 1
+7000, 1, -494, 0, 1
+7000, 1, -455, 0, 1
+7000, 1, -416, 0, 1
+7000, 1, -377, 0, 1
+7000, 1, -338, 0, 1
+7000, 1, -299, 0, 1
+7000, 1, -260, 0, 1
+7000, 1, -221, 0, 1
+7000, 1, -182, 0, 1
+7000, 1, -143, 0, 1
+7000, 1, -104, 0, 1
+7000, 1, -76, 0, 1
+7000, 1, -50, 0, 1
+7000, 1, -26, 0, 1
+7000, 1, -13, 0, 1
+7000, 1, 0, 0, 22
+7000, 1, 0, 0, 1, , AS256D256
+7000, 1, 0, 0, 1, , AS244D256
+7000, 1, 0, 0, 1, , AS232D256
+7000, 1, 0, 0, 1, , AS220D256
+7000, 1, 0, 0, 1, , AS208D256
+7000, 1, 0, 0, 1, , AS196D256
+7000, 1, 0, 0, 1, , AS184D256
+7000, 1, 0, 0, 1, , AS172D256
+7000, 1, 0, 0, 1, , AS160D256
+7000, 1, 0, 0, 1, , AS148D256
+7000, 1, 0, 0, 1, , AS136D256
+7000, 1, 0, 0, 1, , AS124D256
+7000, 1, 0, 0, 1, , AS112D256
+7000, 1, 0, 0, 1, , AS100D256
+7000, 1, 0, 0, 1, , AS88D256
+7000, 1, 0, 0, 1, , AS76D256
+7000, 1, 0, 0, 1, , AS64D256
+7000, 1, 0, 0, 1, , AS52D256
+7000, 1, 0, 0, 1, , AS40D256
+7000, 1, 0, 0, 1, , AS28D256
+7000, 1, 0, 0, 1, , AS16D256
+7000, 1, 0, 0, 1, , AS4D256
+
+[Begin Action 19865]
+7000, 1, -650, 0, 1
+7000, 1, -611, 0, 1
+7000, 1, -572, 0, 1
+7000, 1, -533, 0, 1
+7000, 1, -494, 0, 1
+7000, 1, -455, 0, 1
+7000, 1, -416, 0, 1
+7000, 1, -377, 0, 1
+7000, 1, -338, 0, 1
+7000, 1, -299, 0, 1
+7000, 1, -260, 0, 1
+7000, 1, -221, 0, 1
+7000, 1, -182, 0, 1
+7000, 1, -143, 0, 1
+7000, 1, -104, 0, 1
+7000, 1, -76, 0, 1
+7000, 1, -50, 0, 1
+7000, 1, -26, 0, 1
+7000, 1, -13, 0, 1
+7000, 1, 0, 0, 22
+7000, 1, 0, 0, 1, , AS256D256
+7000, 1, 0, 0, 1, , AS244D256
+7000, 1, 0, 0, 1, , AS232D256
+7000, 1, 0, 0, 1, , AS220D256
+7000, 1, 0, 0, 1, , AS208D256
+7000, 1, 0, 0, 1, , AS196D256
+7000, 1, 0, 0, 1, , AS184D256
+7000, 1, 0, 0, 1, , AS172D256
+7000, 1, 0, 0, 1, , AS160D256
+7000, 1, 0, 0, 1, , AS148D256
+7000, 1, 0, 0, 1, , AS136D256
+7000, 1, 0, 0, 1, , AS124D256
+7000, 1, 0, 0, 1, , AS112D256
+7000, 1, 0, 0, 1, , AS100D256
+7000, 1, 0, 0, 1, , AS88D256
+7000, 1, 0, 0, 1, , AS76D256
+7000, 1, 0, 0, 1, , AS64D256
+7000, 1, 0, 0, 1, , AS52D256
+7000, 1, 0, 0, 1, , AS40D256
+7000, 1, 0, 0, 1, , AS28D256
+7000, 1, 0, 0, 1, , AS16D256
+7000, 1, 0, 0, 1, , AS4D256
+
+・air19864番が「メタ返し」
+・air19865番が「メタ再反論」
+用のカットインです。
+登録番号及びグループ番号は対応キャラのカットインが登録されている番号に変更してください。
+
+
+２．次に以下の記述を対応するキャラのCNSの[Statedef -2]内に追加してください。
+消費パワーはこちらでフルゲージの40%に指定しているため、変更の必要はありません。
+（winmugen用の記述だったと記憶しているため、不具合があった場合は変更お願いします）
+サウンド番号は対応するボイスに変更願います。
+
+;------記述開始------
+
+[State -2, PowerAdd];メタ返し＆メタ再反論～パワーゲージ消費×2
+Type       = PowerAdd
+TriggerAll = Alive &&!NumExplod(19864) &&!NumExplod(19865)
+Trigger1   = NumEnemy &&!NumPartner
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && (Enemy,StateNo=2910||Enemy,StateNo=2930) && Enemy,StateTime=2
+Trigger2   = NumEnemy>=2 &&!NumPartner
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && (Enemy(1),StateNo=2910||Enemy(1),StateNo=2930) && Enemy(1),StateTime=2
+Trigger3   = NumEnemy && NumPartner
+Trigger3   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && (Enemy,StateNo=2910||Enemy,StateNo=2930) && Enemy,StateTime=2
+Trigger3   = ID<Partner,ID || (ID>Partner,ID && Partner,NumExplod(19864)=0 && Partner,Numexplod(19865)=0)
+Trigger4   = NumEnemy>=2 && NumPartner
+Trigger4   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && (Enemy(1),StateNo=2910||Enemy(1),StateNo=2930) && Enemy(1),StateTime=2
+Trigger4   = ID<Partner,ID || (ID>Partner,ID && Partner,NumExplod(19864)=0 && Partner,Numexplod(19865)=0)
+Value      = -(floor(PowerMax)/5)*2
+ignorehitpause = 1
+
+[State -2, Voice];メタ返し～ボイス
+Type       = PlaySnd
+TriggerAll = Alive; &&!NumExplod(19864)
+Trigger1   = NumEnemy
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto"
+Trigger1   = Enemy,StateNo=2910 && Enemy,StateTime=2
+Trigger2   = NumEnemy>=2
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2
+Value      = s○○,○○　←変更箇所
+ignorehitpause=1
+
+[state -2, CutIn];メタ返し～カットイン（右向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19864)
+Trigger1   = NumEnemy
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2910 && Enemy,StateTime=2 && Enemy,Facing=-1
+Trigger2   = NumEnemy>=2
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2 && Enemy(1),Facing=-1
+Anim       = 19864
+ID         = 19864
+Postype    = left
+Pos        = 0,120
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state -2, CutIn];メタ返し～カットイン（左向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19864)
+Trigger1   = NumEnemy
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2910 && Enemy,StateTime=2 && Enemy,Facing=1
+Trigger2   = NumEnemy>=2
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2 && Enemy(1),Facing=1
+Anim       = 19864
+ID         = 19864
+Postype    = right
+Pos        = 0,120
+Facing     = -1
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[State -2, Voice];メタ再反論～ボイス
+Type       = PlaySnd
+TriggerAll = Alive &&!NumExplod(19865)
+Trigger1   = NumEnemy
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2
+Trigger2   = NumEnemy>=2
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2
+Value      = s○○,○○　←変更箇所
+ignorehitpause=1
+
+[state -2, CutIn];メタ再反論～カットイン（右向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19865)
+Trigger1   = NumEnemy
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2 && Enemy,Facing=-1
+Trigger2   = NumEnemy>=2
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2 && Enemy(1),Facing=-1
+Anim       = 19865
+ID         = 19865
+Postype    = left
+Pos        = 0,120
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state -2, CutIn];メタ再反論～カットイン（左向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19865)
+Trigger1   = NumEnemy
+Trigger1   = Enemy,Name="Dlanor A. Knox" && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2 && Enemy,Facing=1
+Trigger2   = NumEnemy>=2
+Trigger2   = Enemy(1),Name="Dlanor A. Knox" && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2 && Enemy(1),Facing=1
+Anim       = 19865
+ID         = 19865
+Postype    = right
+Pos        = 0,120
+Facing     = -1
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+;------記述終了------
+
+※注意点
+・カットイン表示のずれをPos位置を変更して修正お願いいたします。
+・倍率の誤差はScale値を変更して調整お願いいたします。
+・発生させたいボイスをvalue値にそれぞれ入力してください。
+

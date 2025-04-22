@@ -2,35 +2,34 @@
 [Characters]
 ;-------------------------------------------------------------------------------
 ;============ 1ST ROW ============
+ baiken_SLASH
  MegaMari
  osaka_JM
  WildWolf
  Yukari_JM
  hol2
- Hisui_AACC
 ;============ 2ND ROW ============
+ Hisui_AACC
  khan
  johnny
  oresama
  SFV_Ryu
  Wesker
- cvscommando
 ;============ 3RD ROW ============
- cvssakura_ex
+ cvscommando
  Akira
  Urien
  honda_pots
 Chun-Li
 cell
 ;============ 4TH ROW ============
- Lei-Lei
 slayer2 remap
 beavis/beavis10.def
 Ella
 Date_Masamune
 Sanada_Yukimura
-;============ 5TH ROW ============
 Kenshiro_C
+;============ 5TH ROW ============
 slot={
 	Goenitz XV/Goenitz XV Remap.def, previous=d, next=w
 	Goenitz XV, previous=d, next=w
@@ -39,41 +38,42 @@ Shadow Diavolo
 SSJ_GokuZ2
 kamijo
 Yuuka_THIZ
-;============ 6TH ROW ============
 ange
+;============ 6TH ROW ============
 Susanoo
 Mika
 cvsgouki
 KyoXIII(ikaruga)/KyoXIII.def
 Rila
-;============ 7TH ROW ============
 yuri_pots
+;============ 7TH ROW ============
 pot
 GohanZ2
 cvsguile
 cvsrock
 Gunha
-;============ 8TH ROW ============
 Dan
+;============ 8TH ROW ============
 EvilRyu
 KazumaKiryu
 Blitztank
 akfgz
 Ryugen
-;============ 9TH ROW ============
 WannaKOF
+;============ 9TH ROW ============
 Wolverine
 Joe
 cvsjill
 Queen Bee
 Spiritland Lords
-;============ 10TH ROW ============
 CX OrochiK
+;============ 10TH ROW ============
 586_sayuri
 haruhi1.0
 Jedah
 AI-Hsien-ko
-randomselect
+cvsshimo
+dlanorAknox
 ;-------------------------------------------------------------------------------
 [ExtraStages]
 stages/Moon.def

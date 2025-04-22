@@ -1,0 +1,248 @@
+                _____________________________________
+               |     Eagle from Capcom vs. SNK 2     |
+               |     by Jesuszilla, for MUGEN 1.0    |
+               |          February 13, 2021          |
+                -------------------------------------
+
+Thanks for downloading this character.
+
+Please do not illegally distribute this. Sure, you can send it via e-mail to friends when it's finished provided you either:
+1. Link to Trinity MUGEN http://www.trinitymugen.net
+2. In case the site is taken down for whatever reason, you may send the whole archive via e-mail. However, I, the creator, will try and find a host for my works ASAP in such a case, anyway.
+ _      _   ______   _____   ____   _   _   ____   _   _____
+| | || | | |  __  | |  _  | |  _ | | | | | |  _ | | | |  ___|
+| | || | | | |  | | | |_|_| | | || | | | | | | || | | | |  
+| | || | | | |__| | |  _ |  | | || | | | | | | || | | | |  _
+| | || | | |  __  | | | | | | | || | | | | | | || | | | | | | 
+| |_||_| | | |  | | | | | | | | ||_| | | | | | ||_| | | |_| |
+|________| |_|  |_| |_| |_| |_| |____| |_| |_| |____| |_____|
+ ___________________________________________________________
+|___________________________________________________________|
+
+***DO NOT WAREHOUSE THIS!!!****
+For the love of God, just link to the site. It will save me bitching and you bandwidth and storage.
+I'm the original maintainer, let me do this favor for you.
+
+***********************************RULES***********************************
+ 1. You sell any part of this character, you die.
+***************************************************************************
+
+**********A FEW STATEMENTS FROM THE AUTHOR**********
+
+Special Thanks:
+N64Mario84 - Without you, I wouldn't have found out about MUGEN.
+Warusaki3 - For letting me use his CvS2 sprites and other STUFF.
+Vans1Belmont - For testing as well as hosting.
+MachinaWeapon - For being awesome.
+Fusion - For being awesome and X Gon' Give it to Ya.
+Kung_Fu_Man - For the CvS2 ArtMoney table and help in various places.
+The Dreamslayer - For sprite rips and helping me out when I started MUGEN. Thanks ya crazy bastard!
+[Rolento] - Various STUFF, and for banning me from that hellhole that is #mugen.
+VirtuallTek - For Fighter Factory, and making a plugin to save me time in remaking CLSNs!
+Byakko - For help with Just Defense as well as the Combo Dampener.
+Drex - Color separation.
+MalaDingDong - TONS of palettes. As for which ones, those would be the ones that look the best.
+Pepsi - For their kickass soda.
+Elecbyte - Thank you for so many years of fun!
+
+
+*****************************EXTREMELY SPECIAL THANKS*****************************
+VirtuallTek - For making that plugin that saved me TONS of time in remaking CLSNs.
+*****************************EXTREMELY SPECIAL THANKS*****************************
+
+
+All STUFF that isn't (C) Capcom is (C) 2006-2013 and forever Jesuszilla and Trinity MUGEN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+There is really nothing interesting down here.

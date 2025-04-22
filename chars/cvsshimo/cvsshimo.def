@@ -1,0 +1,42 @@
+[Info]
+name = "cvsshimo"
+displayname = "Shimo"
+versiondate = 08,21,2006
+mugenversion = 1.0
+author = "bebop" ;  Additional Credits: Jesuszilla/イエスジラ
+pal.defaults = 4,5,6,1,2,3,10,11,12,7,8,9
+localcoord = 320,240
+; MUGEN doesn't parse these things but my page does
+system = "Capcom vs. SNK 2"
+
+[Files]
+sprite = cvsshimo.sff
+anim = cvsshimo.air
+sound = cvsshimo.snd
+cmd = cvsshimo.cds
+cns = cvsshimo.cns
+stcommon = common1.cns
+st = cvsshimo.cns
+st1 = buffering.vns
+st2 = cvssystem.lol
+st3 = point.lol
+st4 = config.txt
+
+;---ƒJƒ‰[ƒpƒŒƒbƒg---
+
+Pal1 = act/act01.act
+Pal2 = act/act04.act
+Pal3 = act/act06.act
+Pal4 = act/act02.act
+Pal5 = act/act03.act
+Pal6 = act/act05.act
+Pal7 = act/act14.act
+Pal8 = act/act16.act
+Pal9 = act/act18.act
+Pal10 = act/act13.act
+Pal11 = act/act15.act
+Pal12 = act/act17.act
+
+[Arcade]
+intro.storyboard = 
+ending.storyboard = 

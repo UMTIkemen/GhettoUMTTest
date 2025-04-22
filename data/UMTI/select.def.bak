@@ -2,34 +2,35 @@
 [Characters]
 ;-------------------------------------------------------------------------------
 ;============ 1ST ROW ============
+ baiken_SLASH
  MegaMari
  osaka_JM
  WildWolf
  Yukari_JM
  hol2
- Hisui_AACC
 ;============ 2ND ROW ============
+ Hisui_AACC
  khan
  johnny
  oresama
  SFV_Ryu
  Wesker
- cvscommando
 ;============ 3RD ROW ============
+ cvscommando
  cvssakura_ex
  Akira
  Urien
  honda_pots
 Chun-Li
-cell
 ;============ 4TH ROW ============
+cell
  Lei-Lei
 slayer2 remap
 beavis/beavis10.def
 Ella
 Date_Masamune
-Sanada_Yukimura
 ;============ 5TH ROW ============
+Sanada_Yukimura
 Kenshiro_C
 slot={
 	Goenitz XV/Goenitz XV Remap.def, previous=d, next=w
@@ -38,42 +39,41 @@ slot={
 Shadow Diavolo
 SSJ_GokuZ2
 kamijo
-Yuuka_THIZ
 ;============ 6TH ROW ============
+Yuuka_THIZ
 ange
 Susanoo
 Mika
 cvsgouki
 KyoXIII(ikaruga)/KyoXIII.def
-Rila
 ;============ 7TH ROW ============
+Rila
 yuri_pots
 pot
 GohanZ2
 cvsguile
 cvsrock
-Gunha
 ;============ 8TH ROW ============
+Gunha
 Dan
 EvilRyu
 KazumaKiryu
 Blitztank
 akfgz
-Ryugen
 ;============ 9TH ROW ============
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
+Ryugen
+WannaKOF
+Wolverine
+Joe
+cvsjill
+Queen Bee
 ;============ 10TH ROW ============
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
+Spiritland Lords
+CX OrochiK
+586_sayuri
+haruhi1.0
+Jedah
+AI-Hsien-ko
 ;-------------------------------------------------------------------------------
 [ExtraStages]
 stages/Moon.def
@@ -101,6 +101,14 @@ stages/KOFXI_Russia_Stage.def
 stages/KOFXI_Magaki_Hi_Resolution_Stage.def
 stages/KOFXI_Shion_Hi_Resolution_Stage.def
 stages/mbac_neco_D4_1.1.def
+stages/Spain2019.def
+stages/Water2014.def
+stages/BestestKenSFA2.def
+stages/Home2014.def
+stages/Rooftops2022.def
+stages/cammy2019_ver.2.def
+stages/Battle of Hasedo.def
+stages/ggx_ve_bg.def
 ;-------------------------------------------------------------------------------
  
 

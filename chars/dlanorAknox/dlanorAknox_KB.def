@@ -1,0 +1,37 @@
+[Info]
+name         = "Dlanor A. Knox"
+displayname  = "Dlanor A. Knox"
+versiondate  = 03,02,2014
+author       = "Shiroto"
+;pal.defaults = 4,3,2,1
+
+[Files]
+cmd      = KBAI/dlanor_srt.cmd
+cns      = KBAI/dlanor_srt.cns
+stcommon = KBAI/common2.cns
+st       = KBAI/dlanor_srt.cns
+sprite   = dlanor_srt.sff
+anim     = dlanor_srt.air
+sound    = dlanor_srt.snd
+st1      = dlanor_normal.cns
+st2      = KBAI/dlanor_skill.cns
+st3      = KBAI/dlanor_spell.cns
+st4      = KBAI/dlanor_helper.cns
+st5      = KBAI/dlanor_ai.cns
+st6      = KBAI/AI_Config.txt
+pal1     = dlanor01.act		;通常カラー
+pal2     = dlanor01.act		;通常カラー
+pal3     = dlanor01.act		;通常カラー
+pal4     = dlanor01.act		;通常カラー
+pal5     = dlanor01.act		;通常カラー
+pal6     = dlanor06.act		;銀カラー
+pal7     = dlanor01.act		;通常カラー
+pal8     = dlanor01.act		;通常カラー
+pal9     = dlanor01.act		;通常カラー
+pal10    = dlanor06.act		;銀カラー
+pal11    = dlanor11.act		;黒カラー
+pal12    = dlanor12.act		;金カラー
+
+[Arcade]
+;intro.storyboard = 
+;ending.storyboard = 

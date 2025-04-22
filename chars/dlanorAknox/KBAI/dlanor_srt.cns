@@ -1,0 +1,3385 @@
+
+;==============================================================================
+;      基本データ
+;==============================================================================
+; キャラクター基準値の設定
+;------------------------------------------------------------------------------
+[Data]
+life              = 1071   ;ライフ（体力ゲージ）最大値（縁寿を1000とした場合の彼女のHP）
+power             = 5000   ;パワーゲージ最大値（オプション・デフォルトは3000=Lv.3）
+attack            = 100    ;攻撃力（デフォルトは１００％）
+defence           = 100    ;防御力（デフォルトは１００％）
+fall.defence_up   = 50     ;横に倒れている時に一時的に加える防御力（％）
+liedown.time      = 60     ;横に倒れている時間（フレーム）
+airjuggle         = 30     ;ジャグルポイント限界値（「小ネタ.txt」参照）
+sparkno           = 2      ;デフォルトのヒットスパーク（fightfxから）
+guard.sparkno     = 40     ;デフォルトのガードスパーク（fightfxから）
+KO.echo           = 0      ;ＫＯ時の音声（11,0）にエコーを掛けるか否か（0=掛けない,1=掛ける）
+volume            = 200    ;キャラの標準の音量（最小-255・最大255）
+IntPersistIndex   = 50,59  ;次のラウンドへ持ち越せる「Var」のアドレスの範囲を決める（※１）
+FloatPersistIndex = 10,19  ;次のラウンドへ持ち越せる「FVar」のアドレスの範囲を決める（※１）
+
+
+;------------------------------------------------------------------------------
+; サイズ指定
+;------------------------------------------------------------------------------
+[Size]
+xscale           = 0.5     ;キャラの横の大きさ（絶対値・float）
+yscale           = 0.5     ;キャラの縦の大きさ（絶対値・float）
+ground.back      = 16      ;地上にいる時の「後方の物理的な幅」
+ground.front     = 16      ;地上にいる時の「前方の物理的な幅」
+air.back         = 16      ;空中にいる時の「後方の物理的な幅」
+air.front        = 16      ;空中にいる時の「前方の物理的な幅」
+height           = 55      ;キャラの物理的な高さ（高いほど相手は飛び越しにくくなる）
+attack.dist      = 160     ;相手がガード態勢に入る最低の距離
+proj.attack.dist = 120     ;自分の「Projectile」に対して相手がガード態勢に入る最低の距離
+proj.doscale     = 1       ;xscaleとyscaleを「Projectile」にも影響させるか否か（0=させない・1=させる）
+head.pos         = 3,-98   ;キャラの標準の頭の座標（Bind系で適用される）
+mid.pos          = 5,-70   ;キャラの標準の体中心の座標（Bind系で適用される）
+shadowoffset     = 0       ;影のＹ軸方向の位置座標
+draw.offset      = 0,0     ;キャラの表示座標（Ｘ軸,Ｙ軸）
+
+;------------------------------------------------------------------------------
+; 動作の設定
+;------------------------------------------------------------------------------
+[Movement]
+airjump.num     = 0        ;空中ジャンプが出来る回数
+airjump.height  = 35       ;空中ジャンプが出来る最低の高度（Ｙ軸）
+yaccel          = .48      ;Ｙ軸加速度（重力）
+stand.friction  = .85      ;立っている時の摩擦係数（ステートのPhysicsが「S」の時）
+crouch.friction = .82      ;しゃがんでいる時の摩擦係数（ステートのPhysicsが「C」の時）
+
+;------------------------------------------------------------------------------
+; 移動速度の設定
+;------------------------------------------------------------------------------
+[Velocity]
+walk.fwd     = 1.4         ;前進速度（Ｘ軸・[Statedef 20]に適用される）
+walk.back    = -0.8        ;後退速度（Ｘ軸・[Statedef 20]に適用される）
+run.fwd      = 4.0,0       ;前方に走る速度（Ｘ軸,Ｙ軸・[Statedef 100]に適用される）
+run.back     = -3.5,-5     ;後方に走る速度（Ｘ軸,Ｙ軸・[Statedef 105]に適用される）
+jump.neu     = 0,-9        ;垂直ジャンプの速度（Ｘ軸,Ｙ軸・[Statedef 40]に適用される）
+jump.back    = -2.25       ;後方ジャンプの速度（Ｘ軸・[Statedef 40]に適用される）
+jump.fwd     = 2.45        ;前方ジャンプの速度（Ｘ軸・[Statedef 40]に適用される）
+runjump.back = -2.55,-8.5  ;後方に走ってからのジャンプ速度（Ｘ軸,Ｙ軸・[Statedef 40]に適用される）
+runjump.fwd  = 4,-8.5      ;前方に走ってからのジャンプ速度（Ｘ軸,Ｙ軸・[Statedef 40]に適用される）
+airjump.neu  = 0,-7.5      ;空中垂直ジャンプ速度（Ｘ軸,Ｙ軸・[Statedef 45]に適用される）
+airjump.back = -2.25       ;空中後方ジャンプ速度（Ｘ軸・[Statedef 45]に適用される）
+airjump.fwd  = 2.45        ;空中前方ジャンプ速度（Ｘ軸・[Statedef 45]に適用される）
+
+
+;==============================================================================
+; キャンセルダッシュ
+;==============================================================================
+[Statedef 102]
+type        = S
+physics     = S
+sprpriority = 0
+ctrl        = 1
+
+[State -1]
+Type     = ChangeState
+Trigger1 = StateTime = 0
+Value    = 100
+
+;==============================================================================
+; アピール
+;==============================================================================
+[Statedef 195]
+type        = S
+physics     = S
+sprpriority = 0
+anim        = 195
+ctrl        = 0
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -3
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State 0, 2]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 1, SoundEffect]
+type = playsnd
+trigger1 = animelem = 5
+trigger2 = animelem = 40
+value = s0,10
+[State 1, Voice]
+type = playsnd
+trigger1 = animelem = 9
+value = s13,11
+channel = 0
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = animelem = 4
+Anim     = 2
+ID       = 2
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 2
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State -1, Effect]
+type     = Explod
+Trigger1 = animelem = 6
+Anim     = 3
+ID       = 3
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 3
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State -1, Effect]
+type     = Explod
+Trigger1 = animelem = 40
+Anim     = 4
+ID       = 4
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State -1, Effect]
+type     = Explod
+Trigger1 = animelem = 40
+Anim     = 7
+ID       = 7
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = -2
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State -1]
+Type     = LifeAdd
+Trigger1 = StateTime%2
+Value    = 1
+
+[State -1]
+Type     = CtrlSet
+Trigger1 = var(59) = 0
+Trigger1 = animelemtime(15) = 0
+Trigger2 = var(59) > 0
+Trigger2 = animtime = 0
+Value    = 1
+
+[State -1]
+Type = DestroySelf
+Trigger1 = IsHelper
+IgnoreHitPause = 1
+
+[State 0, 1]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+
+;==============================================================================
+;　フェイクノーマルタッチ
+;==============================================================================
+[Statedef 700]
+Type      = S
+Physics   = S
+Ctrl      = 0
+Anim      = 700
+PowerAdd  = 0
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+ignorehitpause = 0
+
+[State -1, Helper]
+Type = Helper
+Trigger1 = Animelemtime(9) = 0
+Stateno  = 1360
+ID       = 1350
+Name     = "Cornelia"
+Pos      = -80,0
+PosType  = back
+Ownpal   = 1
+Keyctrl  = 0
+IgnoreHitPause = 1
+Persistent = 0
+
+[State -1, PlaySnd]
+Type     = PlaySnd
+Trigger1 = Animelem = 3
+Value    = s14, 1+random%2
+Channel  = 0
+
+[State -1, FVarSet]
+Type     = VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 30
+Value    = Power
+[State -1, PowerSet]
+Type     = PowerSet
+Trigger1 = Animelemtime(11) = 0
+Value    = ceil(fvar(14))
+[State -1, FVarSet]
+Type     = VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 14
+Value    = fvar(30)
+
+
+[State -1, ChangeState]
+Type     = ChangeState
+Trigger1 = AnimTime = 0
+Value    = 0
+Ctrl     = 1
+
+
+;==============================================================================
+; コーネリア・攻撃を実行するもの也
+;==============================================================================
+[Statedef 701]
+type     = S
+movetype = A
+physics  = S
+ctrl     = 0
+velset   = 0,0
+anim     = 701
+sprpriority = -4
+
+[State -1]
+Type     = VelSet
+Trigger1 = statetime > 12
+X        = 8
+Y        = 0
+
+[State -1]
+type     = HitOverride
+trigger1 = 1
+attr     = SCA,AA,AP,AT
+ignorehitpause=1
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = 1
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1, SoundEffect]
+Type     = PlaySnd
+Trigger1 = StateTime = 1
+Value    = s3,1
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 1
+Anim     = 1347
+ID       = 1347
+Pos      = 31,18
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -3
+bindtime = -1
+[State -1]
+Type     = Helper
+Trigger1 = StateTime = 0
+Stateno  = 1370
+ID       = 1370
+Pos      = 24,-102
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+[State -1, Effect]
+type     = Explod
+Trigger1 = StateTime > 13 && StateTime%5 = 4
+Anim     = 8220
+ID       = 8220
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = -2
+
+
+[State 600, Attack]
+type = HitDef
+trigger1 = AnimelemTime(5)= 0
+attr              = A, NA
+damage            = 60, 0
+guard.kill        = 0
+animtype          = Middle
+getpower          = 0, 0
+hitflag           = MAFD
+guardflag         = MA
+priority          = 3, Hit
+pausetime         = 0, 10
+sparkno           = -1;s8320
+sparkxy           = -10,-83
+guard.sparkno     = -1;s8340
+hitsound          = s1, 15
+guardsound        = s1, 12
+ground.type       = High
+ground.slidetime  = 16
+ground.hittime    = 16
+ground.velocity   = -1,-10
+guard.velocity    = -4
+airguard.velocity = -2,-5
+air.velocity      = -0.9,-10
+yaccel            = .48
+fall              = 1
+air.fall          = 1
+fall.recover      = 1
+fall.recovertime  = 25
+ground.cornerpush.veloff = -5
+
+[State -1, HitSpark]
+type     = Explod
+Trigger1 = MoveHit
+Anim     = 8322
+ID       = 8322
+Pos      = 61+random%10,-70-random%10
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+[State -1, GuardSpark]
+type     = Explod
+Trigger1 = MoveGuarded
+Anim     = 8341
+ID       = 8341
+Pos      = 61+random%10,-70-random%10
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+
+[State -1, PowerAdd]
+Type     = ParentVarAdd
+Trigger1 = MoveContact
+FV       = 14
+Value    = 80*ifelse(MoveGuarded,.85,1)
+ignorehitpause = 1
+persistent = 0
+
+[State -1, Combo]
+Type     = ParentVarAdd
+trigger1 = MoveHit
+FV       = 22
+value    = 1
+IgnoreHitPause = 1
+Persistent = 0
+[State -1, Combo]
+Type     = ParentVarSet
+Trigger1 = MoveHit
+FV       = 21
+value    = 0.80
+IgnoreHitPause = 1
+Persistent = 0
+
+[State -1]
+Type     = ChangeState
+Trigger1 = MoveContact
+Trigger2 = P2BodyDist X <= 0
+Value    = 702
+
+;==============================================================================
+; コーネリア・撤退するもの也
+;==============================================================================
+[Statedef 702]
+type     = S
+movetype = I
+physics  = S
+ctrl     = 0
+anim = 702
+sprpriority = -4
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = 1
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1]
+Type     = Trans
+Trigger1 = StateTime = [11,21]
+Trans    = AddAlpha
+Alpha    = 256-(statetime-11)*25,(statetime-11)*25
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = StateTime = 11
+Anim     = 1346
+ID       = 1346
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = -3
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State -1]
+Type     = Helper
+Trigger1 = StateTime = [11,16]
+Stateno  = 1349
+ID       = 1349
+Pos      = 0,-75
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+
+[State 1, SoundEffect]
+type     = playsnd
+Trigger1 = Animelem = 3 && Anim = 1343
+value    = s3,0
+
+[State -1, VelSet]
+Type     = VelSet
+Trigger1 = Anim = 702
+x        = 0.7*vel x
+y        = 0
+[State -1, VelSet]
+Type     = VelSet
+Trigger1 = Anim = 1343
+x        = -0.5
+y        = 0
+
+[State -1]
+Type     = ChangeAnim
+Trigger1 = AnimTime = 0 && Anim = 702
+Value    = 1343
+[State -1]
+Type     = ChangeAnim
+Trigger1 = StateTime = 22
+Value    = 9999
+
+[State -1]
+Type     = DestroySelf
+Trigger1 = StateTime >= 36
+
+
+;==============================================================================
+;　フェイクアタックタッチ
+;==============================================================================
+[Statedef 705]
+Type      = S
+Physics   = S
+Ctrl      = 0
+Anim      = 705
+PowerAdd  = 0
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+ignorehitpause = 0
+
+[State -1, Helper]
+Type = Helper
+Trigger1 = Animelemtime(1) = 0
+Stateno  = 706
+ID       = 1350
+Name     = "Cornelia"
+Pos      = -80,0
+PosType  = back
+Ownpal   = 1
+Keyctrl  = 0
+IgnoreHitPause = 1
+Persistent = 0
+
+[State -1, PlaySnd]
+Type     = PlaySnd
+Trigger1 = Animelem = 1
+Value    = s24, 0
+Channel  = 0
+
+[State -1, FVarSet]
+Type     = VarSet
+Trigger1 = Animelemtime(1) = 0
+FV       = 30
+Value    = Power
+[State -1, PowerSet]
+Type     = PowerSet
+Trigger1 = Animelemtime(1) = 0
+Value    = ceil(fvar(14))
+[State -1, FVarSet]
+Type     = VarSet
+Trigger1 = Animelemtime(1) = 0
+FV       = 14
+Value    = fvar(30)
+
+
+[State -1, ChangeState]
+Type     = ChangeState
+Trigger1 = AnimTime = 0
+Value    = 0
+Ctrl     = 1
+
+;==============================================================================
+; コーネリア・攻撃を実行するもの也
+;==============================================================================
+[Statedef 706]
+type     = S
+movetype = A
+physics  = S
+ctrl     = 0
+velset   = 0,0
+anim     = 706
+sprpriority = -4
+
+[State -1]
+type     = HitOverride
+trigger1 = 1
+attr     = SCA,AA,AP,AT
+ignorehitpause=1
+
+[State -1]
+Type     = VarSet
+Trigger1 = StateTime = 0
+V        = 1
+Value    = Root,StateNo
+[State -1]
+Type     = VarSet
+Trigger1 = StateTime = 0
+V        = 2
+Value    = floor(P2BodyDist X)
+
+[State -1]
+Type     = VelSet
+Trigger1 = 1
+X        = 8+var(2)*.025
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = 1
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1, SoundEffect]
+Type     = PlaySnd
+Trigger1 = StateTime = 1
+Value    = s3,1
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 1
+Anim     = 1347
+ID       = 1347
+Pos      = 31,18
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -3
+bindtime = -1
+[State -1]
+Type     = Helper
+Trigger1 = StateTime = 0
+Stateno  = 1370
+ID       = 1370
+Pos      = 24,-102
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+[State -1, Effect]
+type     = Explod
+Trigger1 = StateTime%5 = 0 && Pos Y >= 0
+Anim     = 8220
+ID       = 8220
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = -2
+
+
+[State 600, Attack]
+type = HitDef
+trigger1 = AnimelemTime(1)= 0
+attr              = A, NA
+damage            = 60, 0
+guard.kill        = 0
+animtype          = Hard
+getpower          = 0, 0
+hitflag           = MAFD
+guardflag         = M
+priority          = 3, Hit
+pausetime         = 0, 13
+sparkno           = -1;s8320
+sparkxy           = -10,-83
+guard.sparkno     = -1;s8340
+hitsound          = s1, 15
+guardsound        = s1, 12
+ground.type       = High
+ground.slidetime  = 25
+ground.hittime    = 25
+ground.velocity   = -3
+guard.velocity    = -4
+airguard.velocity = -2,-4
+air.velocity      = -0.5,-9
+yaccel            = .48
+fall              = 0
+air.fall          = 1
+fall.recover      = 1
+fall.recovertime  = 25
+ground.cornerpush.veloff = -5
+
+[State -1, HitSpark]
+type     = Explod
+Trigger1 = MoveHit
+Anim     = 8322
+ID       = 8322
+Pos      = 61+random%10,-70-random%10
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+[State -1, GuardSpark]
+type     = Explod
+Trigger1 = MoveGuarded
+Anim     = 8341
+ID       = 8341
+Pos      = 61+random%10,-70-random%10
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+
+[State -1, PowerAdd]
+Type     = ParentVarAdd
+Trigger1 = MoveContact
+FV       = 14
+Value    = 80*ifelse(MoveGuarded,.85,1)
+ignorehitpause = 1
+persistent = 0
+
+[State -1, Combo]
+Type     = ParentVarAdd
+trigger1 = MoveHit
+FV       = 22
+value    = 1
+IgnoreHitPause = 1
+Persistent = 0
+[State -1, Combo]
+Type     = ParentVarSet
+Trigger1 = MoveHit
+FV       = 23
+value    = 0.80*Parent,Fvar(23)
+IgnoreHitPause = 1
+Persistent = 0
+
+[State -1]
+Type     = ChangeState
+Trigger1 = MoveContact
+Trigger2 = P2BodyDist X <= 0
+Value    = 702
+
+;==============================================================================
+;　フェイクガードタッチ
+;==============================================================================
+[Statedef 710]
+Type      = S
+Physics   = S
+Ctrl      = 0
+Anim      = 710
+PowerAdd  = 0
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+ignorehitpause = 1
+
+[State -1, FVarAdd]
+Type     = VarAdd
+Trigger1 = Animelemtime(1) = 0
+FV       = 14
+Value    = -1000
+
+[State -1, SoundEffect]
+Type     = PlaySnd
+Trigger1 = Animelem = 2
+Value    = s1, 18
+[State -1, Voice]
+Type     = PlaySnd
+Trigger1 = Animelem = 3
+Value    = s20, 20
+Channel  = 0
+
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 30
+Value    = Power
+[State -1, PowerSet]
+Type     = Null;PowerSet
+Trigger1 = Animelemtime(11) = 0
+Value    = ceil(fvar(14))
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 14
+Value    = fvar(30)
+
+
+[State -1, Helper]
+Type = Helper
+Trigger1 = Animelemtime(3) = 0
+Stateno  = 711
+ID       = 711
+Name     = "GuardAttack"
+Pos      = 0,0
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+IgnoreHitPause = 1
+Persistent = 0
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = statetime < 14
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1, ChangeState]
+Type     = ChangeState
+Trigger1 = AnimTime = 0
+Value    = 0
+Ctrl     = 1
+
+;------------------------------------------------------------------------------
+;　ガードタッチ　飛ばしヘルパー
+;------------------------------------------------------------------------------
+[StateDef 711]
+Type        = A
+Physics     = N
+Anim        = 711
+VelSet      = 8,0
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = 1
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = -1
+
+[State -1]
+Type     = VelAdd
+Trigger1 = vel x > 0
+X        = -0.25
+
+[State -1]
+Type     = PlayerPush
+Trigger1 = 1
+Value    = 1
+
+[State -1]
+Type     = DestroySelf
+Trigger1 = vel x <= 0
+
+;==============================================================================
+;　フェイクダメージタッチ
+;==============================================================================
+[Statedef 716]
+Type      = A
+MoveType  = A
+Physics   = A
+Ctrl      = 0
+;Anim      = 716
+PowerAdd  = 0
+
+[State -1]
+Type     = ChangeState
+Trigger1 = StateTime = 0
+Value    = 715
+
+[Statedef 715]
+Type      = S
+MoveType  = A
+Physics   = S
+Ctrl      = 0
+Anim      = ifelse(prevstateno=716,716,715)
+PowerAdd  = 0
+velset    = 0,0
+
+[State -1]
+Type     = StateTypeSet
+Trigger1 = StateTime = 0 && PrevStateNo = 716
+StateType = A
+MoveType  = A
+Physics   = N
+ignorehitpause = 1
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+ignorehitpause = 1
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = animelemtime(18) < 0
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1, FVarAdd]
+Type     = VarAdd
+Trigger1 = Animelemtime(1) = 0
+FV       = 14
+Value    = -2000
+
+[State -1, SoundEffect]
+Type     = PlaySnd
+Trigger1 = Animelem = 4
+Value    = s2, 3
+[State -1, Voice]
+Type     = PlaySnd
+Trigger1 = Animelem = 1
+Value    = s10, 20
+Channel  = 0
+
+
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 30
+Value    = Power
+[State -1, PowerSet]
+Type     = Null;PowerSet
+Trigger1 = Animelemtime(11) = 0
+Value    = ceil(fvar(14))
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 14
+Value    = fvar(30)
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 4
+Anim     = 8230
+ID       = 8230
+Pos      = 2,-85
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 2
+bindtime = -1
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 4
+Anim     = 8231
+ID       = 8231
+Pos      = 2,-85
+scale    = const(size.xscale)*2*.3,const(size.xscale)*2*.3
+postype  = p1
+sprpriority = -3
+bindtime = -1
+[State -1, Effect]
+type     = ModifyExplod
+Trigger1 = AnimelemTime(4) = 15
+ID       = 8231
+scale    = const(size.xscale)*2*.55,const(size.xscale)*2*.55
+[State -1, Effect]
+type     = ModifyExplod
+Trigger1 = AnimelemTime(4) = 17
+ID       = 8231
+scale    = const(size.xscale)*2*.8,const(size.xscale)*2*.8
+[State -1, Effect]
+type     = ModifyExplod
+Trigger1 = AnimelemTime(4) = 19
+ID       = 8231
+scale    = const(size.xscale)*2,const(size.xscale)*2
+
+[State -1, BGPalfx];フェードイン
+Type = BGPalfx
+Trigger1 = StateTime = [8,11]
+Add = 200,200,200
+Mul = 255-31*(statetime-7),255-31*(statetime-7),255-31*(statetime-7)
+Time = 2
+[State -1, BGPalfx]
+Type = BGPalfx
+Trigger1 = StateTime = [12,48]
+Add = 0,0,0
+Mul = 100,100,100
+Time = 2
+[State -1, BGPalfx];緑
+Type = BGPalfx
+Trigger1 = StateTime = [49,50]
+Add = 0,0,0
+Mul = 0,150,150
+Time = 2
+[State -1, BGPalfx];薄桃
+Type = BGPalfx
+Trigger1 = StateTime = [51,53]
+Add = 0,0,0
+Mul = 250,150,150
+Time = 2
+[State -1, BGPalfx];フェードアウト
+Type = BGPalfx
+Trigger1 = StateTime = [54,63]
+Add = 0,0,0
+Mul = 150+10*(statetime-54),150+10*(statetime-54),150+10*(statetime-54)
+Time = 2
+
+
+[State -1]
+type = HitDef
+Trigger1 = AnimelemTime(6) = 0
+attr              = S, NA
+damage            = 0, 0
+guard.kill        = 0
+animtype          = Hard
+getpower          = 0, 0
+hitflag           = MAFD
+guardflag         = M
+priority          = 3, Hit
+pausetime         = 10, 10
+sparkno           = -1;s8320
+sparkxy           = -10,-83
+guard.sparkno     = -1;s8340
+hitsound          = s1, 14
+guardsound        = s1, 2
+ground.type       = High
+ground.slidetime  = 12
+ground.hittime    = 12
+ground.velocity   = -5
+guard.velocity    = -6
+airguard.velocity = -2.4,-3
+air.velocity      = -2.5,-4
+yaccel            = .48
+fall              = 1
+air.fall          = 1
+fall.recover      = 0
+fall.recovertime  = 0
+ground.cornerpush.veloff = -13
+;P2StateNo         = 228
+
+[State -1]
+Type = TargetState
+Trigger1 = NumTarget
+Trigger1 = ((HitCount = 1) && (MoveHit)) && animelemtime(8) < 0
+Trigger1 = Target,StateNo != [228,229]
+Value = 228
+ignorehitpause = 1
+
+[State -1]
+type     = Explod
+Trigger1 = MoveHit
+Anim     = 8310
+ID       = 8310
+Pos      = random%10,-70-random%10
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p2
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+[State -1, GuardSpark]
+type     = Explod
+Trigger1 = MoveGuarded
+Anim     = 8341
+ID       = 8341
+Pos      = random%10,-70-random%10
+scale    = const(size.xscale)*1.5,const(size.xscale)*1.5
+postype  = p2
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+
+
+[State -1]
+Type     = StateTypeSet
+Trigger1 = AnimelemTime(19) = 0 && PrevStateNo = 716
+StateType = A
+MoveType  = I
+Physics   = A
+ignorehitpause = 1
+
+[State -1, ChangeState]
+Type     = ChangeState
+Trigger1 = AnimTime = 0
+Value    = ifelse(StateType=A||Pos Y < -5,605,0)
+Ctrl     = 1
+
+;==============================================================================
+;　フェイクアサルトタッチ
+;==============================================================================
+[Statedef 720]
+Type      = S
+MoveType  = A
+Physics   = S
+Ctrl      = 0
+Anim      = 720
+PowerAdd  = 0
+velset    = 0,0
+
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+ignorehitpause = 1
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = 1
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1, FVarAdd]
+Type     = VarAdd
+Trigger1 = Animelemtime(1) = 0
+FV       = 14
+Value    = -2000
+
+[State -1, SoundEffect]
+Type     = PlaySnd
+Trigger1 = Animelem = 1
+Value    = s2, 4
+[State -1, Voice]
+Type     = PlaySnd
+Trigger1 = Animelem = 1
+Value    = s10, 21
+Channel  = 0
+
+
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 30
+Value    = Power
+[State -1, PowerSet]
+Type     = Null;PowerSet
+Trigger1 = Animelemtime(11) = 0
+Value    = ceil(fvar(14))
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 14
+Value    = fvar(30)
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 1
+Anim     = 8235
+ID       = 8235
+Pos      = 2,-85
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 2
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 3
+Anim     = 8221
+ID       = 8221
+Pos      = -22,-55
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 3
+removetime = -1
+bindtime = -1
+removeongethit = 1
+[State -1, Effect]
+type     = Explod
+Trigger1 = Animelem = 3
+Anim     = 1202
+ID       = 1202
+Pos      = 50,-57
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 3
+removetime = -1
+bindtime = -1
+removeongethit = 1
+[State -1, Effect]
+type     = Explod
+Trigger1 = StateTime%5 = 0 && Vel x > 0
+Anim     = 8220
+ID       = 8220
+Pos      = 0,0
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 4
+removeongethit = 1
+
+[State -1, BGPalfx];フェードイン
+Type = BGPalfx
+Trigger1 = StateTime = [6,9]
+Add = 200,200,200
+Mul = 255-31*(statetime-5),255-31*(statetime-5),255-31*(statetime-5)
+Time = 2
+[State -1, BGPalfx]
+Type = BGPalfx
+Trigger1 = StateTime >= 10
+Add = 0,0,0
+Mul = 100,100,100
+Time = 2
+
+[State -1]
+Type     = VelSet
+Trigger1 = StateTime >= 10
+X        = 8
+Y        = 0
+
+
+[State -1]
+type = HitDef
+Trigger1 = AnimelemTime(3) = 0
+attr              = S, NA
+damage            = 0, 0
+guard.kill        = 0
+animtype          = Hard
+getpower          = 0, 0
+hitflag           = MAFD
+guardflag         = M
+priority          = 3, Hit
+pausetime         = 10, 10
+sparkno           = -1;s8320
+sparkxy           = -10,-83
+guard.sparkno     = -1;s8340
+hitsound          = s1, 29
+guardsound        = s1, 2
+ground.type       = High
+ground.slidetime  = 16
+ground.hittime    = 16
+ground.velocity   = -3,-5
+guard.velocity    = -6
+airguard.velocity = -2.4,-3
+air.velocity      = -3,-5
+yaccel            = .48
+fall              = 1
+air.fall          = 1
+fall.recover      = 0
+fall.recovertime  = 0
+ground.cornerpush.veloff = -13
+;P2StateNo         = 228
+
+[State -1]
+type     = Explod
+Trigger1 = MoveHit
+Anim     = 8310
+ID       = 8310
+Pos      = random%10,-70-random%10
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p2
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+[State -1, GuardSpark]
+type     = Explod
+Trigger1 = MoveGuarded
+Anim     = 8341
+ID       = 8341
+Pos      = random%10,-70-random%10
+scale    = const(size.xscale)*1.5,const(size.xscale)*1.5
+postype  = p2
+sprpriority = 8
+ignorehitpause = 1
+persistent = 0
+
+[State -1, Combo]
+Type     = VarAdd
+trigger1 = MoveHit
+FV       = 22
+value    = 1
+IgnoreHitPause = 1
+Persistent = 0
+
+[State -1, ChangeState]
+Type     = ChangeState
+Trigger1 = MoveContact
+Trigger2 = P2BodyDist X <= 0
+Value    = 721
+
+;------------------------------------------------------------------------------
+;　フェイクアサルトタッチ・終了
+;------------------------------------------------------------------------------
+[Statedef 721]
+type    = S
+movetype= I
+physics = S
+anim    = 101
+velset  = 4,0
+sprpriority = 1
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 8221
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 1202
+[State -1, Effect]
+type     = Explod
+Trigger1 = StateTime = 0
+Anim     = 8222
+ID       = 8222
+Pos      = -22,-55
+scale    = const(size.xscale)*2,const(size.xscale)*2
+postype  = p1
+sprpriority = 3
+bindtime = -1
+removeongethit = 1
+
+[State -1, Effect]
+type     = Explod
+trigger1 = statetime = 0
+Anim     = 8352
+ID       = 8352
+Pos      = 50,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = 4
+removeongethit = 1
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = 1
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State 100, soundeffect]
+type = PlaySnd
+trigger1 = StateTime = 0
+value = s0, 7
+
+[State 100, 2] ;Prevent run from canceling into walk
+type = AssertSpecial
+trigger1 = 1
+flag = NoWalk
+
+[State 100, 3] ;Prevent from turning
+type = AssertSpecial
+trigger1 = 1
+flag = NoAutoTurn
+
+[State -1, BGPalfx];緑
+Type = BGPalfx
+Trigger1 = PrevStateNo!= 1250 && StateTime = [0,1]
+Add = 0,0,0
+Mul = 0,150,150
+Time = 2
+[State -1, BGPalfx];薄桃
+Type = BGPalfx
+Trigger1 = PrevStateNo!= 1250 && StateTime = [2,4]
+Add = 0,0,0
+Mul = 250,150,150
+Time = 2
+
+[State 100, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;==============================================================================
+;　フェイクガードタッチフォアード
+;==============================================================================
+[Statedef 725]
+Type      = S
+MoveType  = A
+Physics   = S
+Ctrl      = 0
+Anim      = 710
+PowerAdd  = 0
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+ignorehitpause = 1
+
+[State -1, FVarAdd]
+Type     = VarAdd
+Trigger1 = Animelemtime(1) = 0
+FV       = 14
+Value    = -1000
+
+[State -1, SoundEffect]
+Type     = PlaySnd
+Trigger1 = Animelem = 2
+Value    = s1, 18
+[State -1, Voice]
+Type     = PlaySnd
+Trigger1 = Animelem = 3
+Value    = s10, 22
+Channel  = 0
+
+
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 30
+Value    = Power
+[State -1, PowerSet]
+Type     = Null;PowerSet
+Trigger1 = Animelemtime(11) = 0
+Value    = ceil(fvar(14))
+[State -1, FVarSet]
+Type     = Null;VarSet
+Trigger1 = Animelemtime(11) = 0
+FV       = 14
+Value    = fvar(30)
+
+[State -1]
+type = HitDef
+Trigger1 = AnimelemTime(2) = 0
+attr        = S, ST
+hitflag     = MAF
+priority    = 4, Miss
+sparkno     = -1
+sprpriority = 1
+p2facing    = 1
+p2stateno   = 726
+guard.dist  = 0
+
+[State -1]
+Type     = NotHitBy
+Trigger1 = statetime < 14
+Value    = SAC, NT, ST, HT ,NA, SA, HA ,NP, SP, HP
+Time     = 1
+
+[State -1, ChangeState]
+Type     = ChangeState
+Trigger1 = AnimTime = 0
+Value    = 0
+Ctrl     = 1
+
+;------------------------------------------------------------------------------
+;　ガードタッチフォアード・相手
+;------------------------------------------------------------------------------
+[Statedef 726]
+Type     = S
+MoveType = H
+Physics  = S
+Ctrl     = 0
+VelSet   = 0,0
+
+[State -1, StateTypeSet]
+Type     = StateTypeSet
+Trigger1 = Pos Y < 0
+StateType = A
+
+[State -1, ChangeAnim2]
+Type = ChangeAnim2
+Trigger1 = Time = 0
+Value = 726
+
+[State -1]
+Type     = VelSet
+Trigger1 = AnimelemTime(2) = 0
+X        = -8
+
+[State -1, SelfState]
+Type = SelfState
+trigger1 = AnimTime = 0
+Value = ifelse(Pos Y < 0, 5050, 0)
+Ctrl = 1
+
+;==============================================================================
+; ハイジャンプ　開始
+;==============================================================================
+[Statedef 740]
+type    = S
+physics = S
+anim    = 40
+velset  = 0,0
+ctrl    = 0
+
+[State 115, Change]
+type = ChangeState
+trigger1 = StateTime = 0
+value = 40
+
+[Statedef 741]
+anim    = 40
+velset  = 0,0
+ctrl    = 0
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+facing = 1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State 741, statetypeset]
+type = StateTypeSet
+trigger1 = time = 0
+Trigger1 = statetype = S
+statetype = S
+movetype = I
+physics = S
+[State 741, statetypeset]
+type = StateTypeSet
+trigger1 = time = 0
+Trigger1 = statetype = C
+statetype = C
+movetype = I
+physics = C
+
+[State 741, Pos]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 741, 4]
+type = VelSet
+trigger1 = AnimTime = 0
+x = ifelse(sysvar(1)=0,0,ifelse(sysvar(1)=-1,-2.3,2.5))
+y = ifelse(sysvar(1)=0,ifelse(statetype=C,-9.5,-10.5),-9.5)
+
+[State -1, Effect]
+type     = Explod
+trigger1 = AnimTime = 0
+Anim     = ifelse(sysvar(1)=0,8240,ifelse(sysvar(1)=-1,8241,8242))
+ID       = 8240
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = 2
+ownpal   = 1
+
+[State -1]
+Type = Helper
+trigger1 = AnimTime = 0
+Stateno  = 41
+ID       = 741
+Name     = "JumpEffect"
+Pos      = 0,0
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+IgnoreHitPause = 1
+Persistent = 0
+
+[State 741, Change]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 742
+ctrl = 1
+
+;------------------------------------------------------------------------------
+; ハイジャンプ
+;------------------------------------------------------------------------------
+[Statedef 742]
+type    = A
+physics = A
+ctrl    = 1
+
+[State 50, 1]
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = 0
+
+[State 50, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+value = ifelse((vel x)=0, 41, ifelse((vel x)>0, 42, 43))
+
+[State 50, Voice]
+type = playsnd
+trigger1 = statetime = 0
+value = s13,ifelse(anim=41,3,ifelse(anim=42,5,7))
+channel = 0
+[State 50, SoundEffect]
+type = playsnd
+trigger1 = statetime = 0
+value = s0, 4
+
+[State -1, Effect]
+type     = RemoveExplod
+Trigger1 = StateTime = 0
+ID       = 10000
+
+[State -1, Effect]
+type     = Explod
+Trigger1 = NumExplod(10000) = 0
+Anim     = anim+10000
+ID       = 10000
+Pos      = 0,0
+scale    = const(size.xscale),const(size.xscale)
+postype  = p1
+sprpriority = -1
+ownpal   = 1
+bindtime = -1
+facing = 1
+removeongethit = 1
+removetime = -1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State -1]
+type = AfterImage
+trigger1 = StateTime = 0
+time = 44
+length = 9
+palbright = 0,0,0
+palcontrast = 200,200,200
+palpostbright = 0,0,0
+paladd = 0,0,0
+palmul = 0.8,0.8,0.8
+timegap = 1
+framegap = 3
+trans = add1
+
+;==============================================================================
+;[statedef -2]定義
+;==============================================================================
+
+[Statedef -2]
+
+
+;------------------------------------------------------------------------------
+; ダメージタッチ
+;------------------------------------------------------------------------------
+; value = 715
+; [statedef -3]に記載
+
+
+;==============================================================================
+;　ダメージ関係
+;==============================================================================
+
+[State -1, Effect]
+type       = RemoveExplod
+TriggerAll = MoveType = H && (StateNo != [120,159])
+Trigger1   = (StateNo != [5000,5199]) || (Anim != [5000,5999])
+ID         = 10000
+ignorehitpause = 1
+
+;==============================================================================
+;　根性値
+;==============================================================================
+[State -1, DefenceMulSet]
+Type = DefenceMulSet
+triggerall = !ishelper
+Trigger1 = 1
+Value = ifelse(Life>1000,1,(Life*0.3+700)*0.001)*ifelse(fvar(12)>0||PalNo>=7,0.5,1)
+IgnoreHitPause = 1
+
+;==============================================================================
+;　ビートエッジ用
+;==============================================================================
+[State -1, AttackMulSet]
+Type = AttackMulSet
+Trigger1 = NumHelper(1350) = 0 && PalNo <= 6
+Trigger2 = NumHelper(1350) && PalNo <= 6
+Trigger2 = Helper(1350),Var(1) != 1351
+triggerall = !Ishelper
+Value = 1*fvar(20)*fvar(21)*fvar(23)*(1-0.03125*ifelse(fvar(22)<30,fvar(22),30))*ifelse(random%32=0,1.15,1)
+IgnoreHitPause = 1
+[State -1, AttackMulSet]
+Type = AttackMulSet
+Trigger1 = NumHelper(1350)
+Trigger1 = Helper(1350),Var(1) = 1351
+Trigger2 = PalNo >= 7
+triggerall = !Ishelper
+Value = 1*fvar(20)*fvar(21)*fvar(23)*(1-0.03125*ifelse(fvar(22)<30,fvar(22),30))*ifelse(random%32=0,1.15,1)*1.25
+IgnoreHitPause = 1
+
+
+[State -1, VarSet1]
+Type       = VarSet
+triggerall = !Ishelper && FVar(21) != 1
+Trigger1   = ((roundstate = 2) && (P2MoveType != H)) || RoundState != 2
+Trigger2   = PalNo = 12 || fvar(15) > 0
+FV         = 21
+value      = 1
+IgnoreHitPause = 1
+[State -1, VarSet1]
+Type       = VarSet
+triggerall = !Ishelper && FVar(22) != 0
+Trigger1   = ((roundstate = 2) && (P2MoveType != H)) || RoundState != 2
+Trigger2   = PalNo = 12 || fvar(15) > 0
+FV         = 22
+value      = 0
+IgnoreHitPause = 1
+[State -1, VarSet1]
+Type       = VarSet
+triggerall = !Ishelper && FVar(23) != 1
+Trigger1   = ((roundstate = 2) && (P2MoveType != H)) || RoundState != 2
+Trigger2   = PalNo = 12 || fvar(15) > 0
+FV         = 23
+value      = 1
+IgnoreHitPause = 1
+
+[State -1, VarSet1]
+Type = VarSet
+triggerall = !Ishelper
+Trigger1 = ((roundstate = 2) && (P2StateType = S))
+FV = 20
+value = 1
+IgnoreHitPause = 1
+[State -1, VarSet1]
+Type = VarSet
+triggerall = !Ishelper
+Trigger1 = ((roundstate = 2) && (P2StateType = A))
+FV = 20
+value = 0.88
+IgnoreHitPause = 1
+[State -1, VarSet1]
+Type = VarSet
+triggerall = !Ishelper
+Trigger1 = ((roundstate = 2) && (P2StateType = C))
+FV = 20
+value = 1.08
+IgnoreHitPause = 1
+[State -1, VarSet1]
+Type = VarSet
+triggerall = !Ishelper
+Trigger1 = ((roundstate = 2) && (P2StateType = L))
+FV = 20
+value = 0.58
+IgnoreHitPause = 1
+
+
+[State -1, VarSet]
+Type = VarRangeSet
+triggerall = !Ishelper
+Trigger1 = StateTime = 1
+Trigger1 = stateno=0||stateno=11||stateno=40||stateno=45||stateno=110||stateno=115||stateno=225||stateno=100||stateno=705
+Trigger2 = movetype=H
+first = 50
+last  = 51
+value = 0
+[State -1, VarSet]
+Type = VarSet
+triggerall = !Ishelper
+Trigger1 = StateTime = 1
+Trigger1 = stateno=0||stateno=11||stateno=40
+Trigger2 = movetype=H
+v     = 52
+value = 0
+[State -2, CS]
+Type = ChangeState
+triggerall = !Ishelper
+TriggerAll = Command = "holdup"
+triggerall = MoveContact
+TriggerAll = var(59) = 0
+Trigger1 = StateNo=200||StateNo=210||StateNo=211||StateNo=212||StateNo=220||StateNo=222||StateNo=224
+Trigger2 = StateNo=400||StateNo=410||StateNo=420
+Value = 40
+Ctrl = 1
+
+;==============================================================================
+;　食らい時ゲージアップ用
+;==============================================================================
+[State -2,0-1]
+Type       = VarAdd
+;TriggerAll = StateTime = 1
+Trigger1   = StateNo=5000||StateNo=5010||StateNo=5020||StateNo=5070||StateNo=5080
+Trigger2   = StateNo=150||StateNo=152||StateNo=154
+FV         = 14
+Value      = (GetHitVar(Damage))*2
+ignorehitpause = 1
+
+;==============================================================================
+;　ユングフラウ・コーネリア
+;==============================================================================
+; タッチゲージ管理
+[state -2]
+type = varadd
+trigger1 = fvar(13) > 0 && NumHelper(1350) = 0
+fv = 13
+value = -ifelse(fvar(15)>0||PalNo=6,3,ifelse(PalNo>=11,100,ifelse(PalNo=10,10,1)))
+[state -2]
+type = varset
+trigger1 = (StateNo=1350||StateNo=1351||StateNo=1352) && animelem = 4
+trigger2 = (StateNo=700) && animelem = 5
+trigger3 = StateNo = 2110 && animelem = 1
+trigger4 = StateNo = 1230 && AnimTime = -1
+trigger5 = StateNo = 721 && PrevStateNo = 1250 && AnimTime = -1
+fv = 13
+value = 180
+[state -2]
+type = varset
+trigger1 = (StateNo=705) && statetime = 1
+trigger2 = StateNo=100 && PrevStateNo=102 && StateTime = 1
+fv = 13
+value = 360
+[state -2]
+type = varset
+trigger1 = StateNo=710 && animtime = -1
+trigger2 = StateNo=725 && animtime = -1
+fv = 13
+value = 540
+[state -2]
+type = varset
+trigger1 = StateNo=715 && animelemtime(18) = 0
+trigger2 = StateNo=721 && PrevStateNo = 720 && StateTime = 1
+fv = 13
+value = 900
+[state -2]
+type = varset
+trigger1 = fvar(13) < 0
+fv = 13
+value = 0
+
+
+; ヴァッフェ（空中ダッシュ・二段ジャンプ・SPキャンセル）
+[State -2, CS]
+Type = ChangeState
+triggerall = !Ishelper
+triggerall = var(59) = 0 && Var(52)/10%10 = 0 && StateType = A && NumHelper(1350)
+triggerall = Helper(1350),Var(1) = 1350
+Trigger1 = Command = "holdup"
+trigger1 = MoveContact
+Trigger1 = StateNo=600||StateNo=610||StateNo=615||StateNo=620||StateNo=625
+trigger2 = ctrl
+Trigger2 = Command = "up"
+Value = 45
+Ctrl = 1
+[State -2, CS]
+Type = ChangeState
+triggerall = !Ishelper
+triggerall = var(59) = 0 && Var(52)/10%10 = 0 && StateType = A && PalNo >= 7
+Trigger1 = Command = "holdup"
+trigger1 = MoveContact
+Trigger1 = StateNo=600||StateNo=610||StateNo=615||StateNo=620||StateNo=625
+trigger2 = ctrl
+Trigger2 = Command = "up"
+Value = 45
+Ctrl = 1
+
+; ボーデン（マサクル＋バーサーク）
+[State -2,0-1]
+Type       = LifeAdd
+TriggerAll = NumTarget
+Trigger1   = NumHelper(1350)
+Trigger1   = Helper(1350),Var(1) = 1351
+Trigger2   = PalNo = [7,11]
+;Trigger1   = Target,StateNo=[5000,5080]
+;Trigger2   = Target,StateNo=[120,159]
+Value      = floor(Target,GetHitVar(Damage)*.2)
+ignorehitpause = 1
+[State -2,0-1]
+Type       = LifeAdd
+TriggerAll = NumTarget
+Trigger1   = fvar(15) > 0
+Trigger2   = PalNo = 12
+Value      = floor(Target,GetHitVar(Damage))
+ignorehitpause = 1
+
+; クヴェル（ブリームフル）
+[state -2]
+type     = varadd
+triggerall = fvar(14) < 5000
+Trigger1   = NumHelper(1350)
+Trigger1   = Helper(1350),Var(1) = 1352
+Trigger2   = PalNo >= 6
+Trigger2   = var(56)=0 || (var(56)=1 && Roundstate=2)
+fv       = 14
+value    = 3
+
+; カラー別ステータス付加
+[State -2,0-1]
+Type       = PowerAdd
+TriggerAll = NumTarget
+Trigger1   = fvar(15) > 0
+Trigger2   = PalNo = 12
+Value      = floor(Target,GetHitVar(Damage)*5)
+ignorehitpause = 1
+[state -2]
+type     = poweradd
+trigger1 = PalNo = 6
+Value    = 3
+[state -2]
+type     = poweradd
+trigger1 = PalNo = [11,12]
+trigger2 = PalNo = 10 && Power < 2000
+Value    = 100
+[state -2]
+type     = varadd
+triggerall = fvar(14) < 5000
+trigger1 = PalNo = [11,12]
+fv       = 14
+value    = 100
+[State -2]
+Type     = NotHitBy
+Trigger1 = FVar(15) != 0 || PalNo = 12
+Value2   = ,NA,NP,AT
+ignorehitpause = 1
+
+;==============================================================================
+;　アビリティ付加用
+;==============================================================================
+[state -2]
+type = varset
+trigger1 = (stateno=2900||stateno=2920||stateno=2940) && animtime = -2
+trigger2 = stateno = 700 && animtime = -1
+trigger3 = stateno = 721 && statetime = 1
+fv = 12
+value = 900
+
+[State -1, Helper]
+Type = Helper
+TriggerAll = NumHelper(8375) = 0
+trigger1 = (stateno=2900||stateno=2920||stateno=2940) && animtime = -2
+trigger2 = stateno = 700 && animtime = -1
+trigger3 = stateno = 721 && statetime = 1
+Stateno  = 8375
+ID       = 8375
+Name     = "MagicCircle"
+Pos      = 0,0
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+IgnoreHitPause = 1
+SuperMoveTime = 999999
+PauseMoveTime = 999999
+Persistent = 0
+
+[state -2]
+type = varadd
+trigger1 = fvar(12) > 0
+fv = 12
+value = -1
+[state -2]
+type = varset
+trigger1 = fvar(12) < 0
+fv = 12
+value = 0
+
+[state -2]
+type = varset
+trigger1 = StateNo=2200 && animtime = -1
+fv = 15
+value = 900
+[State -1, Helper]
+Type = Helper
+TriggerAll = NumHelper(8376) = 0
+trigger1 = StateNo=2200 && animtime = -1
+Stateno  = 8376
+ID       = 8376
+Name     = "MagicCircle"
+Pos      = 0,0
+PosType  = P1
+Ownpal   = 1
+Keyctrl  = 0
+IgnoreHitPause = 1
+SuperMoveTime = 999999
+PauseMoveTime = 999999
+Persistent = 0
+[state -2]
+type = varadd
+trigger1 = fvar(15) > 0
+fv = 15
+value = -1
+[state -2]
+type = varset
+trigger1 = fvar(15) < 0
+fv = 15
+value = 0
+
+;==============================================================================
+;　効果音
+;==============================================================================
+
+[State -2, PlaySnd]
+Type     = PlaySnd
+Trigger1 = NumEnemy
+Trigger1 = (Enemy(0),Animelemtime(1) = 1)
+Trigger1 = (Enemy(0),Movetype = H)
+Trigger1 = (Enemy(0),StateNo = 229)
+Trigger1 = Enemy(0),PrevStateNo=228
+Value = s0,2
+;channel = 1
+;volume = 100
+abspan = floor(Enemy(0),Pos X)
+ignorehitpause = 1
+[State -2, PlaySnd]
+Type     = PlaySnd
+Trigger1 = NumEnemy > 1
+Trigger1 = (Enemy(1),Animelemtime(1) = 1)
+Trigger1 = (Enemy(1),Movetype = H)
+Trigger1 = (Enemy(1),StateNo = 229)
+Trigger1 = Enemy(1),PrevStateNo=228
+Value = s0,2
+;channel = 1
+;volume = 100
+abspan = floor(Enemy(1),Pos X)
+ignorehitpause = 1
+
+;==============================================================================
+;　ダメージタッチアドバンス
+;==============================================================================
+[State -1, ChangeState]
+Type = ChangeState
+Value = ifelse(StateType=A,716,715)
+triggerall = !Ishelper
+TriggerAll = Command = "x"
+TriggerAll = Alive = 1
+TriggerAll = Var(59) = 0
+triggerAll = FVar(14) >= 2000
+triggerAll = FVar(15) > 0 || PalNo = 12
+trigger1 = MoveType = H
+trigger2 = MoveReversed
+IgnoreHitPause = 1
+
+;==============================================================================
+;　デバッグ用
+;==============================================================================
+[State -2, DisplayToClipBord]
+Type = null;DisplayToClipBoard
+triggerall = !Ishelper
+Trigger1 = 1
+Text = "AI=%d,22=%f,23=%f,24=%f,vel x=%f\n"
+Params = var(59),fvar(22),fvar(23),fvar(24),vel x
+IgnoreHitPause = 1
+
+;==============================================================================
+;　パートナーゲージ上限・下限
+;==============================================================================
+[state -2]
+type     = varset
+trigger1 = fvar(14) <0
+fv       = 14
+value    = 0
+[state -2]
+type     = varset
+trigger1 = fvar(14) > 9999
+fv       = 14
+value    = 9999
+
+[State -2, VarSet]
+Type     = VarSet
+Trigger1 = Palno <= 6
+Trigger1 = FVar(14) >= 5000
+FV       = 14
+Value    = 5000
+ignorehitpause = 1
+persistent = 0
+
+;==============================================================================
+;　メタ世界管理
+;==============================================================================
+
+[state -2];自分以外がメタ世界展開中か判定～解除
+type=Varset
+triggerall=var(53)=1&&numenemy
+trigger1=((enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU")||((enemy,name="oyashirorika"||enemy,name="TrapSatoko"||enemy,name="Furudo_Erika")&&enemy,Authorname="baggy"))&&enemy,var(19)=0
+trigger2=(enemy,name="BATTLER USHIROMIYA"||enemy,name="LUCIFER"||enemy,name="Ronove"||enemy,name="BEATRICE"||enemy,name="VIRGILIA")&&enemy,Authorname="Boomer"&&enemy,Var(39)=0
+trigger3=((enemy,name="EvaBeatrice"||enemy,name="Kanon"||enemy,name="Shannon")&&enemy,Authorname="SXVector"&&enemy,numhelper(9200)=0)||(enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,var(19)=0)
+trigger4=(enemy,name="Dlanor A. Knox"&&enemy,Authorname="Shiroto"&&enemy,fvar(11)=0)||(enemy,AuthorName="flowrallia"&&enemy,var(56)=19861004&&((enemy,var(7)!=[1,2])||(enemy,stateno!=[3000,3004])))
+trigger5=((enemy,Authorname="my100yen"&&(enemy,name="Lam Bat"||enemy,name="Ber Eri"))||(enemy,Authorname="barai"&&(enemy,name="Rosa_Ushiromiya"||enemy,name="Chiester410")))&&enemy,var(19)=0
+var(53)=0
+ignorehitpause=1
+
+[state -2]
+type=Varset
+triggerall=var(53)=1&&numenemy>=2
+trigger1=((enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU")||((enemy(1),name="oyashirorika"||enemy(1),name="TrapSatoko"||enemy(1),name="Furudo_Erika")&&enemy(1),Authorname="baggy"))&&enemy(1),var(19)=0
+trigger2=(enemy(1),name="BATTLER USHIROMIYA"||enemy(1),name="LUCIFER"||enemy(1),name="Ronove"||enemy(1),name="BEATRICE"||enemy(1),name="VIRGILIA")&&enemy(1),Authorname="Boomer"&&enemy(1),Var(39)=0
+trigger3=((enemy(1),name="EvaBeatrice"||enemy(1),name="Kanon"||enemy(1),name="Shannon")&&enemy(1),Authorname="SXVector"&&enemy(1),numhelper(9200)=0)||(enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),var(19)=0)
+trigger4=((enemy(1),name="Rosa_Ushiromiya"||enemy(1),name="Chiester410")&&enemy(1),Authorname="barai"&&enemy(1),var(19)=0)||(enemy(1),name="Dlanor A. Knox"&&enemy(1),Authorname="Shiroto"&&enemy(1),fvar(11)=0)
+trigger5=enemy(1),AuthorName="flowrallia"&&enemy(1),var(56)=19861004&&((enemy(1),var(7)!=[1,2])||(enemy(1),stateno!=[3000,3004]))
+trigger6=enemy(1),Authorname="my100yen"&&(enemy(1),name="Lam Bat"||enemy(1),name="Ber Eri")&&enemy(1),var(19)=0
+var(53)=0
+ignorehitpause=1
+
+[state -2]
+type=Varset
+triggerall=var(53)=1&&numpartner
+trigger1=((partner,var(56)=19861004&&partner,Authorname="YU-TOHARU")||((partner,name="oyashirorika"||partner,name="TrapSatoko"||partner,name="Furudo_Erika")&&partner,Authorname="baggy"))&&partner,var(19)=0
+trigger2=(partner,name="BATTLER USHIROMIYA"||partner,name="LUCIFER"||partner,name="Ronove"||partner,name="BEATRICE"||partner,name="VIRGILIA")&&partner,Authorname="Boomer"&&partner,Var(39)=0
+trigger3=((partner,name="EvaBeatrice"||partner,name="Kanon"||partner,name="Shannon")&&partner,Authorname="SXVector"&&partner,numhelper(9200)=0)||(partner,name="Lucifer"&&partner,Authorname="Tokey"&&partner,var(19)=0)
+trigger4=(partner,name="Dlanor A. Knox"&&partner,Authorname="Shiroto"&&partner,fvar(11)=0)||(PartNer,AuthorName="flowrallia"&&PartNer,var(56)=19861004&&((PartNer,var(7)!=[1,2])||(PartNer,stateno!=[3000,3004])))
+trigger5=((partner,Authorname="my100yen"&&(partner,name="Lam Bat"||partner,name="Ber Eri"))||((partner,name="Rosa_Ushiromiya"||partner,name="Chiester410")&&partner,Authorname="barai"))&&partner,var(19)=0
+var(53)=0
+ignorehitpause=1
+
+[state ];自分以外がメタ世界展開中か判定
+type=Varset
+triggerall=var(53)=0&&numenemy
+trigger1=((enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU")||((enemy,name="oyashirorika"||enemy,name="TrapSatoko"||enemy,name="Furudo_Erika")&&enemy,Authorname="baggy"))&&((enemy,stateno=[2900,2940])||enemy,var(19)=1)
+trigger2=(enemy,name="BATTLER USHIROMIYA"||enemy,name="LUCIFER"||enemy,name="Ronove"||enemy,name="BEATRICE"||enemy,name="VIRGILIA")&&enemy,Authorname="Boomer"&&((enemy,stateno=[7500,7560])||enemy,var(39)>=1)
+trigger3=(((enemy,name="Rosa_Ushiromiya"||enemy,name="Chiester410")&&enemy,Authorname="barai")||(enemy,name="Lucifer"&&enemy,Authorname="Tokey"))&&((enemy,stateno=[2900,2940])||enemy,var(19)=1)
+trigger4=(enemy,name="EvaBeatrice"||enemy,name="Kanon"||enemy,name="Shannon")&&enemy,Authorname="SXVector"&&((enemy,stateno=[2000,2010])||enemy,numhelper(9200)>=1)
+trigger5=(enemy,name="Dlanor A. Knox"&&enemy,Authorname="Shiroto"&&((enemy,stateno=[2900,2940])||enemy,fvar(11)>0))||(enemy,AuthorName="flowrallia"&&enemy,var(56)=19861004&&((enemy,var(7)=[1,2])||(enemy,stateno=[3000,3004])))
+trigger6=enemy,Authorname="my100yen"&&(enemy,name="Lam Bat"||enemy,name="Ber Eri")&&((enemy,stateno=[2900,2940])||enemy,var(19)=1)
+var(53)=1
+ignorehitpause=1
+
+[state ]
+type=Varset
+triggerall=var(53)=0&&numenemy>=2
+trigger1=((enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU")||((enemy(1),name="oyashirorika"||enemy(1),name="TrapSatoko"||enemy(1),name="Furudo_Erika")&&enemy(1),Authorname="baggy"))&&((enemy(1),stateno=[2900,2940])||enemy(1),var(19)=1)
+trigger2=(enemy(1),name="BATTLER USHIROMIYA"||enemy(1),name="LUCIFER"||enemy(1),name="Ronove"||enemy(1),name="BEATRICE"||enemy(1),name="VIRGILIA")&&enemy(1),Authorname="Boomer"&&((enemy(1),stateno=[7500,7560])||enemy(1),var(39)>=1)
+trigger3=(((enemy(1),name="Rosa_Ushiromiya"||enemy(1),name="Chiester410")&&enemy(1),Authorname="barai")||(enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"))&&((enemy(1),stateno=[2900,2940])||enemy(1),var(19)=1)
+trigger4=(enemy(1),name="EvaBeatrice"||enemy(1),name="Kanon"||enemy(1),name="Shannon")&&enemy(1),Authorname="SXVector"&&((enemy(1),stateno=[2000,2010])||enemy(1),numhelper(9200)>=1)
+trigger5=(enemy(1),name="Dlanor A. Knox"&&enemy(1),Authorname="Shiroto"&&((enemy(1),stateno=[2900,2940])||enemy(1),fvar(11)>0))||(Enemy(1),AuthorName="flowrallia"&&Enemy(1),var(56)=19861004&&((Enemy(1),var(7)=[1,2])||(Enemy(1),stateno=[3000,3004])))
+trigger6=enemy(1),Authorname="my100yen"&&(enemy(1),name="Lam Bat"||enemy(1),name="Ber Eri")&&((enemy(1),stateno=[2900,2940])||enemy(1),var(19)=1)
+var(53)=1
+ignorehitpause=1
+
+[state ]
+type=Varset
+triggerall=var(53)=0&&NumPartner
+trigger1=((partner,var(56)=19861004&&partner,Authorname="YU-TOHARU")||((partner,name="oyashirorika"||partner,name="TrapSatoko"||partner,name="Furudo_Erika")&&partner,Authorname="baggy"))&&((partner,stateno=[2900,2940])||partner,var(19)=1)
+trigger2=(partner,name="BATTLER USHIROMIYA"||partner,name="LUCIFER"||partner,name="Ronove"||partner,name="BEATRICE"||partner,name="VIRGILIA")&&partner,Authorname="Boomer"&&((partner,stateno=[7500,7560])||partner,var(39)>=1)
+trigger3=(((partner,name="Rosa_Ushiromiya"||partner,name="Chiester410")&&partner,Authorname="barai")||(partner,name="Lucifer"&&partner,Authorname="Tokey"))&&((partner,stateno=[2900,2940])||partner,var(19)=1)
+trigger4=(partner,name="EvaBeatrice"||partner,name="Kanon"||partner,name="Shannon")&&partner,Authorname="SXVector"&&((partner,stateno=[2000,2010])||partner,numhelper(9200)>=1)
+trigger5=(partner,name="Dlanor A. Knox"&&partner,Authorname="Shiroto"&&((partner,stateno=[2900,2940])||partner,fvar(11)>0))||(PartNer,AuthorName="flowrallia"&&PartNer,var(56)=19861004&&((PartNer,var(7)=[1,2])||(PartNer,stateno=[3000,3004])))
+trigger6=partner,Authorname="my100yen"&&(partner,name="Lam Bat"||partner,name="Ber Eri")&&((partner,stateno=[2900,2940])||partner,var(19)=1)
+var(53)=1
+ignorehitpause=1
+
+[state -2]
+type = varadd
+trigger1 = fvar(10) < 720 && fvar(11) <= 0
+trigger1 = var(56)=0 || (var(56)=1 && Roundstate=2)
+trigger1 = roundstate >= 2 && stateno != [2900,2940]
+fv = 10
+value = 1
+[state -2]
+type = varset
+trigger1 = fvar(10) < 0 || fvar(11) > 0
+fv = 10
+value = 0
+
+[state -2]
+type = varset
+trigger1 = stateno = 2900 && animelem = 7
+fv = 11
+value = fvar(10)*0.75
+[state -2]
+type = varset
+trigger1 = stateno = 2920 && animelem = 2
+fv = 11
+value = fvar(30)*0.8
+[state -2]
+type = varset
+trigger1 = stateno = 2940 && animelem = 2
+fv = 11
+value = fvar(30)*0.6
+[state -2]
+type = varadd
+triggerall = fvar(11) > 0
+triggerall = var(56)=0 || (var(56)=1 && Roundstate=2)
+trigger1 = stateno != 2110 && stateno != [2900,2940]
+trigger2 = stateno = 2110 && (AnimelemTime(64) < 0 || AnimelemTime(79) > 0)
+fv = 11
+value = -1
+[state -2]
+type = varset
+trigger1 = fvar(11) < 0
+fv = 11
+value = 0
+
+;------------------------------------------------------------------------------
+; 対自作キャラ（ドラノール、紗音）
+
+[State -2, PowerAdd];メタ返し＆メタ再反論～パワーゲージ消費×2
+Type       = PowerAdd
+TriggerAll = Alive &&!NumExplod(19864) &&!NumExplod(19865)
+Trigger1   = NumEnemy &&!NumPartner
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && (Enemy,StateNo=2910||Enemy,StateNo=2930) && Enemy,StateTime=2
+Trigger2   = NumEnemy>=2 &&!NumPartner
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && (Enemy(1),StateNo=2910||Enemy(1),StateNo=2930) && Enemy(1),StateTime=2
+Trigger3   = NumEnemy && NumPartner
+Trigger3   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && (Enemy,StateNo=2910||Enemy,StateNo=2930) && Enemy,StateTime=2
+Trigger3   = ID<Partner,ID || (ID>Partner,ID && Partner,NumExplod(19864)=0 && Partner,Numexplod(19865)=0)
+Trigger4   = NumEnemy>=2 && NumPartner
+Trigger4   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && (Enemy(1),StateNo=2910||Enemy(1),StateNo=2930) && Enemy(1),StateTime=2
+Trigger4   = ID<Partner,ID || (ID>Partner,ID && Partner,NumExplod(19864)=0 && Partner,Numexplod(19865)=0)
+Value      = -(floor(PowerMax)/5)*2
+ignorehitpause = 1
+
+[State -2, Voice];メタ返し～ボイス
+Type       = PlaySnd
+TriggerAll = Alive; &&!NumExplod(19864)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto"
+Trigger1   = Enemy,StateNo=2910 && Enemy,StateTime=2
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2
+Value      = s15,1
+ignorehitpause=1
+
+[state -2, CutIn];メタ返し～カットイン（右向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19864)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2910 && Enemy,StateTime=2 && Enemy,Facing=-1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2 && Enemy(1),Facing=-1
+Anim       = 19864
+ID         = 19864
+Postype    = left
+Pos        = 0,120
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state -2, CutIn];メタ返し～カットイン（右向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19866)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2910 && Enemy,StateTime=2 && Enemy,Facing=-1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2 && Enemy(1),Facing=-1
+Anim       = 19866
+ID         = 19866
+Postype    = left
+Pos        = 0,120
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state -2, CutIn];メタ返し～カットイン（左向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19864)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2910 && Enemy,StateTime=2 && Enemy,Facing=1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2 && Enemy(1),Facing=1
+Anim       = 19864
+ID         = 19864
+Postype    = right
+Pos        = 0,120
+Facing     = -1
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state -2, CutIn];メタ返し～カットイン（左向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19866)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2910 && Enemy,StateTime=2 && Enemy,Facing=1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2910 && Enemy(1),StateTime=2 && Enemy(1),Facing=1
+Anim       = 19866
+ID         = 19866
+Postype    = right
+Pos        = 0,120
+Facing     = -1
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[State -2, Voice];メタ再反論～ボイス
+Type       = PlaySnd
+TriggerAll = Alive &&!NumExplod(19865)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2
+Value      = s15,3
+ignorehitpause=1
+
+[state -2, CutIn];メタ再反論～カットイン（右向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19865)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2 && Enemy,Facing=-1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2 && Enemy(1),Facing=-1
+Anim       = 19865
+ID         = 19865
+Postype    = left
+Pos        = 0,120
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state -2, CutIn];メタ再反論～カットイン（右向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19866)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2 && Enemy,Facing=-1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2 && Enemy(1),Facing=-1
+Anim       = 19866
+ID         = 19866
+Postype    = left
+Pos        = 0,120
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state -2, CutIn];メタ再反論～カットイン（左向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19865)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2 && Enemy,Facing=1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2 && Enemy(1),Facing=1
+Anim       = 19865
+ID         = 19865
+Postype    = right
+Pos        = 0,120
+Facing     = -1
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state -2, CutIn];メタ再反論～カットイン（左向き）
+Type       = Explod
+Triggerall = Alive &&!NumExplod(19866)
+Trigger1   = NumEnemy
+Trigger1   = (Enemy,Name="Dlanor A. Knox"||Enemy,Name="Shannon") && Enemy,AuthorName="Shiroto" && Enemy,StateNo=2930 && Enemy,StateTime=2 && Enemy,Facing=1
+Trigger2   = NumEnemy>=2
+Trigger2   = (Enemy(1),Name="Dlanor A. Knox"||Enemy(1),Name="Shannon") && Enemy(1),AuthorName="Shiroto" && Enemy(1),StateNo=2930 && Enemy(1),StateTime=2 && Enemy(1),Facing=1
+Anim       = 19866
+ID         = 19866
+Postype    = right
+Pos        = 0,120
+Facing     = -1
+Scale      = 0.5,0.5
+ownpal     = 1
+bindtime   = -1
+sprpriority= 51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+;------------------------------------------------------------------------------
+; 対ゆ～とはる様作キャラ（縁寿、譲治、ウィラード、）
+
+;右代宮縁寿 他「メタ返し＆メタ再反論」対応ステート
+[state ];メタ返し＆メタ再反論～パワーゲージ消費×2
+type=Poweradd
+triggerall=alive&&!numexplod(19864)&&!numexplod(19865)
+trigger1=numenemy&&!numpartner
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&(enemy,stateno=2910||enemy,stateno=2930)&&enemy,time=2
+trigger2=numenemy&&numpartner
+trigger2=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&(enemy,stateno=2910||enemy,stateno=2930)&&enemy,time=2&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+trigger3=numenemy>=2&&!numpartner
+trigger3=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&(enemy(1),stateno=2910||enemy(1),stateno=2930)&&enemy(1),time=2
+trigger4=numenemy>=2&&numpartner
+trigger4=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&(enemy(1),stateno=2910||enemy(1),stateno=2930)&&enemy(1),time=2&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+value=-2000
+ignorehitpause=1
+
+[state ];メタ返し～ボイス
+type=PlaySnd
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2910&&enemy,time=2
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2910&&enemy(1),time=2
+value=s15,1
+ignorehitpause=1
+
+[state ];メタ返し～カットイン（右向き）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19864
+ID=19864
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ返し～カットイン（右向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19866
+ID=19866
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ返し～カットイン（左向き）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=1
+anim=19864
+ID=19864
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ返し～カットイン（左向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=1
+anim=19866
+ID=19866
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ再反論～ボイス
+type=PlaySnd
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2930&&enemy,time=2
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2930&&enemy(1),time=2
+value=s15,3
+ignorehitpause=1
+
+[state ];メタ再反論～カットイン（右向き）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19865
+ID=19865
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ再反論～カットイン（右向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19866
+ID=19866
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ再反論～カットイン（左向き）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=1
+anim=19865
+ID=19865
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ再反論～カットイン（左向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,var(56)=19861004&&enemy,Authorname="YU-TOHARU"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),var(56)=19861004&&enemy(1),Authorname="YU-TOHARU"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=1
+anim=19866
+ID=19866
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+;------------------------------------------------------------------------------
+; 対baggy様作キャラ（オヤシロリカ、トラップサトコ、古戸ヱリカ）
+
+[State -2];メタ返し～カットイン（右向き）
+type = Explod
+triggerall = numenemy && facing = 1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2910 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2910 && enemynear(1),time = 2
+anim = 19864
+ID = 19864
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ返し～カットイン（右向き・赤鍵）
+type = Explod
+triggerall = numenemy && facing = 1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2910 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2910 && enemynear(1),time = 2
+anim = 19866
+ID = 19866
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 51
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ返し～カットイン（左向き）
+type = Explod
+triggerall = numenemy && facing = -1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2910 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2910 && enemynear(1),time = 2
+anim = 19864
+ID = 19864
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ返し～カットイン（左向き・赤鍵）
+type = Explod
+triggerall = numenemy && facing = -1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2910 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2910 && enemynear(1),time = 2
+anim = 19866
+ID = 19866
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 51
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ返し～ボイス
+type = PlaySnd
+triggerall = numenemy
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2910 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2910 && enemynear(1),time = 2
+value = s15,1
+
+[State -2];メタ返し～パワーゲージ消費
+type = Poweradd
+triggerall = numenemy
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2910 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2910 && enemynear(1),time = 2
+value = -2000
+
+[State -2];メタ再反論～カットイン（右向き）
+type = Explod
+triggerall = numenemy && facing = 1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2930 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2930 && enemynear(1),time = 2
+anim = 19865
+ID = 19865
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ再反論～カットイン（右向き）
+type = Explod
+triggerall = numenemy && facing = 1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2930 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2930 && enemynear(1),time = 2
+anim = 19866
+ID = 19866
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 51
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ再反論～カットイン（左向き）
+type = Explod
+triggerall = numenemy && facing = -1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2930 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2930 && enemynear(1),time = 2
+anim = 19865
+ID = 19865
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ再反論～カットイン（左向き）
+type = Explod
+triggerall = numenemy && facing = -1
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2930 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2930 && enemynear(1),time = 2
+anim = 19866
+ID = 19866
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 51
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ再反論～ボイス
+type = PlaySnd
+triggerall = numenemy
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2930 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2930 && enemynear(1),time = 2
+value = s15,3
+
+[State -2];メタ再反論～パワーゲージ消費
+type = Poweradd
+triggerall = numenemy
+trigger1 = (enemynear,name = "oyashirorika" && enemynear,Authorname = "baggy") || (enemynear,name = "trapsatoko" && enemynear,Authorname = "baggy") || (enemynear,name = "Furudo_erika" && enemynear,Authorname = "baggy")
+trigger1 = enemynear,stateno = 2930 && enemynear,time = 2
+trigger2 = numenemy>1
+trigger2 = (enemynear(1),name = "oyashirorika" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "trapsatoko" && enemynear(1),Authorname = "baggy") || (enemynear(1),name = "Furudo_erika" && enemynear(1),Authorname = "baggy")
+trigger2 = enemynear(1),stateno = 2930 && enemynear(1),time = 2
+value = -2000
+
+;------------------------------------------------------------------------------
+; 対barai様作キャラ（右代宮 楼座、シエスタ410）
+
+[State -2];メタ返し～カットイン（右向き）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19864))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2910)&&(enemy,time=2)&&(enemy,facing=-1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2910)&&(enemy(1),time=2)&&(enemy(1),facing=-1)
+anim = 19864
+ID = 19864
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ返し～カットイン（右向き・赤鍵）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19866))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2910)&&(enemy,time=2)&&(enemy,facing=-1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2910)&&(enemy(1),time=2)&&(enemy(1),facing=-1)
+anim = 19866
+ID = 19866
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 51
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ返し～カットイン（左向き）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19864))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2910)&&(enemy,time=2)&&(enemy,facing=1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2910)&&(enemy(1),time=2)&&(enemy(1),facing=1)
+anim = 19864
+ID = 19864
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ返し～カットイン（左向き）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19866))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2910)&&(enemy,time=2)&&(enemy,facing=1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2910)&&(enemy(1),time=2)&&(enemy(1),facing=1)
+anim = 19866
+ID = 19866
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 51
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ返し～ボイス
+type       = PlaySnd
+TriggerAll = (Alive) && (!NumExplod(19864))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2910)&&(enemy,time=2)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2910)&&(enemy(1),time=2)&&(enemy(1),facing=-1)
+value      = s15, 1
+
+[State -2];メタ返し～パワーゲージ消費
+type       = Poweradd
+triggerAll = (Alive) && (!NumExplod(19864)) && (!NumExplod(19865))
+trigger1   = (numenemy)&&(!numpartner)
+Trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno=2910||enemy,Stateno=2930)&&(enemy,time=2)
+trigger2   = (numenemy)&&(numpartner)
+Trigger2   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger2   = (enemy,stateno=2910||enemy,Stateno=2930)&&(enemy,time=2)
+Trigger2   = (ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+trigger3   = (numenemy>=2)&&(!numpartner)
+trigger3   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger3   = (enemy(1),stateno=2910||enemy(1),stateno=2930)&&(enemy(1),time=2)
+trigger4   = (numenemy>=2)&&(numpartner)
+trigger4   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+Trigger4   = (enemy(1),stateno=2910||enemy(1),stateno=2930)&&(enemy(1),time=2)&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+value      = -1*(floor(PowerMax)/5)*2
+
+;---------------------------------------
+
+[State -2];メタ再反論～カットイン（右向き）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19865))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2930)&&(enemy,time=2)&&(enemy,facing=-1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2930)&&(enemy(1),time=2)&&(enemy(1),facing=-1)
+anim = 19865
+ID = 19865
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ再反論～カットイン（右向き・赤鍵）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19865))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2930)&&(enemy,time=2)&&(enemy,facing=-1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2930)&&(enemy(1),time=2)&&(enemy(1),facing=-1)
+anim = 19866
+ID = 19866
+postype = left
+pos = 0,120
+facing = 1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ再反論～カットイン（左向き）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19865))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2930)&&(enemy,time=2)&&(enemy,facing=1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2930)&&(enemy(1),time=2)&&(enemy(1),facing=1)
+anim = 19865
+ID = 19865
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+[State -2];メタ再反論～カットイン（左向き・赤鍵）
+type = Explod
+triggerAll = (Alive) && (!NumExplod(19865))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2930)&&(enemy,time=2)&&(enemy,facing=1)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2930)&&(enemy(1),time=2)&&(enemy(1),facing=1)
+anim = 19866
+ID = 19866
+postype = right
+pos = 0,120
+facing = -1
+scale = 0.5,0.5
+ownpal = 1
+sprpriority = 50
+pausemovetime = 999999999
+supermovetime = 999999999
+
+[State -2];メタ再反論～ボイス
+type       = PlaySnd
+TriggerAll = (Alive) && (!NumExplod(19865))
+trigger1   = NumEnemy
+trigger1   = ((enemy,name="Rosa_Ushiromiya")||((enemy,name="Chiester410")))&&(enemy,Authorname = "barai")
+trigger1   = (enemy,stateno = 2930)&&(enemy,time=2)
+trigger2   = NumEnemy>=2
+trigger2   = ((enemy(1),name="Rosa_Ushiromiya")||((enemy(1),name="Chiester410")))&&(enemy(1),Authorname = "barai")
+trigger2   = (enemy(1),stateno = 2930)&&(enemy(1),time=2)&&(enemy(1),facing=-1)
+value      = s15,3
+
+;------------------------------------------------------------------------------
+; 対トキィ様作キャラ（ルシファー）
+
+
+[state ];メタ返し＆メタ再反論～パワーゲージ消費×2
+type=Poweradd
+triggerall=alive&&!numexplod(19864)&&!numexplod(19865)
+trigger1=numenemy&&!numpartner
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&(enemy,stateno=2910||enemy,stateno=2930)&&enemy,time=2
+trigger2=numenemy&&numpartner
+trigger2=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&(enemy,stateno=2910||enemy,stateno=2930)&&enemy,time=2&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+trigger3=numenemy>=2&&!numpartner
+trigger3=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&(enemy(1),stateno=2910||enemy(1),stateno=2930)&&enemy(1),time=2
+trigger4=numenemy>=2&&numpartner
+trigger4=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&(enemy(1),stateno=2910||enemy(1),stateno=2930)&&enemy(1),time=2&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+value=-1*(floor(PowerMax)/5)*2
+ignorehitpause=1
+
+[state ];メタ返し～ボイス
+type=PlaySnd
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2910&&enemy,time=2
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2910&&enemy(1),time=2
+value=s15,1
+ignorehitpause=1
+
+[state ];メタ返し～カットイン（右向き）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19864
+ID=19864
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ返し～カットイン（右向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19866
+ID=19866
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ返し～カットイン（左向き）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=1
+anim=19864
+ID=19864
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ返し～カットイン（左向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=1
+anim=19866
+ID=19866
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ再反論～ボイス
+type=PlaySnd
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2930&&enemy,time=2
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2930&&enemy(1),time=2
+value=s15,3
+ignorehitpause=1
+
+[state ];メタ再反論～カットイン（右向き）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19865
+ID=19865
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ再反論～カットイン（右向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19866
+ID=19866
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ再反論～カットイン（左向き）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=1
+anim=19865
+ID=19865
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ再反論～カットイン（左向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19866)
+trigger1=numenemy
+trigger1=enemy,name="Lucifer"&&enemy,Authorname="Tokey"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),name="Lucifer"&&enemy(1),Authorname="Tokey"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=1
+anim=19866
+ID=19866
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+;------------------------------------------------------------------------------
+; 対my100yen様作キャラ（ラムダデルタ＆右代 宮戦人、ベルンカステル＆古戸 ヱリカ）
+
+[state ];メタ返し＆メタ再反論～パワーゲージ消費×2
+type=Poweradd
+triggerall=alive&&!numexplod(19864)&&!numexplod(19865)
+trigger1=numenemy&&!numpartner
+trigger1=enemy,Authorname="my100yen"&&(enemy,stateno=2910||enemy,stateno=2930)&&enemy,time=2
+trigger2=numenemy&&numpartner
+trigger2=enemy,Authorname="my100yen"&&(enemy,stateno=2910||enemy,stateno=2930)&&enemy,time=2&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+trigger3=numenemy>=2&&!numpartner
+trigger3=enemy(1),Authorname="my100yen"&&(enemy(1),stateno=2910||enemy(1),stateno=2930)&&enemy(1),time=2
+trigger4=numenemy>=2&&numpartner
+trigger4=enemy(1),Authorname="my100yen"&&(enemy(1),stateno=2910||enemy(1),stateno=2930)&&enemy(1),time=2&&(ID<Partner,ID||(ID>Partner,ID&&partner,numexplod(19864)=0&&partner,numexplod(19865)=0))
+value=-1*(floor(PowerMax)/5)*2
+ignorehitpause=1
+
+[state ];メタ返し～ボイス
+type=PlaySnd
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2910&&enemy,time=2
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2910&&enemy(1),time=2
+value=s15,1
+ignorehitpause=1
+
+[state ];メタ返し～カットイン（右向き）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19864
+ID=19864
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ返し～カットイン（右向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19866
+ID=19866
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ返し～カットイン（左向き）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=1
+anim=19864
+ID=19864
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ返し～カットイン（左向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19864)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2910&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2910&&enemy(1),time=2&&enemy(1),facing=1
+anim=19866
+ID=19866
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ再反論～ボイス
+type=PlaySnd
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2930&&enemy,time=2
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2930&&enemy(1),time=2
+value=s15,3
+ignorehitpause=1
+
+[state ];メタ再反論～カットイン（右向き）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19865
+ID=19865
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ再反論～カットイン（右向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=-1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=-1
+anim=19866
+ID=19866
+postype=left
+pos=0,120
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
+[state ];メタ再反論～カットイン（左向き）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=1
+anim=19865
+ID=19865
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=50
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+[state ];メタ再反論～カットイン（左向き・赤鍵）
+type=Explod
+triggerall=alive&&!numexplod(19865)
+trigger1=numenemy
+trigger1=enemy,Authorname="my100yen"&&enemy,stateno=2930&&enemy,time=2&&enemy,facing=1
+trigger2=numenemy>=2
+trigger2=enemy(1),Authorname="my100yen"&&enemy(1),stateno=2930&&enemy(1),time=2&&enemy(1),facing=1
+anim=19866
+ID=19866
+postype=right
+pos=0,120
+facing=-1
+scale=0.5,0.5
+ownpal=1
+bindtime=-1
+sprpriority=51
+pausemovetime=100
+supermovetime=100
+ignorehitpause=1
+
