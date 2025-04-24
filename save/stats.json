@@ -4,57 +4,16 @@
       "playtime": 0
     },
     "netplayversus": {
-      "playtime": 30000.47
+      "playtime": 23722.54
     },
     "versus": {
-      "playtime": 1850.7
+      "playtime": 1000.23
     },
     "arcade": {
-      "playtime": 1183.52,
-      "clear": 3,
-      "clearcount": {
-        "wannakof": 3
-      },
+      "playtime": 93.82,
+      "clear": 0,
+      "clearcount": [],
       "ranking": [
-        {
-          "score": 1548200,
-          "time": 342.67,
-          "name": "",
-          "chars": [
-            "wannakof"
-          ],
-          "tmode": 0,
-          "ailevel": 5,
-          "win": 6,
-          "lose": 0,
-          "consecutive": 6
-        },
-        {
-          "score": 1380400,
-          "time": 432.05,
-          "name": "",
-          "chars": [
-            "wannakof"
-          ],
-          "tmode": 0,
-          "ailevel": 5,
-          "win": 6,
-          "lose": 0,
-          "consecutive": 5
-        },
-        {
-          "score": 1274500,
-          "time": 314.98,
-          "name": "",
-          "chars": [
-            "wannakof"
-          ],
-          "tmode": 0,
-          "ailevel": 5,
-          "win": 6,
-          "lose": 0,
-          "consecutive": 4
-        },
         {
           "score": 196100,
           "time": 93.82,
@@ -74,5 +33,5 @@
       "playtime": 788.03
     }
   },
-  "playtime": 33822.72
+  "playtime": 25604.62
 }

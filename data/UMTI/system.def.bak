@@ -26,7 +26,7 @@ snd = system.snd
 logo.storyboard = data/Intro.def
 intro.storyboard = -1
 select = select.def
-fight = data/Lifebar/fight.def
+fight = data/VPHD_Bars/fightHD_UMT.def
 font1 = f-4x6.def
 font2 = f-6x9.def
 font3 = menu.def
@@ -67,7 +67,7 @@ vs.bgm.loopend =
   ;Music to play at victory screen.
 victory.bgm = victory.mp3
 victory.bgm.volume = 100
-victory.bgm.loop = 0
+victory.bgm.loop = 1
 victory.bgm.loopstart = 
 victory.bgm.loopend = 
   ;Music to play at option screen.

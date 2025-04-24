@@ -2,34 +2,35 @@
 [Characters]
 ;-------------------------------------------------------------------------------
 ;============ 1ST ROW ============
- baiken_SLASH
  MegaMari
  osaka_JM
  WildWolf
  Yukari_JM
  hol2
-;============ 2ND ROW ============
  Hisui_AACC
+;============ 2ND ROW ============
  khan
  johnny
  oresama
  SFV_Ryu
  Wesker
-;============ 3RD ROW ============
  cvscommando
+;============ 3RD ROW ============
+ cvssakura_ex
  Akira
  Urien
  honda_pots
 Chun-Li
 cell
 ;============ 4TH ROW ============
+ Lei-Lei
 slayer2 remap
 beavis/beavis10.def
 Ella
 Date_Masamune
 Sanada_Yukimura
-Kenshiro_C
 ;============ 5TH ROW ============
+Kenshiro_C
 slot={
 	Goenitz XV/Goenitz XV Remap.def, previous=d, next=w
 	Goenitz XV, previous=d, next=w
@@ -38,42 +39,41 @@ Shadow Diavolo
 SSJ_GokuZ2
 kamijo
 Yuuka_THIZ
-ange
 ;============ 6TH ROW ============
+ange
 Susanoo
 Mika
 cvsgouki
 KyoXIII(ikaruga)/KyoXIII.def
 Rila
-yuri_pots
 ;============ 7TH ROW ============
+yuri_pots
 pot
 GohanZ2
 cvsguile
 cvsrock
 Gunha
-Dan
 ;============ 8TH ROW ============
+Dan
 EvilRyu
 KazumaKiryu
 Blitztank
 akfgz
 Ryugen
-WannaKOF
 ;============ 9TH ROW ============
+WannaKOF
 Wolverine
 Joe
 cvsjill
 Queen Bee
 Spiritland Lords
-CX OrochiK
 ;============ 10TH ROW ============
+CX OrochiK
 586_sayuri
 haruhi1.0
 Jedah
-Lei-Lei
-cvsshimo
-dlanorAknox
+AI-Hsien-ko
+randomselect
 ;-------------------------------------------------------------------------------
 [ExtraStages]
 stages/Moon.def

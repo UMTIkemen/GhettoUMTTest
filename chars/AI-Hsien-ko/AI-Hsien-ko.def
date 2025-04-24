@@ -1,0 +1,40 @@
+; Player information
+[Info]
+name = "Hsien-ko"       
+;displayname = "Lei-Lei" 
+displayname = "Hsien-ko" ;if you prefer
+versiondate = 04,04,2008 ;v1.03
+mugenversion = 04,14,2001
+author = "Zelgadis296" 
+pal.defaults = 4,2,3,1,6,7,8
+
+; Files for the player
+[Files]
+cmd     = AI-Hsien-ko.cmd   
+;cmd     = Hsien-koKEYB.cmd ;Alternative Command set (more keyboard-friendly)
+cns     = AI-Hsien-ko.cns   
+st      = AI-Hsien-ko.cns   
+;cns     = Hsien-koNOAI.cns  ;Constants(NO AI version)
+;st      = Hsien-koNOAI.cns  ;States(NO AI Version)
+st1	  = Hsien-koN.cns
+st2	  = Hsien-koSP.cns
+st3	  = Hsien-koEX.cns
+st4 = aihelper2.cns
+st5 = aisummary.txt
+stcommon = AI-common1.cns   
+sprite  = Hsien-ko.sff   ;Sprite
+anim    = Hsien-ko.air   ;Animation
+sound   = Hsien-ko.snd   ;Sound
+pal1    = Hsien-ko4.act  ;Palettes (can have up to 12)
+pal2	  = Hsien-ko5.act
+pal3	  = Hsien-ko6.act
+pal4	  = Hsien-ko1.act
+pal5	  = Hsien-ko2.act
+pal6	  = Hsien-ko3.act
+pal7	  = Hsien-ko7.act
+pal8	  = Hsien-ko8.act
+
+; Arcade mode
+[Arcade]
+intro.storyboard = intro.def
+ending.storyboard = ending.def

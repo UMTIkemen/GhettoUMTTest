@@ -2,34 +2,35 @@
 [Characters]
 ;-------------------------------------------------------------------------------
 ;============ 1ST ROW ============
- baiken_SLASH
  MegaMari
  osaka_JM
  WildWolf
  Yukari_JM
  hol2
-;============ 2ND ROW ============
  Hisui_AACC
+;============ 2ND ROW ============
  khan
  johnny
  oresama
  SFV_Ryu
  Wesker
-;============ 3RD ROW ============
  cvscommando
+;============ 3RD ROW ============
+ cvssakura_ex
  Akira
  Urien
  honda_pots
 Chun-Li
 cell
 ;============ 4TH ROW ============
+ Lei-Lei
 slayer2 remap
 beavis/beavis10.def
 Ella
 Date_Masamune
 Sanada_Yukimura
-Kenshiro_C
 ;============ 5TH ROW ============
+Kenshiro_C
 slot={
 	Goenitz XV/Goenitz XV Remap.def, previous=d, next=w
 	Goenitz XV, previous=d, next=w
@@ -38,42 +39,41 @@ Shadow Diavolo
 SSJ_GokuZ2
 kamijo
 Yuuka_THIZ
-ange
 ;============ 6TH ROW ============
+ange
 Susanoo
 Mika
 cvsgouki
 KyoXIII(ikaruga)/KyoXIII.def
 Rila
-yuri_pots
 ;============ 7TH ROW ============
+yuri_pots
 pot
 GohanZ2
 cvsguile
 cvsrock
 Gunha
-Dan
 ;============ 8TH ROW ============
+Dan
 EvilRyu
 KazumaKiryu
 Blitztank
 akfgz
 Ryugen
-WannaKOF
 ;============ 9TH ROW ============
-Wolverine
-Joe
-cvsjill
-Queen Bee
-Spiritland Lords
-CX OrochiK
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
 ;============ 10TH ROW ============
-586_sayuri
-haruhi1.0
-Jedah
-AI-Hsien-ko
-cvsshimo
-dlanorAknox
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
+randomselect
 ;-------------------------------------------------------------------------------
 [ExtraStages]
 stages/Moon.def
@@ -101,14 +101,6 @@ stages/KOFXI_Russia_Stage.def
 stages/KOFXI_Magaki_Hi_Resolution_Stage.def
 stages/KOFXI_Shion_Hi_Resolution_Stage.def
 stages/mbac_neco_D4_1.1.def
-stages/Spain2019.def
-stages/Water2014.def
-stages/BestestKenSFA2.def
-stages/Home2014.def
-stages/Rooftops2022.def
-stages/cammy2019_ver.2.def
-stages/Battle of Hasedo.def
-stages/ggx_ve_bg.def
 ;-------------------------------------------------------------------------------
  
 
