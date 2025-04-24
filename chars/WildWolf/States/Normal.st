@@ -1,5 +1,5 @@
 ; ________________________________________________
-;| Wild Wolf by KarmaCharmeleon		|
+;| Wild Wolf by KarmaCharmeleon && Akito	|
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;==============================================================================================
 ;========================================<NORMAL MOVES>========================================
@@ -381,7 +381,7 @@ attr = S, NA
 hitFlag = MAF
 guardFlag = M
 priority = 4, Hit
-damage = ceil(ifElse(fvar(11) * 77 < 7, 7, fvar(11) * 77)), 0
+damage = ceil(ifElse(fvar(11) * 70 < 7, 7, fvar(11) * 70)), 0
 getPower = ifElse(!var(13), 216, 72) * !var(20), 36 * !var(20)
 givePower = 36, 36
 pauseTime = ifElse(var(20), 6, 12), ifElse(var(20), 6, 12)
@@ -483,7 +483,7 @@ triggerAll = (!var(14) || AILevel) && AnimElemTime(3) > 0 && MoveContact
 trigger1 = !AILevel
 ;(command = "holdfwd" || command = "holdback") && command = "z"
 trigger1 = (NumExplod(90000006) || NumExplod(90000004)) && (NumExplod(90000220) || command = "z")
-trigger2 = AILevel && !var(14) && MoveHit && P2BodyDist x < 10
+trigger2 = AILevel && NumEnemy && !var(14) && MoveContact && P2BodyDist x < 14
 var(14) = 228
 
 [State 225, Followup]
@@ -778,7 +778,7 @@ type = VarSet
 triggerAll = (!var(14) || AILevel) && AnimElemTime(3) > 0 && MoveContact
 trigger1 = !AILevel
 trigger1 = NumExplod(90000240) || command = "b"
-trigger2 = AILevel && !var(14) && MoveHit && P2BodyDist x < 10
+trigger2 = AILevel && NumEnemy && !var(14) && MoveHit && P2BodyDist x < 10
 var(14) = 241
 
 [State 235, Followup]
@@ -1057,11 +1057,22 @@ type = StateTypeSet
 trigger1 = AnimElemTime(7) >= 0
 moveType = I
 
+[State 250, Landing Dust Explod]
+type = Explod
+trigger1 = AnimElem = 9
+anim = 8102
+sprPriority = -3
+posType = P1
+scale = 0.5, 0.5
+pauseMoveTime = -1
+superMoveTime = -1
+ownPal = 1
+
 [State 250, Landing Sound]
 type = PlaySnd
 trigger1 = AnimElem = 9
 value = 52, 0
-channel = 1
+channel = 3
 
 [State 250, End]
 type = ChangeState
@@ -1157,11 +1168,22 @@ type = StateTypeSet
 trigger1 = AnimElemTime(7) >= 0
 moveType = I
 
+[State 251, Landing Dust Explod]
+type = Explod
+trigger1 = AnimElem = 9
+anim = 8102
+sprPriority = -3
+posType = P1
+scale = 0.5, 0.5
+pauseMoveTime = -1
+superMoveTime = -1
+ownPal = 1
+
 [State 251, Landing Sound]
 type = PlaySnd
 trigger1 = AnimElem = 9
 value = 52, 0
-channel = 1
+channel = 3
 
 [State 251, End]
 type = ChangeState
@@ -1883,6 +1905,7 @@ channel = 1
 type = HitDef
 trigger1 = !var(16) && (var(15) < 1 || var(20))
 trigger1 = AnimElem = 4
+ID = 450
 attr = C, NA
 hitFlag = MAF
 guardFlag = L
@@ -1919,6 +1942,22 @@ sparkXY = -10 + 0 * (var(35) := 92), var(36) := -12
 palFX.time = 12 * var(9)
 palFX.add = 255, 255, 255
 palFX.sinAdd = -255, -255, -255, 48
+
+[State 450, TargetDrop]
+type = TargetDrop
+trigger1 = NumTarget(450) > 1
+ID = 450
+keepOne = 1
+excludeID = 450
+ignoreHitPause = 1
+
+[State 450, TargetState]
+type = TargetState
+trigger1 = MoveHit && NumTarget(450)
+trigger1 = !(Target(450), Time)
+value = 50450
+ID = 450
+ignoreHitPause = 1
 
 [State 450, StateTypeSet: Idle]
 type = StateTypeset
@@ -2566,6 +2605,64 @@ value = 52
 
 
 
+;========================<TRIPPED>=============================
+[Statedef 459]
+type = A
+moveType = H
+physics = N
+velSet = 0, 0
+
+[State 459, ForceFeedback]
+type = ForceFeedback
+trigger1 = !Time
+waveForm = SineSquare
+time = 12
+ampl = 140
+
+[State 459, ChangeAnim]
+type = ChangeAnim
+trigger1 = 1
+value = 5070
+
+[State 459, ChangeState]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 460
+
+
+;Knocked Away
+[Statedef 460]
+type = A
+moveType = H
+physics = N
+
+[State 460, HitVelSet]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 460, VelAdd]
+type = VelAdd
+trigger1 = Time > 0
+y = GetHitVar(yaccel)
+
+[State 460, Recover]
+type = SelfState
+trigger1 = Alive
+trigger1 = command = "recovery"
+trigger1 = GetHitVar(fall.recover)
+trigger1 = vel y > 0 && pos y >= const(movement.air.getHit.groundRecover.ground.threshold)
+value = 5200
+
+[State 460, SelfState]
+type = SelfState
+trigger1 = vel Y > 0
+trigger1 = pos Y >= Const(movement.air.gethit.trip.groundlevel)
+value = 5110
+
+
+
 ;===========<THROW ATTEMPT>==========
 [StateDef 800]
 type = S
@@ -3151,6 +3248,12 @@ type = PlaySnd
 trigger1 = AnimElem = 3
 value = 4, 5
 channel = 0
+
+[State 820, Woosh Sound]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 1, 5
+channel = 1
 
 [State 820, Turn]
 type = Turn

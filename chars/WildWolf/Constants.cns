@@ -47,8 +47,8 @@
 ;var(46) : 
 ;var(47) :
 ;var(48) :
-;var(49) : Ticks Down is held down
-;var(50) : Down Charge Buffer
+;var(49) : 
+;var(50) : 
 ;var(51) : EX Crack Shoot Juggle Flag (0 = Can't juggle; 1 = Can juggle)
 ;var(52) : Power Dunk Juggle Flag (0 = Can't juggle; 1 = Can juggle)
 ;var(53) : EX Power Charge Juggle Flag (0 = Can't juggle; 1 = Can juggle)
@@ -66,7 +66,7 @@
 
 
 ; ________________________________________________
-;| Wild Wolf by KarmaCharmeleon		|
+;| Wild Wolf by KarmaCharmeleon && Akito	|
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;====================<CONSTANTS>====================
 [Data]

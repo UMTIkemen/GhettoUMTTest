@@ -1,5 +1,5 @@
 ; ________________________________________________
-;| Wild Wolf by KarmaCharmeleon		|
+;| Wild Wolf by KarmaCharmeleon && Akito	|
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;==============================================================================================
 ;========================================<SPECIAL MOVES>=======================================
@@ -102,7 +102,7 @@ channel = 0
 
 [State 1010, CtrlSet]
 type = CtrlSet
-trigger1 = Time > 12
+trigger1 = !AILevel && Time > 12 
 value = 1
 
 [State 1010, ChangeState]
@@ -424,7 +424,7 @@ channel = 0
 
 [State 1110, CtrlSet]
 type = CtrlSet
-trigger1 = Time > 12
+trigger1 = !AILevel && Time > 12 
 value = 1
 
 [State 1110, ChangeState]
@@ -613,8 +613,8 @@ trigger1 = !AILevel
 trigger1 = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90010104)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90010006))
 ;a + b / a + c / b + c
 trigger1 = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
-trigger2 = AILevel && !var(14)
-trigger2 = MoveContact
+trigger2 = AILevel && (EnemyNear, Alive) && !var(14)
+trigger2 = MoveHit
 var(14) = 1340
 
 [State 1130, Followup]
@@ -651,7 +651,7 @@ var(10) = ifElse((NumExplod(90000250) || NumExplod(90000255)), 2, ifElse((NumExp
 [State 1300, Button Detect (AI)]
 type = VarSet
 trigger1 = !Time && AILevel
-var(10) = ifElse(P2MoveType = H || P2Dist x > 110 || Random < 333, 2, ifElse(Random < 500 || P2Dist x > 65, 1, 0))
+var(10) = ifElse(Random < 125, 2, ifElse(Random < 250, 1, 0))
 
 [State 1300, ChangeAnim]
 type = ChangeAnim
@@ -1521,7 +1521,7 @@ var(10) = ifElse((NumExplod(90000250) || NumExplod(90000255)), 2, ifElse((NumExp
 [State 1400, Button Detect (AI)]
 type = VarSet
 trigger1 = !Time && AILevel
-var(10) = ifElse(P2MoveType = H || P2Dist x > 110 || Random < 333, 2, ifElse(Random < 500 || P2Dist x > 65, 1, 0))
+var(10) = 2
 
 [State 1400, ChangeAnim]
 type = ChangeAnim
@@ -1647,7 +1647,7 @@ air.velocity = -2.23463687151, -ifElse(var(10) = 2, 10, 8.125)
 air.cornerPush.velOff = 0
 yAccel = 0.537109375
 fall = 1
-fall.recover = 1
+fall.recover = 0
 fall.recoverTime = 120
 forceStand = 1
 hitSound = -1 + 0 * (var(31) := 2)
@@ -1725,6 +1725,7 @@ type = ChangeState
 trigger1 = AnimElemTime(4) = 1
 ;command = "a+x"
 trigger1 = NumExplod(90000200) && NumExplod(90000230)
+trigger2 = AILevel && MoveHit && var(52) = 1
 value = 1410
 
 [State 1400, Air Hit: Final]
@@ -2052,7 +2053,7 @@ air.velocity = -2.23463687151, -8.125
 air.cornerPush.velOff = 0
 yAccel = 0.537109375
 fall = 1
-fall.recover = 1
+fall.recover = 0
 fall.recoverTime = 120
 forceStand = 1
 hitSound = -1 + 0 * (var(31) := 2)
@@ -2071,7 +2072,6 @@ envShake.freq = 120
 type = HitDef
 trigger1 = !var(16) && var(15) < 1
 trigger1 = AnimElem = 4 && !MoveContact && !MoveReversed
-ID = 1430
 attr = A, SA
 hitFlag = MAF
 guardFlag = MA
@@ -2482,7 +2482,7 @@ var(10) = ifElse((NumExplod(90000250) || NumExplod(90000255)), 2, ifElse((NumExp
 [State 1500, Button Detect (AI)]
 type = VarSet
 trigger1 = !Time && AILevel
-var(10) = ifElse((EnemyNear, GetHitVar(HitTime) >= 17), 2, ifElse((EnemyNear, GetHitVar(HitTime) >= 14), 1, 0))
+var(10) = ifElse(((EnemyNear, StateNo = [120, 155])), 2, ifElse((EnemyNear, GetHitVar(HitTime) >= 14), 1, 0))
 
 [State 1500, ChangeAnim]
 type = ChangeAnim
@@ -2586,7 +2586,7 @@ type = VarSet
 triggerAll = (!var(14) || AILevel) && MoveContact && AnimElemTime(7) > 0
 trigger1 = !AILevel
 ;command = "holdfwd"
-triggerAll = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
+trigger1 = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
 ;a / b / c
 trigger1 = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
 trigger2 = AILevel
@@ -2727,7 +2727,7 @@ type = VarSet
 triggerAll = (!var(14) || AILevel) && MoveContact && AnimElemTime(4) > 0
 trigger1 = !AILevel
 ;command = "holdfwd"
-triggerAll = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
+trigger1 = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
 ;a / b / c
 trigger1 = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
 trigger2 = AILevel
@@ -2892,7 +2892,7 @@ time = 1
 [State 1530, EX Flash]
 type = VarSet
 trigger1 = !Time
-var(25) = 30
+var(25) = 20
 
 [State 1530, EX FX]
 type = Explod
@@ -2943,7 +2943,7 @@ x = 0
 type = ReversalDef
 trigger1 = AnimElemTime(6) >= 0 && AnimElemTime(7) < 0
 reversal.attr = SCA, NA, SA
-pauseTime = 12, 14
+pauseTime = 12, 18
 sparkNo = -1 + 0 * (var(33) := 8001)
 sparkXY = -10 + 0 * (var(35) := 18), (var(36) := -68)
 hitSound = S3, 0
@@ -3077,7 +3077,7 @@ type = VarSet
 triggerAll = (!var(14) || AILevel) && MoveContact && AnimElemTime(7) > 0
 trigger1 = !AILevel
 ;command = "holdfwd"
-triggerAll = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
+trigger1 = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
 ;a / b / c
 trigger1 = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
 trigger2 = AILevel
@@ -3223,7 +3223,7 @@ type = VarSet
 triggerAll = (!var(14) || AILevel) && MoveContact && AnimElemTime(4) > 0
 trigger1 = !AILevel
 ;command = "holdfwd"
-triggerAll = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
+trigger1 = (ifElse(P2Dist x < 0, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2Dist x < 0, Facing = 1, Facing = -1) && NumExplod(90000004))
 ;a / b / c
 trigger1 = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
 trigger2 = AILevel

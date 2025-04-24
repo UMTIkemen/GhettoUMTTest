@@ -88,7 +88,7 @@ var(20) = 0
 [State -2, DIZZY]
 type = VarSet
 trigger1 = Time = 0
-var(12) = 1
+var(12) = 0
 ;0...DIZZY OFF/気絶の表示なし
 ;1...DIZZY ON/気絶の表示あり
 

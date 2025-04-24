@@ -1,11 +1,11 @@
 ; ________________________________________________
-;| Wild Wolf by KarmaCharmeleon		|
+;| Wild Wolf by KarmaCharmeleon && Akito	|
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;====================<DEFINITION>====================
 [Info]
 name        = "Wild Wolf"
 displayName = "Wild Wolf"
-versionDate = xx,xx,2025
+versionDate = 24,04,2025
 mugenVersion= 1.0
 author      = "KarmaCharmeleon"
 pal.defaults= 1,2,3,4,5,6,7,8,9,10,11,12
@@ -24,17 +24,17 @@ sprite  = Sprite.sff
 anim    = Anim.air
 sound   = Sound.snd
 pal1	= Palettes/Default.act
-pal2	= Palettes/Default.act
-pal3	= Palettes/Default.act
-pal4	= Palettes/Default.act
-pal5	= Palettes/Default.act
-pal6	= Palettes/Default.act
-pal7	= Palettes/Default.act
-pal8	= Palettes/Default.act
-pal9	= Palettes/Default.act
-pal10	= Palettes/Default.act
-pal11	= Palettes/Default.act
-pal12	= Palettes/Default.act
+pal2	= Palettes/ProjectLykaon_Rave.act
+pal3	= Palettes/Musashini_DavidMartinez-Cyberpunk2077.act
+pal4	= Palettes/KoFHERO77_Retroish.act
+pal5	= Palettes/MT7_Azrael.act
+pal6	= Palettes/Knuckles8864_SF6-05.act
+pal7	= Palettes/ElNamPrime_Nameless.act
+pal8	= Palettes/ElNamPrime_Mr.Red.act
+pal9	= Palettes/MT7_Yuzuriha.act
+pal10	= Palettes/Knuckles8864_SF6-10.act
+pal11	= Palettes/ElNamPrime_Mr.Blue.act
+pal12	= Palettes/SonicHalo3435_Trunks-B-Side.act
 
 [Palette Keymap]
 a = 4

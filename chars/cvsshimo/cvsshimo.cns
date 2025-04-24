@@ -3285,7 +3285,7 @@ persistent = 1
 type = TargetLifeAdd
 triggerall = Anim = 810
 trigger1 = AnimElem = 4 || AnimElem = 11 || AnimElem = 15
-value = ceil(ifelse((-60*FVar(10))>-7,-7,(-60*FVar(10))))
+value = ceil(ifelse((-51*FVar(10))>-7,-7,(-51*FVar(10))))
 kill = 1
 [State 810, Hurt]
 type = TargetPowerAdd
@@ -3884,7 +3884,7 @@ persistent = 1
 type = TargetLifeAdd
 triggerall = Anim = 830
 trigger1 = AnimElem = 7 || AnimElem = 21 || AnimElem = 29
-value = ceil(ifelse((-65*FVar(10))>-7,-7,(-65*FVar(10))))
+value = ceil(ifelse((-57*FVar(10))>-7,-7,(-58*FVar(10))))
 kill = 1
 [State 810, Hurt]
 type = TargetPowerAdd
@@ -4415,8 +4415,8 @@ channel = 13
 
 [State 7000,Muteki]
 type = NotHitBy
-trigger1 = 1
-value = ,AA,AP
+trigger1 = Time = 0
+value = SCA
 time = 6
 
 [State -2, Combo]
@@ -4559,7 +4559,7 @@ triggerall = e||(var(49) := (12+Var(22))*!Var(30))
 triggerall = e||(fvar(18) := 0)
 trigger1 = AnimElem = 4
 attr = S, SA
-damage = floor(ifElse(((92+Var(22)*7)*FVar(10))<7,7,((92+Var(22)*7)*FVar(10)))),floor(ifElse(((92+Var(22)*7)/8*FVar(10))<7,7,((92+Var(22)*7)/8*FVar(10))))
+damage = floor(ifElse(((88+Var(22)*7)*FVar(10))<7,7,((88+Var(22)*7)*FVar(10)))),floor(ifElse(((88+Var(22)*7)/8*FVar(10))<7,7,((88+Var(22)*7)/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -4705,7 +4705,7 @@ triggerall = e||(var(49) := (12+Var(22))*!Var(30))
 triggerall = e||(fvar(18) := 0)
 trigger1 = AnimElem = 4
 attr = S, SA
-damage = floor(ifElse(((120+Var(22)*7)*FVar(10))<7,7,((120+Var(22)*7)*FVar(10)))),floor(ifElse(((120+Var(22)*7)/8*FVar(10))<7,7,((120+Var(22)*7)/8*FVar(10))))
+damage = floor(ifElse(((95+Var(22)*7)*FVar(10))<7,7,((95+Var(22)*7)*FVar(10)))),floor(ifElse(((95+Var(22)*7)/8*FVar(10))<7,7,((95+Var(22)*7)/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -4852,7 +4852,7 @@ triggerall = e||(var(49) := (12+Var(22))*!Var(30))
 triggerall = e||(fvar(18) := 16)
 trigger1 = AnimElem = 5
 attr = S, SA
-damage = floor(ifElse(((80+Var(22)*7)*FVar(10))<7,7,((80+Var(22)*7)*FVar(10)))),floor(ifElse(((80+Var(22)*7)/8*FVar(10))<7,7,((80+Var(22)*7)/8*FVar(10))))
+damage = floor(ifElse(((65+Var(22)*7)*FVar(10))<7,7,((65+Var(22)*7)*FVar(10)))),floor(ifElse(((65+Var(22)*7)/8*FVar(10))<7,7,((65+Var(22)*7)/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -4902,7 +4902,7 @@ triggerall = e||(var(49) := (12+Var(22))*!Var(30))
 triggerall = e||(fvar(18) := 16)
 trigger1 = AnimElem = 8
 attr = A, SA
-damage = floor(ifElse(((75+Var(22)*7)*FVar(10))<7,7,((75+Var(22)*7)*FVar(10)))),floor(ifElse(((75+Var(22)*7)/8*FVar(10))<7,7,((75+Var(22)*7)/8*FVar(10))))
+damage = floor(ifElse(((65+Var(22)*7)*FVar(10))<7,7,((65+Var(22)*7)*FVar(10)))),floor(ifElse(((65+Var(22)*7)/8*FVar(10))<7,7,((65+Var(22)*7)/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -5273,7 +5273,7 @@ triggerall = e||(var(49) := floor(11+(var(22)&2)*0.5-(var(22)&1))*!Var(30))
 triggerall = e||(fvar(18) := 0)
 trigger1 = AnimElem = 5
 attr = A, SA
-damage = floor(ifElse(((130+(var(22)&2)*3.5-(var(22)&1)*7)*FVar(10))<7,7,((130+(var(22)&2)*3.5-(var(22)&1)*7)*FVar(10)))),floor(ifElse(((130+(var(22)&2)*3.5-(var(22)&1)*7)/8*FVar(10))<7,7,((130+(var(22)&2)*3.5-(var(22)&1)*7)/8*FVar(10))))
+damage = floor(ifElse(((100+(var(22)&2)*3.5-(var(22)&1)*7)*FVar(10))<7,7,((100+(var(22)&2)*3.5-(var(22)&1)*7)*FVar(10)))),floor(ifElse(((130+(var(22)&2)*3.5-(var(22)&1)*7)/8*FVar(10))<7,7,((130+(var(22)&2)*3.5-(var(22)&1)*7)/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -5726,7 +5726,7 @@ triggerall = e||(fvar(18) := 0) && !var(22)
 triggerall = e||(fvar(18) := 64) && var(22)=1
 trigger1 = AnimElem = 4
 attr = S, HA
-damage = floor(ifElse((ifElse(Var(22),235,243)*FVar(10))<7,7,(ifElse(Var(22),235,243)*FVar(10)))),floor(ifElse((ifElse(Var(22),235,243)/8*FVar(10))<7,7,(ifElse(Var(22),235,243)/8*FVar(10))))
+damage = floor(ifElse((ifElse(Var(22),235,285)*FVar(10))<7,7,(ifElse(Var(22),235,285)*FVar(10)))),floor(ifElse((ifElse(Var(22),235,285)/8*FVar(10))<7,7,(ifElse(Var(22),235,285)/8*FVar(10))))
 animtype = Heavy
 guardflag = MA
 hitflag = MAF
@@ -6091,7 +6091,7 @@ triggerall = e||(fvar(18) := 0)
 trigger1 = AnimElem = 4 || AnimElem = 5 || AnimElem = 13 || AnimElem = 14 || AnimElem = 25 || AnimElem = 34
 trigger2 = var(22)=2 && (AnimElem = 45 || AnimElem = 46)
 attr = S, HA
-damage = floor(ifElse((32*FVar(10))<7,7,(32*FVar(10)))),floor(ifElse((150/8*FVar(10))<7,7,(150/8*FVar(10))))
+damage = floor(ifElse((28*FVar(10))<7,7,(28*FVar(10)))),floor(ifElse((150/8*FVar(10))<7,7,(150/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -6138,7 +6138,7 @@ triggerall = P2StateNo != 5040
 triggerall = e||(fvar(18) := 24)
 trigger1 = var(22)!=2 && (AnimElem = 42 || AnimElem = 45)
 attr = S, HA
-damage = floor(ifElse((33*FVar(10))<7,7,(33*FVar(10)))),floor(ifElse((85/8*FVar(10))<7,7,(85/8*FVar(10))))
+damage = floor(ifElse((28*FVar(10))<7,7,(28*FVar(10)))),floor(ifElse((85/8*FVar(10))<7,7,(85/8*FVar(10))))
 animtype = Heavy
 air.animtype = Back
 fall.animtype = Back
@@ -8573,7 +8573,7 @@ trigger1 = numpartner
 trigger1 = ID>partner,ID
 trigger1 = !partner,authorname="warusaki3"
 trigger1 = !(partner,authorname = "mouser" && partner,name = "Hibiki Takane")
-trigger1 = !partner,authorname = "H�"
+trigger1 = !partner,authorname = "H "
 trigger1 = !(partner,authorname="Jesuszilla" && partner,FVar(17) < 3)
 trigger1 = !partner,authorname=".\/."
 trigger1 = !(partner,authorname="N64Mario" && partner,name = "Zero")
@@ -8601,7 +8601,7 @@ trigger1 = numpartner
 trigger1 = ID>partner,ID
 trigger1 = !partner,authorname="warusaki3"
 trigger1 = !(partner,authorname = "mouser" && partner,name = "Hibiki Takane")
-trigger1 = !partner,authorname = "H�"
+trigger1 = !partner,authorname = "H "
 trigger1 = !(partner,authorname="Jesuszilla" && partner,FVar(17) < 3)
 trigger1 = !partner,authorname=".\/."
 trigger1 = !(partner,authorname="N64Mario" && partner,name = "Zero")
@@ -8631,7 +8631,7 @@ trigger1 = numpartner
 trigger1 = ID>partner,ID
 trigger1 = !partner,authorname="warusaki3"
 trigger1 = !(partner,authorname = "mouser" && partner,name = "Hibiki Takane")
-trigger1 = !partner,authorname = "H�"
+trigger1 = !partner,authorname = "H "
 trigger1 = !(partner,authorname="Jesuszilla" && partner,FVar(17) < 3)
 trigger1 = !partner,authorname=".\/."
 trigger1 = !(partner,authorname="N64Mario" && partner,name = "Zero")
@@ -8663,7 +8663,7 @@ trigger1 = numpartner
 trigger1 = ID>partner,ID
 trigger1 = !partner,authorname="warusaki3"
 trigger1 = !(partner,authorname = "mouser" && partner,name = "Hibiki Takane")
-trigger1 = !partner,authorname = "H�"
+trigger1 = !partner,authorname = "H "
 trigger1 = !(partner,authorname="Jesuszilla" && partner,FVar(17) < 3)
 trigger1 = !partner,authorname=".\/."
 trigger1 = !(partner,authorname="N64Mario" && partner,name = "Zero")
@@ -8820,7 +8820,7 @@ trigger1 = numpartner
 trigger1 = ID>partner,ID
 trigger1 = !partner,authorname="warusaki3"
 trigger1 = !(partner,authorname = "mouser" && partner,name = "Hibiki Takane")
-trigger1 = !partner,authorname = "H�"
+trigger1 = !partner,authorname = "H "
 trigger1 = !(partner,authorname="Jesuszilla" && partner,FVar(17) < 3)
 trigger1 = !partner,authorname=".\/."
 trigger1 = !(partner,authorname = "N64Mario" && partner,name = "Zero")

@@ -1,5 +1,5 @@
 ; ________________________________________________
-;| Wild Wolf by KarmaCharmeleon		|
+;| Wild Wolf by KarmaCharmeleon && Akito	|
 ; ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 ;==============================================================================================
 ;=======================================<SYSTEM STATES>========================================
@@ -188,6 +188,33 @@ trigger2 = Anim = 5 && AnimElemTime(1) >= 1
 value = 21
 
 
+;====================<WALKING (AI)>====================
+[StateDef 25]
+type = S
+physics = S
+moveType = I
+sprPriority = 0
+
+[State 25, VelSet]
+type = VelSet
+trigger1 = AILevel
+x = const(velocity.walk.fwd.x)
+
+[State 25, ChangeAnim]
+type = ChangeAnim
+triggerAll = vel x > 0
+trigger1 = Anim != 20 && Anim != 5
+trigger2 = Anim = 5 && AnimElemTime(1) >= 1
+value = 20
+
+[State 25, ChangeAnim]
+type = ChangeAnim
+triggerAll = vel x < 0
+trigger1 = Anim != 21 && Anim != 5
+trigger2 = Anim = 5 && AnimElemTime(1) >= 1
+value = 21
+
+
 
 ;====================<JUMPING>====================
 ;Jumping
@@ -237,7 +264,7 @@ var(3) = ifElse(NumExplod(90000408), 3, 0)
 [State 40, High Jump (AI)]
 type = VarSet
 trigger1 = !Time && AILevel
-var(3) = ifElse((P2BodyDist x >= 150 || Random < (125 * (AILevel ** 2 / 64.0))), 3, 0)
+var(3) = ifElse((P2BodyDist x >= 125), 3, 0)
 
 [State 40, High Jump]
 type = VarSet
@@ -254,8 +281,8 @@ var(3) = ifElse((var(3) = 3 && sysvar(1)), 2, 1)
 
 [State 40, Low Jump (AI)]
 type = VarSet
-trigger1 = AILevel && (var(3) != [1,2])
-trigger1 = (EnemyNear, StateType = C) && Random < 500
+trigger1 = AILevel && (var(3) != [1, 2])
+trigger1 = P2StateType = L
 var(3) = ifElse((var(3) = 3 && sysvar(1)), 2, 1)
 
 [State 40, Jump Sound]
@@ -483,8 +510,9 @@ trigger1 = !NumExplod(94646464) && !NumExplod(92468246)
 trigger1 = !AILevel && command != "holdfwd"
 trigger2 = NumExplod(94646464) || NumExplod(92468246)
 trigger2 = !AILevel && command != "holdback"
-trigger3 = AILevel && (((EnemyNear, StateNo = 5120 || (EnemyNear, StateNo = [5200, 5201])) && ((EnemyNear, AnimTime > -15) || (P2Dist x = [0, 15]))) || (facing = EnemyNear, facing))
+trigger3 = AILevel && (((EnemyNear, StateNo = 5120 || (EnemyNear, StateNo = [5200, 5201])) && ((EnemyNear, AnimTime > -15) || (P2Dist x = [0, 15]))) || ((facing = EnemyNear, facing) && P2StateType != A && P2StateType != L))
 trigger4 = AILevel && InGuardDist
+trigger5 = AILevel && !(EnemyNear, Alive)
 value = 101
 
 
@@ -3453,6 +3481,64 @@ value = 5101
 
 
 
+;========================<TRIPPED>=============================
+[Statedef 50450]
+type = A
+moveType = H
+physics = N
+velSet = 0, 0
+
+[State 50450, ForceFeedback]
+type = ForceFeedback
+trigger1 = !Time
+waveForm = SineSquare
+time = 12
+ampl = 140
+
+[State 50450, ChangeAnim]
+type = ChangeAnim
+trigger1 = 1
+value = 5070
+
+[State 50450, ChangeState]
+type = ChangeState
+trigger1 = HitShakeOver
+value = 50451
+
+
+;Knocked Away
+[Statedef 50451]
+type = A
+moveType = H
+physics = N
+
+[State 50451, HitVelSet]
+type = HitVelSet
+trigger1 = Time = 0
+x = 1
+y = 1
+
+[State 50451, VelAdd]
+type = VelAdd
+trigger1 = Time > 0
+y = GetHitVar(yaccel)
+
+[State 50451, Recover]
+type = SelfState
+trigger1 = Alive
+trigger1 = command = "recovery"
+trigger1 = GetHitVar(fall.recover)
+trigger1 = vel y > 0 && pos y >= const(movement.air.getHit.groundRecover.ground.threshold)
+value = 5200
+
+[State 50451, SelfState]
+type = SelfState
+trigger1 = vel Y > 0
+trigger1 = pos Y >= Const(movement.air.gethit.trip.groundlevel)
+value = 5110
+
+
+
 ;===========================================================================
 ;===============================<-2 STATES>=================================
 ;===========================================================================
@@ -3901,9 +3987,10 @@ ignoreHitPause = 1
 [State -3, ProjContact Reset]
 type = VarSet
 triggerAll = var(18)
-trigger1 = StateNo != 1000 && StateNo != 1030 && StateNo != 3000 && StateNo != 3050
+trigger1 = StateNo != 1000 && StateNo != 1030 && StateNo != 3000 && StateNo != 3050 && StateNo != 3200
 trigger2 = (StateNo = 1000 || StateNo = 1030) && AnimElemTime(7) < 0
 trigger3 = (StateNo = 3000 || StateNo = 3050) && AnimElemTime(7) < 0
+trigger4 = StateNo = 3200 && AnimElemTime(7) < 0
 var(18) = 0
 
 [State -3, Projectile Flag Reset]
@@ -3919,6 +4006,7 @@ trigger1 = !NumHelper(1035)
 trigger1 = !NumHelper(3005)
 trigger1 = !NumHelper(3055)
 trigger1 = !NumHelper(3065)
+trigger1 = !NumHelper(3205)
 var(39) = 0
 ignoreHitPause = 1
 
@@ -4231,6 +4319,7 @@ trans = Add1
 [State -3, Level 3 Super AfterImage]
 type = AfterImage
 trigger1 = StateNo = 3200 && Time = 43
+trigger2 = StateNo = 3200 && Time = 148
 time = 2
 timeGap = 1
 frameGap = 10
@@ -4357,10 +4446,17 @@ trigger2 = var(23) := 3000
 trigger3 = NumHelper(3055)
 trigger3 = (Helper(3055), StateNo = [3005, 3007]) && (Helper(3055), var(18))
 trigger3 = var(23) := 3000
-trigger4 = StateNo = [3100, 3199]
-trigger4 = StateNo = 3100
-trigger5 = StateNo = [3200, 3299]
-trigger5 = var(23) := 3200
+trigger4 = NumHelper(3065)
+trigger4 = (Helper(3065), StateNo = [3005, 3007]) && (Helper(3065), var(18))
+trigger4 = var(23) := 3000
+trigger5 = NumHelper(3075)
+trigger5 = (Helper(3075), StateNo = [3005, 3007]) && (Helper(3075), var(18))
+trigger5 = var(23) := 3000
+trigger6 = StateNo = [3100, 3199]
+trigger6 = var(23) := 3100
+trigger7 = NumHelper(3205)
+trigger7 = (Helper(3205), StateNo = [3205, 3207]) && (Helper(3205), var(18))
+trigger7 = var(23) := 3200
 helperType = Normal
 helperType = Normal
 stateNo = 8600

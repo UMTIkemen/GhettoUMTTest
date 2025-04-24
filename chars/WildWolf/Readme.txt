@@ -1,10 +1,10 @@
                             ____________________________________________
-===========================| Wold Wolf by KarmaCharmeleon		|===========================
-                            ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯      [xx.03.2025]
+===========================| Wold Wolf by KarmaCharmeleon && Akito	|===========================
+                            ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯      [24.04.2025]
 
  - Contact:	karmacharmander@gmail.com
  - Website:	https://www.imdb.com/title/tt0367279/
- - Customized version of SNK's Terry Bogard character, for MUGEN 1.0
+ - Customized version of SNK's Wild Wolf character, for MUGEN 1.0
 
 
 
@@ -126,16 +126,19 @@ CUSTOM COMBO:
 
 =====<Version History>=====
 
-<v.xx/xx/202x>
+<v.24/04/2025>
  - First release.
 
 
 
 =====<Special Thanks>=====
- - aokmaniac13 for sprite rips
+ - aokmaniac13 for sprite rips.
  - ElNamPrime for Color Separation.
+ - Akito for Custom Sprites and cleaning up.
+ - FeLo for Custom Sprites.
  - P.o.t.S. and Jmorphman for code, effects, hitsparks, formatting style.
- - xx, xx and xx for palettes.
+ - Colobucci, ElNamPrime, EsotericGangsta1378, KenJou_Lirt, Knuckles8864, KoFHERO77, MCX, MT7, Musashini, NovaMagnolia,
+   PowPink, ProjectLykaon, and SonicHalo3435 for palettes.
  - Everybody at the MFG Discord Server for feedback.
  - Not The MUGEN Fighters Guild for providing hosting, for sure.
 
