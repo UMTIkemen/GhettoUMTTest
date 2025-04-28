@@ -42,38 +42,38 @@ Yuuka_THIZ
 ;============ 6TH ROW ============
 ange
 Susanoo
-Mika
 cvsgouki
 KyoXIII(ikaruga)/KyoXIII.def
 Rila
+Gunha
 ;============ 7TH ROW ============
 yuri_pots
 pot
 GohanZ2
 cvsguile
 cvsrock
-Gunha
-;============ 8TH ROW ============
 Dan
+;============ 8TH ROW ============
 EvilRyu
 KazumaKiryu
 Blitztank
 akfgz
 Ryugen
+WannaKOF
 ;============ 9TH ROW ============
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
+Wolverine
+Joe
+cvsjill
+Queen Bee
+Spiritland Lords
+CX OrochiK
 ;============ 10TH ROW ============
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
-randomselect
+586_sayuri
+haruhi1.0
+Jedah
+baiken_SLASH
+cvsshimo
+dlanorAknox
 ;-------------------------------------------------------------------------------
 [ExtraStages]
 stages/Moon.def
@@ -101,6 +101,14 @@ stages/KOFXI_Russia_Stage.def
 stages/KOFXI_Magaki_Hi_Resolution_Stage.def
 stages/KOFXI_Shion_Hi_Resolution_Stage.def
 stages/mbac_neco_D4_1.1.def
+stages/Spain2019.def
+stages/Water2014.def
+stages/BestestKenSFA2.def
+stages/Home2014.def
+stages/Rooftops2022.def
+stages/cammy2019_ver.2.def
+stages/Battle of Hasedo.def
+stages/ggx_ve_bg.def
 ;-------------------------------------------------------------------------------
  
 

@@ -16,21 +16,20 @@
  Wesker
  cvscommando
 ;============ 3RD ROW ============
- cvssakura_ex
  Akira
  Urien
  honda_pots
 Chun-Li
 cell
-;============ 4TH ROW ============
  Lei-Lei
+;============ 4TH ROW ============
 slayer2 remap
 beavis/beavis10.def
 Ella
 Date_Masamune
 Sanada_Yukimura
-;============ 5TH ROW ============
 Kenshiro_C
+;============ 5TH ROW ============
 slot={
 	Goenitz XV/Goenitz XV Remap.def, previous=d, next=w
 	Goenitz XV, previous=d, next=w
@@ -39,41 +38,42 @@ Shadow Diavolo
 SSJ_GokuZ2
 kamijo
 Yuuka_THIZ
-;============ 6TH ROW ============
 ange
+;============ 6TH ROW ============
 Susanoo
-Mika
 cvsgouki
 KyoXIII(ikaruga)/KyoXIII.def
 Rila
-;============ 7TH ROW ============
+Gunha
 yuri_pots
+;============ 7TH ROW ============
 pot
 GohanZ2
 cvsguile
 cvsrock
-Gunha
-;============ 8TH ROW ============
 Dan
 EvilRyu
+;============ 8TH ROW ============
 KazumaKiryu
 Blitztank
 akfgz
 Ryugen
-;============ 9TH ROW ============
 WannaKOF
 Wolverine
+;============ 9TH ROW ============
 Joe
 cvsjill
 Queen Bee
 Spiritland Lords
-;============ 10TH ROW ============
 CX OrochiK
 586_sayuri
+;============ 10TH ROW ============
 haruhi1.0
 Jedah
-AI-Hsien-ko
-randomselect
+baiken_SLASH
+cvsshimo
+dlanorAknox
+cvsmbison
 ;-------------------------------------------------------------------------------
 [ExtraStages]
 stages/Moon.def

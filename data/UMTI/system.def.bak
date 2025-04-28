@@ -67,7 +67,7 @@ vs.bgm.loopend =
   ;Music to play at victory screen.
 victory.bgm = victory.mp3
 victory.bgm.volume = 100
-victory.bgm.loop = 1
+victory.bgm.loop = 0
 victory.bgm.loopstart = 
 victory.bgm.loopend = 
   ;Music to play at option screen.
@@ -822,9 +822,9 @@ p1.face.anim = 0
 p1.face.offset = 145,700    ;Position to put character
 p1.face.scale = .6,.6
 p1.face.facing = 1
-p1.face2.spr = 9000,8
+p1.face2.spr = 9000,1
 p1.face2.offset = 25,63    ;Position to put big portrait
-p1.face2.scale = .333,.333
+p1.face2.scale = .666,.666
 p1.face2.facing = 1
 p1.face2.window = 25,63, 265,343
 
@@ -832,9 +832,9 @@ p2.face.anim = 0
 p2.face.offset = 815,298    ;Position to put character
 p2.face.scale = .6,.6
 p2.face.facing = -1
-p2.face2.spr = 9000,8
+p2.face2.spr = 9000,1
 p2.face2.offset = 935,377
-p2.face2.scale = .333,.333
+p2.face2.scale = .666,.666
 p2.face2.facing = -1
 p2.face2.window = 695,377,935,657
 
